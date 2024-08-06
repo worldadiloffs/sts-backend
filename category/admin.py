@@ -12,7 +12,7 @@ from modeltranslation.admin import TranslationAdmin
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):
-    list_display = ("sub_name", "status", "sts_site", "rts_site")
+    list_display = ("sub_name",  "sts_site", "rts_site")
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
