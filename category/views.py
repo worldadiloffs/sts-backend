@@ -42,7 +42,7 @@ class MainCategoryViews(APIView):
         serialzier = MainCategortStsMiniHomeSerializer(main, many=True)
         ommaobo_category = MainCategory.objects.filter(
             sts_site=True, status=True, ommabob=True
-        ).order_by("id")[:5]
+        ).order_by("id")[:6]
         ommabob_serialzier = MainCategortStsMiniHomeSerializer(
             ommaobo_category, many=True
         )
