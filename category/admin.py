@@ -5,8 +5,8 @@ from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
 # Register your models here.
 
-admin.site.register(SuperCategory)
-admin.site.register(MainCategory)
+# admin.site.register(SuperCategory)
+# admin.site.register(MainCategory)
 # admin.site.register(SubCategory)
 
 
