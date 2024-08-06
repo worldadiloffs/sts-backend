@@ -12,6 +12,7 @@ admin.site.register(MainCategory)
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):
+    list_display = ("sub_name", "status", "sts_site", "rts_site")
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
@@ -28,6 +29,7 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
+    list_display = ("main_name", "status", "sts_site", "rts_site")
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
@@ -45,6 +47,7 @@ class MainCategoryAdmin(TranslationAdmin):
 
 @admin.register(SuperCategory)
 class SuperCategoryAdmin(TranslationAdmin):
+    list_display = ("super_name", "status", "sts_site", "rts_site")
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
