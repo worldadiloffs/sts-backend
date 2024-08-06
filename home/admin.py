@@ -26,7 +26,7 @@ class BannerAdmin(TranslationAdmin):
 
 @admin.register(homePage)
 class HOmePageAdmin(admin.ModelAdmin):
-      list_display = ('site_sts', 'site_rts',)
+    list_display = ('site_sts', 'site_rts',)
 
 
 @admin.register(HomePageCategory)

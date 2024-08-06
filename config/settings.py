@@ -178,23 +178,23 @@ else:
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "sitestsapp",
-        "USER": "sitestsapp",
-        "PASSWORD": "azamat1796hikvision",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "sitestsapp",
+#         "USER": "sitestsapp",
+#         "PASSWORD": "azamat1796hikvision",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#     },
+# }
 
 
 # Password validation
@@ -231,7 +231,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
-STATIC_URL = '/static/site_static'
+STATIC_URL = '/static/site_static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR ,'static','site_static')
 STATICFILES_DIRS = [

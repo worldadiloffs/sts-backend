@@ -14,16 +14,16 @@ def send_otp(request, phone):
     cache.set(phone, otp, settings.EXPIRY_TIME_OTP)
     print(otp)
 
-    url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz web site uchun kirish code: {otp} ) '
-    headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
+    # url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz web site uchun kirish code: {otp} ) '
+    # headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
 
 
-    response = requests.post(url, headers=headers)
+    # response = requests.post(url, headers=headers)
     data_set = {
         "otp": otp,
         "errors": False,
         "message": "",
-        "sms_provayder": response.json()
+        # "sms_provayder": response.json()
 
     }
     return Response(
