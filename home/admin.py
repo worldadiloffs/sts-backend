@@ -13,7 +13,7 @@ class BannerAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
-    group_fieldsets = False 
+    group_fieldsets = True 
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
@@ -34,7 +34,7 @@ class HomePageCategoryAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
-    group_fieldsets = False 
+    group_fieldsets = True 
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
