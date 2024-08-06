@@ -1,0 +1,115 @@
+from django.db import models
+from ckeditor.fields import RichTextField 
+from django.utils.text import slugify
+import random, string
+# Create your models here.
+
+# Biz haqimizda , kafolat , aksiya Bizning dokonlarimiz
+class CardGril(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    text = models.TextField(blank=True)
+    image = models.ImageField(upload_to='cards', blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+class SitePage(models.Model):
+    page_name = models.CharField(max_length=100, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+
+    def __str__(self):
+        return self.pk
+
+
+    
+class PageContent(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(upload_to='malumot/image', blank=True, null=True)
+    content = RichTextField(blank=True)
+    card = models.ManyToManyField(CardGril, blank=True) 
+    date_create = models.DateField(auto_now_add=True, blank=True)
+    pages = models.ForeignKey(SitePage , on_delete=models.SET_NULL , blank=True,  null=True)
+    site_sts =models.BooleanField(default=False, blank=True)
+    site_rts =models.BooleanField(default=False, blank=True)
+    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+
+
+    class Meta:
+        verbose_name_plural = "Page"
+        ordering = ["pk", "title"]
+
+    def __str__(self):
+        return self.title
+
+
+    @classmethod
+    def make_slug(cls,  title):
+        slug = slugify( title, allow_unicode=False)
+        letters = string.ascii_letters + string.digits
+
+        while cls.objects.filter(slug=slug).exists():
+            slug = slugify(
+                 title + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
+            )
+        return slug
+
+
+    def save(self, *args, **kwargs):
+        self.title = self.title.title() if self. title else self. title
+        self.slug = self.make_slug(self.title)
+
+        super().save(*args, **kwargs)
+
+     
+# Xizmatlar tolov usullari Ommaviy tolovlar Hamkorlik , ustanofka xizmat , Hamkorlik , qaytarish siyosati
+
+#yetkazib berish . biz bilan bog'lanish , servis center , vakansiya
+
+
+class DeliveryService(models.Model):
+    comment = models.CharField(max_length=100, blank=True) 
+    zakas_summa = models.BigIntegerField(blank=True)
+    dastafka_summa = models.BigIntegerField(blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+class SiteSettings(models.Model):
+    logo = models.ImageField(upload_to="logo/images", blank=True)
+    icon = models.ImageField(upload_to='logo/images', blank=True)
+    site_name = models.CharField(max_length=50, blank=True, null=True)
+    file_url = models.URLField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    telegram = models.URLField(blank=True, null=True)
+    instagram = models.URLField(blank=True, null=True)
+    facebook = models.URLField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True)
+    site_stopped = models.BooleanField(default=False, blank=True)
+    open_time = models.CharField(max_length=30, blank=True, null=True)
+    close_time = models.CharField(max_length=30, blank=True, null=True)
+    date_week = models.CharField(max_length=50, blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    logo = models.ImageField(upload_to='payment', blank=True)
+    content = models.TextField(blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+class OrderSetting(models.Model):
+    depozit_tolov = models.BooleanField(default=False, blank=True)
+    cashback_tolov = models.BooleanField(default=False, blank=True)
+    tolov_online = models.BooleanField(default=True, blank=True)
+    nds = models.PositiveIntegerField(blank=True, null=True)
+    date_update =  models.DateField(blank=True, null=True)
+    cource_valyuta = models.PositiveIntegerField(blank=True, null=True)
+    tolov_usullar = models.ManyToManyField(PaymentMethod, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
