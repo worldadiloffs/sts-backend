@@ -58,7 +58,7 @@ class HomePageCategoryView(APIView):
                     }
                 )
         return JsonResponse({
-            "data": data, "errors":True, "message": ""
+            "data": data, "errors":False, "message": ""
         })
 
 
