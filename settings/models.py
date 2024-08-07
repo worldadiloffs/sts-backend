@@ -15,13 +15,14 @@ class CardGril(models.Model):
 
 class SitePage(models.Model):
     page_name = models.CharField(max_length=100, blank=True)
+    status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
 
 
 
-    def __str__(self):
-        return self.pk
+    # def __str__(self):
+    #     return self.pk
 
 
     

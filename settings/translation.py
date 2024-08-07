@@ -11,3 +11,9 @@ class PageContentTranslationOptions(TranslationOptions):
     fields = ('title', 'content')
 
 
+
+
+
+@register(SitePage)
+class SitePageTranslations(TranslationOptions):
+    field = ('page_name')
