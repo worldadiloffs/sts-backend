@@ -81,6 +81,7 @@ class MainCategory(models.Model):
     sts_site = models.BooleanField(default=False)
     rts_site = models.BooleanField(default=False)
     created = models.DateTimeField(blank=True, null=True)
+    
 
     class Meta:
         verbose_name_plural = "MainCategory"

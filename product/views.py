@@ -28,9 +28,9 @@ class ProductListMiniView(APIView):
 class CategoryProductViews(APIView):
     def get(self, request):
         try:
-            super_id = request.data.get("super_id")
-            main_id = request.data.get("main_id")
-            sub_id = request.data.get("sub_id")
+            super_id = request.GET.get("super_id")
+            main_id = request.GET.get("main_id")
+            sub_id = request.GET.get("sub_id")
             next = int(request.GET.get("page", 1))
             if super_id is not None:
                 sub_category: bool = MainCategory.objects.filter(

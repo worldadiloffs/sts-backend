@@ -29,7 +29,7 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
-    list_display = ("main_name", "status", "sts_site", "rts_site")
+    # list_display = ("main_name", "status", "sts_site", "rts_site")
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }

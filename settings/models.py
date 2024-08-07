@@ -11,6 +11,7 @@ class CardGril(models.Model):
     image = models.ImageField(upload_to='cards', blank=True, null=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+    
 
 class SitePage(models.Model):
     page_name = models.CharField(max_length=100, blank=True)

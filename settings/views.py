@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from rest_framework.views import APIView
+from drf_spectacular.utils import extend_schema
+from django.http import JsonResponse
 
-# Create your views here.
+
+class Page(APIView):
+    pass 
+
