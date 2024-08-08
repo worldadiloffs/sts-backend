@@ -24,9 +24,8 @@ class ProductListMiniView(APIView):
 
 
 
-def _sub_category_list(sub_id):
-    filter_sub_category = SubCategory.objects.get(id=sub_id)
-    filter_super_category = MainCategory.objects.get(id=filter_sub_category.mainCategory.pk).superCategory.pk 
+def _sub_category_list(sub_id , main_id):
+    filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk 
     main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
     data = []
     for i in main_obj:
@@ -40,17 +39,10 @@ def _sub_category_list(sub_id):
                     "slug": sub.slug,
                     "pk": sub.pk,
                 })
-
+                if len(data) > 12:
+                    return data 
     return data 
                 
-
-
-        
-
-
-    
-    
-
 
 class CategoryProductViews(APIView):
     def get(self, request):
@@ -143,7 +135,7 @@ class CategoryProductViews(APIView):
                     "count": count,
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
-                sub_data = _sub_category_list(sub_id=sub_id)
+                sub_data = _sub_category_list(sub_id=sub_id , main_id=filter_prods.mainCategory.pk)
                 return JsonResponse(
                     {
                         "data": {
