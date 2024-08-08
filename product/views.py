@@ -12,10 +12,14 @@ from category.serializers import (
 )
 from django.http import JsonResponse
 
-from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page 
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 
 class ProductListMiniView(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request):
         product = Product.objects.all()
         seriazleir = ProductListMiniSerilizers(product, many=True)
