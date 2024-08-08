@@ -51,6 +51,8 @@ def _sub_category_list(sub_id , main_id):
                 
 cache_page(60*15)
 class CategoryProductViews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request):
         try:
             super_id = request.GET.get("super_id")
