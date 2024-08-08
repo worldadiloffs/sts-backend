@@ -26,15 +26,15 @@ class ProductListMiniView(APIView):
 
 def _sub_category_list(sub_id):
     filter_sub_category = SubCategory.objects.get(id=sub_id)
-    filter_main_category = MainCategory.objects.get(id=filter_sub_category.mainCategory.pk).superCategory.pk 
-    main_obj = MainCategory.objects.filter(superCategory__id=filter_main_category)
+    filter_super_category = MainCategory.objects.get(id=filter_sub_category.mainCategory.pk).superCategory.pk 
+    main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
     data = []
     for i in main_obj:
         sub_category = SubCategory.objects.filter(mainCategory__id=i.pk)
         if sub_category is not None:
             for sub in sub_category:
                 prod_count = len(Product.objects.filter(sub_category__id=sub.pk))
-                data({
+                data.append({
                      "sub_name": sub.sub_name,
                     "counts": prod_count,
                     "slug": sub.slug,
