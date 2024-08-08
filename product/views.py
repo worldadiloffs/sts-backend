@@ -12,6 +12,8 @@ from category.serializers import (
 )
 from django.http import JsonResponse
 
+from django.views.decorators.cache import cache_page
+
 
 class ProductListMiniView(APIView):
     def get(self, request):
@@ -43,7 +45,7 @@ def _sub_category_list(sub_id , main_id):
                     return data 
     return data 
                 
-
+cache_page(60*15)
 class CategoryProductViews(APIView):
     def get(self, request):
         try:
