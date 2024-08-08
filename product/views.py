@@ -2,9 +2,6 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from .models import Testimage
-from rest_framework.parsers import MultiPartParser, FormParser
 from .serialzier import ProductListMiniSerilizers, ProductSerialzier
 from .models import Product
 from category.models import MainCategory, SubCategory, SuperCategory

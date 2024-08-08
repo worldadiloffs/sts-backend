@@ -11,7 +11,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import datetime 
-from django.http import JsonResponse
+from django.http import JsonResponse 
 
 import requests
 
@@ -24,14 +24,6 @@ class Image(models.Model):
         "product.Product", models.SET_NULL, null=True, related_name="images"
     )
     image = models.ImageField(upload_to="products", blank=False, null=True)
-
-
-{
-    "Diagonal":"65",
-    "Smart TV texnologiyasi":"Smart TV",
-    "Operatsion tizim": "Tizen"
-}
-
 
 class Product(models.Model):
     """ product models integration crm """
@@ -65,9 +57,9 @@ class Product(models.Model):
     
     full_description = RichTextField(blank=True, null=True)
     
-    product_video = models.FileField(upload_to="productvideo", blank=True, null=True, editable=False)
+    product_video = models.FileField(upload_to="productvideo", blank=True, null=True,)
     
-    product_picture = models.ImageField(upload_to="products/images/", verbose_name="product images", blank=True, null=True, editable=False)
+    product_picture = models.ImageField(upload_to="products/images/", verbose_name="product images", blank=True, null=True)
     
     deliver_date = models.PositiveIntegerField(blank=True, null=True)
     
@@ -84,7 +76,9 @@ class Product(models.Model):
     serenaTrue_countFalse = models.BooleanField(default=True, editable=False)
 
     counts = models.IntegerField(blank=True, default=0) 
-    
+
+    max_count = models.IntegerField(blank=True, default=0)
+
     xitlar = models.BooleanField(default=False, blank=True)
     # filter product news
     news = models.BooleanField(default=False, blank=True)
@@ -94,8 +88,11 @@ class Product(models.Model):
     aksiya = models.BooleanField(default=False, blank=True)
 
     news_title = models.CharField(max_length=20, blank=True, null=True)
+
     aksiya_title = models.CharField(max_length=20, blank=True, null=True)
+
     xitlar_title = models.CharField(max_length=50, blank=True, null=True)
+    
     status = models.BooleanField(default=False, blank=True)
     
 
