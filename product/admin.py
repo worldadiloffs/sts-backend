@@ -95,6 +95,7 @@ class ProductsModelAdmin(TranslationAdmin):
     search_fields = [
         "product_name",
         "price",
+        "super_category",
     ]
     # list_editable = [
     #     "price",
