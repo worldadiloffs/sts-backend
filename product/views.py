@@ -20,6 +20,36 @@ class ProductListMiniView(APIView):
         return JsonResponse(
             {"data": seriazleir.data, "errors": False, "message": ""}, safe=False
         )
+    
+
+
+
+def _sub_category_list(sub_id):
+    filter_sub_category = SubCategory.objects.get(id=sub_id)
+    filter_main_category = MainCategory.objects.get(id=filter_sub_category.mainCategory.pk).superCategory.pk 
+    main_obj = MainCategory.objects.filter(superCategory__id=filter_main_category)
+    data = []
+    for i in main_obj:
+        sub_category = SubCategory.objects.filter(mainCategory__id=i.pk)
+        if sub_category is not None:
+            for sub in sub_category:
+                prod_count = len(Product.objects.filter(sub_category__id=sub.pk))
+                data({
+                     "sub_name": sub.sub_name,
+                    "counts": prod_count,
+                    "slug": sub.slug,
+                    "pk": sub.pk,
+                })
+
+    return data 
+                
+
+
+        
+
+
+    
+    
 
 
 class CategoryProductViews(APIView):
@@ -113,30 +143,7 @@ class CategoryProductViews(APIView):
                     "count": count,
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
-                sub_prod = Product.objects.filter(sub_category__id=sub_id).first()
-                if sub_prod.super_category is not None:
-                    main_data = MainCategory.objects.filter(
-                        superCategory__id=sub_prod.super_category.pk
-                    )
-                elif sub_prod.main_category:
-                    main_data = MainCategory.objects.filter(
-                        id=sub_prod.main_category.pk
-                    )
-                sub_data = []
-                for sub_obj in main_data:
-                    sub_category_header = SubCategory.objects.filter(
-                        mainCategory__id=sub_obj.pk
-                    ).first()
-                    counts = len(Product.objects.filter(sub_category__id=sub_obj.pk))
-                    if sub_category_header is not None:
-                        sub_data.append(
-                            {
-                                "sub_name": sub_category_header.sub_name,
-                                "counts": counts,
-                                "slug": sub_category_header.slug,
-                                "pk": sub_category_header.pk,
-                            }
-                        )
+                sub_data = _sub_category_list(sub_id=sub_id)
                 return JsonResponse(
                     {
                         "data": {

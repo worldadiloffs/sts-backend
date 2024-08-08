@@ -117,6 +117,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.content_prosess.canvass',
             ],
         },
     },
@@ -178,23 +179,23 @@ else:
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "sitestsapp",
-        "USER": "sitestsapp",
-        "PASSWORD": "azamat1796hikvision",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "sitestsapp",
+#         "USER": "sitestsapp",
+#         "PASSWORD": "azamat1796hikvision",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#     },
+# }
 
 
 # Password validation
@@ -231,9 +232,9 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 
-STATIC_URL = '/static/site_static/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR ,'static','site_static')
+# STATIC_ROOT = os.path.join(BASE_DIR ,'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
@@ -400,6 +401,7 @@ AXES_FAILURE_LIMIT = int(os.environ.get("AXES_FAILURE_LIMIT", default="50"))
 # }
 
 JAZZMIN_UI_TWEAKS = {
+    # "theme": "slate",
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": False,
@@ -408,7 +410,7 @@ JAZZMIN_UI_TWEAKS = {
     "accent": "accent-indigo",
     "navbar": "navbar-dark",
     "no_navbar_border": False,
-    "navbar_fixed": False,
+    "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
     "sidebar_fixed": False,
@@ -436,9 +438,11 @@ JAZZMIN_SETTINGS = {
     "site_title": "Backend",
     "site_header": "Backend",
     "site_brand": "Backend",
-    "search_model": ["auth.User","product.product"],
+    "search_model": ["account.User","product.product"],
+    "site_logo_classes": "img-circle",
     "site_logo_classes": "img-circle",
     "welcome_sign": "Backend",
+    "site_logo": "media/logosts_utFgGsN.webp",
  
     "user_avatar": "True",
       # Whether to display the side menu
@@ -457,9 +461,9 @@ JAZZMIN_SETTINGS = {
         "auth.Group": "fas fa-users",
     },
     "changeform_format": "horizontal_tabs",
-    "use_google_fonts_cdn": False,
+    "use_google_fonts_cdn": True,
     # Whether to show the UI customizer on the sidebar
-    "show_ui_builder": False,
+    "show_ui_builder": True,
         "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
@@ -467,9 +471,34 @@ JAZZMIN_SETTINGS = {
 
    
         {"model": "account.User"},
+         {"model": "product.product"},
 
      
     ],
+    #   "topmenu_links": [
+
+    #     # Url that gets reversed (Permissions can be added)
+    #     {"name": "Home",  "url": "admin:index", "permissions": ["auth.view_user"]},
+
+    #     # external url that opens in a new window (Permissions can be added)
+    #     {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
+
+    #     # model admin to link to (Permissions checked against model)
+    #     {"model": "auth.User"},
+
+    #     # App with dropdown menu to all its models pages (Permissions checked against models)
+    #     {"app": "books"},
+    # ],
+        "custom_links": {
+        "books": [{
+            "name": "Make Messages", 
+            "url": "make_messages", 
+            "icon": "fas fa-comments",
+            "permissions": ["books.view_book"]
+        }]
+    },
+        "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
     
     
 }
+
