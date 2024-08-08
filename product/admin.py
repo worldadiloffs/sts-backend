@@ -10,6 +10,8 @@ from product.models import Image, Product , Testimage , FiltersProduct
 from category.models import MainCategory , SubCategory
 from django.contrib.auth.admin import UserAdmin 
 
+
+
 class ProductEditForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -62,6 +64,7 @@ class GalleryInlines(admin.TabularInline):
 class ProductsModelAdmin(TranslationAdmin): 
     # form = ProductEditForm
     # add_form = ProductEditForm
+    list_select_related = True
     
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
@@ -100,15 +103,11 @@ class ProductsModelAdmin(TranslationAdmin):
     # list_editable = [
     #     "price",
     # ]
-    # list_filter = [
-    #     "site_sts",
-    #     "site_rts",
-    #     "super_category__super_name",
-    # ]
-    advanced_filter_fields = (  "site_sts","site_rts","super_category__super_name",)
-    # formfield_overrides = {
-    # JSONField: {'widget': JSONEditor},
-    # }
+    list_filter = [
+        "site_sts",
+        "site_rts",
+        "super_category__super_name",
+    ]
     group_fieldsets = True 
     class Media:
         js = (
