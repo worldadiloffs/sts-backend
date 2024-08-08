@@ -100,11 +100,11 @@ class ProductsModelAdmin(TranslationAdmin):
     # list_editable = [
     #     "price",
     # ]
-    list_filter = [
-        "site_sts",
-        "site_rts",
-        "super_category__super_name",
-    ]
+    # list_filter = [
+    #     "site_sts",
+    #     "site_rts",
+    #     "super_category__super_name",
+    # ]
     advanced_filter_fields = (  "site_sts","site_rts","super_category__super_name",)
     # formfield_overrides = {
     # JSONField: {'widget': JSONEditor},
