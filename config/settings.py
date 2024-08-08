@@ -443,7 +443,7 @@ JAZZMIN_SETTINGS = {
     "site_logo_classes": "img-circle",
     "site_logo_classes": "img-circle",
     "welcome_sign": "Backend",
-    "site_logo": "media/logosts_utFgGsN.webp",
+    # "site_logo": "media/logosts_utFgGsN.webp",
  
     "user_avatar": "True",
       # Whether to display the side menu
