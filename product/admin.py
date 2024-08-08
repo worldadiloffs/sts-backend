@@ -95,7 +95,7 @@ class ProductsModelAdmin(TranslationAdmin):
     search_fields = [
         "product_name",
         "price",
-        "super_category",
+        "super_category__name",
     ]
     # list_editable = [
     #     "price",
@@ -103,6 +103,7 @@ class ProductsModelAdmin(TranslationAdmin):
     list_filter = [
         "site_sts",
         "site_rts",
+        "super_category__name",
     ]
     # formfield_overrides = {
     # JSONField: {'widget': JSONEditor},
