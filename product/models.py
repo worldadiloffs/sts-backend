@@ -104,6 +104,7 @@ class Product(models.Model):
         if obj and obj.image:
             return obj.image.url
         return None
+    
     def image_tag(self):
         return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.image))
     @property

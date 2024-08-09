@@ -33,8 +33,6 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
 
 
 
-
-
 class SubCategoryStsMiniSerialzier(serializers.ModelSerializer):
     class Meta:
         model = SubCategory
@@ -60,4 +58,21 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
         model = MainCategory
         fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory',)
 
+
+
+class CategorySchemaserialzeir(serializers.Serializer):
+    data = SuperCategoryStsMiniSerializer()
+    errors = serializers.BooleanField()
+    message = serializers.CharField()
+
+class FilterCategortSchemae(serializers.Serializer):
+    header_category = MainCategortStsMiniHomeSerializer()
+    ommabob_category = MainCategortStsMiniHomeSerializer()
+
+
+
+class CategoryHeaderSechema(serializers.Serializer):
+    data = FilterCategortSchemae()
+    errors = serializers.BooleanField()
+    message = serializers.CharField()
 

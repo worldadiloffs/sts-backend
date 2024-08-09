@@ -26,6 +26,8 @@ urlpatterns = [
     path('', include('category.urls', namespace='category')),
     path('', include('product.urls', namespace='product')),
     path('', include('home.urls', namespace='home')),
+    path('', include('blog.urls', namespace='blog')),
+    path('', include('settings.urls', namespace='settings')),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

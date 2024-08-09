@@ -39,3 +39,9 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     #     if image:
     #         return  image
     #     return None
+
+
+class ParemententCategorySerialzeir(serializers.Serializer):
+    super_id = serializers.IntegerField(required=False)
+    main_id =  serializers.IntegerField(required=False)
+    sub_id = serializers.IntegerField(required=False)

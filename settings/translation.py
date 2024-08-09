@@ -16,4 +16,4 @@ class PageContentTranslationOptions(TranslationOptions):
 
 @register(SitePage)
 class SitePageTranslations(TranslationOptions):
-    field = ('page_name')
+    fields = ('page_name',)

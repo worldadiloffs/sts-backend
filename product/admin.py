@@ -108,7 +108,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "site_rts",
         "super_category__super_name",
     ]
-    change_form_template = "admin/some_custom_change_form.html"
+    change_form_template = "admin/change_form.html"
     group_fieldsets = True 
     class Media:
         js = (

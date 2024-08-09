@@ -249,11 +249,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
-MODELTRANSLATION_LANGUAGES = ('uz',  'ru')
+MODELTRANSLATION_LANGUAGES = ('ru',  'uz')
 
 LANGUAGES = (
-    ('uz', 'Uzbek'),
     ('ru', 'Russion'),
+     ('uz', 'Uzbek')
 )
 LOCALE_PATHS = [
     BASE_DIR / 'locale/',

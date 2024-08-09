@@ -1,29 +1,33 @@
 from django.shortcuts import render
 
 from category.serializers import (
+    CategoryHeaderSechema,
+    CategorySchemaserialzeir,
     MainCategortStsMiniHomeSerializer,
     SuperCategoryStsMiniSerializer,
-    SuperCategoryStsSerializer,
 )
-from .models import SuperCategory, MainCategory, SubCategory
+from .models import SuperCategory, MainCategory
 from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.generics import ListAPIView
 from django.http import JsonResponse
+from drf_spectacular.utils import extend_schema
 
 
-class SuperCategoryListViews(ListAPIView):
-    # queryset = SuperCategory.objects.all()
-    serializer_class = SuperCategoryStsSerializer
-    lookup_field = "slug"
-    lookup_url_kwarg = "slug"
+# class SuperCategoryListViews(ListAPIView):
+#     # queryset = SuperCategory.objects.all()
+#     serializer_class = SuperCategoryStsSerializer
+#     lookup_field = "slug"
+#     lookup_url_kwarg = "slug"
 
-    def get_queryset(self):
-        queryset = SuperCategory.objects.filter(sts_site=False).order_by("?")
-        return queryset
+#     def get_queryset(self):
+#         queryset = SuperCategory.objects.filter(sts_site=False).order_by("?")
+#         return queryset
+
 
 
 class CategoryListJsonViews(APIView):
+    @extend_schema(
+        responses=CategorySchemaserialzeir
+    )
     def get(self, request):
         category = SuperCategory.objects.filter(status=True, sts_site=True).order_by(
             "?"
@@ -34,7 +38,10 @@ class CategoryListJsonViews(APIView):
         )
 
 
-class MainCategoryViews(APIView):
+class CategoryHeaderViews(APIView):
+    @extend_schema(
+            responses=CategoryHeaderSechema
+    )
     def get(self, request):
         main = MainCategory.objects.filter(
             sts_site=True, status=True, header_add=True

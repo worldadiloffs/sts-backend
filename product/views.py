@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework.views import APIView
-from .serialzier import ProductListMiniSerilizers, ProductSerialzier
+from .serialzier import ParemententCategorySerialzeir, ProductListMiniSerilizers, ProductSerialzier
 from .models import Product
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
@@ -16,10 +16,14 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page 
 from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
+from drf_spectacular.utils import extend_schema
 
 class ProductListMiniView(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
+    @extend_schema(
+        responses=ProductListMiniSerilizers
+    )
     def get(self, request):
         product = Product.objects.all()
         seriazleir = ProductListMiniSerilizers(product, many=True)
@@ -53,7 +57,18 @@ cache_page(60*15)
 class CategoryProductViews(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
+    @extend_schema(
+        parameters=[ParemententCategorySerialzeir],
+        responses=SuperCategoryStsSerializer
+        
+    )
     def get(self, request):
+        
+        """
+        super_id: int,
+        main_id: int,
+        sub_id: int,
+        """
         try:
             super_id = request.GET.get("super_id")
             main_id = request.GET.get("main_id")
@@ -75,7 +90,7 @@ class CategoryProductViews(APIView):
                             sub_names = main.main_name
                             if prod_obj is not None:
                                 data = {
-                                    "main_category_name": sub_names,
+                                    "category": sub_names,
                                     "product": prod_obj,
                                 }
                                 product_object.append(data)
@@ -108,7 +123,7 @@ class CategoryProductViews(APIView):
                             sub_names = sub.sub_name
                             if prod_obj is not None:
                                 data = {
-                                    "sub_category_name": sub_names,
+                                    "category": sub_names,
                                     "product": prod_obj,
                                 }
                                 product_object.append(data)

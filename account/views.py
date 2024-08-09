@@ -8,6 +8,7 @@ from .models import   User
 from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
+    UpdateAPIView,
     CreateAPIView,
     RetrieveUpdateAPIView,
 )

@@ -2,6 +2,12 @@ from django.db import models
 from ckeditor.fields import RichTextField 
 from django.utils.text import slugify
 import random, string
+
+import random, string
+from PIL import Image as image
+from django.utils.html import format_html
+from datetime import date 
+from django.urls import reverse
 # Create your models here.
 
 # Biz haqimizda , kafolat , aksiya Bizning dokonlarimiz
@@ -11,6 +17,9 @@ class CardGril(models.Model):
     image = models.ImageField(upload_to='cards', blank=True, null=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+
+    def __str__(self):
+        return self.title
     
 
 class SitePage(models.Model):
@@ -21,8 +30,8 @@ class SitePage(models.Model):
 
 
 
-    # def __str__(self):
-    #     return self.pk
+    def __str__(self):
+        return self.page_name
 
 
     
@@ -78,16 +87,38 @@ class DeliveryService(models.Model):
     site_rts = models.BooleanField(default=False, blank=True)
 
 
+class SocialNetwork(models.Model):
+    name = models.CharField(max_length=50, blank=True)
+    icon = models.FileField(upload_to='socialnetwork', blank=True)
+    link = models.URLField(blank=True)
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    site_data = models.CharField(max_length=5, blank=True, null=True, editable=False)
+
+
+    def save(self, *args, **kwargs):
+        if self.site_data is None:
+            if self.site_sts:
+                self.site_data = "sts"
+            if self.site_rts:
+                self.site_data = "rts"
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.name} {self.site_data}"
+
+
+
+
 class SiteSettings(models.Model):
     logo = models.ImageField(upload_to="logo/images", blank=True)
-    icon = models.ImageField(upload_to='logo/images', blank=True)
+    icon = models.FileField(upload_to='logo/images', blank=True)
     site_name = models.CharField(max_length=50, blank=True, null=True)
     file_url = models.URLField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    telegram = models.URLField(blank=True, null=True)
-    instagram = models.URLField(blank=True, null=True)
-    facebook = models.URLField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True)
+    socialnetwork = models.ManyToManyField(SocialNetwork, blank=True)
     site_stopped = models.BooleanField(default=False, blank=True)
     open_time = models.CharField(max_length=30, blank=True, null=True)
     close_time = models.CharField(max_length=30, blank=True, null=True)
@@ -95,6 +126,12 @@ class SiteSettings(models.Model):
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
 
+
+    def image_tag(self):
+        return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.icon.url))
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
 class PaymentMethod(models.Model):
     name = models.CharField(max_length=100, blank=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CardGril , PageContent  , PaymentMethod , DeliveryService , SiteSettings , PaymentMethod , OrderSetting  , SitePage
+from .models import CardGril , PageContent  , PaymentMethod , DeliveryService , SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -7,15 +7,23 @@ from modeltranslation.admin import TranslationAdmin
 
 admin.site.register(PaymentMethod)
 admin.site.register(DeliveryService)
-admin.site.register(SiteSettings)
 admin.site.register(OrderSetting)
+admin.site.register(SocialNetwork)
+
+
+
+@admin.register(SiteSettings)
+class SiteSettingsAdmin(admin.ModelAdmin):
+    list_display = ('site_name', 'image_tag')
+
+
 
 @admin.register(CardGril)
 class CartGrilAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
-    group_fieldsets = True 
+    group_fieldsets = False 
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
@@ -31,7 +39,7 @@ class PageContentAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
-    group_fieldsets = True 
+    group_fieldsets = False 
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
@@ -47,7 +55,7 @@ class PageTranslationAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
-    group_fieldsets = True 
+    group_fieldsets = False 
     class Media:
         js = (
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',

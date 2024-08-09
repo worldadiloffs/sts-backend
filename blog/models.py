@@ -16,7 +16,7 @@ class BlogCategory(models.Model):
 
 
     class Meta:
-        verbose_name_plural = "Page"
+        verbose_name_plural = "blogcategory"
         ordering = ["pk", "title"]
 
     def __str__(self):
@@ -54,7 +54,7 @@ class BlogItem(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='blogitems', blank=True)
     content = RichTextField(blank=True)
-    category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, blank=True, null=True)
+    blogcategory = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, blank=True, null=True)
     tag = models.ManyToManyField(Tag , blank=True)
     status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
@@ -64,7 +64,7 @@ class BlogItem(models.Model):
     update_at = models.DateTimeField(auto_now=True, blank=True)
 
     class Meta:
-        verbose_name_plural = "Page"
+        verbose_name_plural = "blogitem"
         ordering = ["pk", "title"]
 
     def __str__(self):
@@ -105,7 +105,7 @@ class BlogHome(models.Model):
 
     
     class Meta:
-        verbose_name_plural = "Page"
+        verbose_name_plural = "Home page blog"
         ordering = ["pk", "title"]
 
     def __str__(self):

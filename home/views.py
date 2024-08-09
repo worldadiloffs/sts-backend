@@ -2,14 +2,24 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from .models import Banner , HomePageCategory , homePage
-from .serialziers import BannerSerializers , HomePageSerializers , HomePageCategorySerialzier
+from .serialziers import BannerSerializers, HOmeSchemaSerialziers , HomePageSerializers , HomePageCategorySerialzier, ParementrHome, ResponseHOme
 from product.models import Product
 from product.serialzier import ProductListMiniSerilizers
-
+from drf_spectacular.utils import extend_schema
+from rest_framework import serializers
 # Create your views here.
 
 
+class BannerResponseSerialzier(serializers.Serializer):
+    data = BannerSerializers()
+    errors = serializers.BooleanField()
+    message = serializers.CharField()
+
+
 class BannerView(APIView):
+    @extend_schema(
+            responses=BannerResponseSerialzier
+    )
     def get(self, request):
         banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
         serialzier = BannerSerializers(banner , many=True)
@@ -21,6 +31,9 @@ class BannerView(APIView):
 
 
 class HomePageCategoryView(APIView):
+    @extend_schema(
+            responses=ResponseHOme
+            )
     def get(self, request):
         data = []
         for i in HomePageCategory.objects.filter(status=True, site_sts=True).order_by('top'):
@@ -30,8 +43,8 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "image": i.image and i.image.url or None,
-                        "image_url": i.image_url,
+                        "banner_image": i.image and i.image.url or None,
+                        "banner_image_url": i.image_url,
                         "product": seriazlier.data
                     }
                 )
@@ -41,8 +54,8 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "image": i.image and i.image.url or None,
-                        "image_url": i.image_url,
+                        "banner_image": i.image and i.image.url or None,
+                        "banner_image_url": i.image_url,
                         "product": prod_seriazlier.data
                     }
                 )
@@ -52,8 +65,8 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "image": i.image and i.image.url or None,
-                        "image_url": i.image_url,
+                        "banner_image": i.image and i.image.url or None,
+                        "banner_image_url": i.image_url,
                         "product": serialzier.data
                     }
                 )
