@@ -32,3 +32,11 @@ class ProductPost(APIView):
             sub_obj = SubCategory.objects.get(id=sub_id)
             product.sub_category= sub_obj
         
+
+class ProductPostApiView(APIView):
+    def post(self, request):
+        id = request.data.get('id')
+        prod = Product.objects.get(id=id)
+        prod.product_name = f"{prod.product_name} kamera"
+        prod.save()
+        return JsonResponse({"data": None}, safe=False)
