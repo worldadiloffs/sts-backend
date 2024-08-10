@@ -15,8 +15,8 @@ from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 from drf_spectacular.utils import extend_schema
 
 class ProductListMiniView(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         responses=ProductListMiniSerilizers
     )
@@ -51,8 +51,8 @@ def _sub_category_list(sub_id , main_id):
                 
 
 class CategoryProductViews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer

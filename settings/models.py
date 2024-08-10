@@ -125,6 +125,7 @@ class SiteSettings(models.Model):
     date_week = models.CharField(max_length=50, blank=True, null=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+    footer_logo = models.ImageField(upload_to='logo/image', blank=True, null=True)
 
 
     def image_tag(self):

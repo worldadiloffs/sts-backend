@@ -4,6 +4,7 @@ from category.models import MainCategory , SubCategory
 from django.utils.text import slugify
 import random, string
 # Create your models here.
+from config.settings import site_name
 
 
 class Banner(models.Model):
@@ -34,6 +35,7 @@ class Banner(models.Model):
                 title + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
         return slug
+    
 
 
     def save(self, *args, **kwargs):
