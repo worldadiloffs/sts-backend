@@ -154,11 +154,6 @@ class Product(models.Model):
         if self.sub_category is not None:
             self.short_content_ru = self.sub_category.product_content_ru
             self.short_content_uz = self.sub_category.product_content_uz
-        if self.main_category is not None:
-            max_count = CountSettings.objects.filter(mainCategory=self.main_category).first()
-            if max_count is not None:
-                if self.counts > max_count.count:
-                    self.counts = max_count.count
         super().save(*args, **kwargs)
 
 
