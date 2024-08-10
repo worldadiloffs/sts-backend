@@ -129,6 +129,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+    
+    def category_obj(self):
+        if self.super_category is not None:
+            return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
 
 
     @classmethod
