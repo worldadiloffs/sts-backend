@@ -28,7 +28,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ("id", "product_name", 'image', "product_picture", "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya","articul" , "images", "image_count")
+        fields = ("id", "product_name", 'image', "product_picture", "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya","articul" , "images", "image_count", "counts")
 
 
     def get_image(self, obj):

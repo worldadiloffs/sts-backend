@@ -46,7 +46,7 @@ class MainCategortStsSerializer(serializers.ModelSerializer):
         model = MainCategory
         fields = "__all__"
 
-    def get_category_image(self, obj):
+    def get_main_image(self, obj):
         category_image = obj.main_image
         if category_image is not None:
             return site_name + category_image.url
@@ -66,7 +66,7 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
     class Meta:
         model  = SuperCategory
         fields = "__all__"
-        
+
     def get_category_image(self, obj):
         category_image = obj.category_image
         if category_image is not None:
@@ -80,9 +80,11 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
 
 
 class SubCategoryStsMiniSerialzier(serializers.ModelSerializer):
+    sub_image = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = SubCategory
         fields = ("id", 'sub_name', 'slug', 'sub_image', 'mainCategory')
+    
 
 
 class MainCategortStsMiniSerializer(serializers.ModelSerializer):
@@ -117,6 +119,12 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
         fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory',)
 
 
+
+
+
+
+
+# Schema serialziers 
 
 class CategorySchemaserialzeir(serializers.Serializer):
     data = SuperCategoryStsMiniSerializer()
