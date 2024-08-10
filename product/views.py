@@ -64,7 +64,7 @@ class CategoryProductViews(APIView):
         try:
             next = int(request.GET.get("page", 1))
             if types =='super':
-                super_id = SuperCategory.objects.get(slug=slug)
+                super_id = SuperCategory.objects.get(slug=slug).pk
                 sub_category: bool = MainCategory.objects.filter(
                     superCategory__id=super_id
                 ).exists()
@@ -100,7 +100,7 @@ class CategoryProductViews(APIView):
                     safe=False,
                 )
             if types =='main':
-                main_id = MainCategory.objects.get(slug=slug)
+                main_id = MainCategory.objects.get(slug=slug).pk
                 sub_category: bool = SubCategory.objects.filter(
                     mainCategory__id=main_id
                 ).exists()
@@ -134,7 +134,7 @@ class CategoryProductViews(APIView):
                     safe=False,
                 )
             if  types =='sub':
-                sub_id = SubCategory.objects.get(slug=slug)
+                sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 30
                 current = int(next) - 1
                 product = Product.objects.filter(sub_category__id=sub_id)[
