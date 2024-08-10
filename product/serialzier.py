@@ -25,7 +25,7 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
 
 class ProductListMiniSerilizers(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    image = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields = ("id", "product_name", 'image', "product_picture", "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya","articul" , "images", "image_count", "counts")
