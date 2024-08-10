@@ -29,7 +29,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
-        fields = ("id", "product_name", 'image', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", "super_category")
+        fields = ("id", "product_name",'category_name', 'image', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", "super_category")
 
 
     def get_image(self, obj):
