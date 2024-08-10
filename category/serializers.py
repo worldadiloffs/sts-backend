@@ -15,11 +15,13 @@ class SuperCategoryOneSeriazleir(serializers.ModelSerializer):
         category_image = obj.category_image
         if category_image is not None:
             return site_name + category_image.url
+        return None
         
     def get_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
+        return None
         
 
         
@@ -34,6 +36,7 @@ class SubCategoryStsSerialzier(serializers.ModelSerializer):
         sub_image = obj.sub_image
         if sub_image is not None:
             return site_name + sub_image.url
+        return None
         
 
 
@@ -50,11 +53,13 @@ class MainCategortStsSerializer(serializers.ModelSerializer):
         category_image = obj.main_image
         if category_image is not None:
             return site_name + category_image.url
+        return None
         
     def get_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
+        return None
         
     
 
@@ -71,11 +76,13 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
         category_image = obj.category_image
         if category_image is not None:
             return site_name + category_image.url
+        return None
         
     def get_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
+        return None
 
 
 
@@ -105,11 +112,13 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
         category_image = obj.main_image
         if category_image is not None:
             return site_name + category_image.url
+        return None
         
     def get_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
+        return None
 
 
 class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
@@ -124,11 +133,13 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
         category_image = obj.category_image
         if category_image is not None:
             return site_name + category_image.url
+        return None
         
     def get_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
+        return None
 
 
 class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
