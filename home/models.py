@@ -12,6 +12,7 @@ class Banner(models.Model):
     status = models.BooleanField(default=False, blank=True)
     url = models.URLField(blank=True)
     image = models.ImageField(upload_to='banner/images', blank=True)
+    category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL , blank=True, null=True)
     site_sts =models.BooleanField(default=False, blank=True)
     site_rts =models.BooleanField(default=False, blank=True)
     

@@ -1,15 +1,11 @@
 from django import forms
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
-from django.db import models
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
-from account.models import User
-from product.models import Image, Product , Testimage , FiltersProduct
+from product.models import Image, Product 
 # admin.site.register(Testimage)
-from category.models import MainCategory , SubCategory
-from django.contrib.auth.admin import UserAdmin 
-
+from category.models import MainCategory 
 
 
 class ProductEditForm(forms.ModelForm):
@@ -38,60 +34,37 @@ class AdminCreateFormMixin:
         return super().get_form(request, obj, **defaults)
     
 
-
-# Register your models here.
-
-
-@admin.register(FiltersProduct)
-class ProductsModelAdmins(admin.ModelAdmin):
-    formfield_overrides = {
-        JSONField: {'widget': JSONEditor},
-    }
-    list_display = [
-       "status",
-    ]
-
 class GalleryInlines(admin.TabularInline):
     model = Image
     max_num = 6
 
-# class ProductVideo(admin.TabularInline):
-#     model = ProductVideo
-#     fields = 1
-
-
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    # form = ProductEditForm
-    # add_form = ProductEditForm
-    list_select_related = True
-    
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
+    search_help_text="product nomi category nomi orqali qidirish"
     list_display = [
+        "articul",
         "product_name",
         "price",
         "image_tag",
+        "site_sts",
+        "site_rts",
+        "status",
     ]
 
-    # fields = [
-    #     "product_name",
-    #     # "price",
-    #     # "discount_price",
-    #     "meta_title",
-    #     "meta_data",
-    #     "super_category",
-    #     "main_category",
-    #     "sub_category",
-    #     "product_status",
-    #     "product_video",
-    #     "product_picture",
-    #     # "short_description",
-    #     "full_description", 
-    #     # "material_nomer",
-    #     "short_content",
-    # ]
+    fields = [
+        "product_name",
+        'articul',
+        "super_category",
+        "main_category",
+        "sub_category",
+        "product_video",
+        "product_picture",
+        "full_description", 
+        "short_content",
+    ]
 
     inlines = [GalleryInlines]
 
@@ -99,16 +72,21 @@ class ProductsModelAdmin(TranslationAdmin):
         "product_name",
         "price",
         "super_category__super_name",
+        "main_category__main_name",
+        "sub_category__sub_name",
     ]
-    # list_editable = [
-    #     "price",
-    # ]
+    list_editable = [
+        "site_sts",
+        "site_rts",
+        "status",
+    ]
     list_filter = [
         "site_sts",
         "site_rts",
         "super_category__super_name",
+        "main_category__main_name",
+        "sub_category__sub_name",
     ]
-    change_form_template = "admin/change_form.html"
     group_fieldsets = True 
     class Media:
         js = (

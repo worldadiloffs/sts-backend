@@ -47,7 +47,7 @@ class Product(models.Model):
     
     sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL,  blank=True, null=True)
     
-    product_status = models.BooleanField(default=False, blank=True)
+    # product_status = models.BooleanField(default=False, blank=True)
     
     # short_description = RichTextField(blank=True, null=True)
 
@@ -155,15 +155,5 @@ class Product(models.Model):
             self.short_content_uz = self.sub_category.product_content_uz
         super().save(*args, **kwargs)
 
-
-
-
-class FiltersProduct(models.Model):
-    subcategory = models.OneToOneField(SubCategory, on_delete=models.SET_NULL, blank=True, null=True)
-    product_filter = models.JSONField(blank=True)
-    data_create = models.DateField(auto_now_add=True)
-    status = models.BooleanField(default=False, blank=True)
-    site_sts = models.BooleanField(default=False, blank=True)
-    site_rts = models.BooleanField(default=False, blank=True)
 
     

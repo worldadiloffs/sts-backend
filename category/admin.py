@@ -3,12 +3,9 @@ from .models import SubCategory , MainCategory , SuperCategory
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
+
+from product.models import Product
 # Register your models here.
-
-# admin.site.register(SuperCategory)
-# admin.site.register(MainCategory)
-# admin.site.register(SubCategory)
-
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):

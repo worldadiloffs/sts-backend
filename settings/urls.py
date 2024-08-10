@@ -4,5 +4,5 @@ from .views import  SiteSettingsApiviews
 app_name = 'settings'
 
 urlpatterns = [
-    path('sts/settings', SiteSettingsApiviews.as_view()),
+    path('sts/settings/', SiteSettingsApiviews.as_view()),
 ]

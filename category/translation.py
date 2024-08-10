@@ -1,6 +1,6 @@
 
 from modeltranslation.translator import TranslationOptions,register
-from .models import SubCategory , MainCategory , SuperCategory , SuperCategoryContent
+from .models import SubCategory , MainCategory , SuperCategory 
 
 @register(SubCategory)
 class ProductTranslationOptions(TranslationOptions):
@@ -14,13 +14,8 @@ class MainCategoryTranslationOptions(TranslationOptions):
 
 @register(SuperCategory)
 class SuperCategoryTranslationOptions(TranslationOptions):
-    fields = ('super_name', 'meta_name', 'meta_content', 'seo_content')
+    fields = ('super_name', 'meta_name', 'meta_content', 'seo_content', 'super_image_content',)
 
-
-
-@register(SuperCategoryContent)
-class SuperCategoryContentTranslationOptions(TranslationOptions):
-    fields = ('title', 'text', 'header_contet')
 
 
 

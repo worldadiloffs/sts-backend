@@ -1,14 +1,10 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.views import APIView
-from .serialzier import ParemententCategorySerialzeir, ProductListMiniSerilizers, ProductSerialzier
+from .serialzier import ParemententCategorySerialzeir, ProductListMiniSerilizers
 from .models import Product
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
     MainCategortStsSerializer,
     SuperCategoryStsSerializer,
-    SubCategoryStsSerialzier,
 )
 from django.http import JsonResponse
 
@@ -53,7 +49,7 @@ def _sub_category_list(sub_id , main_id):
                     return data 
     return data 
                 
-cache_page(60*15)
+
 class CategoryProductViews(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
@@ -65,9 +61,10 @@ class CategoryProductViews(APIView):
     def get(self, request):
         
         """
-        super_id: int,
-        main_id: int,
-        sub_id: int,
+        parameters:
+            super_id: int,
+            main_id: int,
+            sub_id: int,
         """
         try:
             super_id = request.GET.get("super_id")
@@ -88,6 +85,8 @@ class CategoryProductViews(APIView):
                         )
                         if len(prod_obj) > 0:
                             sub_names = main.main_name
+                            if main.main_content is not None:
+                                sub_names = main.main_content
                             if prod_obj is not None:
                                 data = {
                                     "category": sub_names,

@@ -24,8 +24,24 @@ class BannerView(APIView):
         banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
         serialzier = BannerSerializers(banner , many=True)
         return JsonResponse(
-            {"data": serialzier.data, "errors": True, "message": ""}, safe=False
+            {"data": serialzier.data, "errors": False, "message": ""}, safe=False
         )
+    
+
+class BannerDetailViews(APIView):
+    @extend_schema(
+            responses=BannerResponseSerialzier
+    )
+    def get(self, request , pk):
+        banner = Banner.objects.get(status=True,id=pk , site_sts=True)
+        if banner.category is not None:
+            product = Product.objects.filter(main_category__id=banner.category.pk).order_by("id")
+            product_serializers =ProductListMiniSerilizers(product , many=True)
+        serialzier = BannerSerializers(banner)
+        return JsonResponse(
+            {"data": {"banner": serialzier.data, "product": product_serializers.data}, "errors": True, "message": ""}, safe=False
+        )
+    
     
 
 
