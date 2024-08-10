@@ -23,7 +23,7 @@ class SuperCategory(models.Model):
         help_text=_("width: 1850px; height: 382px;"),
     )
     icon = models.FileField(
-        upload_to="category/icon",
+        upload_to="category",
         blank=True,
         null=True,
         help_text=_("max_widht:50, max_height:50"),
@@ -76,7 +76,7 @@ class MainCategory(models.Model):
         null=True,
     )
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    icon = models.FileField(upload_to='category/icon', blank=True, null=True)
+    icon = models.FileField(upload_to='category', blank=True, null=True)
     header_add = models.BooleanField(default=False, blank=True)
     main_meta = models.CharField(max_length=200, blank=True, null=True)
     ommabob = models.BooleanField(default=False, blank=True)
