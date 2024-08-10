@@ -98,7 +98,7 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
     icon = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = MainCategory
-        fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory', 'children')
+        fields = ('id', 'slug', 'main_name', 'main_image', 'icon','superCategory', 'children')
 
     
     def get_main_image(self, obj):
