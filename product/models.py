@@ -3,21 +3,9 @@ from category.models import SubCategory, SuperCategory, MainCategory
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 import random, string
-from PIL import Image as image
 from django.utils.html import format_html
-from datetime import date 
 from django.urls import reverse
-from django.contrib.postgres.fields import ArrayField
-from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.translation import gettext_lazy as _
-from django.utils.timezone import datetime 
-from django.http import JsonResponse 
-from settings.models import CountSettings
-
-import requests
-
-class Testimage(models.Model):
-    images = models.FileField(upload_to='files', blank=True, null=True)
 
 
 class Image(models.Model):
@@ -59,8 +47,6 @@ class Product(models.Model):
     full_description = RichTextField(blank=True, null=True)
     
     product_video = models.FileField(upload_to="productvideo", blank=True, null=True,)
-    
-    product_picture = models.ImageField(upload_to="products/images/", verbose_name="product images", blank=True, null=True)
     
     deliver_date = models.PositiveIntegerField(blank=True, null=True)
     
