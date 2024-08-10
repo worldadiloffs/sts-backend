@@ -118,7 +118,7 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
     icon = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model  = SuperCategory
-        fields = ('id', 'slug', 'super_name', 'category_image','children')
+        fields = ('id', 'slug', 'super_name','category_image', 'icon',  'category_image','children')
 
     def get_category_image(self, obj):
         category_image = obj.category_image
