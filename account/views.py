@@ -1,10 +1,10 @@
-from permission.permissions import  IsSuperUser
+from permission.permissions import IsSuperUser
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from .models import   User
+from .models import User
 from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -27,13 +27,12 @@ from .serializers import (
     OtpSerializer,
     ChangeTwoStepPasswordSerializer,
     CreateTwoStepPasswordSerializer,
-    
 )
-from .models import PhoneOtp 
+from .models import PhoneOtp
 from .send_otp import send_otp
+
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip
-
 
 
 class LogoutView(APIView):
@@ -45,10 +44,13 @@ class LogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
 
-            return Response(status=status.HTTP_205_RESET_CONTENT,content_type="status seksesfull")
+            return Response(
+                status=status.HTTP_205_RESET_CONTENT, content_type="status seksesfull"
+            )
         except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST, content_type="status error")
-
+            return Response(
+                status=status.HTTP_400_BAD_REQUEST, content_type="status error"
+            )
 
 
 class UsersList(ListAPIView):
@@ -59,11 +61,10 @@ class UsersList(ListAPIView):
 
     serializer_class = UsersListSerializer
     # permission_classes =  IsSuperUser,
-    
-    filterset_fields = [
-        'phone',
-    ]
 
+    filterset_fields = [
+        "phone",
+    ]
 
     def get_queryset(self):
         return get_user_model().objects.all()
@@ -71,11 +72,8 @@ class UsersList(ListAPIView):
 
 class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
 
-
     serializer_class = UserDetailUpdateDeleteSerializer
-    permission_classes = [
-        permissions.IsAdminUser
-    ]
+    permission_classes = [permissions.IsAdminUser]
 
     def get_object(self):
         pk = self.kwargs.get("pk")
@@ -91,13 +89,15 @@ class UserProfile(RetrieveUpdateDestroyAPIView):
         parameters: exclude[password,]
     delete:
         Delete user account.
-        
+
         parameters: [pk]
     """
 
     serializer_class = UserProfileSerializer
-    permission_classes = [IsAuthenticated,]
- 
+    permission_classes = [
+        IsAuthenticated,
+    ]
+
     # throttle_scope = "authentication"
     # throttle_classes = [
     #     ScopedRateThrottle,
@@ -105,8 +105,6 @@ class UserProfile(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return self.request.user
-
-
 
 
 class Login(APIView):
@@ -129,7 +127,9 @@ class Login(APIView):
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")
 
-            user_is_exists: bool = User.objects.filter(phone=received_phone).values("phone").exists()
+            user_is_exists: bool = (
+                User.objects.filter(phone=received_phone).values("phone").exists()
+            )
             if not user_is_exists:
                 return Response(
                     {
@@ -146,12 +146,9 @@ class Login(APIView):
 
         else:
             return Response(
-                serializer.errors, 
+                serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
-
-
 
 
 class Register(APIView):
@@ -173,13 +170,18 @@ class Register(APIView):
         serializer = AuthenticationSerializer(data=request.data)
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")
- 
-            user_is_exists: bool = get_user_model().objects.filter(phone=received_phone).values("phone").exists()
+
+            user_is_exists: bool = (
+                get_user_model()
+                .objects.filter(phone=received_phone)
+                .values("phone")
+                .exists()
+            )
             if user_is_exists:
                 return send_otp(
                     request,
                     phone=received_phone,
-            )
+                )
             # The otp code is sent to the user's phone number for authentication
             return send_otp(
                 request,
@@ -188,11 +190,11 @@ class Register(APIView):
 
         else:
             return Response(
-                serializer.errors, 
-                status=status.HTTP_400_BAD_REQUEST,               
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-            
+
 class VerifyOtp(APIView):
     """
     post:
@@ -252,7 +254,7 @@ class VerifyOtp(APIView):
                     # if created:
                     #     datase = Hamyon.objects.create(id=phone)
                     #     datase.save()
-                     
+
                     return Response(
                         context,
                         status=status.HTTP_200_OK,
@@ -273,20 +275,16 @@ class VerifyOtp(APIView):
                 )
         else:
             return Response(
-                serializer.errors, 
+                serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-
-
-
 
 
 class CreateTwoStepPassword(APIView):
     """
     post:
         Send a password to create a two-step-password.
-        
+
         parameters: [new_password, confirm_new_password]
     """
 
@@ -296,7 +294,10 @@ class CreateTwoStepPassword(APIView):
 
     def post(self, request):
         if request.user.two_step_password:
-            return Response({"Error!": "Your request could not be approved."}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"Error!": "Your request could not be approved."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
         serializer = CreateTwoStepPasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -309,15 +310,17 @@ class CreateTwoStepPassword(APIView):
         user.set_password(new_password)
         user.two_step_password = True
         user.save(update_fields=["password", "two_step_password"])
-        return Response({"Successful.": "Your password was changed successfully."}, status=status.HTTP_200_OK)
-
+        return Response(
+            {"Successful.": "Your password was changed successfully."},
+            status=status.HTTP_200_OK,
+        )
 
 
 class ChangeTwoStepPassword(APIView):
     """
     post:
         Send a password to change a two-step-password.
-        
+
         parameters: [old_password, new_password, confirm_new_password,]
     """
 
@@ -336,7 +339,7 @@ class ChangeTwoStepPassword(APIView):
                 _: None = validate_password(new_password)
             except ValidationError as err:
                 return Response(
-                    {"errors":err},
+                    {"errors": err},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
 
@@ -349,21 +352,21 @@ class ChangeTwoStepPassword(APIView):
 
                 return Response(
                     {
-                        "Successful.":"Your password was changed successfully.",
+                        "Successful.": "Your password was changed successfully.",
                     },
                     status=status.HTTP_200_OK,
                 )
             else:
                 return Response(
                     {
-                        "Error!":"The password entered is incorrect.",
+                        "Error!": "The password entered is incorrect.",
                     },
                     status=status.HTTP_406_NOT_ACCEPTABLE,
                 )
 
         return Response(
             {
-                "Error!":"Your request could not be approved.",
+                "Error!": "Your request could not be approved.",
             },
             status=status.HTTP_401_UNAUTHORIZED,
         )

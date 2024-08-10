@@ -8,6 +8,7 @@ from product.serialzier import ProductListMiniSerilizers
 from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
 # Create your views here.
+from config.settings import site_name
 
 
 class BannerResponseSerialzier(serializers.Serializer):
@@ -59,7 +60,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and i.image.url or None,
+                        "banner_image": i.image and (site_name + i.image.url) or None,
                         "banner_image_url": i.image_url,
                         "product": seriazlier.data
                     }
@@ -70,7 +71,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and i.image.url or None,
+                        "banner_image": i.image and (site_name + i.image.url ) or None,
                         "banner_image_url": i.image_url,
                         "product": prod_seriazlier.data
                     }
@@ -81,7 +82,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and i.image.url or None,
+                        "banner_image": i.image and (site_name + i.image.url ) or None,
                         "banner_image_url": i.image_url,
                         "product": serialzier.data
                     }
