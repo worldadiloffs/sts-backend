@@ -60,7 +60,7 @@ class CategoryProductViews(APIView):
         responses=SuperCategoryStsSerializer
         
     )
-    def get(self, types , slug,request):
+    def get(self,request, types , slug):
         try:
             next = int(request.GET.get("page", 1))
             if types =='super':
