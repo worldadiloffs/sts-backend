@@ -505,7 +505,7 @@ JAZZMIN_SETTINGS = {
 
 
 
-site_name = 'http://api.sts-shop.uz'
+site_name = 'https://api.sts-shop.uz'
 
 # site_name = 'http://127.0.0.1:8000'
 
