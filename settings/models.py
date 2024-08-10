@@ -10,6 +10,8 @@ from datetime import date
 from django.urls import reverse
 # Create your models here.
 
+from category.models import MainCategory
+
 # Biz haqimizda , kafolat , aksiya Bizning dokonlarimiz
 class CardGril(models.Model):
     title = models.CharField(max_length=200, blank=True)
@@ -141,6 +143,12 @@ class PaymentMethod(models.Model):
     status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+
+
+class CountSettings(models.Model):
+    mainCategory = models.OneToOneField(MainCategory, on_delete=models.SET_NULL, blank=True, null=True)
+    count = models.IntegerField(default=5, blank=True)
+
 
 
 class OrderSetting(models.Model):

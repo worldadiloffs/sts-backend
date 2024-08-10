@@ -30,7 +30,9 @@ class ProductListMiniView(APIView):
 
 
 
-def _sub_category_list(sub_id , main_id):
+
+
+def _sub_category_list(main_id):
     filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk 
     main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
     data = []
@@ -58,20 +60,11 @@ class CategoryProductViews(APIView):
         responses=SuperCategoryStsSerializer
         
     )
-    def get(self, request):
-        
-        """
-        parameters:
-            super_id: int,
-            main_id: int,
-            sub_id: int,
-        """
+    def get(self, types , slug,request):
         try:
-            super_id = request.GET.get("super_id")
-            main_id = request.GET.get("main_id")
-            sub_id = request.GET.get("sub_id")
             next = int(request.GET.get("page", 1))
-            if super_id is not None:
+            if types =='super':
+                super_id = SuperCategory.objects.get(slug=slug)
                 sub_category: bool = MainCategory.objects.filter(
                     superCategory__id=super_id
                 ).exists()
@@ -106,7 +99,8 @@ class CategoryProductViews(APIView):
                     },
                     safe=False,
                 )
-            if main_id is not None:
+            if types =='main':
+                main_id = MainCategory.objects.get(slug=slug)
                 sub_category: bool = SubCategory.objects.filter(
                     mainCategory__id=main_id
                 ).exists()
@@ -139,7 +133,8 @@ class CategoryProductViews(APIView):
                     },
                     safe=False,
                 )
-            if sub_id is not None:
+            if  types =='sub':
+                sub_id = SubCategory.objects.get(slug=slug)
                 limit = 30
                 current = int(next) - 1
                 product = Product.objects.filter(sub_category__id=sub_id)[
@@ -157,7 +152,7 @@ class CategoryProductViews(APIView):
                     "count": count,
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
-                sub_data = _sub_category_list(sub_id=sub_id , main_id=filter_prods.mainCategory.pk)
+                sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
                 return JsonResponse(
                     {
                         "data": {
