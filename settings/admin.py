@@ -12,7 +12,7 @@ admin.site.register(SocialNetwork)
 
 @admin.register(CountSettings)
 class CountSettingAdmin(admin.ModelAdmin):
-    list_display = ("count", "mainCategory__main_name",)
+    list_display = ("main_obj","count",)
 
 
 

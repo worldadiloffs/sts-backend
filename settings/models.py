@@ -149,6 +149,10 @@ class CountSettings(models.Model):
     mainCategory = models.OneToOneField(MainCategory, on_delete=models.SET_NULL, blank=True, null=True)
     count = models.IntegerField(default=5, blank=True)
 
+    def main_obj(self):
+        if self.mainCategory is not None:
+            return f"{MainCategory.objects.get(id=self.mainCategory.pk).main_name}"
+
 
 
 class OrderSetting(models.Model):
