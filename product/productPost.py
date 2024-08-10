@@ -38,6 +38,6 @@ class ProductPostApiView(APIView):
         id = request.data.get('id')
         prod = Product.objects.get(id=id)
         prod.product_name = f"{prod.product_name} kamera"
-        prod.counts = 100
+        prod.counts = 1
         prod.save()
         return JsonResponse({"data": None}, safe=False)
