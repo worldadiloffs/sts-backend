@@ -13,13 +13,13 @@ class SuperCategoryOneSeriazleir(serializers.ModelSerializer):
 
     def get_category_image(self, obj):
         category_image = obj.category_image
-        if category_image is not None:
+        if category_image:
             return site_name + category_image.url
         return None
         
     def get_icon(self, obj):
         icon = obj.icon
-        if icon is not None:
+        if icon:
             return site_name + icon.url 
         return None
         
@@ -34,7 +34,7 @@ class SubCategoryStsSerialzier(serializers.ModelSerializer):
         fields = "__all__"
     def get_sub_image(self, obj):
         sub_image = obj.sub_image
-        if sub_image is not None:
+        if sub_image:
             return site_name + sub_image.url
         return None
         
@@ -51,13 +51,13 @@ class MainCategortStsSerializer(serializers.ModelSerializer):
 
     def get_main_image(self, obj):
         category_image = obj.main_image
-        if category_image is not None:
+        if category_image:
             return site_name + category_image.url
         return None
         
     def get_icon(self, obj):
         icon = obj.icon
-        if icon is not None:
+        if icon:
             return site_name + icon.url 
         return None
         
@@ -74,13 +74,13 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
 
     def get_category_image(self, obj):
         category_image = obj.category_image
-        if category_image is not None:
+        if category_image:
             return site_name + category_image.url
         return None
         
     def get_icon(self, obj):
         icon = obj.icon
-        if icon is not None:
+        if icon:
             return site_name + icon.url 
         return None
 
@@ -94,7 +94,7 @@ class SubCategoryStsMiniSerialzier(serializers.ModelSerializer):
 
     def get_sub_image(self, obj):
         sub_image = obj.sub_image
-        if sub_image is not None:
+        if sub_image:
             return site_name + sub_image.url
 
 
@@ -110,34 +110,34 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
     
     def get_main_image(self, obj):
         category_image = obj.main_image
-        if category_image is not None:
+        if category_image:
             return site_name + category_image.url
         return None
         
     def get_main_icon(self, obj):
         icon = obj.icon
-        if icon is not None:
+        if icon:
             return site_name + icon.url 
         return None
 
 
 class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
     children = MainCategortStsMiniSerializer(many=True, source='maincategory_set')
-    category_image = serializers.SerializerMethodField(read_only=True)
-    super_icon = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField()
+    super_icon = serializers.SerializerMethodField()
     class Meta:
         model  = SuperCategory
-        fields = ('id', 'slug', 'super_name','category_image', 'super_icon',  'category_image','children')
+        fields = ('id', 'slug', 'super_name','images', 'super_icon',  'category_image','children')
 
-    def get_category_image(self, obj):
+    def get_images(self, obj):
         category_image = obj.category_image
-        if category_image is not None:
+        if category_image :
             return site_name + category_image.url
         return None
         
     def get_super_icon(self, obj):
         icon = obj.icon
-        if icon is not None:
+        if icon:
             return site_name + icon.url 
         return None
 
