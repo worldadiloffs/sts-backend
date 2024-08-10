@@ -124,10 +124,10 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
 class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
     children = MainCategortStsMiniSerializer(many=True, source='maincategory_set')
     category_image = serializers.SerializerMethodField(read_only=True)
-    icon = serializers.SerializerMethodField(read_only=True)
+    main_icon = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model  = SuperCategory
-        fields = ('id', 'slug', 'super_name','category_image', 'icon',  'category_image','children')
+        fields = ('id', 'slug', 'super_name','category_image', 'main_icon',  'category_image','children')
 
     def get_category_image(self, obj):
         category_image = obj.category_image
@@ -135,7 +135,7 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
             return site_name + category_image.url
         return None
         
-    def get_icon(self, obj):
+    def get_main_icon(self, obj):
         icon = obj.icon
         if icon is not None:
             return site_name + icon.url 
