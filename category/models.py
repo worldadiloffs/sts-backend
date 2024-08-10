@@ -20,7 +20,7 @@ class SuperCategory(models.Model):
         upload_to="category",
         blank=True,
         null=True,
-        height_field=_("width: 1850px; height: 382px;"),
+        help_text=_("width: 1850px; height: 382px;"),
     )
     icon = models.FileField(
         upload_to="category/icon",
