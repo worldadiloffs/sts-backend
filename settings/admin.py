@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CardGril , PageContent  , PaymentMethod , DeliveryService , SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork
+from .models import CardGril , PageContent  , PaymentMethod , DeliveryService , SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , CountSettings
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -9,6 +9,10 @@ admin.site.register(PaymentMethod)
 admin.site.register(DeliveryService)
 admin.site.register(OrderSetting)
 admin.site.register(SocialNetwork)
+
+@admin.register(CountSettings)
+class CountSettingAdmin(admin.ModelAdmin):
+    list_display = ("count", "mainCategory__main_name",)
 
 
 
