@@ -32,10 +32,10 @@ class ProductListMiniView(APIView):
 
 class ProductDetailApiview(APIView):
     def get(self, request, slug):
-        product = Product.objects.get(slug=slug)
+        product = Product.objects.get(slug=slug, status=True, site_sts=True)
         data = None
         if product.main_category is not None:
-            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk)[:5]
+            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk, status=True, site_sts=True)[:5]
             main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
             data = main_serialzier.data 
 
