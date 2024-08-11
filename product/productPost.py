@@ -23,6 +23,7 @@ class ProductPost(APIView):
         product = Product.objects.filter(articul=articul).first()
         if product is not None:
             product.price=  price
+            product.articul = articul
             product.material_nomer = material_nomer
             product.product_name = product_name
             counts_settings =CountSettings.objects.filter(mainCategory__id=product.main_category.pk).exists()
@@ -43,6 +44,7 @@ class ProductPost(APIView):
             product.save()
         else:
             product = Product()
+            product.articul = articul
             product.price = price
             product.product_name = product_name
             product.counts = count
