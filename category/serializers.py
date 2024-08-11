@@ -143,7 +143,7 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
 
 
 class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
-    main_image = serializers.SerializerMethodField()
+    main_image = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = MainCategory
         fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory',)
@@ -151,7 +151,7 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
     def get_main_image(self, obj):
         image = obj.main_image
         if image:
-            return site_name + image
+            return site_name + image.url
         return None
 
 
