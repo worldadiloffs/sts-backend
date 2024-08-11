@@ -33,9 +33,16 @@ class ProductListMiniView(APIView):
 class ProductDetailApiview(APIView):
     def get(self, request, slug):
         product = Product.objects.get(slug=slug)
+        data = None
+        if product.main_category is not None:
+            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk)[:5]
+            main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
+            data = main_serialzier.data 
+
+        
         serialzier = ProductSerialzier(product)
         return JsonResponse(
-            {"data": serialzier.data, "errors":False, "message": ""}, safe=False
+            {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
         )
 
 

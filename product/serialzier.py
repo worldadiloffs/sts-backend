@@ -21,8 +21,10 @@ class ImageSeriazilizer(serializers.ModelSerializer):
 
 
 class ProductSerialzier(serializers.ModelSerializer):
-    category_name = serializers.SerializerMethodField()
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
+    super_category = serializers.SerializerMethodField()
+    main_category = serializers.SerializerMethodField()
+    sub_category = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = "__all__"
@@ -30,29 +32,67 @@ class ProductSerialzier(serializers.ModelSerializer):
 
 
     
-    def get_category_name(self, obj):
+    def get_super_category(self, obj):
         category = obj.super_category
         if category is not None:
-            return category.super_name
+            return {
+                "id": category.id,
+                "category_name": category.super_name,
+                "slug": category.slug
+            }
+        
+    def get_main_category(self, obj):
+        category = obj.main_category
+        if category is not None:
+            return {
+                "id": category.id,
+                "category_name": category.main_name,
+                "slug": category.slug
+            }
+    def get_sub_category(self, obj):
+        category = obj.sub_category
+        if category is not None:
+            return {
+                "id": category.id,
+                "category_name": category.sub_name,
+                "slug": category.slug
+            }
 
 
 class ProductDetailSerialzeir(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
-    category_name = serializers.SerializerMethodField()
+    images = ImageSeriazilizer(required=False, read_only=True, many=True)
+    super_category = serializers.SerializerMethodField()
+    main_category = serializers.SerializerMethodField()
+    sub_category = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ("id", "product_name",'category_name', 'image', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", "super_category")
+        fields = ("id", "product_name", 'main_category','super_category', 'sub_category','images', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", )
 
-    def get_image(self, obj):
-        image = obj.image
-        if image: 
-            return site_name  + image
-        return None
-
-    def get_category_name(self, obj):
+    def get_super_category(self, obj):
         category = obj.super_category
         if category is not None:
-            return category.super_name
+            return {
+                "id": category.id,
+                "category_name": category.super_name,
+                "slug": category.slug
+            }
+        
+    def get_main_category(self, obj):
+        category = obj.main_category
+        if category is not None:
+            return {
+                "id": category.id,
+                "category_name": category.main_name,
+                "slug": category.slug
+            }
+    def get_sub_category(self, obj):
+        category = obj.sub_category
+        if category is not None:
+            return {
+                "id": category.id,
+                "category_name": category.sub_name,
+                "slug": category.slug
+            }
 
 
 class ProductListMiniSerilizers(serializers.ModelSerializer):
