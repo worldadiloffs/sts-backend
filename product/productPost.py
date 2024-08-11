@@ -39,6 +39,7 @@ class ProductPost(APIView):
                 if sub_id is not None:
                     sub_obj = SubCategory.objects.get(id=sub_id)
                     product.sub_category= sub_obj
+                product.save()
             else:
                 product = Product()
                 product.price = price
@@ -56,6 +57,7 @@ class ProductPost(APIView):
                 if sub_id is not None:
                     sub_obj = SubCategory.objects.get(id=sub_id)
                     product.sub_category= sub_obj
+                product.save()
 
             return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
         except Exception as e:
