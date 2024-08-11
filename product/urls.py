@@ -1,10 +1,12 @@
 from django.urls import path 
-from .views import ProductListMiniView , CategoryProductViews 
+from .views import ProductListMiniView , CategoryProductViews , ProductDetailApiview
 from .productPost import ProductPostApiView
 
 app_name = "product"
 
 urlpatterns = [
-    path('sts/product/product-listt/', ProductListMiniView.as_view(), name='product-list'),
+    path('sts/product/product-list/', ProductListMiniView.as_view(), name='product-list'),
     path('sts/category/<str:types>/<str:slug>/', CategoryProductViews.as_view()),
+    path('sts/product/<str:slug>/', ProductDetailApiview.as_view(), name='product-detail'),
+
 ]

@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .serialzier import ParemententCategorySerialzeir, ProductListMiniSerilizers
+from .serialzier import ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier
 from .models import Product
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
@@ -29,6 +29,14 @@ class ProductListMiniView(APIView):
     
 
 
+
+class ProductDetailApiview(APIView):
+    def get(self, request, slug):
+        product = Product.objects.get(slug=slug)
+        serialzier = ProductSerialzier(product)
+        return JsonResponse(
+            {"data": serialzier.data, "errors":False, "message": ""}, safe=False
+        )
 
 
 

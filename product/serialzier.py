@@ -4,23 +4,55 @@ from config.settings import site_name
 
 
 class ImageSeriazilizer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
     class Meta:
         model = Image
         fields = "__all__"
+
+    def get_image(self, obj):
+        image = obj.image
+        if image:
+            return site_name + image.url 
+        
+        return None
+
 
 
 
 
 class ProductSerialzier(serializers.ModelSerializer):
+    category_name = serializers.SerializerMethodField()
+    images = ImageSeriazilizer(required=False, read_only=True, many=True)
     class Meta:
         model = Product
         fields = "__all__"
+
+
+
+    
+    def get_category_name(self, obj):
+        category = obj.super_category
+        if category is not None:
+            return category.super_name
 
 
 class ProductDetailSerialzeir(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    category_name = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ("id", "product_name",'category_name', 'image', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", "super_category")
+
+    def get_image(self, obj):
+        image = obj.image
+        if image: 
+            return site_name  + image
+        return None
+
+    def get_category_name(self, obj):
+        category = obj.super_category
+        if category is not None:
+            return category.super_name
 
 
 class ProductListMiniSerilizers(serializers.ModelSerializer):

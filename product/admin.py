@@ -62,7 +62,6 @@ class ProductsModelAdmin(TranslationAdmin):
         "main_category",
         "sub_category",
         "product_video",
-        "product_picture",
         "full_description", 
         "short_content",
     ]
