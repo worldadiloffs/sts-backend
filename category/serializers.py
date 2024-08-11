@@ -149,8 +149,9 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
         fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory',)
     
     def get_main_image(self, obj):
-        if obj.main_image:
-            return site_name + obj.main_image
+        image = obj.main_image
+        if image:
+            return site_name + image
         return None
 
 
