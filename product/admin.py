@@ -44,6 +44,7 @@ class ProductsModelAdmin(TranslationAdmin):
         JSONField: {'widget': JSONEditor},
     }
     search_help_text="product nomi category nomi orqali qidirish"
+    ordering = ('- pk',)
     list_display = [
         "articul",
         "product_name",
