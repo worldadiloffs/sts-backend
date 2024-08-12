@@ -56,6 +56,22 @@ class ProductsModelAdmin(TranslationAdmin):
         "status",
     ]
 
+    #  xitlar = models.BooleanField(default=False, blank=True)
+    # # filter product news
+    # news = models.BooleanField(default=False, blank=True)
+    # # banner product add filter 
+    # banner_add = models.BooleanField(default=False, blank=True)
+    # #  aksiya product 
+    # aksiya = models.BooleanField(default=False, blank=True)
+
+    # news_title = models.CharField(max_length=20, blank=True, null=True)
+
+    # aksiya_title = models.CharField(max_length=20, blank=True, null=True)
+
+    # xitlar_title = models.CharField(max_length=50, blank=True, null=True)
+    
+    # status = models.BooleanField(default=False, blank=True)
+
     fields = [
         "product_name",
         'articul',
@@ -65,6 +81,13 @@ class ProductsModelAdmin(TranslationAdmin):
         "product_video",
         "full_description", 
         "short_content",
+        "xitlar",
+        "xitlar_title",
+        "news",
+        "news_title",
+        "banner_add",
+        "aksiya",
+        "aksiya_title",
     ]
 
     inlines = [GalleryInlines]
