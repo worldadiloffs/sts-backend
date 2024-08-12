@@ -6,7 +6,7 @@ from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
 from category.models import MainCategory 
-
+admin.site.register(Image)
 
 class ProductEditForm(forms.ModelForm):
     class Meta:
@@ -55,22 +55,6 @@ class ProductsModelAdmin(TranslationAdmin):
         "site_rts",
         "status",
     ]
-
-    #  xitlar = models.BooleanField(default=False, blank=True)
-    # # filter product news
-    # news = models.BooleanField(default=False, blank=True)
-    # # banner product add filter 
-    # banner_add = models.BooleanField(default=False, blank=True)
-    # #  aksiya product 
-    # aksiya = models.BooleanField(default=False, blank=True)
-
-    # news_title = models.CharField(max_length=20, blank=True, null=True)
-
-    # aksiya_title = models.CharField(max_length=20, blank=True, null=True)
-
-    # xitlar_title = models.CharField(max_length=50, blank=True, null=True)
-    
-    # status = models.BooleanField(default=False, blank=True)
 
     fields = [
         "product_name",
