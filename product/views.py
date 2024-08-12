@@ -14,9 +14,13 @@ from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 from drf_spectacular.utils import extend_schema
 
+
+from rest_framework.parsers import MultiPartParser , FormParser
+
 class ProductListMiniView(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
+    parser_classes =[MultiPartParser, FormParser]
     @extend_schema(
         responses=ProductListMiniSerilizers
     )
