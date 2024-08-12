@@ -14,6 +14,7 @@ class Image(models.Model):
     )
     image = models.ImageField(upload_to="products", blank=False, null=True)
 
+
 class Product(models.Model):
     """ product models integration crm """
     product_name = models.CharField(max_length=300, blank=True)
