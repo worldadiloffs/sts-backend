@@ -39,6 +39,11 @@ class ImageProductApiview(APIView):
             serialzier.save()
             return JsonResponse({"data": serialzier.data, "errors":False, "message": ""},safe=False)
         return JsonResponse({"data": None, "errors":False, "message": ""}, safe=False)
+    
+    def get(self, request):
+        image = Image.objects.all()
+        seriazlier =ImageSeriazilizer(image, many=True)
+        return JsonResponse(seriazlier.data)
 
 
 
