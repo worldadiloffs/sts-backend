@@ -55,7 +55,7 @@ class ProductPost(APIView):
                     counts_settings =CountSettings.objects.filter(mainCategory__id=main_id).exists()
                 if product.serenaTrue_countFalse:
                     if counts_settings:
-                        counts_max = CountSettings.objects.get(mainCategory__id=product.main_category.pk)
+                        counts_max = CountSettings.objects.get(mainCategory__id=main_id)
                         if count > counts_max.count:
                             count = counts_max.count
                 product.counts = count
