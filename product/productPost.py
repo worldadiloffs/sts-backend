@@ -50,6 +50,9 @@ class ProductPost(APIView):
                 product.price = price
                 product.product_name = product_name
                 product.serenaTrue_countFalse = serenaTrue_countFalse
+                counts_settings = False
+                if main_id is not None:
+                    counts_settings =CountSettings.objects.filter(mainCategory__id=main_id).exists()
                 if product.serenaTrue_countFalse:
                     if counts_settings:
                         counts_max = CountSettings.objects.get(mainCategory__id=product.main_category.pk)
