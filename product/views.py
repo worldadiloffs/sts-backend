@@ -20,7 +20,6 @@ from rest_framework.parsers import MultiPartParser , FormParser
 class ProductListMiniView(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
-    parser_classes =[MultiPartParser, FormParser]
     @extend_schema(
         responses=ProductListMiniSerilizers
     )
@@ -33,6 +32,7 @@ class ProductListMiniView(APIView):
     
 
 class ImageProductApiview(APIView):
+    parser_classes =[MultiPartParser, FormParser]
     def post(self, request):
         serialzier = ImageSeriazilizer(data=request.data)
         if serialzier.is_valid():
