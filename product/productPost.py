@@ -61,7 +61,7 @@ class ProductPost(APIView):
                 product.counts = count
                 product.counts = count
                 product.material_nomer = material_nomer
-                product.site_rts = site_sts
+                product.site_sts = site_sts
                 product.site_rts = site_rts
                 if super_id is not None:
                     super_obj = SuperCategory.objects.get(id=super_id)
