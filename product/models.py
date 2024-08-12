@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from category.utils import create_shortcode
+
 
 class Image(models.Model):
     product = models.ForeignKey(
@@ -21,7 +23,7 @@ class Product(models.Model):
     
     material_nomer = models.BigIntegerField(blank=True, null=True, unique=True, editable=False)
     
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    slug = models.SlugField(unique=True, null=True, allow_unicode=True, editable=False, blank=True)
     
     articul = models.PositiveIntegerField(blank=True , null=True)
     
@@ -134,8 +136,6 @@ class Product(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
-        self.product_name = self.product_name.title() if self.product_name else self.product_name
-        self.slug = self.make_slug(self.product_name)
         if self.main_category is not None:
             if not (MainCategory.objects.filter(id=self.main_category.pk).first().superCategory.pk == self.super_category.pk):
                 raise  ValueError({"data": "errors"})
@@ -145,7 +145,14 @@ class Product(models.Model):
         if self.sub_category is not None:
             self.short_content_ru = self.sub_category.product_content_ru
             self.short_content_uz = self.sub_category.product_content_uz
-        super().save(*args, **kwargs)
+        if not self.slug or self.slug is None or self.slug == "":
+            self.slug = slugify(self.product_name, allow_unicode=True)
+            qs_exists = Product.objects.filter(
+                slug=self.slug).exists()
+            if qs_exists:
+                self.slug = create_shortcode(self)
+
+        super(Product, self).save(*args, **kwargs)
 
 
     
