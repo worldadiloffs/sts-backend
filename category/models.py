@@ -5,6 +5,8 @@ from django.utils.text import slugify
 import random, string
 from django.utils.translation import gettext_lazy as _
 
+from category.utils import create_shortcode
+
 
 class SuperCategory(models.Model):
     super_name = models.CharField(max_length=200, blank=False, null=False, unique=True)
@@ -15,7 +17,7 @@ class SuperCategory(models.Model):
         null=True,
         help_text=("Please use our recommended dimensions: 120px X 120px"),
     )
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    slug = models.SlugField(unique=True, null=True, allow_unicode=True, editable=False, blank=True)
     super_image_content = models.ImageField(
         upload_to="category",
         blank=True,
@@ -56,13 +58,14 @@ class SuperCategory(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
-        self.super_name = (
-            self.super_name.title() if self.super_name else self.super_name
-        )
-        self.slug = self.make_slug(self.super_name)
+        if not self.slug or self.slug is None or self.slug == "":
+            self.slug = slugify(self.super_name, allow_unicode=True)
+            qs_exists = SuperCategory.objects.filter(
+                slug=self.slug).exists()
+            if qs_exists:
+                self.slug = create_shortcode(self)
 
-        super().save(*args, **kwargs)
-
+        super(SuperCategory, self).save(*args, **kwargs)
 
 class MainCategory(models.Model):
     superCategory = models.ForeignKey(
@@ -75,7 +78,7 @@ class MainCategory(models.Model):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    slug = models.SlugField(unique=True,allow_unicode=True, null=True, editable=False, blank=True)
     icon = models.FileField(upload_to='category', blank=True, null=True)
     header_add = models.BooleanField(default=False, blank=True)
     main_meta = models.CharField(max_length=200, blank=True, null=True)
@@ -106,10 +109,14 @@ class MainCategory(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
-        self.main_name = self.main_name.title() if self.main_name else self.main_name
-        self.slug = self.make_slug(self.main_name)
+        if not self.slug or self.slug is None or self.slug == "":
+            self.slug = slugify(self.main_name, allow_unicode=True)
+            qs_exists = MainCategory.objects.filter(
+                slug=self.slug).exists()
+            if qs_exists:
+                self.slug = create_shortcode(self)
 
-        super().save(*args, **kwargs)
+        super(MainCategory, self).save(*args, **kwargs)
 
 
 class SubCategory(models.Model):
@@ -123,7 +130,7 @@ class SubCategory(models.Model):
         blank=True,
         null=True,
     )
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    slug = models.SlugField(unique=True, null=True, allow_unicode=True,editable=False, blank=True)
     sub_meta = models.CharField(max_length=200, blank=True, null=True)
     sub_content = models.CharField(max_length=300, blank=True, null=True)
     seo_cub = RichTextField(blank=True, null=True)
@@ -154,8 +161,11 @@ class SubCategory(models.Model):
         return slug
 
     def save(self, *args, **kwargs):
-        self.sub_name = self.sub_name.title() if self.sub_name else self.sub_name
-        if self.slug is not None:
-            self.slug = self.make_slug(self.sub_name)
+        if not self.slug or self.slug is None or self.slug == "":
+            self.slug = slugify(self.sub_name, allow_unicode=True)
+            qs_exists = SubCategory.objects.filter(
+                slug=self.slug).exists()
+            if qs_exists:
+                self.slug = create_shortcode(self)
 
-        super().save(*args, **kwargs)
+        super(SubCategory, self).save(*args, **kwargs)
