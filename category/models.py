@@ -155,6 +155,7 @@ class SubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         self.sub_name = self.sub_name.title() if self.sub_name else self.sub_name
-        self.slug = self.make_slug(self.sub_name)
+        if self.slug is not None:
+            self.slug = self.make_slug(self.sub_name)
 
         super().save(*args, **kwargs)
