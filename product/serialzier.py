@@ -15,7 +15,11 @@ class ImageSeriazilizer(serializers.ModelSerializer):
             return site_name + image.url 
         
         return None
-
+    
+class ImagePostSeriazilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = "__all__"
 
 
 

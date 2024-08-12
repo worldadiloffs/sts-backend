@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from .serialzier import ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier , ImageSeriazilizer
+from .serialzier import ImagePostSeriazilizer, ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier , ImageSeriazilizer
 from .models import Product , Image
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
@@ -34,7 +34,7 @@ class ProductListMiniView(APIView):
 class ImageProductApiview(APIView):
     parser_classes =[MultiPartParser, FormParser]
     def post(self, request):
-        serialzier = ImageSeriazilizer(data=request.data)
+        serialzier = ImagePostSeriazilizer(data=request.data)
         if serialzier.is_valid():
             serialzier.save()
             return JsonResponse({"data": serialzier.data, "errors":False, "message": ""},safe=False)
@@ -42,7 +42,7 @@ class ImageProductApiview(APIView):
     
     def get(self, request):
         image = Image.objects.all()
-        seriazlier =ImageSeriazilizer(image, many=True)
+        seriazlier =ImagePostSeriazilizer(image, many=True)
         return JsonResponse(seriazlier.data)
 
 
