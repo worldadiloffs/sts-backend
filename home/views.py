@@ -53,7 +53,7 @@ class HomePageCategoryView(APIView):
             )
     def get(self, request):
         data = []
-        for i in HomePageCategory.objects.filter(status=True, site_sts=True):
+        for i in HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top"):
             if i.news:
                 product = Product.objects.filter(status=True, news=True , site_sts=True)[:10]
                 seriazlier = ProductListMiniSerilizers(product, many=True)
