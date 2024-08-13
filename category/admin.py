@@ -26,7 +26,7 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
-    list_display = ("main_name", 'sts_site', 'rts_site', 'status',)
+    list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',)
     list_editable = ("status", "header_add", "ommabob","sts_site", "rts_site",)
     search_fields = ("main_name",)
     list_filter=('sts_site', 'rts_site', 'status',)
