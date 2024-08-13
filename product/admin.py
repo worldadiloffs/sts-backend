@@ -43,6 +43,9 @@ class ProductsModelAdmin(TranslationAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
+    list_max_show_all = 10
+    list_per_page = 10
+
     search_help_text="product nomi category nomi orqali qidirish"
     ordering = ('-id',)
     list_display = [
