@@ -32,14 +32,14 @@ class ProductSerialzier(serializers.ModelSerializer):
     super_category = serializers.SerializerMethodField()
     main_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
-    price = serializers.SerializerMethodField(required=False)
+    price = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = "__all__"
 
 
     def get_price(self, obj):
-        return obj.price if obj.price * doller_funtion() else None 
+        return obj.price and obj.price * doller_funtion() or 0 
     
     def get_super_category(self, obj):
         category = obj.super_category
