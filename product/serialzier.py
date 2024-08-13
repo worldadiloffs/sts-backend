@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Product , Image 
 from config.settings import site_name
+from settings.models import OrderSetting
 
 
 class ImageSeriazilizer(serializers.ModelSerializer):
@@ -22,19 +23,33 @@ class ImagePostSeriazilizer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
+def doller_funtion():
+    order =  OrderSetting.objects.first() 
+    return order.doller * order.nds 
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     super_category = serializers.SerializerMethodField()
     main_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField(required=False)
     class Meta:
         model = Product
         fields = "__all__"
 
 
+    def get_price(self, obj):
+        return obj.price if obj.price * doller_funtion() else None 
+    
 
+
+    
+
+
+    
+
+
+    
     
     def get_super_category(self, obj):
         category = obj.super_category
@@ -68,10 +83,16 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
     super_category = serializers.SerializerMethodField()
     main_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField(required=False)
     class Meta:
         model = Product
         fields = ("id", "product_name", 'main_category','super_category', 'sub_category','images', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", )
 
+
+    
+    def get_price(self, obj):
+        return obj.price if obj.price * doller_funtion() else obj.price  
+    
     def get_super_category(self, obj):
         category = obj.super_category
         if category is not None:

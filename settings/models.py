@@ -176,3 +176,8 @@ class OrderSetting(models.Model):
     tolov_usullar = models.ManyToManyField(PaymentMethod, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+    doller = models.IntegerField(blank=True, null=True) 
+
+
+    def __str__(self):
+        return f"Depozit tolov: {self.depozit_tolov}, Cashback tolov: {self.cashback_tolov}, NDS: {self.nds}, Cource Valyuta: {self.cource_valyuta}, Tolov Online: {self.tolov_online}"
