@@ -83,6 +83,8 @@ def _sub_category_list(main_id):
                 if len(data) > 12:
                     return data 
     return data 
+
+
                 
 
 class CategoryProductViews(APIView):

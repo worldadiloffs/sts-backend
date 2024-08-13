@@ -5,4 +5,6 @@ app_name = 'settings'
 
 urlpatterns = [
     path('sts/settings/', SiteSettingsApiviews.as_view()),
+    
 ]
+
