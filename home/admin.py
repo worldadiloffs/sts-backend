@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Banner , homePage , HomePageCategory
+from .models import AboutPage, Banner , homePage , HomePageCategory
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -27,27 +27,12 @@ class BannerAdmin(TranslationAdmin):
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
-
-# @admin.register(homePage)
-# class HOmePageAdmin(admin.ModelAdmin):
-#     list_display = ('site_sts', 'site_rts',)
-#     list_editable=  ("site_sts", "site_rts",)
-
-#  status = models.BooleanField(default=False, blank=True) 
-#     site_sts =models.BooleanField(default=False, blank=True)
-#     site_rts =models.BooleanField(default=False, blank=True)
-#       # filter product news
-#     news = models.BooleanField(default=False, blank=True)
-#     # banner product add filter 
-#     banner_add = models.BooleanField(default=False, blank=True)
-#     #  aksiya product 
-#     aksiya = models.BooleanField(default=False, blank=True)
-#     xitlar = models.BooleanField(default=False, blank=True)
+admin.site.register(AboutPage)
 
 @admin.register(HomePageCategory)
 class HomePageCategoryAdmin(TranslationAdmin):
-    list_display = ("top", "title", "category",  "site_sts", "site_rts")
-    list_editable = ("status",)
+    list_display = ("top", "title", "category", "status", "site_sts", "site_rts")
+    list_editable = ("status","site_sts", "site_rts")
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)
 

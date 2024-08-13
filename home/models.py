@@ -4,9 +4,10 @@ from category.models import MainCategory , SubCategory
 from django.utils.text import slugify
 import random, string
 # Create your models here.
-from config.settings import site_name
+from config.settings import site_name , pages_setting
 
 from django.utils.html import format_html
+
 
 
 class Banner(models.Model):
@@ -122,12 +123,15 @@ class homePage(models.Model):
 
 
 def page_choise():
-    pass 
+    return {i: i for i in pages_setting}
 
 
 class AboutPage(models.Model):
     title = models.CharField(max_length=200, blank=True)
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    description = models.TextField(blank=True)
-    type = models.CharField(max_length=20, choices=page_choise)
+    description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='about/images', blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    page_choise = models.CharField(max_length=200, choices=page_choise(), blank=True)
