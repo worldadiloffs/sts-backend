@@ -134,7 +134,10 @@ class SiteSettings(models.Model):
 
 
     def image_tag(self):
-        return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.icon.url))
+        if self.icon is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.icon.url))
+        else:
+            return None
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
