@@ -41,16 +41,6 @@ class ProductSerialzier(serializers.ModelSerializer):
     def get_price(self, obj):
         return obj.price if obj.price * doller_funtion() else None 
     
-
-
-    
-
-
-    
-
-
-    
-    
     def get_super_category(self, obj):
         category = obj.super_category
         if category is not None:
@@ -83,7 +73,7 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
     super_category = serializers.SerializerMethodField()
     main_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
-    price = serializers.SerializerMethodField(required=False)
+    price = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = ("id", "product_name", 'main_category','super_category', 'sub_category','images', "product_video", "slug", "price", "discount_price", "short_content","tavar_dagavornaya" , "counts", )
@@ -91,7 +81,7 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
 
     
     def get_price(self, obj):
-        return obj.price if obj.price * doller_funtion() else obj.price  
+        return obj.price and obj.price * doller_funtion() or obj.price  
     
     def get_super_category(self, obj):
         category = obj.super_category
