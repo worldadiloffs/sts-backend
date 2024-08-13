@@ -35,6 +35,7 @@ class HomePageCategoryAdmin(TranslationAdmin):
     list_editable = ("status","site_sts", "site_rts")
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)
+    list_max_show_all = 10
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},

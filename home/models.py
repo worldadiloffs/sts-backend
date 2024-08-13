@@ -134,4 +134,5 @@ class AboutPage(models.Model):
     status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
-    page_choise = models.CharField(max_length=200, choices=page_choise(), blank=True)
+    
+    # page_choise = models.CharField(max_length=200, choices=page_choise(), blank=True)
