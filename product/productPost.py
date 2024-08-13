@@ -32,7 +32,7 @@ class ProductPost(APIView):
                     if counts_settings:
                         counts_max = CountSettings.objects.get(mainCategory__id=product.main_category.pk)
                         if count > counts_max.count:
-                            count = counts_max.count
+                            count= counts_max.count
                 product.counts = count
                 if super_id is not None:
                     super_obj = SuperCategory.objects.get(id=super_id)

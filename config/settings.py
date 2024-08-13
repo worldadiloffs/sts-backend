@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     'settings',
     'home',
     'blog',
+    'payments',
+    'clickApp',
 ]
 
 
@@ -133,6 +135,37 @@ AUTH_USER_MODEL = "account.User"
 REDIS_URL = "redis://redis_broker:6379"
 
 
+# PAYCOM_SETTINGS = {
+#     "KASSA_ID": getenv("Payme_KASSA_ID"),  # token
+#     "SECRET_KEY": getenv("Payme_SECRET_KEY"),  # password
+#     # "ACCOUNTS": {
+#     #     "KEY": "order_id"
+#     # },
+#     "ACCOUNTS": {
+#         "KEY":"order_id"
+#     },
+#     "Token":getenv("Payme_Token")
+# }
+
+
+PAYCOM_SETTINGS = {
+    "KASSA_ID": "668a95269fc37c5dfda18f54",  # token
+    "SECRET_KEY":"NjSuX@XDz89bzhk%FftRfX@4DI%CP7Nr8t%6",
+    # "ACCOUNTS": {
+    #     "KEY": "order_id"
+    # },
+    "ACCOUNTS": {
+        "KEY":"order_id"
+    },
+    "Token":"668a95269fc37c5dfda18f54"
+}
+
+CLICK_SETTINGS = {
+    'service_id': '32872',
+    'merchant_id': '24945',
+    'secret_key': 'koMmoEGiJeqW',
+    'merchant_user_id': '39862'
+}
 
 
 
