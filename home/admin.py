@@ -31,7 +31,7 @@ admin.site.register(AboutPage)
 
 @admin.register(HomePageCategory)
 class HomePageCategoryAdmin(TranslationAdmin):
-    list_display = ("top", "title", "category", "status", "site_sts", "site_rts")
+    list_display = ("top", "title", "category",  "status", "site_sts", "site_rts")
     list_editable = ("status","site_sts", "site_rts")
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)

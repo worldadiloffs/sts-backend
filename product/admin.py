@@ -72,6 +72,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "banner_add",
         "aksiya",
         "aksiya_title",
+        "price",
     ]
 
     inlines = [GalleryInlines]
