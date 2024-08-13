@@ -46,7 +46,7 @@ class BannerAdmin(TranslationAdmin):
 
 @admin.register(HomePageCategory)
 class HomePageCategoryAdmin(TranslationAdmin):
-    list_display = ("top", "title", "category",  "image_tag", "site_sts", "site_rts")
+    list_display = ("top", "title", "category",  "site_sts", "site_rts")
     list_editable = ("status",)
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)
