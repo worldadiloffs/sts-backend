@@ -9,7 +9,10 @@ from product.models import Product
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):
-    list_display = ("sub_name",  "sts_site", "rts_site")
+    list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
+    list_editable = ( "sts_site", "rts_site",)
+    list_filter = ( "sts_site", "rts_site",)
+    search_fields = ("sub_name","id",)
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
@@ -26,9 +29,9 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
-    list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',)
+    list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
     list_editable = ("status", "header_add", "ommabob","sts_site", "rts_site",)
-    search_fields = ("main_name",)
+    search_fields = ("main_name","id",)
     list_filter=('sts_site', 'rts_site', 'status',)
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
@@ -47,9 +50,9 @@ class MainCategoryAdmin(TranslationAdmin):
 
 @admin.register(SuperCategory)
 class SuperCategoryAdmin(TranslationAdmin):
-    list_display = ("super_name", "status", "sts_site", "rts_site")
+    list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag")
     list_editable = ("status", "site_sts", "site_rts",)
-    search_fields = ("super_name",)
+    search_fields = ("super_name","id", )
     list_filter=('sts_site', 'rts_site', 'status',)
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},

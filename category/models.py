@@ -6,6 +6,7 @@ import random, string
 from django.utils.translation import gettext_lazy as _
 
 from category.utils import create_shortcode
+from django.utils.html import format_html
 
 
 class SuperCategory(models.Model):
@@ -56,6 +57,12 @@ class SuperCategory(models.Model):
                 allow_unicode=False,
             )
         return slug
+    
+    def image_tag(self):
+        if self.category_image is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.category_image.url))
+        else:
+            return None
 
     def save(self, *args, **kwargs):
         if not self.slug or self.slug is None or self.slug == "":
@@ -107,6 +114,12 @@ class MainCategory(models.Model):
                 allow_unicode=False,
             )
         return slug
+    
+    def image_tag(self):
+        if self.main_image is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.main_image.url))
+        else:
+            return None
 
     def save(self, *args, **kwargs):
         if not self.slug or self.slug is None or self.slug == "":
@@ -159,6 +172,13 @@ class SubCategory(models.Model):
                 allow_unicode=False,
             )
         return slug
+    
+
+    def image_tag(self):
+        if self.sub_image is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.sub_image.url))
+        else:
+            return None
 
     def save(self, *args, **kwargs):
         if not self.slug or self.slug is None or self.slug == "":
