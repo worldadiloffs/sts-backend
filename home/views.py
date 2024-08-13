@@ -36,7 +36,7 @@ class BannerDetailViews(APIView):
     def get(self, request , pk):
         banner = Banner.objects.get(status=True,id=pk , site_sts=True)
         if banner.category is not None:
-            product = Product.objects.filter(main_category__id=banner.category.pk).order_by("id")
+            product = Product.objects.filter(status=True, main_category__id=banner.category.pk).order_by("id")
             product_serializers =ProductListMiniSerilizers(product , many=True)
         serialzier = BannerSerializers(banner)
         return JsonResponse(

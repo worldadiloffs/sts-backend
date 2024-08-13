@@ -6,6 +6,8 @@ import random, string
 # Create your models here.
 from config.settings import site_name
 
+from django.utils.html import format_html
+
 
 class Banner(models.Model):
     title = models.CharField(max_length=200, blank=True)
@@ -35,6 +37,12 @@ class Banner(models.Model):
                 title + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
         return slug
+    
+    def image_tag(self):
+        if self.image is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.image.url))
+        else:
+            return None
     
 
 
@@ -81,6 +89,18 @@ class HomePageCategory(models.Model):
                 title + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
         return slug
+    
+    def category(self):
+        if self.mainCategory is not None:
+            return f"{self.mainCategory.main_name}"
+        return None
+    
+    
+    def image_tag(self):
+        if self.image is not None:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.image.url))
+        else:
+            return None
 
 
     def save(self, *args, **kwargs):
