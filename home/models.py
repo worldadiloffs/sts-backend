@@ -119,3 +119,15 @@ class homePage(models.Model):
     mobile_app = models.BooleanField(default=False, blank=True)
     site_sts =models.BooleanField(default=False, blank=True)
     site_rts =models.BooleanField(default=False, blank=True)
+
+
+def page_choise():
+    pass 
+
+
+class AboutPage(models.Model):
+    title = models.CharField(max_length=200, blank=True)
+    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    description = models.TextField(blank=True)
+    type = models.CharField(max_length=20, choices=page_choise)
+    image = models.ImageField(upload_to='about/images', blank=True, null=True)

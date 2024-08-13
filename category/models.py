@@ -5,8 +5,10 @@ from django.utils.text import slugify
 import random, string
 from django.utils.translation import gettext_lazy as _
 
-from category.utils import create_shortcode
+from category.utils import create_shortcode_super, create_shortcode_main, create_shortcode_sub  
+
 from django.utils.html import format_html
+
 
 
 class SuperCategory(models.Model):
@@ -70,7 +72,7 @@ class SuperCategory(models.Model):
             qs_exists = SuperCategory.objects.filter(
                 slug=self.slug).exists()
             if qs_exists:
-                self.slug = create_shortcode(self)
+                self.slug = create_shortcode_super(self)
 
         super(SuperCategory, self).save(*args, **kwargs)
 
@@ -127,7 +129,7 @@ class MainCategory(models.Model):
             qs_exists = MainCategory.objects.filter(
                 slug=self.slug).exists()
             if qs_exists:
-                self.slug = create_shortcode(self)
+                self.slug = create_shortcode_main(self)
 
         super(MainCategory, self).save(*args, **kwargs)
 
@@ -186,6 +188,6 @@ class SubCategory(models.Model):
             qs_exists = SubCategory.objects.filter(
                 slug=self.slug).exists()
             if qs_exists:
-                self.slug = create_shortcode(self)
+                self.slug = create_shortcode_sub(self)
 
         super(SubCategory, self).save(*args, **kwargs)

@@ -434,6 +434,8 @@ AXES_FAILURE_LIMIT = int(os.environ.get("AXES_FAILURE_LIMIT", default="50"))
 #     }
 # }
 
+
+
 JAZZMIN_UI_TWEAKS = {
     # "theme": "slate",
     "navbar_small_text": False,
