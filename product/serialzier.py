@@ -31,8 +31,8 @@ def doller_funtion():
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     super_category = serializers.SerializerMethodField()
-    main_category = MainCategortStsMiniSerializer()
-    sub_category = SubCategoryStsMiniSerialzier()
+    main_category = serializers.SerializerMethodField()
+    sub_category = serializers.SerializerMethodField()
 
     price = serializers.SerializerMethodField()
 
@@ -57,19 +57,22 @@ class ProductSerialzier(serializers.ModelSerializer):
         
     def get_main_category(self, obj):
         category = obj.main_category
+        super_category = obj.super_category
         if category is not None:
             return {
-                "id": category.id,
-                "category_name": category.main_name,
-                "slug": category.slug
+                "super":{"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug},
+                "main":{"id": category.id , "category_name": category.main_name, "slug": category.slug}
             }
     def get_sub_category(self, obj):
-        category = obj.sub_category
-        if category is not None:
+        sub_category = obj.sub_category
+        super_category = obj.super_category
+        main_category = obj.main_category
+        
+        if sub_category is not None:
             return {
-                "id": category.id,
-                "category_name": category.sub_name,
-                "slug": category.slug
+                "super":{"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug},
+                "main":{"id": main_category.id , "category_name": main_category.main_name, "slug": main_category.slug},
+                "sub":{"id": sub_category.id , "category_name": sub_category.main_name, "slug": sub_category.slug}
             }
 
 
