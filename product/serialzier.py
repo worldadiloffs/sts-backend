@@ -32,10 +32,14 @@ class ProductSerialzier(serializers.ModelSerializer):
     super_category = serializers.SerializerMethodField()
     main_category = serializers.SerializerMethodField()
     sub_category = serializers.SerializerMethodField()
+
     price = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = "__all__"
+
+
 
 
     def get_price(self, obj):

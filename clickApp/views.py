@@ -6,6 +6,8 @@ from .serializer import ClickUzSerializer
 from .status import *
 
 
+
+
 class ClickUzMerchantAPIView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]

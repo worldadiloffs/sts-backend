@@ -65,3 +65,10 @@ class CategoryHeaderViews(APIView):
             },
             safe=False,
         )
+
+
+
+
+class CategoryView(APIView):
+    def get_permissions(self):
+        return super().get_permissions()

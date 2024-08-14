@@ -17,6 +17,8 @@ from drf_spectacular.utils import extend_schema
 
 from rest_framework.parsers import MultiPartParser , FormParser
 
+
+
 class ProductListMiniView(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
@@ -30,6 +32,8 @@ class ProductListMiniView(APIView):
             {"data": seriazleir.data, "errors": False, "message": ""}, safe=False
         )
     
+
+
 
 class ImageProductApiview(APIView):
     parser_classes =[MultiPartParser, FormParser]
@@ -106,11 +110,8 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for main in MainCategory.objects.filter(superCategory__id=super_id):
-                        prod_obj = list(
-                            Product.objects.filter(main_category__id=main.pk)
-                            .values()
-                            .order_by("id")
-                        )
+                        prod_obj = Product.objects.filter(status=True, site_sts=True, main_category__id=main.pk)
+                        serialzier = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             sub_names = main.main_name
                             if main.main_content is not None:
@@ -118,7 +119,7 @@ class CategoryProductViews(APIView):
                             if prod_obj is not None:
                                 data = {
                                     "category": sub_names,
-                                    "product": prod_obj,
+                                    "product": serialzier.data,
                                 }
                                 product_object.append(data)
                 main = SuperCategory.objects.get(id=super_id)
@@ -142,17 +143,14 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
-                        prod_obj = list(
-                            Product.objects.filter(sub_category__id=sub.pk)
-                            .values()
-                            .order_by("id")
-                        )
+                        prod_obj = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub.pk)
+                        serialzeir = ProductListMiniSerilizers(prod_obj, may=True) 
                         if len(prod_obj) > 0:
                             sub_names = sub.sub_name
                             if prod_obj is not None:
                                 data = {
                                     "category": sub_names,
-                                    "product": prod_obj,
+                                    "product": serialzeir.data,
                                 }
                                 product_object.append(data)
                 main = MainCategory.objects.get(id=main_id)
@@ -172,12 +170,11 @@ class CategoryProductViews(APIView):
                 sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 30
                 current = int(next) - 1
-                product = Product.objects.filter(sub_category__id=sub_id)[
+                product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
                     current * limit : next * limit
                 ]
                 prod_serialzier = ProductListMiniSerilizers(product, many=True)
                 count = product.count()
-
                 pages = int(count / limit) + 1
                 pagination = {
                     "pages": pages,
