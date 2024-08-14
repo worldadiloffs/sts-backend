@@ -125,6 +125,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
 
     def get_price(self, obj):
         return obj.price and obj.price * doller_funtion() or 0 
+    
     def get_image(self, obj):
         image = obj.image
         if image:

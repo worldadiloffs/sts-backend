@@ -145,14 +145,13 @@ class CategoryProductViews(APIView):
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
                         prod_obj = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub.pk)
                         serialzeir = ProductListMiniSerilizers(prod_obj, may=True) 
-                        if len(prod_obj) > 0:
+                        if prod_obj is not None:
                             sub_names = sub.sub_name
-                            if prod_obj is not None:
-                                data = {
-                                    "category": sub_names,
-                                    "product": serialzeir.data,
-                                }
-                                product_object.append(data)
+                            data = {
+                                "category": sub_names,
+                                "product": serialzeir.data
+                            }
+                            product_object.append(data)
                 main = MainCategory.objects.get(id=main_id)
                 main_serialzier = MainCategortStsSerializer(main, many=False)
                 return JsonResponse(
