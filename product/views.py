@@ -144,7 +144,7 @@ class CategoryProductViews(APIView):
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
                         prod_obj = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub.pk)
-                        serialzeir = ProductListMiniSerilizers(prod_obj, may=True) 
+                        serialzeir = ProductListMiniSerilizers(prod_obj, many=True) 
                         if prod_obj is not None:
                             sub_names = sub.sub_name
                             data = {
@@ -153,7 +153,7 @@ class CategoryProductViews(APIView):
                             }
                             product_object.append(data)
                 main = MainCategory.objects.get(id=main_id)
-                main_serialzier = MainCategortStsSerializer(main, many=False)
+                main_serialzier = MainCategortStsSerializer(main)
                 return JsonResponse(
                     {
                         "data": {
