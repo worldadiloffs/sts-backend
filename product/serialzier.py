@@ -75,7 +75,7 @@ class ProductSerialzier(serializers.ModelSerializer):
                 "sub":{"id": sub_category.id , "category_name": sub_category.sub_name, "slug": sub_category.slug}
             }
 
-
+        
 class ProductDetailSerialzeir(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     super_category = serializers.SerializerMethodField()
