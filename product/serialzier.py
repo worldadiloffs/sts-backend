@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Product , Image 
 from config.settings import site_name
 from settings.models import OrderSetting
+from category.serializers import SuperCategoryStsMiniSerializer , MainCategortStsMiniSerializer , SubCategoryStsMiniSerialzier
 
 
 class ImageSeriazilizer(serializers.ModelSerializer):
@@ -30,8 +31,8 @@ def doller_funtion():
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     super_category = serializers.SerializerMethodField()
-    main_category = serializers.SerializerMethodField()
-    sub_category = serializers.SerializerMethodField()
+    main_category = MainCategortStsMiniSerializer()
+    sub_category = SubCategoryStsMiniSerialzier()
 
     price = serializers.SerializerMethodField()
 
