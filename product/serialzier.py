@@ -72,7 +72,7 @@ class ProductSerialzier(serializers.ModelSerializer):
             return {
                 "super":{"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug},
                 "main":{"id": main_category.id , "category_name": main_category.main_name, "slug": main_category.slug},
-                "sub":{"id": sub_category.id , "category_name": sub_category.main_name, "slug": sub_category.slug}
+                "sub":{"id": sub_category.id , "category_name": sub_category.sub_name, "slug": sub_category.slug}
             }
 
 
