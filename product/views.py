@@ -106,7 +106,7 @@ class SearchProductView(APIView):
                     current * limit : next * limit
                 ]
         count = product.count()
-        pages = (count + limit - 1) // limit
+        pages = int(count / limit) + 1
         pagination = {
                     "count": count,
                     "pages": pages,
