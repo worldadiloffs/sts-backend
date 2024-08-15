@@ -74,27 +74,32 @@ class ProductSerialzier(serializers.ModelSerializer):
         main_category = obj.main_category
         if sub_category is not None:
             return  {
-                    "id": super_category.id,
+                    "super": {
+                        "id": super_category.id,
                     "cateogry_name": super_category.super_name,
                     "slug": super_category.slug,
-                    "children": {
-                        "id": main_category.id,
+                    },
+                    "main": {
+                           "id": main_category.id,
                         "category_name": main_category.main_name,
                         "slug": main_category.slug,
-                        "children": {
-                            "id": sub_category.id,
+                    },
+                    "sub": {
+                          "id": sub_category.id,
                             "category_name": sub_category.sub_name,
                             "slug": sub_category.slug,
-                        },
-                    },
+                    }
+                   
                 },
             
         if main_category is not None:
             return  {
-                    "id": super_category.id,
+                   "super": {
+                        "id": super_category.id,
                     "name": super_category.super_name,
                     "slug": super_category.slug,
-                    "children": {
+                   },
+                    "main": {
                         "id": main_category.id,
                         "name": main_category.main_name,
                         "slug": main_category.slug,
@@ -104,10 +109,11 @@ class ProductSerialzier(serializers.ModelSerializer):
 
         if super_category is not None:
             return {
-                "id": super_category.id,
-                "cateogry_name": super_category.super_name,
-                "slug": super_category.slug,
-                "children": {},
+                "super": {
+                    "id": super_category.id,
+                    "cateogry_name": super_category.super_name,
+                    "slug": super_category.slug
+                }
             }
 
 

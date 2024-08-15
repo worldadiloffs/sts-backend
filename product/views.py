@@ -211,6 +211,7 @@ class CategoryProductViews(APIView):
                 return JsonResponse(
                     {
                         "data": {
+                            "categor_name": filter_prods.sub_name,
                             "product": prod_serialzier.data,
                             "pagination": pagination,
                             "filter_product": filter_prods.product_filter,
