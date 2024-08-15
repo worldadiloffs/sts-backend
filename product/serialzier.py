@@ -37,7 +37,7 @@ def doller_funtion():
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    link = serializers.JSONField(read_only=True)
+    link = serializers.SerializerMetaclass()
     # main_category = serializers.SerializerMethodField()
     # sub_category = serializers.SerializerMethodField()
 
