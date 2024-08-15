@@ -37,7 +37,7 @@ def doller_funtion():
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    link = serializers.Serializer()
+    
     # main_category = serializers.SerializerMethodField()
     # sub_category = serializers.SerializerMethodField()
 
@@ -68,58 +68,58 @@ class ProductSerialzier(serializers.ModelSerializer):
     #             "main":{"id": category.id , "category_name": category.main_name, "slug": category.slug}
     #         }
 
-    def get_link(self, obj):
-        sub_category = obj.sub_category
-        super_category = obj.super_category
-        main_category = obj.main_category
-        if sub_category is not None:
-            return  {
+    # def get_link(self, obj):
+    #     sub_category = obj.sub_category
+    #     super_category = obj.super_category
+    #     main_category = obj.main_category
+    #     if sub_category is not None:
+    #         return  {
                  
-                     "super": {
-                        "id": super_category.id,
-                    "name": super_category.super_name,
-                    "slug": super_category.slug,
-                    },
-                    "main": {
-                           "id": main_category.id,
-                        "category_name": main_category.main_name,
-                        "slug": main_category.slug,
-                    },
-                    "sub": {
-                          "id": sub_category.id,
-                            "name": sub_category.sub_name,
-                            "slug": sub_category.slug,
-                    }
-                   },
+    #                  "super": {
+    #                     "id": super_category.id,
+    #                 "name": super_category.super_name,
+    #                 "slug": super_category.slug,
+    #                 },
+    #                 "main": {
+    #                        "id": main_category.id,
+    #                     "category_name": main_category.main_name,
+    #                     "slug": main_category.slug,
+    #                 },
+    #                 "sub": {
+    #                       "id": sub_category.id,
+    #                         "name": sub_category.sub_name,
+    #                         "slug": sub_category.slug,
+    #                 }
+    #                },
                    
            
             
-        if main_category is not None:
-            return  {
+    #     if main_category is not None:
+    #         return  {
              
-                       "super": {
-                        "id": super_category.id,
-                    "name": super_category.super_name,
-                    "slug": super_category.slug,
-                   },
-                    "main": {
-                        "id": main_category.id,
-                        "name": main_category.main_name,
-                        "slug": main_category.slug,
-                    },
-                 },
+    #                    "super": {
+    #                     "id": super_category.id,
+    #                 "name": super_category.super_name,
+    #                 "slug": super_category.slug,
+    #                },
+    #                 "main": {
+    #                     "id": main_category.id,
+    #                     "name": main_category.main_name,
+    #                     "slug": main_category.slug,
+    #                 },
+    #              },
          
             
 
-        if super_category is not None:
-            return {
+    #     if super_category is not None:
+    #         return {
              
-                    "super": {
-                    "id": super_category.id,
-                    "name": super_category.super_name,
-                    "slug": super_category.slug
-                }
-               }
+    #                 "super": {
+    #                 "id": super_category.id,
+    #                 "name": super_category.super_name,
+    #                 "slug": super_category.slug
+    #             }
+    #            }
        
 
 

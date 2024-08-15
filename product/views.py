@@ -57,6 +57,58 @@ class ImageProductApiview(APIView):
         return JsonResponse(seriazlier.data)
 
 
+def get_link(super_category, main_category, sub_category):
+        if sub_category is not None:
+            return  {
+                 
+                     "super": {
+                        "id": super_category.id,
+                    "name": super_category.super_name,
+                    "slug": super_category.slug,
+                    },
+                    "main": {
+                           "id": main_category.id,
+                        "category_name": main_category.main_name,
+                        "slug": main_category.slug,
+                    },
+                    "sub": {
+                          "id": sub_category.id,
+                            "name": sub_category.sub_name,
+                            "slug": sub_category.slug,
+                    }
+                   },
+                   
+           
+            
+        if main_category is not None:
+            return  {
+             
+                       "super": {
+                        "id": super_category.id,
+                    "name": super_category.super_name,
+                    "slug": super_category.slug,
+                   },
+                    "main": {
+                        "id": main_category.id,
+                        "name": main_category.main_name,
+                        "slug": main_category.slug,
+                    },
+                 },
+         
+            
+
+        if super_category is not None:
+            return {
+             
+                    "super": {
+                    "id": super_category.id,
+                    "name": super_category.super_name,
+                    "slug": super_category.slug
+                }
+               }
+        return None
+       
+
 
 
 class ProductDetailApiview(APIView):
@@ -67,7 +119,10 @@ class ProductDetailApiview(APIView):
             main_category_product = Product.objects.filter(main_category__id=product.main_category.pk, status=True, site_sts=True)[:10]
             main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
             data = main_serialzier.data 
+            link = get_link(product.super_category, product.main_category, product.sub_category)
+            data['link'] = link
 
+            
         
         serialzier = ProductSerialzier(product)
         return JsonResponse(
