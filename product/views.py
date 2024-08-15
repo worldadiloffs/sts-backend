@@ -136,7 +136,7 @@ class ProductDetailApiview(APIView):
             if product.main_category is not None:
                 sub_category = None
                 link = get_link(super_category=product.super_category.pk, main_category=product.main_category.pk, sub_category=None)
-                data['link'] = link
+                data.get('link') = link
                 serialzier = ProductSerialzier(product)
                 return JsonResponse(
                     {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
