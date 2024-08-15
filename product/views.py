@@ -69,6 +69,9 @@ class ProductDetailApiview(APIView):
 
 
 
+
+
+
 def _sub_category_list(main_id):
     filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk 
     main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
