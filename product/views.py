@@ -59,6 +59,9 @@ class ImageProductApiview(APIView):
 
 def get_link(super_category, main_category, sub_category):
         if sub_category is not None:
+            super_category = SuperCategory.objects.get(id=super_category)
+            main_category = MainCategory.objects.get(id=main_category)
+            sub_category = SubCategory.objects.get(id=sub_category)
             
             return  {
                  
@@ -81,6 +84,8 @@ def get_link(super_category, main_category, sub_category):
            
             
         if main_category is not None:
+            main_category= MainCategory.objects.get(id=main_category)
+            super_category = SuperCategory.objects.get(id=super_category)
             return  {
              
                        "super": {
@@ -98,6 +103,7 @@ def get_link(super_category, main_category, sub_category):
             
 
         if super_category is not None:
+            super_category = SuperCategory.objects.get(id=super_category)
             return {
              
                     "super": {
@@ -121,20 +127,15 @@ class ProductDetailApiview(APIView):
             data = main_serialzier.data 
             # link = get_link(product.super_category , product.main_category, product.sub_category)
             if product.sub_category is not None:
-                main_category = MainCategory.objects.get(id=product.main_category.pk)
-                super_category = SuperCategory.objects.get(id=product.super_category.pk)
-                sub_category = SubCategory.objects.get(id=product.sub_category.pk)
-                link = get_link(super_category=super_category, main_category=main_category,sub_category= sub_category)
+                link = get_link(super_category=product.sub_category.pk, main_category=product.main_category.pk,sub_category= product.sub_category.pk)
                 data['link'] = link
                 serialzier = ProductSerialzier(product)
                 return JsonResponse(
                     {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
                 )
             if product.main_category is not None:
-                main_category = MainCategory.objects.get(id=product.main_category.pk)
-                super_category = SuperCategory.objects.get(id=product.super_category.pk)
                 sub_category = None
-                link = get_link(super_category, main_category, sub_category)
+                link = get_link(super_category=product.super_category.pk, main_category=product.main_category.pk, sub_category=None)
                 data['link'] = link
                 serialzier = ProductSerialzier(product)
                 return JsonResponse(
@@ -142,9 +143,8 @@ class ProductDetailApiview(APIView):
                 )
             if product.super_category is not None:
                 main_category = None
-                super_category = SuperCategory.objects.get(id=product.super_category.pk)
                 sub_category = None
-                link = get_link(super_category, main_category, sub_category)
+                link = get_link(super_category=product.super_category.pk, main_category=None, sub_category=None)
                 data['link'] = link
                 serialzier = ProductSerialzier(product)
                 return JsonResponse(
