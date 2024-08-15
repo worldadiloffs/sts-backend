@@ -57,62 +57,7 @@ class ImageProductApiview(APIView):
         return JsonResponse(seriazlier.data)
 
 
-def get_link(super_category, main_category, sub_category):
-        if sub_category is not None:
-            super_category = SuperCategory.objects.get(id=super_category)
-            main_category = MainCategory.objects.get(id=main_category)
-            sub_category = SubCategory.objects.get(id=sub_category)
-            
-            return  {
-                 
-                     "super": {
 
-                    "name": super_category.super_name,
-                    "slug": super_category.slug,
-                    },
-                    "main": {
-                        "category_name": main_category.main_name,
-                        "slug": main_category.slug,
-                    },
-                    "sub": {
-                      
-                            "name": sub_category.sub_name,
-                            "slug": sub_category.slug,
-                    }
-                   },
-                   
-           
-            
-        if main_category is not None:
-            main_category= MainCategory.objects.get(id=main_category)
-            super_category = SuperCategory.objects.get(id=super_category)
-            return  {
-             
-                       "super": {
-                   
-                    "name": super_category.super_name,
-                    "slug": super_category.slug,
-                   },
-                    "main": {
-                  
-                        "name": main_category.main_name,
-                        "slug": main_category.slug,
-                    },
-                 },
-         
-            
-
-        if super_category is not None:
-            super_category = SuperCategory.objects.get(id=super_category)
-            return {
-             
-                    "super": {
-            
-                    "name": super_category.super_name,
-                    "slug": super_category.slug
-                }
-               }
-        return None
        
 
 
@@ -126,33 +71,12 @@ class ProductDetailApiview(APIView):
             main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
             data = main_serialzier.data 
             # link = get_link(product.super_category , product.main_category, product.sub_category)
-            if product.sub_category is not None:
-                link = get_link(super_category=product.sub_category.pk, main_category=product.main_category.pk,sub_category= product.sub_category.pk)
-                # data['link'] = link
-                serialzier = ProductSerialzier(product)
-                # serialzier.data'link') = link
-                return JsonResponse(
-                    {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
-                )
-            if product.main_category is not None:
-                sub_category = None
-                link = get_link(super_category=product.super_category.pk, main_category=product.main_category.pk, sub_category=None)
-                # data.get('link') = link
-                serialzier = ProductSerialzier(product)
-                serialzier.data['link'] = link
-                return JsonResponse(
-                    {"data": {"product": serialzier.data , "related_product": data}, "errors":False, "message": ""}, safe=False
-                )
-            if product.super_category is not None:
-                main_category = None
-                sub_category = None
-                link = get_link(super_category=product.super_category.pk, main_category=None, sub_category=None)
-                # data['link'] = link
-                serialzier = ProductSerialzier(product)
-                serialzier.data['link'] = link
-                return JsonResponse(
-                    {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
-                )
+           
+            serialzier = ProductSerialzier(product)
+              
+        return JsonResponse(
+                {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
+            )
 
             
         
