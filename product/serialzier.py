@@ -107,6 +107,7 @@ class ProductSerialzier(serializers.ModelSerializer):
                 "id": super_category.id,
                 "cateogry_name": super_category.super_name,
                 "slug": super_category.slug,
+                "children": {},
             }
 
 
