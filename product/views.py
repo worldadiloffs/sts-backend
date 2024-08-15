@@ -4,6 +4,7 @@ from .models import Product , Image
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
     MainCategortStsSerializer,
+    SubCategoryStsSerialzier,
     SuperCategoryStsSerializer,
 )
 from django.http import JsonResponse
@@ -66,10 +67,6 @@ class ProductDetailApiview(APIView):
         return JsonResponse(
             {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
         )
-
-
-
-
 
 
 def _sub_category_list(main_id):
@@ -188,6 +185,8 @@ class CategoryProductViews(APIView):
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
                 sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
+                filter_category = SubCategory.objects.filter(mainCategory__id=filter_prods.mainCategory.pk)
+                filter_serialzier = SubCategoryStsSerialzier(filter_category, many=True)
                 return JsonResponse(
                     {
                         "data": {
@@ -195,6 +194,7 @@ class CategoryProductViews(APIView):
                             "pagination": pagination,
                             "filter_product": filter_prods.product_filter,
                             "sub_content": sub_data,
+                            "filter_category": filter_serialzier.data,
                         },
                         "errors": False,
                         "message": "",

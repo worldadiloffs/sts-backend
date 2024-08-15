@@ -102,3 +102,33 @@ class PhoneOtp(models.Model):
         return self.phone
 
 
+
+
+
+# class UserAddress(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+#     city = models.CharField(max_length=255, blank=True, null=True)
+#     district = models.CharField(max_length=255, blank=True, null=True)
+#     address = models.CharField(max_length=255, blank=True, null=True)
+#     qavat = models.PositiveIntegerField(blank=True, null=True)
+#     lat = models.FloatField(blank=True, null=True)
+#     lon = models.FloatField(blank=True, null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     is_default = models.BooleanField(default=False)
+#     is_deleted = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
+#     is_verified = models.BooleanField(default=False)
+#     is_private = models.BooleanField(default=False)
+#     def __str__(self):
+#         return self.user.phone + " - " + self.city + " - " + self.district + " - " + self.address
+
+
+
+
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+#     avatar = models.ImageField(upload_to="avatar/", blank=True, null=True)
+#     address = models.CharField(max_length=255, blank=True, null=True)
+   
