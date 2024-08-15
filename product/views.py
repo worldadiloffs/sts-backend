@@ -245,11 +245,12 @@ class CategoryProductViews(APIView):
                 sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 30
                 current = int(next) - 1
+                count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)
                 product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
                     current * limit : next * limit
                 ]
                 prod_serialzier = ProductListMiniSerilizers(product, many=True)
-                count = product.count()
+           
                 pages = int(count / limit) + 1
                 pagination = {
                     "count": count,
