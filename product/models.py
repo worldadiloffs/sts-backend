@@ -104,6 +104,8 @@ class Product(models.Model):
     @property
     def url(self):
         return reverse("products_detail", kwargs={"slug": self.slug})
+    
+    
 
     @property
     def has_banner_ad(self):

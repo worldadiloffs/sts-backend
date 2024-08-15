@@ -130,7 +130,7 @@ class ProductDetailApiview(APIView):
                 link = get_link(super_category=product.sub_category.pk, main_category=product.main_category.pk,sub_category= product.sub_category.pk)
                 # data['link'] = link
                 serialzier = ProductSerialzier(product)
-                serialzier.data.get('link') = link
+                # serialzier.data'link') = link
                 return JsonResponse(
                     {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
                 )
