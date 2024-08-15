@@ -124,7 +124,7 @@ class ProductDetailApiview(APIView):
                 main_category = MainCategory.objects.get(id=product.main_category.pk)
                 super_category = SuperCategory.objects.get(id=product.super_category.pk)
                 sub_category = SubCategory.objects.get(id=product.sub_category.pk)
-                link = get_link(super_category, main_category, sub_category)
+                link = get_link(super_category=super_category, main_category=main_category,sub_category= sub_category)
                 data['link'] = link
                 serialzier = ProductSerialzier(product)
                 return JsonResponse(
