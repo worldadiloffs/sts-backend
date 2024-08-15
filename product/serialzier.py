@@ -37,7 +37,7 @@ def doller_funtion():
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    category = serializers.SerializerMethodField()
+    link = serializers.SerializerMethodField()
     # main_category = serializers.SerializerMethodField()
     # sub_category = serializers.SerializerMethodField()
 
@@ -68,13 +68,13 @@ class ProductSerialzier(serializers.ModelSerializer):
     #             "main":{"id": category.id , "category_name": category.main_name, "slug": category.slug}
     #         }
 
-    def get_category(self, obj):
+    def get_link(self, obj):
         sub_category = obj.sub_category
         super_category = obj.super_category
         main_category = obj.main_category
         if sub_category is not None:
             return  {
-                   "link": {
+                 
                         "super": {
                         "id": super_category.id,
                     "name": super_category.super_name,
@@ -92,11 +92,11 @@ class ProductSerialzier(serializers.ModelSerializer):
                     }
                    },
                    
-                },
+           
             
         if main_category is not None:
             return  {
-                 "link": {
+             
                        "super": {
                         "id": super_category.id,
                     "name": super_category.super_name,
@@ -108,19 +108,19 @@ class ProductSerialzier(serializers.ModelSerializer):
                         "slug": main_category.slug,
                     },
                  },
-                },
+         
             
 
         if super_category is not None:
             return {
-               "link": {
+             
                     "super": {
                     "id": super_category.id,
                     "name": super_category.super_name,
                     "slug": super_category.slug
                 }
                }
-            }
+       
 
 
 class ProductDetailSerialzeir(serializers.ModelSerializer):
