@@ -77,7 +77,7 @@ class ProductSerialzier(serializers.ModelSerializer):
                    "link": {
                         "super": {
                         "id": super_category.id,
-                    "cateogry_name": super_category.super_name,
+                    "name": super_category.super_name,
                     "slug": super_category.slug,
                     },
                     "main": {
@@ -87,7 +87,7 @@ class ProductSerialzier(serializers.ModelSerializer):
                     },
                     "sub": {
                           "id": sub_category.id,
-                            "category_name": sub_category.sub_name,
+                            "name": sub_category.sub_name,
                             "slug": sub_category.slug,
                     }
                    },
@@ -116,7 +116,7 @@ class ProductSerialzier(serializers.ModelSerializer):
                "link": {
                     "super": {
                     "id": super_category.id,
-                    "cateogry_name": super_category.super_name,
+                    "name": super_category.super_name,
                     "slug": super_category.slug
                 }
                }
