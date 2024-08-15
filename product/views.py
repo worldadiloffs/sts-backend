@@ -125,7 +125,8 @@ class SearchProductView(APIView):
 class CartProductApiview(APIView):
     def post(self, request):
         products = request.data.get("products", None)
-        doller = OrderSetting.objects.first().dollar * 1.12
+        doller_obj = OrderSetting.objects.first()
+        doller = doller_obj.doller * 1.12
         data = []
         try:
             if products is not None:
