@@ -212,6 +212,5 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
 
 
 class ParemententCategorySerialzeir(serializers.Serializer):
-    super_id = serializers.IntegerField(required=False)
-    main_id = serializers.IntegerField(required=False)
-    sub_id = serializers.IntegerField(required=False)
+    types = serializers.CharField()
+    slug = serializers.CharField()
