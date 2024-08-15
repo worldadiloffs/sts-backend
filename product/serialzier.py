@@ -37,16 +37,12 @@ def doller_funtion():
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    # link = serializers.DictField(required=False)
-    
-    # main_category = serializers.SerializerMethodField()
-    # sub_category = serializers.SerializerMethodField()
-
     price = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = (  "id",
+        fields = (  
+            "id",
             "product_name",
              "link",
             "main_category",
@@ -65,86 +61,13 @@ class ProductSerialzier(serializers.ModelSerializer):
             "serenaTrue_countFalse",
             "tavar_dagavornaya",
             "counts",
-            "full_description",
-            
-
+            "full_description"
             )
         
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
 
-    # def get_super_category(self, obj):
-    #     category = obj.super_category
-    #     if category is not None:
-    #         return {
-    #             "id": category.id,
-    #             "category_name": category.super_name,
-    #             "slug": category.slug
-    #         }
-
-    # def get_main_category(self, obj):
-    #     category = obj.main_category
-    #     super_category = obj.super_category
-    #     if category is not None:
-    #         return {
-    #             "super":{"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug},
-    #             "main":{"id": category.id , "category_name": category.main_name, "slug": category.slug}
-    #         }
-
-    # def get_link(self, obj):
-    #     sub_category = obj.sub_category
-    #     super_category = obj.super_category
-    #     main_category = obj.main_category
-    #     if sub_category is not None:
-    #         return  {
-                 
-    #                  "super": {
-    #                     "id": super_category.id,
-    #                 "name": super_category.super_name,
-    #                 "slug": super_category.slug,
-    #                 },
-    #                 "main": {
-    #                        "id": main_category.id,
-    #                     "category_name": main_category.main_name,
-    #                     "slug": main_category.slug,
-    #                 },
-    #                 "sub": {
-    #                       "id": sub_category.id,
-    #                         "name": sub_category.sub_name,
-    #                         "slug": sub_category.slug,
-    #                 }
-    #                },
-                   
-           
-            
-    #     if main_category is not None:
-    #         return  {
-             
-    #                    "super": {
-    #                     "id": super_category.id,
-    #                 "name": super_category.super_name,
-    #                 "slug": super_category.slug,
-    #                },
-    #                 "main": {
-    #                     "id": main_category.id,
-    #                     "name": main_category.main_name,
-    #                     "slug": main_category.slug,
-    #                 },
-    #              },
-         
-            
-
-    #     if super_category is not None:
-    #         return {
-             
-    #                 "super": {
-    #                 "id": super_category.id,
-    #                 "name": super_category.super_name,
-    #                 "slug": super_category.slug
-    #             }
-    #            }
-       
 
 
 class ProductDetailSerialzeir(serializers.ModelSerializer):
