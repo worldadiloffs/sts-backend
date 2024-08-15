@@ -104,7 +104,10 @@ class CategoryProductViews(APIView):
         try:
             next = int(request.GET.get("page", 1))
             if types =='super':
-                super_id = SuperCategory.objects.get(slug=slug).pk
+                supers = SuperCategory.objects.get(slug=slug)
+                super_id = supers.pk
+                name = supers.super_name
+                super_slug = supers.slug
                 sub_category: bool = MainCategory.objects.filter(
                     superCategory__id=super_id
                 ).exists()
@@ -130,6 +133,7 @@ class CategoryProductViews(APIView):
                         "data": {
                             "product": product_object,
                             "category": main_serialzier.data,
+                            "link": {"super":{"name":name, "slug": super_slug}}
                         },
                         "errors": False,
                         "message": "",
@@ -137,7 +141,9 @@ class CategoryProductViews(APIView):
                     safe=False,
                 )
             if types =='main':
-                main_id = MainCategory.objects.get(slug=slug).pk
+                main_objs = MainCategory.objects.get(slug=slug)
+                main_id = main_objs.pk
+
                 sub_category: bool = SubCategory.objects.filter(
                     mainCategory__id=main_id
                 ).exists()
@@ -161,6 +167,9 @@ class CategoryProductViews(APIView):
                         "data": {
                             "product": product_object,
                             "category": main_serialzier.data,
+                            "link": {
+                                "super": {"name": main_objs.superCategory.super_name, "slug": main_objs.superCategory.slug},
+                                "main":{ "id": main_objs.pk, "name":main_objs.main_name, "slug": main_objs.slug}}
                         },
                         "errors": False,
                         "message": "",
@@ -178,16 +187,27 @@ class CategoryProductViews(APIView):
                 count = product.count()
                 pages = int(count / limit) + 1
                 pagination = {
+                    "count": count,
                     "pages": pages,
                     "current": current,
                     "next": next,
                     "limit": limit,
-                    "count": count,
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
                 sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
                 filter_category = SubCategory.objects.filter(mainCategory__id=filter_prods.mainCategory.pk)
                 filter_serialzier = SubCategoryMainiProductSerialzier(filter_category, many=True)
+                links = {
+                    "super": {
+                        "name": filter_prods.mainCategory.superCategory.super_name,
+                        "slug": filter_prods.mainCategory.superCategory.slug,
+                    },
+                    "main": {
+                        "name": filter_prods.mainCategory.main_name,
+                        "slug": filter_prods.mainCategory.slug,
+                    },
+                    "sub": {"name": filter_prods.sub_name, "slug": filter_prods.slug},
+                }
                 return JsonResponse(
                     {
                         "data": {
@@ -196,6 +216,7 @@ class CategoryProductViews(APIView):
                             "filter_product": filter_prods.product_filter,
                             "sub_content": sub_data,
                             "filter_category": filter_serialzier.data,
+                            "link": links
                         },
                         "errors": False,
                         "message": "",
