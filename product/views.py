@@ -127,24 +127,26 @@ class CartProductApiview(APIView):
         products = request.data.get("products", None)
         doller = OrderSetting.objects.first().dollar * 1.12
         data = []
-        if products is not None:
-            for product in products:
-                product_obj = Product.objects.get(id=product["id"])
-                obj = {
-                    "checked": True,
-                    "count": product.get('count'),
-                    "counts": product.get('counts'),
-                    "id": product_obj.pk,
-                    "image": product_obj.image and product_obj.image.url or  None,
-                    "price": int(product_obj.price * doller),
-                    "product_name": product_obj.product_name,
-                    "product_video": product_obj.product_video and product_obj.product_video.url or None,
-                    "slug": product_obj.slug,
-                    "tavar_dagavornaya": product_obj.tavar_dagavornaya
-                    }
-                data.append(obj)
-            return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
-                  
+        try:
+            if products is not None:
+                for product in products:
+                    product_obj = Product.objects.get(id=product["id"])
+                    obj = {
+                        "checked": True,
+                        "count": product.get('count'),
+                        "counts": product.get('counts'),
+                        "id": product_obj.pk,
+                        "image": product_obj.image and product_obj.image.url or  None,
+                        "price": int(product_obj.price * doller),
+                        "product_name": product_obj.product_name,
+                        "product_video": product_obj.product_video and product_obj.product_video.url or None,
+                        "slug": product_obj.slug,
+                        "tavar_dagavornaya": product_obj.tavar_dagavornaya
+                        }
+                    data.append(obj)
+                return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
+        except Exception as e:
+            return JsonResponse({"data": None, "errors": True, "message": str(e)}, safe=False)                  
 
 
 
