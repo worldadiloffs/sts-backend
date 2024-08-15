@@ -105,7 +105,15 @@ class SearchProductView(APIView):
         product = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).order_by("id")[
                     current * limit : next * limit
                 ]
-        
+        count = product.count()
+        pages = (count + limit - 1) // limit
+        pagination = {
+                    "count": count,
+                    "pages": pages,
+                    "current": current,
+                    "next": next,
+                    "limit": limit,
+                }
         serializer = ProductListMiniSerilizers(product, many=True)
         return JsonResponse(
             {"data": serializer.data, "errors": False, "message": ""}, safe=False
