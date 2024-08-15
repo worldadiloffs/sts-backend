@@ -63,18 +63,12 @@ class ProductSerialzier(serializers.ModelSerializer):
     #             "super":{"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug},
     #             "main":{"id": category.id , "category_name": category.main_name, "slug": category.slug}
     #         }
+
+    
     def get_category(self, obj):
         sub_category = obj.sub_category
         super_category = obj.super_category
         main_category = obj.main_category 
-        if super_category is not None :
-            return {"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug}
-        if main_category is not None:
-            return {
-              {"id":super_category.id , "name": super_category.super_name, "slug": super_category.slug, 
-               "children": {"id": main_category.id , "name": main_category.main_name, "slug": main_category.slug}},  
-            }
-        
         if sub_category is not None:
             return {
                 {"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug, 
@@ -83,7 +77,17 @@ class ProductSerialzier(serializers.ModelSerializer):
             
                 
             }
+        if main_category is not None:
+            return {
+              {"id":super_category.id , "name": super_category.super_name, "slug": super_category.slug, 
+               "children": {"id": main_category.id , "name": main_category.main_name, "slug": main_category.slug}},  
+            }
 
+        if super_category is not None :
+            return {"id": super_category.id, "cateogry_name": super_category.super_name, "slug": super_category.slug}
+  
+        
+      
         
 class ProductDetailSerialzeir(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
