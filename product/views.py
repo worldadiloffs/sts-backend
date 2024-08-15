@@ -159,7 +159,7 @@ class CategoryProductViews(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
-        parameters=[ParemententCategorySerialzeir],
+        # parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer
         
     )
