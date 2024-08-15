@@ -59,20 +59,20 @@ class ImageProductApiview(APIView):
 
 def get_link(super_category, main_category, sub_category):
         if sub_category is not None:
+            
             return  {
                  
                      "super": {
-                        "id": super_category.id,
+
                     "name": super_category.super_name,
                     "slug": super_category.slug,
                     },
                     "main": {
-                           "id": main_category.id,
                         "category_name": main_category.main_name,
                         "slug": main_category.slug,
                     },
                     "sub": {
-                          "id": sub_category.id,
+                      
                             "name": sub_category.sub_name,
                             "slug": sub_category.slug,
                     }
@@ -84,12 +84,12 @@ def get_link(super_category, main_category, sub_category):
             return  {
              
                        "super": {
-                        "id": super_category.id,
+                   
                     "name": super_category.super_name,
                     "slug": super_category.slug,
                    },
                     "main": {
-                        "id": main_category.id,
+                  
                         "name": main_category.main_name,
                         "slug": main_category.slug,
                     },
@@ -101,7 +101,7 @@ def get_link(super_category, main_category, sub_category):
             return {
              
                     "super": {
-                    "id": super_category.id,
+            
                     "name": super_category.super_name,
                     "slug": super_category.slug
                 }
