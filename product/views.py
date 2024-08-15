@@ -19,6 +19,9 @@ from drf_spectacular.utils import extend_schema
 
 from rest_framework.parsers import MultiPartParser , FormParser
 
+from django.db.models import Q , F , ValueRange
+
+
 
 
 class ProductListMiniView(APIView):
@@ -90,7 +93,24 @@ def _sub_category_list(main_id):
     return data 
 
 
-                
+
+class SearchProductView(APIView):
+    def get(self, request):
+        search = request.GET.get("search", "")
+        if search:
+            pass 
+        next = int(request.GET.get("page", 1))
+        limit = 12
+        current = int(next) - 1
+        product = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).order_by("id")[
+                    current * limit : next * limit
+                ]
+        
+        serializer = ProductListMiniSerilizers(product, many=True)
+        return JsonResponse(
+            {"data": serializer.data, "errors": False, "message": ""}, safe=False
+        )      
+    
 
 class CategoryProductViews(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
