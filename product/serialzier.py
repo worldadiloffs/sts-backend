@@ -32,7 +32,7 @@ class ImagePostSeriazilizer(serializers.ModelSerializer):
 
 def doller_funtion():
     order = OrderSetting.objects.first()
-    return order.doller * order.nds * 1.12
+    return order.doller * 1.12 # 1.12 is for dollar exchange rate
 
 
 class ProductSerialzier(serializers.ModelSerializer):
