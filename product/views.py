@@ -137,10 +137,10 @@ class CartProductApiview(APIView):
                         "count": product.get('count'),
                         "counts": product.get('counts'),
                         "id": product_obj.pk,
-                        "image": product_obj.image and product_obj.image.url or  None,
+                        "image": product_obj.image is not None and product_obj.image.url or  None,
                         "price": int(product_obj.price * doller),
                         "product_name": product_obj.product_name,
-                        "product_video": product_obj.product_video and product_obj.product_video.url or None,
+                        "product_video": product_obj.product_video is not None and product_obj.product_video.url or None,
                         "slug": product_obj.slug,
                         "tavar_dagavornaya": product_obj.tavar_dagavornaya
                         }
