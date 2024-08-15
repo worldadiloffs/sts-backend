@@ -19,8 +19,9 @@ from drf_spectacular.utils import extend_schema
 
 from rest_framework.parsers import MultiPartParser , FormParser
 
-from django.db.models import Q , F , ValueRange
+from django.db.models import Q 
 from settings.models import OrderSetting
+from config.settings import site_name
 
 
 
@@ -137,10 +138,10 @@ class CartProductApiview(APIView):
                         "count": product.get('count'),
                         "counts": product.get('counts'),
                         "id": product_obj.pk,
-                        "image": product_obj.image,
+                        "image": product_obj.image and (site_name + product_obj.image)  or None,
                         "price": int(product_obj.price * doller),
                         "product_name": product_obj.product_name,
-                        "product_video": product_obj.product_video  and product_obj.product_video.url or None,
+                        "product_video": product_obj.product_video  and (site_name + product_obj.product_video.url)  or None,
                         "slug": product_obj.slug,
                         "tavar_dagavornaya": product_obj.tavar_dagavornaya
                         }
