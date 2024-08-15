@@ -74,7 +74,8 @@ class ProductSerialzier(serializers.ModelSerializer):
         main_category = obj.main_category
         if sub_category is not None:
             return  {
-                    "super": {
+                   "link": {
+                        "super": {
                         "id": super_category.id,
                     "cateogry_name": super_category.super_name,
                     "slug": super_category.slug,
@@ -89,12 +90,14 @@ class ProductSerialzier(serializers.ModelSerializer):
                             "category_name": sub_category.sub_name,
                             "slug": sub_category.slug,
                     }
+                   },
                    
                 },
             
         if main_category is not None:
             return  {
-                   "super": {
+                 "link": {
+                       "super": {
                         "id": super_category.id,
                     "name": super_category.super_name,
                     "slug": super_category.slug,
@@ -104,16 +107,19 @@ class ProductSerialzier(serializers.ModelSerializer):
                         "name": main_category.main_name,
                         "slug": main_category.slug,
                     },
+                 },
                 },
             
 
         if super_category is not None:
             return {
-                "super": {
+               "link": {
+                    "super": {
                     "id": super_category.id,
                     "cateogry_name": super_category.super_name,
                     "slug": super_category.slug
                 }
+               }
             }
 
 
