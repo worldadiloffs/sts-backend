@@ -194,6 +194,7 @@ class CategoryProductViews(APIView):
                 return JsonResponse(
                     {
                         "data": {
+                            "name": main.super_name,
                             "product": product_object,
                             "category": main_serialzier.data,
                             "link": {"super":{"name":name, "slug": super_slug}}
@@ -228,6 +229,7 @@ class CategoryProductViews(APIView):
                 return JsonResponse(
                     {
                         "data": {
+                            "name": main_objs.main_name,
                             "product": product_object,
                             "category": main_serialzier.data,
                             "link": {
@@ -274,7 +276,7 @@ class CategoryProductViews(APIView):
                 return JsonResponse(
                     {
                         "data": {
-                            "categor_name": filter_prods.sub_name,
+                            "name": filter_prods.sub_name,
                             "product": prod_serialzier.data,
                             "pagination": pagination,
                             "filter_product": filter_prods.product_filter,
