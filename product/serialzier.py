@@ -47,6 +47,7 @@ class ProductSerialzier(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
+        extra_kwargs = {"link": {"read_only": True}}
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0

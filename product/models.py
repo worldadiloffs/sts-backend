@@ -85,7 +85,48 @@ class Product(models.Model):
     
     status = models.BooleanField(default=False, blank=True)
     
+    
+    def link(self):
+        if self.sub_category is not None:
+             return  {
+                 
+                    "super": {
 
+                    "name": self.super_category.super_name,
+                    "slug": self.super_category.slug,
+                    },
+                    "main": {
+                        "name": self.main_category.main_name,
+                        "slug": self.main_category.slug,
+                    },
+                    "sub": {
+                      
+                            "name": self.sub_category.sub_name,
+                            "slug": self.sub_category.slug,
+                    }
+                   },
+        if self.main_category is not None:
+            return  {
+             
+                       "super": {
+                   
+                    "name": self.super_category.super_name,
+                    "slug": self.super_category.slug,
+                    },
+                    "main": {
+                        "name": self.main_category.main_name,
+                        "slug": self.main_category.slug,
+                    },
+                   },
+        if self.super_category:
+            return  {
+             
+                       "super": {
+                   
+                    "name": self.super_category.super_name,
+                    "slug": self.super_category.slug,
+                    },
+                   },
     
     
     @property
