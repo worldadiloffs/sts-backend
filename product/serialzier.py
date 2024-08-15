@@ -137,7 +137,7 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
         )
 
     def get_price(self, obj):
-        return obj.price and obj.price * doller_funtion() or obj.price
+        return obj.price and int(obj.price * doller_funtion()) or obj.price
 
     def get_super_category(self, obj):
         category = obj.super_category
@@ -191,7 +191,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
         )
 
     def get_price(self, obj):
-        return obj.price and obj.price * doller_funtion() or 0
+        return obj.price and int(obj.price * doller_funtion()) or 0
 
     def get_image(self, obj):
         image = obj.image
