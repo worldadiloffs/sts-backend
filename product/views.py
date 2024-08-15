@@ -116,7 +116,7 @@ class SearchProductView(APIView):
                 }
         serializer = ProductListMiniSerilizers(product, many=True)
         return JsonResponse(
-            {"data": serializer.data, "errors": False, "message": ""}, safe=False
+            {"data": {"product": serializer.data, "pagination": pagination}, "errors": False, "message": ""}, safe=False
         )      
     
 
