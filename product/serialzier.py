@@ -37,7 +37,7 @@ def doller_funtion():
 
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
-    link = serializers.SerializerMethodField()
+    link = serializers.DictField()
     # main_category = serializers.SerializerMethodField()
     # sub_category = serializers.SerializerMethodField()
 
@@ -75,7 +75,7 @@ class ProductSerialzier(serializers.ModelSerializer):
         if sub_category is not None:
             return  {
                  
-                        "super": {
+                     "super": {
                         "id": super_category.id,
                     "name": super_category.super_name,
                     "slug": super_category.slug,
