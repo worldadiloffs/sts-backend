@@ -32,7 +32,7 @@ class ImagePostSeriazilizer(serializers.ModelSerializer):
 
 def doller_funtion():
     order = OrderSetting.objects.first()
-    return order.doller * order.nds / 100
+    return order.doller * order.nds * 1.12
 
 
 class ProductSerialzier(serializers.ModelSerializer):
