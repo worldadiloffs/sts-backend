@@ -4,6 +4,7 @@ from .models import Product , Image
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
     MainCategortStsSerializer,
+    SubCategoryMainiProductSerialzier,
     SubCategoryStsSerialzier,
     SuperCategoryStsSerializer,
 )
@@ -186,7 +187,7 @@ class CategoryProductViews(APIView):
                 filter_prods = SubCategory.objects.get(id=sub_id)
                 sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
                 filter_category = SubCategory.objects.filter(mainCategory__id=filter_prods.mainCategory.pk)
-                filter_serialzier = SubCategoryStsSerialzier(filter_category, many=True)
+                filter_serialzier = SubCategoryMainiProductSerialzier(filter_category, many=True)
                 return JsonResponse(
                     {
                         "data": {

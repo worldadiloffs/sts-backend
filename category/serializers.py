@@ -157,6 +157,10 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
 
 
 
+class SubCategoryMainiProductSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = ("id", 'sub_name', 'slug', 'mainCategory', 'product_content')
 
 
 
