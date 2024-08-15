@@ -48,7 +48,7 @@ class ProductSerialzier(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_price(self, obj):
-        return obj.price and obj.price * doller_funtion() or 0
+        return obj.price and int(obj.price * doller_funtion()) or 0
 
     # def get_super_category(self, obj):
     #     category = obj.super_category
