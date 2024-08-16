@@ -57,6 +57,7 @@ class ProductSerialzier(serializers.ModelSerializer):
             "price",
             "discount_price",
             "short_content",
+            "content",
             "tavar_dagavornaya",
             "counts",
             "articul",

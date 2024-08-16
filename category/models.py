@@ -12,6 +12,7 @@ from django.utils.html import format_html
 
 
 class SuperCategory(models.Model):
+    rating = models.PositiveIntegerField(default=0, blank=True)
     super_name = models.CharField(max_length=200, blank=False, null=False, unique=True)
     category_image = models.ImageField(
         upload_to="categories/super/imgs/",
@@ -77,6 +78,7 @@ class SuperCategory(models.Model):
         super(SuperCategory, self).save(*args, **kwargs)
 
 class MainCategory(models.Model):
+    rating = models.PositiveIntegerField(default=0, blank=True)
     superCategory = models.ForeignKey(
         SuperCategory, on_delete=models.SET_NULL, null=True
     )
@@ -135,6 +137,7 @@ class MainCategory(models.Model):
 
 
 class SubCategory(models.Model):
+    rating = models.PositiveIntegerField(default=0, blank=True)
     mainCategory = models.ForeignKey(
         MainCategory, on_delete=models.CASCADE, blank=True, null=True
     )
