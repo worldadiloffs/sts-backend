@@ -118,6 +118,8 @@ class ProductDetailApiview(APIView):
 
             
         
+
+  
         
 
 def _sub_category_list(main_id):
@@ -179,7 +181,7 @@ class CartProductApiview(APIView):
                 for product in products:
                     product_obj = Product.objects.get(id=product["id"])
                     obj = {
-                        "checked": True,
+                        "checked": product['checked'],
                         "count": product.get('count'),
                         "counts": product.get('counts'),
                         "id": product_obj.pk,

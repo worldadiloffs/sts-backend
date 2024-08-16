@@ -176,7 +176,8 @@ class Product(models.Model):
             slug = slugify(
                 product_name + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
-        return slug
+        return slug 
+    
 
     def save(self, *args, **kwargs):
         if self.main_category is not None:
