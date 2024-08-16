@@ -47,7 +47,7 @@ class ProductSerialzier(serializers.ModelSerializer):
             "id",
             "product_name",
             'category_name',
-             "link",
+            #  "link",
             "main_category",
             "super_category",
             "sub_category",
