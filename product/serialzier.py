@@ -38,6 +38,7 @@ def doller_funtion():
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     price = serializers.SerializerMethodField()
+    category_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -67,6 +68,9 @@ class ProductSerialzier(serializers.ModelSerializer):
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
+    
+    def get_category_name(self, obj):
+        return obj.super_category and obj.super_category_super_name or None
 
 
 
