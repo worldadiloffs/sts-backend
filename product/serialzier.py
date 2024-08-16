@@ -45,6 +45,7 @@ class ProductSerialzier(serializers.ModelSerializer):
         fields = (  
             "id",
             "product_name",
+            'category_name',
              "link",
             "main_category",
             "super_category",
@@ -70,7 +71,8 @@ class ProductSerialzier(serializers.ModelSerializer):
         return obj.price and int(obj.price * doller_funtion()) or 0
     
     def get_category_name(self, obj):
-        return obj.super_category and obj.super_category_super_name or None
+        if obj.super_category is not None:
+            return obj.super_category_super_name 
 
 
 
