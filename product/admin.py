@@ -68,6 +68,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "product_video",
         "full_description", 
         "short_content",
+        "content",
         "xitlar",
         "xitlar_title",
         "news",
