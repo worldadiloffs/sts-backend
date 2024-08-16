@@ -113,7 +113,7 @@ class ProductDetailApiview(APIView):
         
               
         return JsonResponse(
-                {"data": {"product": serialzier.data, "related_product": data , "link": link}, "errors":False, "message": ""}, safe=False
+                {"data": {"link": link, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
             )
 
             
