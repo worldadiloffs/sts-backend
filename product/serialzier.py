@@ -72,7 +72,7 @@ class ProductSerialzier(serializers.ModelSerializer):
     
     def get_category_name(self, obj):
         if obj.super_category is not None:
-            return obj.super_category_super_name 
+            return obj.super_category.super_name 
 
 
 
