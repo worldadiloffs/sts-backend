@@ -71,8 +71,45 @@ class ProductDetailApiview(APIView):
             main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
             data = main_serialzier.data 
             # link = get_link(product.super_category , product.main_category, product.sub_category)
+        
+        link_status = True
+        if product.sub_category is not None:
+            link_status = False
+            link = {
+                "super": {
+                    "name": product.super_category.super_name,
+                    "slug": product.super_category.slug,
+                },
+                "main": {
+                    "name": product.main_category.main_name,
+                    "slug": product.main_category.slug,
+                },
+                "sub": {
+                    "name": product.sub_category.sub_name,
+                    "slug": product.sub_category.slug,
+                },
+            }
+        if product.main_category is not None and link_status:
+            link = {
+                "super": {
+                    "name": product.super_category.super_name,
+                    "slug": product.super_category.slug,
+                },
+                "main": {
+                    "name": product.main_category.main_name,
+                    "slug": product.main_category.slug,
+                },
+            }
+        if product.super_category is not None and link_status:
+            link = {
+                "super": {
+                    "name": product.super_category.super_name,
+                    "slug": product.super_category.slug,
+                },
+            }
            
-            serialzier = ProductSerialzier(product)
+        serialzier = ProductSerialzier(product)
+        serialzier.data["link"] = link
               
         return JsonResponse(
                 {"data": {"product": serialzier.data, "related_product": data}, "errors":False, "message": ""}, safe=False
