@@ -6,6 +6,7 @@ from category.models import SuperCategory , MainCategory , SubCategory
 from settings.models import CountSettings 
 from rest_framework.decorators import api_view
 # from rest_framework.decorators import APIView
+import requests
 
 class ProductPost(APIView):
     def post(self, request):
@@ -111,3 +112,23 @@ class ProductPostApiView(APIView):
         prod.save()
         return JsonResponse({"data": None}, safe=False)
      # you can create more functions like this for different operations on product 
+
+
+
+class ProductCrmPostApiView(APIView):
+    def post(self, request):
+        products = Product.objects.filter(site_sts=True, status=True)
+        product_obj = []
+        for product in products:
+            data = {
+                "shop_id": "e1a146ff-970b-4000-8324-8fe88810c917",
+                "product_name": product.product_name,
+                "serenaTrue_countFalse": product.serenaTrue_countFalse,
+                "price": product.price, 
+                "articul": product.articul,
+                "material_nomer": product.material_nomer,
+                "site_sts": product.site_sts
+            }
+            res = requests.post('https://hikvision-shop.uz/crm/product-data/', json=data)
+
+        return JsonResponse({"data": product_obj}, safe=False)

@@ -1,6 +1,6 @@
 from django.urls import path 
 from .views import ProductListMiniView , CategoryProductViews , ProductDetailApiview , ImageProductApiview, SearchProductView , CartProductApiview
-from .productPost import ProductPost , ProductUpdateAPiview
+from .productPost import ProductCrmPostApiView, ProductPost , ProductUpdateAPiview
 
 app_name = "product"
 
@@ -13,5 +13,6 @@ urlpatterns = [
     path('image-product/', ImageProductApiview.as_view()),
     path('sts/search/', SearchProductView.as_view(), name='search-product'),
     path('sts/cart-product/', CartProductApiview.as_view()),
+    path('crm-product-post-request/', ProductCrmPostApiView.as_view()),
 
 ]

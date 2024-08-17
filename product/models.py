@@ -25,7 +25,7 @@ class Product(models.Model):
     
     slug = models.SlugField(unique=True, null=True, allow_unicode=True, editable=False, blank=True)
     
-    articul = models.PositiveIntegerField(blank=True , null=True)
+    articul = models.PositiveIntegerField(blank=True , null=True, unique=True)
     
     meta_title = models.CharField(max_length=200, blank=True, null=True)
     
