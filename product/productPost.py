@@ -132,3 +132,17 @@ class ProductCrmPostApiView(APIView):
             res = requests.post('https://hikvision-shop.uz/crm/product-data/', json=data)
 
         return JsonResponse({"data": product_obj}, safe=False)
+    
+
+
+class ProductDataUpdateApiView(APIView):
+    def get(self, request):
+        prod = Product.objects.get(id=31)
+        for i in Product.objects.all():
+            i.short_content = prod.short_content
+            i.content = prod.content
+            i.full_description = prod.full_description
+            i.save()
+
+        return Response({"data": "success"}, status=200)
+    

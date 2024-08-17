@@ -7,6 +7,9 @@ from django.db import models
 from datetime import date
 from .manager import CustomUserManager 
 
+import requests 
+
+
 # Create your models here.
 class GouseUser(models.Model):
     token_uuid = models.CharField(max_length=200, blank=True, verbose_name=_("user uuid"))
@@ -105,30 +108,72 @@ class PhoneOtp(models.Model):
 
 
 
-# class UserAddress(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-#     city = models.CharField(max_length=255, blank=True, null=True)
-#     district = models.CharField(max_length=255, blank=True, null=True)
-#     address = models.CharField(max_length=255, blank=True, null=True)
-#     qavat = models.PositiveIntegerField(blank=True, null=True)
-#     lat = models.FloatField(blank=True, null=True)
-#     lon = models.FloatField(blank=True, null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     is_default = models.BooleanField(default=False)
-#     is_deleted = models.BooleanField(default=False)
-#     is_active = models.BooleanField(default=True)
-#     is_verified = models.BooleanField(default=False)
-#     is_private = models.BooleanField(default=False)
-#     def __str__(self):
-#         return self.user.phone + " - " + self.city + " - " + self.district + " - " + self.address
+class UserAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    district = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    qavat = models.PositiveIntegerField(blank=True, null=True)
+    lat = models.FloatField(blank=True, null=True)
+    lon = models.FloatField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.user.phone + " - " + self.city + " - " + self.district + " - " + self.address
 
 
 
 
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
-#     avatar = models.ImageField(upload_to="avatar/", blank=True, null=True)
-#     address = models.CharField(max_length=255, blank=True, null=True)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+    passport_image = models.ImageField(upload_to="password/images/", blank=True, null=True)
+    passportLocation_image = models.ImageField(upload_to="password/images/", blank=True, null=True)
+    location = models.CharField(max_length=300, blank=True, null=True)
+    savdo_sum = models.BigIntegerField(blank=True, default=0)
+    cashback_register = models.BooleanField(default=False, blank=True)
+    foiz = models.PositiveIntegerField(blank=True, null=True)
+
+
+    
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+
+    def __str__(self):
+        return self.user.phone
    
+
+
+    @property
+    def hamyon(self):
+      url = f"https://hikvision-shop.uz/crm/user/hamyon/{self.user.phone}"
+      res = requests.get(url=url)
+      if not(res.json()["errors"]):
+          return res.json()["data"]
+      return None
+
+
+
+    @property 
+    def savdolar(self):
+        url = f"https://hikvision-shop.uz/crm/user/savdolar/{self.user.phone}"
+        res = requests.get(url=url)
+        if not(res.json()["errors"]):
+            return res.json()["data"]
+        return None
+    
+    def get_total_savdo(self):
+        pass 
+
+
+    @property
+    def total_savdo(self):
+        pass 
+
+    def get_foiz(self):
+        pass 
+
+        
