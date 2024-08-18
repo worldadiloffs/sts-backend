@@ -199,7 +199,8 @@ class CartProductApiview(APIView):
 
 
 
-
+def _product_filter(product_list, min_price, max_price, yangi, ommab):
+    pass 
     
 
 class CategoryProductViews(APIView):
@@ -213,6 +214,21 @@ class CategoryProductViews(APIView):
     def get(self,request, types , slug):
         try:
             next = int(request.GET.get("page", 1))
+            min_price = request.GET.get("min_price", None)
+            max_price = request.GET.get("max_price", None)
+            yangi  = request.GET.get("yangi", False)
+            ommabob = request.GET.get("ommabob", False)
+            qimmatroq = request.GET.get("qimmatroq", False)
+            chegirma = request.GET.get("chegirma", False)
+            if yangi:
+                filter_prod = 'news'
+            if ommabob:
+                filter_prod = 'xitlar'
+            if qimmatroq:
+                filter_prod = '-price'
+            if chegirma:
+                filter_prod = 'aksiya'
+            avalable = request.GET.get("avalable", False)
             if types =='super':
                 supers = SuperCategory.objects.get(slug=slug)
                 super_id = supers.pk
@@ -292,6 +308,34 @@ class CategoryProductViews(APIView):
                 sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 12
                 current = int(next) - 1
+                if min_price is not None and max_price is not None:
+                    if avalable:
+                        product = Product.objects.filter(
+                            status=True,
+                            site_sts=True,
+                            sub_category__id=sub_id,
+                            price__range=(min_price, max_price),
+                            available=True,
+                        )[current * limit : next * limit].order_by(f"{filter_prod}")
+                    product = Product.objects.filter(
+                        status=True,
+                        site_sts=True,
+                        sub_category__id=sub_id,
+                        price__range=(min_price, max_price),
+                    )[ current * limit : next * limit].order_by(f"{filter_prod}")
+                else:
+                    if avalable:
+                        product = Product.objects.filter(
+                            status=True,
+                            site_sts=True,
+                            sub_category__id=sub_id,
+                            available=True,
+                        )[current * limit : next * limit]
+                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
+                        current * limit : next * limit
+                    ].order_by("id")
+                
+                
                 count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
                 product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
                     current * limit : next * limit

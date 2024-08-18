@@ -85,6 +85,9 @@ class Product(models.Model):
     
     status = models.BooleanField(default=False, blank=True)
     
+    available = models.BooleanField(default=True, blank=True, editable=False)
+
+    
     
     def link(self):
         if self.sub_category is not None:
