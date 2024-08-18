@@ -62,7 +62,7 @@ class SuperCategory(models.Model):
         return slug
     
     def image_tag(self):
-        if self.category_image is not None:
+        if self.category_image:
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.category_image.url))
         else:
             return None
@@ -120,7 +120,7 @@ class MainCategory(models.Model):
         return slug
     
     def image_tag(self):
-        if self.main_image is not None:
+        if self.main_image:
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.main_image.url))
         else:
             return None
@@ -180,7 +180,7 @@ class SubCategory(models.Model):
     
 
     def image_tag(self):
-        if self.sub_image is not None:
+        if self.sub_image:
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.sub_image.url))
         else:
             return None

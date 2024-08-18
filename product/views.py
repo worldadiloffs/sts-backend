@@ -220,7 +220,7 @@ class CategoryProductViews(APIView):
             ommabob = request.GET.get("ommabob", False)
             qimmatroq = request.GET.get("qimmatroq", False)
             chegirma = request.GET.get("chegirma", False)
-            filter_prod = 'id'
+            filter_prod = "id"
             if yangi:
                 filter_prod = 'news'
             if ommabob:
@@ -310,34 +310,57 @@ class CategoryProductViews(APIView):
                 limit = 12
                 current = int(next) - 1
                 if min_price is not None and max_price is not None:
+                    min_price = int(min_price)/ OrderSetting.objects.first().doller
+                    max_price = int(max_price) / OrderSetting.objects.first().doller
                     if avalable:
+                        count = Product.objects.filter(
+                            status=True,
+                            site_sts=True,
+                            sub_category__id=sub_id,
+                            price__range=(min_price, max_price),
+                            available=True,
+                        ).count()
                         product = Product.objects.filter(
                             status=True,
                             site_sts=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
-                        )[current * limit : next * limit].order_by(f"{filter_prod}")
+                        ).order_by(filter_prod)[current * limit : next * limit]
+                    count = Product.objects.filter(
+                        status=True,
+                        site_sts=True,
+                        sub_category__id=sub_id,
+                        price__range=(min_price, max_price),
+                    ).count()
                     product = Product.objects.filter(
                         status=True,
                         site_sts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
-                    )[ current * limit : next * limit].order_by(f"{filter_prod}")
+                    ).order_by(filter_prod)[ current * limit : next * limit]
                 else:
                     if avalable:
+                        count = Product.objects.filter(
+                            status=True,
+                            site_sts=True,
+                            sub_category__id=sub_id,
+                            available=True,
+                        ).count()
+
                         product = Product.objects.filter(
                             status=True,
                             site_sts=True,
                             sub_category__id=sub_id,
                             available=True,
-                        )[current * limit : next * limit]
-                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
+                        ).order_by(filter_prod)[current * limit : next * limit]
+                    count = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
+                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(filter_prod)[
                         current * limit : next * limit
                     ]
-                # product = product.order_by(filter_prod)
                 
-                count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
+                
+                # count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
                 # product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
                 #     current * limit : next * limit
                 # ]

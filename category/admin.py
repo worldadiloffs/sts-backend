@@ -51,7 +51,7 @@ class MainCategoryAdmin(TranslationAdmin):
 
 @admin.register(SuperCategory)
 class SuperCategoryAdmin(TranslationAdmin):
-    list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag")
+    list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
     list_editable = ("status", "sts_site", "rts_site",)
     search_fields = ("super_name","id", )
     list_filter=('sts_site', 'rts_site', 'status',)
