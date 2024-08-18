@@ -214,7 +214,7 @@ class CategoryProductViews(APIView):
     def get(self,request, types , slug):
         try:
             next = int(request.GET.get("page", 1))
-            min_price = request.GET.get("min_price", None)
+            min_price = request.GET.get("min_price",None)
             max_price = request.GET.get("max_price", None)
             yangi  = request.GET.get("yangi", False)
             ommabob = request.GET.get("ommabob", False)
@@ -309,7 +309,7 @@ class CategoryProductViews(APIView):
                 sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 12
                 current = int(next) - 1
-                if min_price is not None and max_price is not None:
+                if min_price is not None and max_price is not None and min_price and max_price:
                     min_price = int(min_price)/ OrderSetting.objects.first().doller
                     max_price = int(max_price) / OrderSetting.objects.first().doller
                     if avalable:
