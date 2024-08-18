@@ -43,6 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("last name")
     )
+    is_login = models.BooleanField(default=False, blank=True) 
+    login_date = models.DateField(null=True, blank=True)
     author = models.BooleanField(default=False, blank=True, verbose_name=_("author"))
     special_user = models.DateTimeField(
         default=timezone.now, verbose_name=_("Special User")

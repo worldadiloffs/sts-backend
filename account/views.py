@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
+from account.models import User 
 
 from .serializers import (
     UsersListSerializer,
@@ -33,6 +34,8 @@ from .send_otp import send_otp
 
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip
+
+from datetime import date as dt
 
 
 class LogoutView(APIView):
@@ -80,31 +83,25 @@ class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
         return get_object_or_404(get_user_model(), pk=pk)
 
 
-class UserProfile(RetrieveUpdateDestroyAPIView):
-    """
-    get:
-        Returns the profile of user.
-    put:
-        Update the detail of a user instance
-        parameters: exclude[password,]
-    delete:
-        Delete user account.
+class UserProfile(APIView):
+    def get(self, request):
+        user = request.user
+        is_login_date = dt.today()
+        if user.is_authenticated:
+            if is_login_date == user.login_date:
+                serializer = UserProfileSerializer(user)
+                return Response({"data": {"user":serializer.data, "is_login": False}}, status=status.HTTP_200_OK)
+            else:
+                user = User.objects.get(phone=user.phone)
+                user.login_date = is_login_date
+                user.save()
+                serializer = UserProfileSerializer(user)
+                return Response({"data": {"user": serializer.data, "is_login": True}}, status=status.HTTP_200_OK)
+        else:
+            return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_200_OK)
+        
 
-        parameters: [pk]
-    """
-
-    serializer_class = UserProfileSerializer
-    permission_classes = [
-        IsAuthenticated,
-    ]
-
-    # throttle_scope = "authentication"
-    # throttle_classes = [
-    #     ScopedRateThrottle,
-    # ]
-
-    def get_object(self):
-        return self.request.user
+        
 
 
 class Login(APIView):
