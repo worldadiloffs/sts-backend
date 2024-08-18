@@ -220,7 +220,7 @@ class CategoryProductViews(APIView):
             ommabob = request.GET.get("ommabob", False)
             qimmatroq = request.GET.get("qimmatroq", False)
             chegirma = request.GET.get("chegirma", False)
-            filter_prod = ''
+            filter_prod = 'id'
             if yangi:
                 filter_prod = 'news'
             if ommabob:
