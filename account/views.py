@@ -87,24 +87,11 @@ class UserProfile(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         user = request.user
-        is_login_date = dt.today()
         if user.is_authenticated:
-            if is_login_date == user.login_date:
                 serializer = UserProfileSerializer(user)
-                return Response({"data": {"user":serializer.data, "is_login": False}}, status=status.HTTP_200_OK)
-            else:
-                user = User.objects.get(phone=user.phone)
-                user.login_date = is_login_date
-                user.is_login = True
-                user.save()
-                refresh = RefreshToken.for_user(user)
-
-                # This will not work
-
-                serializer = UserProfileSerializer(user)
-                return Response({"data": {"user": serializer.data, "is_login": True}}, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response({"data": {"user": None, "is_login": True}}, status=status.HTTP_200_OK)
+            return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
 
 
