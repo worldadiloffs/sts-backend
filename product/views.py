@@ -333,7 +333,7 @@ class CategoryProductViews(APIView):
                         )[current * limit : next * limit]
                     product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
                         current * limit : next * limit
-                    ].order_by("id")
+                    ]
                 
                 
                 count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
