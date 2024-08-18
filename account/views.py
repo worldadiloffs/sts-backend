@@ -76,7 +76,7 @@ class UsersList(ListAPIView):
 class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
 
     serializer_class = UserDetailUpdateDeleteSerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
 
     def get_object(self):
         pk = self.kwargs.get("pk")
@@ -84,6 +84,7 @@ class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
 
 
 class UserProfile(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         user = request.user
         is_login_date = dt.today()
@@ -94,11 +95,32 @@ class UserProfile(APIView):
             else:
                 user = User.objects.get(phone=user.phone)
                 user.login_date = is_login_date
+                user.is_login = True
                 user.save()
+                refresh = RefreshToken.for_user(user)
+
+                # This will not work
+
                 serializer = UserProfileSerializer(user)
                 return Response({"data": {"user": serializer.data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
-            return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_200_OK)
+            return Response({"data": {"user": None, "is_login": True}}, status=status.HTTP_200_OK)
+        
+
+
+
+
+class UserUPdate(APIView):
+    def put(self, request, pk):
+        try:
+            user = User.objects.get(pk=pk)
+            serializer = UserDetailUpdateDeleteSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
 
         

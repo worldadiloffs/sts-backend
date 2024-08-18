@@ -77,7 +77,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         fields = [
             "id", "phone",
             "first_name", "last_name",
-            "two_step_password", 
+            "two_step_password", "login_date" , "is_login",
         ]
 
 

@@ -1,11 +1,12 @@
 from django.urls import path
 
 from .views import (
-    UsersList, UsersDetailUpdateDelete, UserProfile, 
+    UserUPdate, UsersList, UsersDetailUpdateDelete, UserProfile, 
     Login, Register, VerifyOtp,
     ChangeTwoStepPassword, CreateTwoStepPassword,LogoutView
 )
 
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 app_name = "account"
 
@@ -18,5 +19,6 @@ urlpatterns = [
     path("sts/account/verify/", VerifyOtp.as_view(), name="verify-otp"),
     path("sts/account/change-two-step-password/", ChangeTwoStepPassword.as_view(), name="change-two-step-password"),
     path("sts/account/create-two-step-password/", CreateTwoStepPassword.as_view(), name="create-two-step-password"),
+    path("sts/account/users/<int:pk>/",csrf_exempt(UserUPdate.as_view()), name="users-detail"  ),
     # path("sts/account/users/<int:pk>/", UsersDetailUpdateDelete.as_view(), name="users-detail"),
 ]
