@@ -34,11 +34,5 @@ admin.site.register(GouseUser)
 
 @admin.register(Xodimlar)
 class XodimlarAdmin(admin.ModelAdmin):
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "user":
-            user =request.user
-            kwargs["queryset"] = User.objects.filter(is_superuser=True)
-      
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-    list_display =("user", "name", "created_at", "updated_at")
+    list_display =( "name", )
 
