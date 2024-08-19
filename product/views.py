@@ -221,7 +221,7 @@ class CategoryProductViews(APIView):
             qimmatroq = request.GET.get("qimmatroq", False)
             chegirma = request.GET.get("chegirma", False)
             order_py = request.GET.get("order_py", None)
-            if order_py is not None or '':
+            if order_py is  None or '':
                 order_py = 'id'
             avalable = request.GET.get("avalable", False)
             if types =='super':
