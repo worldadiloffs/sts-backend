@@ -50,7 +50,6 @@ class GalleryInlines(admin.TabularInline):
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin, AdminCreateFormMixin): 
     readonly_fields = ('price',)
-    form = OrderAdminForm
     # add_form = ProductEditForm
 
      
