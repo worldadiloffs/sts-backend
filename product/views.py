@@ -201,6 +201,9 @@ class CartProductApiview(APIView):
 
 def _product_filter(product_list, min_price, max_price, yangi, ommab):
     pass 
+
+
+
     
 
 class CategoryProductViews(APIView):
@@ -216,11 +219,7 @@ class CategoryProductViews(APIView):
             next = int(request.GET.get("page", 1))
             min_price = request.GET.get("min_price",None)
             max_price = request.GET.get("max_price", None)
-            yangi  = request.GET.get("yangi", False)
-            ommabob = request.GET.get("ommabob", False)
-            qimmatroq = request.GET.get("qimmatroq", False)
-            chegirma = request.GET.get("chegirma", False)
-            order_py = request.GET.get("order_py", 'id')
+            order_py = str(request.GET.get("order_py", "-id"))
             avalable = request.GET.get("avalable", False)
             if types =='super':
                 supers = SuperCategory.objects.get(slug=slug)
@@ -347,7 +346,7 @@ class CategoryProductViews(APIView):
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
                     count = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by("-id")[
+                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(order_py)[
                         current * limit : next * limit
                     ]
                 
