@@ -3,9 +3,10 @@ from product.models import Product
 from account.models import User, UserAddress
 from settings.models import Dokon
 from django.contrib.postgres.fields import ArrayField
-from settings.models import PaymentMethod
+from settings.models import PaymentMethod , TolovUsullar
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
+
 
 # Create your models here.
 
@@ -57,6 +58,8 @@ class Order(models.Model):
         ('shipped', "Yetkazildi"),
         ('delivered', "Xaridorga berildi"),
     )
+    yetkazish = models.DateField(blank=True, null=True)
+    tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True)
     punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True)
     zakas_id = models.DecimalField(max_digits=10, decimal_places=2, blank=True, unique=True)
     cashback = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)

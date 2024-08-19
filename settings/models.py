@@ -200,6 +200,16 @@ class PaymentMethod(models.Model):
         return f"{self.name}"
     
 
+class TolovUsullar(models.Model):
+    name = models.CharField(max_length=100, blank=True)
+    icon = models.FileField(upload_to='tolov', blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    status = models.BooleanField(default=False, blank=True)
+    
+    
+
 
 class CountSettings(models.Model):
     mainCategory = models.OneToOneField(MainCategory, on_delete=models.SET_NULL, blank=True, null=True)
