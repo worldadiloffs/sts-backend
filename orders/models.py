@@ -6,10 +6,14 @@ from django.contrib.postgres.fields import ArrayField
 from settings.models import PaymentMethod , TolovUsullar
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
+from django.contrib.auth import get_user_model
+
 
 
 # Create your models here.
-
+def logged_user(request):
+    current_user = request.user
+    return current_user
 
 
 class OrderItem(models.Model):
@@ -23,8 +27,11 @@ class OrderItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_serena(self):
+        return f''' {self.serena} ''' if self.serena else ''
+
     def __str__(self):
-        return f"{self.quantity} x {self.product.price} + {self.product.product_name}"
+        return f'''{self.product.product_name}  : {self.quantity}   : {self.product.price} \n '''
     
     def save(self, *args, **kwargs):
         # if self.serena is not None:
@@ -68,15 +75,19 @@ class Order(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True)
     addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
-    order_items = models.ManyToManyField(OrderItem,  blank=True)
+    order_items = models.ManyToManyField(OrderItem,  blank=True,)
     total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True)
-    comment = models.TextField(blank=True, null=True)
-    vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True)
+    comment = models.CharField(blank=True, null=True)
+    vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, )
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     is_finished = models.BooleanField(default=False, blank=True)
+    bekor_qilish = models.BooleanField(default=False, blank=True)
+
+
+    
 
     class Meta:
         verbose_name_plural = "Orders"
@@ -101,7 +112,7 @@ class Order(models.Model):
     
     def get_product_names(self):
         data = [item.get_product_name() for item in self.order_items.all()]
-        return ' ,  '.join(data) if data else None
+        return ''',  '''.join(data) if data else None
 
     
     
@@ -129,3 +140,14 @@ class Order(models.Model):
 
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
+
+class TestModelUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,  related_name="test_user", blank=True, default=get_user_model())
+    name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.name
+    
+    def get_full_name(self):
+        return f"{self.name} {self.age}"

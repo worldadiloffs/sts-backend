@@ -7,6 +7,9 @@ from django.db import models
 from datetime import date
 from .manager import CustomUserManager 
 
+from django.contrib.auth.models import Group
+
+
 import requests 
 
 
@@ -178,4 +181,37 @@ class Profile(models.Model):
     def get_foiz(self):
         pass 
 
-        
+
+
+
+class Xodimlar(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    marketing = models.BooleanField(default=False, blank=True)
+    sotuvchi = models.BooleanField(default=False, blank=True)
+    content_manager = models.BooleanField(default=False, blank=True)
+    coll_center = models.BooleanField(default=False, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    admin = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    permision = models.ManyToManyField(Group, blank=True)
+    ishni_boshlash_vaqti = models.TimeField(blank=True, null=True)
+    ishni_bitirish_vaqti = models.TimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.phone + " - " + self.name
+    
+
+
+    def save(self, *args, **kwargs):
+        if self.created_at is not None:
+            user = User.objects.get(phone=self.user.phone)
+            per = self.permision.all()
+            for i in per:
+                data = Group.objects.get(id=i.id)
+                user.groups.add(data)
+                user.save()
+        super().save(*args, **kwargs)

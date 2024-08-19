@@ -9,6 +9,11 @@ from product.models import Product
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(sts_site=True)
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
@@ -29,6 +34,11 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(sts_site=True)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
     list_editable = ("status", "header_add", "ommabob","sts_site", "rts_site",)
     search_fields = ("main_name","id",)
@@ -51,6 +61,14 @@ class MainCategoryAdmin(TranslationAdmin):
 
 @admin.register(SuperCategory)
 class SuperCategoryAdmin(TranslationAdmin):
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(sts_site=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs.filter(site_rts=True)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
     list_editable = ("status", "sts_site", "rts_site",)
     search_fields = ("super_name","id", )

@@ -126,3 +126,8 @@ wcwidth==0.2.13
 webencodings==0.5.1
 Werkzeug==3.0.1
 whitenoise==6.5.0
+# news
+diff-match-patch==20230430
+django-import-export==4.1.1
+et-xmlfile==1.1.0
+openpyxl==3.1.5

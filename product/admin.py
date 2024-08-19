@@ -5,7 +5,7 @@ from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
-from category.models import MainCategory 
+from category.models import MainCategory , SuperCategory , SubCategory
 
 admin.site.register(Image)
 
@@ -60,19 +60,23 @@ class ProductsModelAdmin(TranslationAdmin, AdminCreateFormMixin):
     #     fields = ["product_name", "articul", "price",]
     #     return fields
     
-    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #     if db_field.name == "main_category":
-    #         kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
-    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "main_category":
+            kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+        if db_field.name == "super_category":
+            kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
+        if db_field.name == "sub_category":
+            kwargs["queryset"] = SubCategory.objects.filter(sts_site=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
-    # def get_queryset(self, request):
-    #     user = request.user
-    #     if user.site_sts:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(site_sts=True)
-    #     else:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(site_rts=True)
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(site_sts=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs.filter(site_rts=True)
     
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},

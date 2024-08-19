@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'jazzmin',
     'jsoneditor',
     'django.contrib.admin',
+    'import_export',
 
 
     #local
@@ -74,8 +75,13 @@ INSTALLED_APPS = [
     'payments',
     'clickApp',
     'orders',
+    'importdata',
+
 ]
 
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True  # Wrap import/export in a transaction for atomic operations
+IMPORT_EXPORT_SKIP_ADMIN_LOG = True 
 
 JSON_EDITOR_JS = "https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/8.6.4/jsoneditor.js"
 JSON_EDITOR_CSS = (
