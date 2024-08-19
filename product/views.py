@@ -220,9 +220,7 @@ class CategoryProductViews(APIView):
             ommabob = request.GET.get("ommabob", False)
             qimmatroq = request.GET.get("qimmatroq", False)
             chegirma = request.GET.get("chegirma", False)
-            order_py = request.GET.get("order_py", None)
-            if order_py is  None or '':
-                order_py = 'id'
+            order_py = request.GET.get("order_py", 'id')
             avalable = request.GET.get("avalable", False)
             if types =='super':
                 supers = SuperCategory.objects.get(slug=slug)
