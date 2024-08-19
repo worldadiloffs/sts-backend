@@ -30,7 +30,7 @@ class CategoryListJsonViews(APIView):
     )
     def get(self, request):
         category = SuperCategory.objects.filter(status=True, sts_site=True).order_by(
-            "?"
+            "id"
         )
         serilalizer = SuperCategoryStsMiniSerializer(category, many=True)
         return JsonResponse(
