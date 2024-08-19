@@ -49,7 +49,7 @@ class GalleryInlines(admin.TabularInline):
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin, AdminCreateFormMixin): 
-    readonly_fields = ('price',)
+    readonly_fields = ('full_description',)
     # add_form = ProductEditForm
 
      

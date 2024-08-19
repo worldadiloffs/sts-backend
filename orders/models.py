@@ -4,7 +4,8 @@ from account.models import User, UserAddress
 from settings.models import Dokon
 from django.contrib.postgres.fields import ArrayField
 from settings.models import PaymentMethod
-
+from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html
 
 # Create your models here.
 
@@ -16,6 +17,8 @@ class OrderItem(models.Model):
     serena = ArrayField(models.CharField(max_length=20, blank=True), blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_items', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    site_sts = models.BooleanField(default=True, blank=True)
+    site_rts = models.BooleanField(default=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -23,9 +26,9 @@ class OrderItem(models.Model):
         return f"{self.quantity} x {self.product.price} + {self.product.product_name}"
     
     def save(self, *args, **kwargs):
-        if self.serena is not None:
-            self.quantity = len(self.serena)
-        self.price = self.quantity * self.product.price
+        # if self.serena is not None:
+        #     self.quantity = len(self.serena)
+        # self.price = self.quantity * self.product.price
         super().save(*args, **kwargs)
 
     def get_total_price(self):
@@ -37,6 +40,14 @@ class OrderItem(models.Model):
     def get_quantity(self):
         return self.quantity
     
+class VazvratProdcut(models.Model):
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE,blank=True, null=True)
+    serena = ArrayField(models.CharField(max_length=20, blank=True),blank=True, null=True)
+    counts= models.PositiveIntegerField(default=1, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
 
 
 class Order(models.Model):
@@ -49,23 +60,27 @@ class Order(models.Model):
     punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True)
     zakas_id = models.DecimalField(max_digits=10, decimal_places=2, blank=True, unique=True)
     cashback = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    depozit = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    depozit = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='User', blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True)
     addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
-    order_items = models.ManyToManyField(OrderItem, related_name='Tavarlar', blank=True)
+    order_items = models.ManyToManyField(OrderItem,  blank=True)
     total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True)
     comment = models.TextField(blank=True, null=True)
-    vazvrat_product = models.ManyToManyField(Product, related_name='Vazvrat_product', blank=True)
+    vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     is_finished = models.BooleanField(default=False, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Orders"
+        ordering = ["-created_at"]
+
     def __str__(self):
-        return f"Order #{self.id} - {self.user.phone}"
+        return f"Order {self.zakas_id} +  {self.user.phone}"
     
 
     def get_addres_address(self):
@@ -74,11 +89,18 @@ class Order(models.Model):
 
     
     def save(self, *args, **kwargs):
-        self.total_price = sum(item.price for item in self.order_items.all())
+        # self.total_price = sum(item.price for item in self.order_items.all())
+
         super().save(*args, **kwargs)
 
     def get_total_price(self):
         return self.total_price
+    
+    def get_product_names(self):
+        data = [item.get_product_name() for item in self.order_items.all()]
+        return ' ,  '.join(data) if data else None
+
+    
     
     def get_order_items(self):
         return self.order_items.all()
@@ -104,4 +126,3 @@ class Order(models.Model):
 
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
-
