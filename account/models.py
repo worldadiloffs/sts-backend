@@ -191,7 +191,7 @@ class Xodimlar(models.Model):
     sotuvchi = models.BooleanField(default=False, blank=True)
     content_manager = models.BooleanField(default=False, blank=True)
     coll_center = models.BooleanField(default=False, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     admin = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
@@ -199,7 +199,7 @@ class Xodimlar(models.Model):
     permision = models.ManyToManyField(Group, blank=True)
     ishni_boshlash_vaqti = models.TimeField(blank=True, null=True)
     ishni_bitirish_vaqti = models.TimeField(blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    # created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return self.user.phone + " - " + self.name
