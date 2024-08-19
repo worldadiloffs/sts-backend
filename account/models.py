@@ -184,7 +184,7 @@ class Profile(models.Model):
 
 
 
-class Xodimlar(models.Model):
+class Xodim(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     marketing = models.BooleanField(default=False, blank=True)

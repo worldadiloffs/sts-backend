@@ -3,7 +3,7 @@ from django.contrib import admin
 
 
 
-from .models import User, PhoneOtp , GouseUser , Xodimlar, UserAddress
+from .models import User, PhoneOtp , GouseUser , Xodim, UserAddress
 
 # Register your models here.
 
@@ -32,7 +32,7 @@ admin.site.register(GouseUser)
 
 
 
-@admin.register(Xodimlar)
+@admin.register(Xodim)
 class XodimlarAdmin(admin.ModelAdmin):
     list_display =( "name", )
 
