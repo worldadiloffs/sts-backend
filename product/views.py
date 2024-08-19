@@ -298,7 +298,7 @@ class CategoryProductViews(APIView):
                 )
             if  types =='sub':
                 sub_id = SubCategory.objects.get(slug=slug).pk
-                limit = 12
+                limit = 2
                 current = int(next) - 1
                 if min_price is not None and max_price is not None and min_price and max_price:
                     min_price = int(min_price)/ OrderSetting.objects.first().doller
