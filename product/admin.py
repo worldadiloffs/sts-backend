@@ -6,18 +6,25 @@ from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
 from category.models import MainCategory 
+
 admin.site.register(Image)
 
 class ProductEditForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ()
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print("hello words", self.instance.price)
+        if  self.fields['main_category'].queryset is not None:
+            self.fields['main_category'].queryset = MainCategory.objects.filter(superCategory=self.instance.super_category).order_by('id')
 
-        self.fields['main_category'].queryset = MainCategory.objects.filter(superCategory=self.instance.super_category)
+
+
+
+
+
 
 class AdminCreateFormMixin:
     """
@@ -38,11 +45,40 @@ class GalleryInlines(admin.TabularInline):
     model = Image
     max_num = 6
 
+
+
 @admin.register(Product)
-class ProductsModelAdmin(TranslationAdmin): 
+class ProductsModelAdmin(TranslationAdmin, AdminCreateFormMixin): 
+    readonly_fields = ('price',)
+    form = OrderAdminForm
+    # add_form = ProductEditForm
+
+     
+    # def get_fields(self, request, obj=None):
+    #     user = request.user
+    #     # if user.is_authenticated:
+    #     #     return super().get_fields(request, obj)
+    #     fields = ["product_name", "articul", "price",]
+    #     return fields
+    
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == "main_category":
+    #         kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    # def get_queryset(self, request):
+    #     user = request.user
+    #     if user.site_sts:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_sts=True)
+    #     else:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_rts=True)
+    
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
+    
     list_max_show_all = 10
     list_per_page = 10
 
@@ -77,6 +113,8 @@ class ProductsModelAdmin(TranslationAdmin):
         "aksiya",
         "aksiya_title",
         "price",
+        "site_sts",
+        "site_rts"
     ]
 
     inlines = [GalleryInlines]

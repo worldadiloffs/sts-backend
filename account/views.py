@@ -89,7 +89,7 @@ class UserProfile(APIView):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response({"data": {"user": serializer.data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         

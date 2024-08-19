@@ -220,15 +220,9 @@ class CategoryProductViews(APIView):
             ommabob = request.GET.get("ommabob", False)
             qimmatroq = request.GET.get("qimmatroq", False)
             chegirma = request.GET.get("chegirma", False)
-            filter_prod = "id"
-            if yangi:
-                filter_prod = 'news'
-            if ommabob:
-                filter_prod = 'xitlar'
-            if qimmatroq:
-                filter_prod = '-price'
-            if chegirma:
-                filter_prod = 'aksiya'
+            order_py = request.GET.get("order_py", None)
+            if order_py is not None or '':
+                order_py = 'id'
             avalable = request.GET.get("avalable", False)
             if types =='super':
                 supers = SuperCategory.objects.get(slug=slug)
@@ -326,7 +320,7 @@ class CategoryProductViews(APIView):
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
-                        ).order_by(filter_prod)[current * limit : next * limit]
+                        ).order_by(order_py)[current * limit : next * limit]
                     count = Product.objects.filter(
                         status=True,
                         site_sts=True,
@@ -338,7 +332,7 @@ class CategoryProductViews(APIView):
                         site_sts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
-                    ).order_by(filter_prod)[ current * limit : next * limit]
+                    ).order_by(order_py)[ current * limit : next * limit]
                 else:
                     if avalable:
                         count = Product.objects.filter(
@@ -353,9 +347,9 @@ class CategoryProductViews(APIView):
                             site_sts=True,
                             sub_category__id=sub_id,
                             available=True,
-                        ).order_by(filter_prod)[current * limit : next * limit]
+                        ).order_by(order_py)[current * limit : next * limit]
                     count = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(filter_prod)[
+                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(order_py)[
                         current * limit : next * limit
                     ]
                 

@@ -87,6 +87,10 @@ class Product(models.Model):
     
     available = models.BooleanField(default=True, blank=True, editable=False)
 
+
+    def get_available(self):
+        return f"{self.available}"
+
     
     
     def link(self):

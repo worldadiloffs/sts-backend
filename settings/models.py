@@ -12,6 +12,51 @@ from django.urls import reverse
 
 from category.models import MainCategory
 
+
+
+class Dokon(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
+    open_time = models.TimeField(blank=True, null=True)
+    close_time = models.TimeField(blank=True, null=True)
+    address = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=15, blank=True)
+    image = models.ImageField(upload_to='dokonlar', blank=True, null=True)
+
+
+    def __str__(self):
+        return self.name 
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+        if self.image:
+            img = image.open(self.image)
+            img = img.resize((300, 300), image.ANTIALIAS)
+            img.save(self.image.path)
+    
+    def get_absolute_url(self):
+        return reverse('dokon:detail', kwargs={'slug': self.slug})
+    
+    def get_random_string(length=10):
+        letters = string.ascii_letters
+        return ''.join(random.choice(letters) for i in range(length))
+    
+    def get_random_image(self):
+        if self.image:
+            return format_html('<img src="{}" alt="{}" style="width: 100px; height: 100px;">'.format(self.image.url, self.name))
+        else:
+            return format_html('<img src="{}" alt="{}" style="width: 100px; height: 100px;">'.format('https://via.placeholder.com/100', self.name))
+    
+    def get_random_color():
+        return '#{:06x}'.format(random.randint(0, 0xFFFFFF))
+    
+    def get_random_background_color():
+        return '#{:06x}'.format(random.randint(0, 0xFFFFFF))
+    
+
+
+
 # Biz haqimizda , kafolat , aksiya Bizning dokonlarimiz
 class CardGril(models.Model):
     title = models.CharField(max_length=200, blank=True)
