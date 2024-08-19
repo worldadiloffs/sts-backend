@@ -151,7 +151,7 @@ class SearchProductView(APIView):
         next = int(request.GET.get("page", 1))
         limit = 12
         current = int(next) - 1
-        count = Product.objects.filter(status=True, site_sts=True).count()
+        count = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).count()
         product = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).order_by("id")[
                     current * limit : next * limit
                 ]
