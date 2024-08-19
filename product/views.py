@@ -219,7 +219,7 @@ class CategoryProductViews(APIView):
             next = int(request.GET.get("page", 1))
             min_price = request.GET.get("min_price",None)
             max_price = request.GET.get("max_price", None)
-            order_py = str(request.GET.get("order_py", "-id"))
+            order_py = str(request.GET.get("order_by", "-id"))
             avalable = request.GET.get("avalable", False)
             if types =='super':
                 supers = SuperCategory.objects.get(slug=slug)
