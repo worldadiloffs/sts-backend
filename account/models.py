@@ -207,11 +207,11 @@ class Xodimlar(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if self.created_at is not None:
-            user = User.objects.get(phone=self.user.phone)
-            per = self.permision.all()
-            for i in per:
-                data = Group.objects.get(id=i.id)
-                user.groups.add(data)
-                user.save()
+        # if self.created_at is not None:
+        #     user = User.objects.get(phone=self.user.phone)
+        #     per = self.permision.all()
+        #     for i in per:
+        #         data = Group.objects.get(id=i.id)
+        #         user.groups.add(data)
+        #         user.save()
         super().save(*args, **kwargs)
