@@ -26,7 +26,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     change_list_template = 'admin/orders/order/change_list.html'
-    readonly_fields = ( "modified_by","total_price",'is_finished', 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
+    readonly_fields = ( "total_price",'is_finished', 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
     list_editable = ('comment',  'status',)
     list_display = ( 'get_status',
         'id', 'user', 'status', 'created_at', 'updated_at', 'total_price', 'comment', 'is_finished', 'get_product_names',
@@ -45,7 +45,7 @@ class OrderAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         # if not obj.pk:  # If the object is being created (not updated)
         #     obj.created_by = request.user
-        obj.modified_by =f"{request.user.phone}"  # Track who last modified it
+        # obj.modified_by =f"{request.user.phone}"  # Track who last modified it
         super().save_model(request, obj, form, change)
 
 
