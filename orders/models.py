@@ -85,6 +85,7 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True)
     is_finished = models.BooleanField(default=False, blank=True)
     bekor_qilish = models.BooleanField(default=False, blank=True)
+    modified_by = models.CharField(max_length=200, blank=True, null=True)
 
 
     

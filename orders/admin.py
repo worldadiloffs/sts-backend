@@ -6,19 +6,11 @@ from django.utils.safestring import SafeText
 from .models import Order, OrderItem , TestModelUser
 # Register your models here.
 from account.models import User
+from django.utils.html import format_html
 
-
-@admin.register(TestModelUser)
-class TestModelUserAdmin(admin.ModelAdmin):
-    def get_actions(self, request: HttpRequest, obj) -> OrderedDict[Any, Any]:
-        user  = request.user
-        print( "hello " ,obj)
-        self.get_changelist_form(request)
-        return super().get_actions(request)
-    
-    def get_empty_value_display(self) -> SafeText:
-        print(self.get_action_choices())
-        return super().get_empty_value_display()
+from django.urls import path
+from django.http import HttpResponse
+from django.template.response import TemplateResponse
 
 
 @admin.register(OrderItem)
@@ -31,10 +23,30 @@ class OrderItemAdmin(admin.ModelAdmin):
         'id', 'product', 'quantity', 'price', 'created_at', 'updated_at', 'user',
     )
 
-@admin.register(Order)
+
 class OrderAdmin(admin.ModelAdmin):
-    readonly_fields = ( "total_price",'is_finished', 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
+    change_list_template = 'admin/orders/order/change_list.html'
+    readonly_fields = ( "modified_by","total_price",'is_finished', 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
     list_editable = ('comment',  'status',)
-    list_display = (
+    list_display = ( 'get_status',
         'id', 'user', 'status', 'created_at', 'updated_at', 'total_price', 'comment', 'is_finished', 'get_product_names',
     )
+    def get_status(self, obj):
+        if obj.status == 'pending':
+            print(obj.status)
+            color = 'red'
+        else:
+            color = 'green'
+        
+        # return f'<span style="color: {color};">{obj.get_status_display()}</span>'
+        return format_html('<span style="color: {};">{}</span>', color, obj.status)
+    get_status.short_description = 'Status'
+
+    def save_model(self, request, obj, form, change):
+        # if not obj.pk:  # If the object is being created (not updated)
+        #     obj.created_by = request.user
+        obj.modified_by =f"{request.user.phone}"  # Track who last modified it
+        super().save_model(request, obj, form, change)
+
+
+admin.site.register(Order, OrderAdmin)
