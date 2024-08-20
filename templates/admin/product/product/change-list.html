@@ -28,7 +28,7 @@
         <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
         <li class="breadcrumb-item"><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
         <li class="breadcrumb-item active">{{ cl.opts.verbose_name_plural|capfirst }}</li>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        {% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {% endcomment %}
     </ol>
 {% endblock %}
 
@@ -49,13 +49,18 @@
     {% endblock %}
 
 
+
+
+
 {% block content %}
+<h2 style="color:blue; margin:10px"> Barcha Tavarlar va statistika </h2>
 
     {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
 
     {% block search %}
         {% search_form cl %}
     {% endblock %}
+
    
     <div class="col-12">
         <div>
@@ -104,6 +109,15 @@
                 </div>
             </form>
         </div>
+
+        <div class="container bg-light p-4 rounded">
+            <div class="row">
+              <div class="col">
+                <h3 class="text-center">Monthly Sales Data</h3>
+                <canvas id="myChart" style="max-height: 400px;"></canvas>
+              </div>
+            </div>
+          </div>
 
 
         <br class="clear"/>
@@ -176,6 +190,61 @@
 {% block extrajs %}
     {{  block.super }}
     <script type="text/javascript" src="{% static 'vendor/select2/js/select2.min.js' %}"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [
+              {
+                label: '2023 Sales',
+                data: [65, 59, 80, 81, 56, 55],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              },
+              {
+                label: '2024 Sales',
+                data: [28, 48, 40, 19, 86, 27],
+                fill: false,
+                borderColor: 'rgb(255, 99, 132)',
+                tension: 0.1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              tooltip: {
+                mode: 'index',
+                intersect: false
+              }
+            },
+            hover: {
+              mode: 'nearest',
+              intersect: true
+            },
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Month'
+                }
+              },
+              y: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Value'
+                }
+              }
+            }
+          }
+        });
+      </script>
+      
     <script>
         {% comment %} set filterInputLength default and custom values {% endcomment %}
         window.filterInputLengthDefault = 0;
@@ -304,8 +373,8 @@
     </script>
 
 
-    <script type="text/javascript" src="{% static 'jazzmin/js/change_list.js' %}"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'jazzmin/js/change_list.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> {% endcomment %}
 {% endblock %}

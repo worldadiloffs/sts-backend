@@ -48,9 +48,10 @@ class GalleryInlines(admin.TabularInline):
 
 
 @admin.register(Product)
-class ProductsModelAdmin(TranslationAdmin, AdminCreateFormMixin): 
+class ProductsModelAdmin(TranslationAdmin): 
     readonly_fields = ('full_description',)
     # add_form = ProductEditForm
+    change_list_template = "admin/product/product/change-list.html"
 
      
     # def get_fields(self, request, obj=None):
