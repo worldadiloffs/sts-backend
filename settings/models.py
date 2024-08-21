@@ -8,10 +8,55 @@ from PIL import Image as image
 from django.utils.html import format_html
 from datetime import date 
 from django.urls import reverse
+from django.utils import timezone
 # Create your models here.
 
 from category.models import MainCategory
 
+
+class Shaharlar(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    dastafka =models.BooleanField(default=True, blank=True)
+    summa = models.PositiveIntegerField(blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+
+    def __str__(self):
+        return self.name
+
+
+    def savd(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Shahar'
+        verbose_name_plural = 'Shaharlar'
+        ordering = ['name']
+    
+
+class Tumanlar(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    viloyat = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True)
+
+
+
+    def __str__(self):
+        return self.name
+
+
+    def savd(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+
+
+
+    class Meta:
+        verbose_name = 'Tuman'
+        verbose_name_plural = 'Tumanlar'
+        ordering = ['name']
 
 
 class Dokon(models.Model):
@@ -22,6 +67,16 @@ class Dokon(models.Model):
     address = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=15, blank=True)
     image = models.ImageField(upload_to='dokonlar', blank=True, null=True)
+
+
+    class Meta:
+        verbose_name = 'Dokon'
+        verbose_name_plural = 'Dokonlar'
+        ordering = ['name','phone']
+
+
+
+
 
 
     def __str__(self):
@@ -68,6 +123,11 @@ class CardGril(models.Model):
     def __str__(self):
         return self.title
     
+    class Meta:
+        verbose_name = "page card"
+        verbose_name_plural = "page cards"
+        ordering = ["pk", "title"]
+    
 
 class SitePage(models.Model):
     page_name = models.CharField(max_length=100, blank=True)
@@ -76,9 +136,17 @@ class SitePage(models.Model):
     site_rts = models.BooleanField(default=False, blank=True)
 
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return self.page_name
+    
+    class Meta:
+        verbose_name_plural = "content page"
+        ordering = ["pk", "page_name"]
 
 
     
@@ -120,11 +188,6 @@ class PageContent(models.Model):
 
         super().save(*args, **kwargs)
 
-     
-# Xizmatlar tolov usullari Ommaviy tolovlar Hamkorlik , ustanofka xizmat , Hamkorlik , qaytarish siyosati
-
-#yetkazib berish . biz bilan bog'lanish , servis center , vakansiya
-
 
 class DeliveryService(models.Model):
     comment = models.CharField(max_length=100, blank=True) 
@@ -135,6 +198,11 @@ class DeliveryService(models.Model):
 
     def __str__(self):
         return f"{self.zakas_summa} {self.dastafka_summa}"
+    
+    class Meta:
+        verbose_name = "Yetkazib berish"
+        verbose_name_plural = "Yetkazib berish Sozlamalar"
+
 
 
 class SocialNetwork(models.Model):
@@ -145,6 +213,12 @@ class SocialNetwork(models.Model):
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     site_data = models.CharField(max_length=5, blank=True, null=True, editable=False)
+
+
+    class Meta:
+        verbose_name = "Ijtimoiy Tarmoq"
+        verbose_name_plural = "Ijtimoiy Tarmoqlar"
+        ordering = ["pk", "name"]
 
 
     def save(self, *args, **kwargs):
@@ -178,6 +252,16 @@ class SiteSettings(models.Model):
     footer_logo = models.ImageField(upload_to='logo/image', blank=True, null=True)
 
 
+
+    class Meta:
+        verbose_name = "Site Sozlama"
+        verbose_name_plural = "Site Sozlamalar"
+        ordering = ["pk", "site_name"]
+
+    def __str__(self):
+        return self.site_name
+
+
     def image_tag(self):
         if self.logo is not None:
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.logo.url))
@@ -199,6 +283,22 @@ class PaymentMethod(models.Model):
     def __str__(self):
         return f"{self.name}"
     
+    def image_tag(self):
+        if self.logo:
+            return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.logo.url))
+        else:
+            return None
+        
+
+    class Meta:
+        verbose_name = "Tolov"
+        verbose_name_plural = "Tolovlar"
+        ordering = ["pk", "name"]
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+    
 
 class TolovUsullar(models.Model):
     name = models.CharField(max_length=100, blank=True)
@@ -207,6 +307,16 @@ class TolovUsullar(models.Model):
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=False, blank=True)
+    payment_methods = models.ManyToManyField(PaymentMethod, blank=True)
+
+
+    class Meta:
+        verbose_name = "Tolov usul"
+        verbose_name_plural = "Tolov Usullar"
+        ordering = ["pk", "name"]
+
+
+
     
     
 
@@ -218,6 +328,21 @@ class CountSettings(models.Model):
     def main_obj(self):
         if self.mainCategory is not None:
             return f"{MainCategory.objects.get(id=self.mainCategory.pk).main_name}"
+        
+    
+    class Meta:
+        verbose_name = "Tavar Soni"
+        verbose_name_plural = "Tavarlar Soni"
+        ordering = ["pk", "mainCategory"]
+
+    def __str__(self):
+        return f"{self.main_obj()} {self.count}"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
+    
 
 
 
@@ -226,13 +351,24 @@ class OrderSetting(models.Model):
     cashback_tolov = models.BooleanField(default=False, blank=True)
     tolov_online = models.BooleanField(default=True, blank=True)
     nds = models.PositiveIntegerField(blank=True, null=True)
-    date_update =  models.DateField(blank=True, null=True)
-    cource_valyuta = models.PositiveIntegerField(blank=True, null=True)
-    tolov_usullar = models.ManyToManyField(PaymentMethod, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     doller = models.IntegerField(blank=True, null=True) 
+    update_at = models.DateTimeField(blank=True, null=True)
 
+
+    class Meta:
+        verbose_name = "Buyurtma Sozlama"
+        verbose_name_plural = "Buyurtma Sozlamalar"
+        ordering = ["pk"]
 
     def __str__(self):
         return f"Depozit tolov: {self.depozit_tolov}, Cashback tolov: {self.cashback_tolov}, NDS: {self.nds}, Cource Valyuta: {self.cource_valyuta}, Tolov Online: {self.tolov_online}"
+    
+
+    def save(self, *args, **kwargs):
+        if self.update_at is None:
+            self.update_at = timezone.now()
+        super().save(*args, **kwargs)
+
+

@@ -1,19 +1,13 @@
 from django.db import models
 from product.models import Product
 from account.models import User, UserAddress
-from settings.models import Dokon
+from settings.models import Dokon, Shaharlar , Tumanlar
 from django.contrib.postgres.fields import ArrayField
 from settings.models import PaymentMethod , TolovUsullar
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
 from django.contrib.auth import get_user_model
 
-
-
-# Create your models here.
-def logged_user(request):
-    current_user = request.user
-    return current_user
 
 
 class OrderItem(models.Model):
@@ -68,13 +62,17 @@ class Order(models.Model):
     yetkazish = models.DateField(blank=True, null=True)
     tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True)
     punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True)
-    zakas_id = models.DecimalField(max_digits=10, decimal_places=2, blank=True, unique=True)
-    cashback = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    depozit = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    zakas_id = models.IntegerField(blank=True, unique=True)
+    cashback = models.FloatField(blank=True, null=True)
+    depozit = models.FloatField(blank=True, null=True)
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True)
-    addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
+    # addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
+    shahar = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True)
+    tuman = models.ForeignKey(Tumanlar, on_delete=models.CASCADE, blank=True, null=True)
+    qishloq = models.CharField(max_length=200, blank=True, null=True)
+    uy_nomer = models.CharField(max_length=20, blank=True, null=True)
     order_items = models.ManyToManyField(OrderItem,  blank=True,)
     total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True)
     comment = models.CharField(blank=True, null=True)
