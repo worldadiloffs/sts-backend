@@ -16,6 +16,3 @@ class ImportProduct(models.Model):
 
 
 
-
-class Shaharlar(models.Model):
-    pass 
