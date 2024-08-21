@@ -72,3 +72,10 @@ class CategoryHeaderViews(APIView):
 class CategoryView(APIView):
     def get_permissions(self):
         return super().get_permissions()
+    
+
+def Admin_super(request):
+    user = request.user
+    if user.is_superuser:
+        return render(request, "admin/data/index.html")
+    return JsonResponse({"errors": True, "message": "You are not admin"}, safe=False)

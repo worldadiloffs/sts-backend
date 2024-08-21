@@ -154,7 +154,6 @@ class SubCategory(models.Model):
     seo_cub = RichTextField(blank=True, null=True)
     product_description = models.JSONField(blank=True, null=True)
     product_content = models.JSONField(blank=True, null=True)
-    product_filter = models.JSONField(blank=True, null=True)
     sts_site = models.BooleanField(default=False)
     rts_site = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)

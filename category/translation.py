@@ -4,7 +4,7 @@ from .models import SubCategory , MainCategory , SuperCategory
 
 @register(SubCategory)
 class ProductTranslationOptions(TranslationOptions):
-    fields = ('product_content', 'sub_name', 'sub_meta', 'sub_content', 'seo_cub', 'product_description', 'product_content', 'product_filter')
+    fields = ('product_content', 'sub_name', 'sub_meta', 'sub_content', 'seo_cub', 'product_description', 'product_content',)
 
 
 @register(MainCategory)

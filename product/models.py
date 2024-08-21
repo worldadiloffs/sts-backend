@@ -163,7 +163,7 @@ class Product(models.Model):
 
 
     class Meta:
-        verbose_name_plural = "Product"
+        verbose_name_plural = "Tavarlar"
         ordering = ["pk", "product_name"]
 
     def __str__(self):

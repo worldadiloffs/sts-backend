@@ -6,40 +6,7 @@ from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
 from category.models import MainCategory , SuperCategory , SubCategory
-
-# admin.site.register(Image)
-
-class ProductEditForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        exclude = ()
-        fields = "__all__"
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if  self.fields['main_category'].queryset is not None:
-            self.fields['main_category'].queryset = MainCategory.objects.filter(superCategory=self.instance.super_category).order_by('id')
-
-
-
-
-
-
-
-class AdminCreateFormMixin:
-    """
-    Mixin to easily use a different form for the create case (in comparison to "edit") in the django admin
-    Logic copied from `django.contrib.auth.admin.UserAdmin`
-    """
-    add_form = None
-
-    def get_form(self, request, obj=None, **kwargs):
-        defaults = {}
-        if obj is None:
-            defaults['form'] = self.add_form
-        defaults.update(kwargs)
-        return super().get_form(request, obj, **defaults)
-    
+from .form import ProductForm
 
 class GalleryInlines(admin.TabularInline):
     model = Image
@@ -53,14 +20,15 @@ class ProductsModelAdmin(TranslationAdmin):
     # add_form = ProductEditForm
     change_list_template = "admin/product/product/change-list.html"
 
-     
+    autocomplete_fields = ("main_category", "super_category", "sub_category",)
+
     # def get_fields(self, request, obj=None):
     #     user = request.user
     #     # if user.is_authenticated:
     #     #     return super().get_fields(request, obj)
-    #     fields = ["product_name", "articul", "price",]
+    #     fields = ["product_name", "articul", "price","full_description"]
     #     return fields
-    
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "main_category":
             kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)

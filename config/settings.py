@@ -486,9 +486,9 @@ JAZZMIN_UI_TWEAKS = {
     "footer_fixed": False,
     "sidebar_fixed": False,
     "sidebar": "sidebar-light-navy",
-    "sidebar_nav_small_text": False,
+    "sidebar_nav_small_text": True,
     "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
+    "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
@@ -543,7 +543,8 @@ JAZZMIN_SETTINGS = {
    
         {"model": "account.User"},
          {"model": "product.product"},
-
+         {"model": "orders.order"},
+         {"models": "home.banner"},
      
     ],
     #   "topmenu_links": [
@@ -568,7 +569,7 @@ JAZZMIN_SETTINGS = {
             "permissions": ["books.view_book"]
         }]
     },
-        "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+    
     
     
 }

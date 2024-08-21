@@ -15,6 +15,7 @@ class SubCategoryAdmin(TranslationAdmin):
             qs = super().get_queryset(request)
             return qs.filter(sts_site=True)
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
+    readonly_fields = ("sub_meta","seo_cub",)
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)

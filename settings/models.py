@@ -363,7 +363,7 @@ class OrderSetting(models.Model):
         ordering = ["pk"]
 
     def __str__(self):
-        return f"Depozit tolov: {self.depozit_tolov}, Cashback tolov: {self.cashback_tolov}, NDS: {self.nds}, Cource Valyuta: {self.cource_valyuta}, Tolov Online: {self.tolov_online}"
+        return f"Depozit tolov: {self.depozit_tolov}, Cashback tolov: {self.cashback_tolov}, NDS: {self.nds},  Tolov Online: {self.tolov_online}"
     
 
     def save(self, *args, **kwargs):

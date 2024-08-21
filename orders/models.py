@@ -11,15 +11,15 @@ from django.contrib.auth import get_user_model
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', blank=True)
-    quantity = models.PositiveIntegerField(default=1, blank=True)
-    serena = ArrayField(models.CharField(max_length=20, blank=True), blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_items', blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
-    site_sts = models.BooleanField(default=True, blank=True)
-    site_rts = models.BooleanField(default=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', verbose_name=_("Mahsulotlar"), blank=True)
+    quantity = models.PositiveIntegerField(default=1, blank=True, verbose_name=_("Soni"))
+    serena = ArrayField(models.CharField(max_length=20, blank=True), blank=True, null=True, verbose_name=_("Mahsulot serena nomerlari"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_items', verbose_name=_("Foydalanuvchi"), blank=True)
+    price = models.PositiveIntegerField(blank=True, null=True , verbose_name=_("Narx"))
+    site_sts = models.BooleanField(default=True, blank=True, verbose_name=_('STS SITE'))
+    site_rts = models.BooleanField(default=True, blank=True, verbose_name=_('RTS SITE'))
+    created_at = models.DateTimeField(auto_now_add=True , verbose_name=_('Savdo qilingan vaqt'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Ozgartirilgan vaqt'))
 
 
     class Meta:
@@ -48,12 +48,12 @@ class OrderItem(models.Model):
         return self.quantity
     
 class VazvratProdcut(models.Model):
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE,blank=True, null=True)
-    serena = ArrayField(models.CharField(max_length=20, blank=True),blank=True, null=True)
-    counts= models.PositiveIntegerField(default=1, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    product_id = models.ForeignKey(Product, on_delete=models.CASCADE,blank=True, null=True , verbose_name=_("Mahsulot ID"))
+    serena = ArrayField(models.CharField(max_length=20, blank=True),blank=True, null=True, verbose_name=_("Mahsulot serena nomerlar"))
+    counts= models.PositiveIntegerField(default=1, blank=True, null=True, verbose_name=_("Soni"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Savdo qilingan vaqt"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Ozgartirilgan vaqt"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Foydalanuvchi"))
 
     class Meta:
         verbose_name_plural = "Vazvrat qilingan mahsulotlar"
@@ -68,30 +68,30 @@ class Order(models.Model):
         ('shipped', "Yetkazildi"),
         ('delivered', "Xaridorga berildi"),
     )
-    yetkazish = models.DateField(blank=True, null=True)
-    tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True)
-    punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True)
-    zakas_id = models.IntegerField(blank=True, unique=True)
-    cashback = models.FloatField(blank=True, null=True)
-    depozit = models.FloatField(blank=True, null=True)
-    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-    user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True)
+    yetkazish = models.DateField(blank=True, null=True, verbose_name=_("Yetkazish sanasi"))
+    tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("To'lov usullari"))
+    punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True, verbose_name=_(" Yetkazib beriladigan dokon Manzil"))
+    zakas_id = models.IntegerField(blank=True, unique=True, verbose_name=_("Buyurtma raqami") )
+    cashback = models.FloatField(blank=True, null=True, verbose_name=_("Cashback  yechgan summa"))
+    depozit = models.FloatField(blank=True, null=True, verbose_name=_("Depozit yechgan summasi"))
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Qanday to'lov qilish"))
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', verbose_name=_("Buyurtma statusi"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True, verbose_name=_("Buyurtma Bergan Foydalanuvchi"))
     # addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
-    shahar = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True)
-    tuman = models.ForeignKey(Tumanlar, on_delete=models.CASCADE, blank=True, null=True)
-    qishloq = models.CharField(max_length=200, blank=True, null=True)
-    uy_nomer = models.CharField(max_length=20, blank=True, null=True)
-    order_items = models.ManyToManyField(OrderItem,  blank=True,)
-    total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True)
-    comment = models.CharField(blank=True, null=True)
-    vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, )
-    site_sts = models.BooleanField(default=False, blank=True)
-    site_rts = models.BooleanField(default=False, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    updated_at = models.DateTimeField(auto_now=True, blank=True)
-    is_finished = models.BooleanField(default=False, blank=True)
-    cencel = models.BooleanField(default=False, blank=True)
+    shahar = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Shahar"))
+    tuman = models.ForeignKey(Tumanlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Tuman"))
+    qishloq = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Qishloq"))
+    uy_nomer = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Uy nomer"))
+    order_items = models.ManyToManyField(OrderItem,  blank=True, verbose_name=_("Savdo qilingan mahsulotlar"))
+    total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, verbose_name=_("Buyurtma narxi"))
+    comment = models.CharField(blank=True, null=True, verbose_name=_("Buyurtma uchun admin  xabarlari"))
+    vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, verbose_name=_("Qaytarilgan Mahsulotlar") )
+    site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
+    site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
+    created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name=_("Savdo qilingan vaqt"))
+    updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Ozgartirilgan vaqt"))
+    is_finished = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma tolov statusi"))
+    cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
     # modified_by = models.CharField(max_length=200, blank=True, null=True)
 
 
