@@ -75,9 +75,12 @@ class ProductsModelAdmin(TranslationAdmin):
         if user.site_sts:
             qs = super().get_queryset(request)
             return qs.filter(site_sts=True)
-        else:
+        elif user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(site_rts=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs
     
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},

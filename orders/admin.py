@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpRequest
 from django.utils.safestring import SafeText
-from .models import Order, OrderItem , TestModelUser
+from .models import Order, OrderItem 
 # Register your models here.
 from account.models import User
 from django.utils.html import format_html

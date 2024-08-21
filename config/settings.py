@@ -58,7 +58,8 @@ INSTALLED_APPS = [
     "axes",
     "silk",
     'modeltranslation',
-   
+    
+    # admin settings
     'jazzmin',
     'jsoneditor',
     'django.contrib.admin',

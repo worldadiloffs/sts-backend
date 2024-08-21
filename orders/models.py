@@ -141,14 +141,3 @@ class Order(models.Model):
 
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
-
-class TestModelUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,  related_name="test_user", blank=True, default=get_user_model())
-    name = models.CharField(max_length=100)
-    age = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.name
-    
-    def get_full_name(self):
-        return f"{self.name} {self.age}"
