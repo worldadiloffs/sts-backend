@@ -123,6 +123,12 @@ class UserAddress(models.Model):
     lon = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+
+    class Meta:
+        verbose_name = "Адрес"
+        verbose_name_plural = "Адреса"
     def __str__(self):
         return self.user.phone + " - " + self.city + " - " + self.district + " - " + self.address
 
@@ -200,6 +206,12 @@ class Xodim(models.Model):
     ishni_boshlash_vaqti = models.TimeField(blank=True, null=True)
     ishni_bitirish_vaqti = models.TimeField(blank=True, null=True)
     # created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+
+
+    class Meta:
+        verbose_name = "Xodim"
+        verbose_name_plural = "Xodimlar"
 
     def __str__(self):
         return self.user.phone + " - " + self.name

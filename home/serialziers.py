@@ -1,4 +1,4 @@
-from .models import homePage , HomePageCategory , Banner
+from .models import   HomePageCategory , Banner
 from rest_framework import serializers 
 from product.serialzier import ProductListMiniSerilizers
 from config.settings import site_name
@@ -19,11 +19,6 @@ class BannerSerializers(serializers.ModelSerializer):
 
         
 
-
-class HomePageSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = homePage
-        fields = "__all__"
 
 
 

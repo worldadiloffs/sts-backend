@@ -7,7 +7,7 @@ from product.models import Image, Product
 # admin.site.register(Testimage)
 from category.models import MainCategory , SuperCategory , SubCategory
 
-admin.site.register(Image)
+# admin.site.register(Image)
 
 class ProductEditForm(forms.ModelForm):
     class Meta:

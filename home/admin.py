@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AboutPage, Banner , homePage , HomePageCategory
+from .models import  Banner ,  HomePageCategory
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -27,7 +27,6 @@ class BannerAdmin(TranslationAdmin):
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
-admin.site.register(AboutPage)
 
 @admin.register(HomePageCategory)
 class HomePageCategoryAdmin(TranslationAdmin):

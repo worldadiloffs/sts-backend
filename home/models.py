@@ -21,7 +21,7 @@ class Banner(models.Model):
     site_rts =models.BooleanField(default=False, blank=True)
     
     class Meta:
-        verbose_name_plural = "Banner"
+        verbose_name_plural = "Home Banner"
         ordering = ["pk", "title"]
 
     def __str__(self):
@@ -73,7 +73,7 @@ class HomePageCategory(models.Model):
     xitlar = models.BooleanField(default=False, blank=True)
 
     class Meta:
-        verbose_name_plural = "homepageCategory"
+        verbose_name_plural = "Home Page Category"
         ordering = ["pk", "title", "top",]
 
     def __str__(self):
@@ -111,28 +111,4 @@ class HomePageCategory(models.Model):
         super().save(*args, **kwargs)
 
 
-class homePage(models.Model):
-    servis = models.BooleanField(default=False, blank=True)
-    ustanofka = models.BooleanField(default=False, blank=True)
-    maqola = models.BooleanField(default=False, blank=True)
-    yetkazib_berish = models.BooleanField(default=False, blank=True)
-    ads = models.BooleanField(default=False, blank=True)
-    mobile_app = models.BooleanField(default=False, blank=True)
-    site_sts =models.BooleanField(default=False, blank=True)
-    site_rts =models.BooleanField(default=False, blank=True)
 
-
-def page_choise():
-    return {i: i for i in pages_setting}
-
-
-class AboutPage(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='about/images', blank=True, null=True)
-    status = models.BooleanField(default=False, blank=True)
-    site_sts = models.BooleanField(default=False, blank=True)
-    site_rts = models.BooleanField(default=False, blank=True)
-    
-    # page_choise = models.CharField(max_length=200, choices=page_choise(), blank=True)

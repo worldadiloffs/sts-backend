@@ -16,7 +16,7 @@ class BlogCategory(models.Model):
 
 
     class Meta:
-        verbose_name_plural = "blogcategory"
+        verbose_name_plural = "Blog Kategorileri"
         ordering = ["pk", "title"]
 
     def __str__(self):
@@ -47,6 +47,10 @@ class Tag(models.Model):
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
 
+    class Meta:
+        verbose_name_plural = "Blog Taglar"
+        ordering = ["pk", "title"]
+
 
 
 
@@ -64,7 +68,7 @@ class BlogItem(models.Model):
     update_at = models.DateTimeField(auto_now=True, blank=True)
 
     class Meta:
-        verbose_name_plural = "blogitem"
+        verbose_name_plural = "Bloglar"
         ordering = ["pk", "title"]
 
     def __str__(self):
@@ -105,7 +109,7 @@ class BlogHome(models.Model):
 
     
     class Meta:
-        verbose_name_plural = "Home page blog"
+        verbose_name_plural = "Asosiy oyna uchun Bloglar"
         ordering = ["pk", "title"]
 
     def __str__(self):

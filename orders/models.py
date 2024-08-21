@@ -21,6 +21,11 @@ class OrderItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+    class Meta:
+        verbose_name_plural = "Savdo qilingan mahsulotlar"
+        ordering = ["pk", "created_at"]
+
     def get_serena(self):
         return f''' {self.serena} ''' if self.serena else ''
 
@@ -49,6 +54,10 @@ class VazvratProdcut(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Vazvrat qilingan mahsulotlar"
+        ordering = ["pk", "created_at"]
 
 
 
@@ -89,8 +98,8 @@ class Order(models.Model):
     
 
     class Meta:
-        verbose_name_plural = "Orders"
-        ordering = ["-created_at"]
+        verbose_name_plural = "Buyurtmalar"
+        ordering = ["-created_at", "zakas_id"]
 
     def __str__(self):
         return f"Order {self.zakas_id} +  {self.user.phone}"

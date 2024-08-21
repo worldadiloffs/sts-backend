@@ -43,7 +43,7 @@ class SuperCategory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = "SuperCategory"
+        verbose_name_plural = "Asosiy Kategoriyalar"
         ordering = ["pk", "super_name"]
 
     def __str__(self):
@@ -101,7 +101,7 @@ class MainCategory(models.Model):
     created = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        verbose_name_plural = "MainCategory"
+        verbose_name_plural = "Main Kategoriyalar"
         ordering = ["pk", "main_name"]
 
     def __str__(self):
@@ -160,7 +160,7 @@ class SubCategory(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = "SubCategory"
+        verbose_name_plural = "Sub Kategoriyalar"
         ordering = ["pk", "sub_name"]
 
     def __str__(self):

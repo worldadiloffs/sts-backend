@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.http import JsonResponse
-from .models import Banner , HomePageCategory , homePage
-from .serialziers import BannerSerializers, HOmeSchemaSerialziers , HomePageSerializers , HomePageCategorySerialzier, ParementrHome, ResponseHOme
+from .models import Banner , HomePageCategory 
+from .serialziers import BannerSerializers, HOmeSchemaSerialziers  , HomePageCategorySerialzier, ParementrHome, ResponseHOme
 from product.models import Product
 from product.serialzier import ProductListMiniSerilizers
 from drf_spectacular.utils import extend_schema
