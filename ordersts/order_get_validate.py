@@ -45,7 +45,6 @@ class OrderValudeView(APIView):
               "data": { 
                 "delivery": delivery_serial.data,
                 "teskor_buyurtma_date" : teskor_buyurtma_date,
-                "date_today":f"{datetime.now()}",
                 "tolov": tolov_serial.data,
                 "shaharlar": shaharlar_serial.data,
                 "dokonlar": dokon_serial.data
