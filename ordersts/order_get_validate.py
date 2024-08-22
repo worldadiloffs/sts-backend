@@ -9,17 +9,17 @@ class OrderValudeView(APIView):
     def get(self, request):
             
         delivery = DeliveryService.objects.all().first()
-        if delivery.teskor_buyurtma:
-            if int(timezone.datetime.hour)>14:
-                delivery.teskor_buyurtma_date.hour = 10
-                delivery.teskor_buyurtma_date.minute = 0
-                delivery.teskor_buyurtma_date.second = 0
-                delivery.save()
-            if int(timezone.datetime.hour)<14:
-                delivery.teskor_buyurtma_date.hour = 18
-                delivery.teskor_buyurtma_date.minute = 0
-                delivery.teskor_buyurtma_date.second = 0
-                delivery.save()
+        # if delivery.teskor_buyurtma:
+        #     if int(timezone.datetime.hour)>14:
+        #         delivery.teskor_buyurtma_date.hour = 10
+        #         delivery.teskor_buyurtma_date.minute = 0
+        #         delivery.teskor_buyurtma_date.second = 0
+        #         delivery.save()
+        #     if int(timezone.datetime.hour)<14:
+        #         delivery.teskor_buyurtma_date.hour = 18
+        #         delivery.teskor_buyurtma_date.minute = 0
+        #         delivery.teskor_buyurtma_date.second = 0
+        #         delivery.save()
                 
                 
             
