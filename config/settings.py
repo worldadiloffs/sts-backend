@@ -544,7 +544,7 @@ JAZZMIN_SETTINGS = {
    
         {"model": "account.User"},
          {"model": "product.product"},
-         {"model": "orders.order"},
+         {"model": "ordersts.order"},
          {"models": "home.banner"},
      
     ],
