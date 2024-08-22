@@ -7,11 +7,11 @@ from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, Sha
 
 class OrderValudeView(APIView):
     def get(self, request):
-        delivery = DeliveryService.objects.all()
+        delivery = DeliveryService.objects.all().first()
         tolov = TolovUsullar.objects.all()
         shaharlar = Shaharlar.objects.all()
         dokon = Dokon.objects.all()
-        delivery_serial = DeliveryServiceSeriazleir(delivery, many=True)
+        delivery_serial = DeliveryServiceSeriazleir(delivery)
         tolov_serial = TolovUsullarSerialzier(tolov, many=True)
         shaharlar_serial = ShaharlarSerialzier(shaharlar, many=True)
         dokon_serial = DokonSerialzier(dokon, many=True)
