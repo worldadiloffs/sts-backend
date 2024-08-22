@@ -7,7 +7,7 @@ from settings.models import PaymentMethod , TolovUsullar
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
 from django.contrib.auth import get_user_model
-
+from xodimlar.models import Xodim
 
 
 class OrderItem(models.Model):
@@ -59,6 +59,18 @@ class VazvratProdcut(models.Model):
         verbose_name_plural = "Vazvrat qilingan mahsulotlar"
         ordering = ["pk", "created_at"]
 
+class FirmaBuyurtma(models.Model):
+    firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
+    buyurtma_raqami = models.IntegerField(blank=True, unique=True, verbose_name=_("Buyurtma raqami") )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Foydalanuvchi"))
+    inn_nomer = models.CharField(max_length=12, blank=True, verbose_name=_("INN nomer"))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Savdo qilingan vaqt"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Ozgartirilgan vaqt"))
+    shartnoma_file = models.FileField(upload_to='shartnoma/', blank=True,null=True, verbose_name=_("Sharhnoma file"))
+    shartnoma_status = models.BooleanField(default=False, verbose_name=_("Sharhnoma statusi"))
+    site_sts = models.BooleanField(default=False, blank=True, verbose_name=_('STS SITE'))
+    site_rts = models.BooleanField(default=False, blank=True, verbose_name=_('RTS SITE'))
+
 
 
 class Order(models.Model):
@@ -83,8 +95,11 @@ class Order(models.Model):
     qishloq = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Qishloq"))
     uy_nomer = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Uy nomer"))
     order_items = models.ManyToManyField(OrderItem,  blank=True, verbose_name=_("Savdo qilingan mahsulotlar"))
+    dastafka_summa = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Dastafka summasi"))
+    teskor_buyurtma_time = models.DateTimeField(blank=True, null=True, verbose_name=_("Teskor buyurtma vaqt"))
     total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, verbose_name=_("Buyurtma narxi"))
     comment = models.CharField(max_length=200,blank=True, null=True, verbose_name=_("Buyurtma uchun admin  xabarlari"))
+    firma_buyurtma = models.ForeignKey(FirmaBuyurtma, on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Firma buyurtma"))
     vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, verbose_name=_("Qaytarilgan Mahsulotlar") )
     site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
     site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
@@ -92,7 +107,9 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Ozgartirilgan vaqt"))
     is_finished = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma tolov statusi"))
     cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
-    # modified_by = models.CharField(max_length=200, blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
+    site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
+    xodim = models.ForeignKey(Xodim, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Xodim"), editable=False)
 
 
     

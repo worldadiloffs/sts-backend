@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
 
+from drf_spectacular.utils import extend_schema
+
 
 
 
@@ -93,7 +95,11 @@ class OrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
-    authentication_classes = [JWTAuthentication ,]
+    # authentication_classes = [JWTAuthentication ,]
+    @extend_schema(
+            request=OrderGetSerializer(),
+            responses=OrderGetSerializer()
+    )
 
     def post(self, request):
         # order items is  required fields 
