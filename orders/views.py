@@ -3,8 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from settings.models import Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar
+from product.models import Product
 from .models import Order, OrderItem
-from .serializers import OrderSerializer, OrderItemSerializer
+from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
@@ -12,20 +14,55 @@ from django.http import JsonResponse
 
 
 
+def _validate_product_count(product_id, count):
+    product = Product.objects.filter(id=product_id).first()
+    if product and product.counts >= count:
+        return True
+    return False
+
+
+
 def _order_item_to_dict(order_item) -> list[int]:
-    pass
+    error_product = []
+    if order_item is None:
+        return {"errors": True, "data": None}
+    for i in order_item:
+        validate_count = _validate_product_count(product_id=i['product_id'],count=i['quantity'])
+        if not(validate_count):
+            error_product.append({"product_id":i['product_id'], "quantity": i['quantity']})
+    if len(error_product) > 0:
+        return {"errors": True, "data": error_product}
+
+
+
 
 
 def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
-    pass
+    payment = PaymentMethod.objects.filter(id=payment_method).first()
+    if payment is not None:
+        for tolov in TolovUsullar.objects.filter(id=tolov_usullar).first().payment_methods.all():
+            if tolov.id == payment.id:
+                return {"errors": False, "payment_method_id": payment.id}
+        return {"errors": True, "data":{"payment_method_id": None}}
+    return {"errors": True,  "data":{"payment_method_id": None}}
 
 
-def _tolov_usullar_to_dict(tolov_usullar) -> int:
-    pass
+def _tolov_usullar_to_dict(tolov_usullar) ->dict:
+    tolov = TolovUsullar.objects.filter(id=tolov_usullar).first()
+    if tolov is not None:
+        return {"errors": False, "tolov_usullar_id": tolov.id}
+    else:
+        return {"errors": True, "data":{"tolov_usullar_id": None}}
 
 
 def _punkit_to_dict(punkit) -> int:
-    pass
+    dokonlar = Dokon.objects.filter(id=punkit).first()
+    if dokonlar is not None:
+        return {"errors": False, "dokon_id": dokonlar.id}
+    else:
+        return {"errors": True, "data":{"dokon_id": None}}
+
+
 
 # cashback funtion user cashback validate 
 def _validate_cashback(cash_price, user) -> float:
@@ -45,46 +82,48 @@ class OrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
-    authentication_classes = [JWTAuthentication , ]
+    authentication_classes = [JWTAuthentication ,]
 
     def post(self, request):
         # order items is  required fields 
+        order_item_data = []
         if request.data.get("order_items") is not None:
             order_validate = _order_item_to_dict(request.data.get("order_items"))
-            if order_validate is None:
-                return Response({"errors": "Invalid product"}, status=400)
+            if order_validate['errors']:
+                return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
-                item_serializer = OrderItemSerializer(data=item)
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user, "site_sts": True}
+                item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid():
                     item_serializer.save(user=request.user)
-                return Response(item_serializer.error_messages, status=400)
-            
+                    order_item_data.append(item_serializer.data.get('id'))
         #payment method is option fields 
         if request.data["payment"]  is not None:
             payment_validate = __payment_method_to_dict(request.data.get("payment"))
-            if bool(payment_validate):
-                request.data["payment"] = payment_validate
-            request.data["payment"] = payment_validate
-
-        # address option fields 
-        if request.data["addres"] is not None:
-            addres_validate = __payment_method_to_dict(request.data.get("addres"))
-            if bool(addres_validate):
-                request.data["addres"] = addres_validate
-
+            if not(payment_validate['errors']):
+                request.data["payment"] = payment_validate['payment_method_id']
+            return Response(payment_validate, status=400)
+        
         if request.data.get("tolov_usullar") is None:
             return Response({"errors": "Invalid tolov usullar"}, status=400)
         # tolov usullarni requeired fields
         tolov_usullar_validate = _tolov_usullar_to_dict(
             request.data.get("tolov_usullar")
         )
+        if tolov_usullar_validate['errors']:
+            return Response(tolov_usullar_validate, status=400)
+        else:
+            request.data["tolov_usullar"] = tolov_usullar_validate["tolov_usullar_id"]
+
         # punkit option fields
         if request.data["punkit"] is not None:
             punkit_validate = _punkit_to_dict(request.data.get("punkit"))
-            request.data["punkit"] = punkit_validate
+            if punkit_validate['errors']:
+                return Response(punkit_validate, status=400)
+            else:
+                request.data["punkit"] = punkit_validate["dokon_id"]
 
         request.data["order_items"] = order_validate
-        request.data["tolov_usullar"] = tolov_usullar_validate
         request.data["site_sts"] = True
         request.data["user"] = request.user
 
@@ -97,7 +136,6 @@ class OrderCreateAPIView(APIView):
                 request.data["cashback"] = cashback_validate
             else:
                 return Response({"errors": "Invalid cashback amount"}, status=400)
-            
             
         # depozit field option fields
         if request.data.get("depozit") is not None:
@@ -117,9 +155,17 @@ class OrderCreateAPIView(APIView):
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            payment_redirect = _
+            # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
             return Response(serializer.data, status=201)
         
+
+class OrderGetAPIView(APIView):
+    def get(self, request, pk):
+        order = Order.objects.filter(id=pk).first()
+        if order is not None:
+            serializer = OrderGetSerializer(order)
+            return Response({"data": serializer.data, "errors": False, "message": ""})
+        return Response({"errors": True, "message": "Order not found"}, status=404)
 
 
 class OrderUpdateAPIView(APIView):

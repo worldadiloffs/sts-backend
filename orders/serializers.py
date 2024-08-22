@@ -17,3 +17,11 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+
+
+
+class OrderGetSerializer(serializers.ModelSerializer):
+    order_items = OrderItemSerializer(many=True)
+    class Meta:
+        model = Order
+        fields = "__all__"
