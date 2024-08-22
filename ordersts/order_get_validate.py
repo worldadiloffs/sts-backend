@@ -5,22 +5,29 @@ from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, Sha
 
 from django.utils import timezone
 
+
+def _teskor_buyurtma_test():
+    if int(timezone.datetime.now().strftime('%H'))>18:
+         return f"{timezone.now() + timezone.timedelta(days=1, hours=11)}" 
+    if int(timezone.datetime.now().strftime('%H'))>14:
+              return f"{timezone.now() + timezone.timedelta(hours=6)}" 
+               
+    if int(timezone.datetime.now().strftime('%H'))<14:
+        return f"{timezone.now() + timezone.timedelta(hours=6)}" 
+
 class OrderValudeView(APIView):
     def get(self, request):
             
         delivery = DeliveryService.objects.all().first()
-        # if delivery.teskor_buyurtma:
-        #     if int(timezone.datetime.hour)>14:
-        #         delivery.teskor_buyurtma_date.hour = 10
-        #         delivery.teskor_buyurtma_date.minute = 0
-        #         delivery.teskor_buyurtma_date.second = 0
-        #         delivery.save()
-        #     if int(timezone.datetime.hour)<14:
-        #         delivery.teskor_buyurtma_date.hour = 18
-        #         delivery.teskor_buyurtma_date.minute = 0
-        #         delivery.teskor_buyurtma_date.second = 0
-        #         delivery.save()
-                
+        print(timezone.datetime.now().strftime('%H'))
+        if delivery.teskor_buyurtma:
+             teskor_buyurtma_date = _teskor_buyurtma_test()
+
+        if not(delivery.teskor_buyurtma):
+             teskor_buyurtma_date = None
+             
+            
+                    
                 
             
 
@@ -33,7 +40,9 @@ class OrderValudeView(APIView):
         dokon_serial = DokonSerialzier(dokon, many=True)
         return JsonResponse(
             {
-              "data": { "delivery": delivery_serial.data,
+              "data": { 
+                "delivery": delivery_serial.data,
+                "teskor_buyurtma_date" : teskor_buyurtma_date,
                 "tolov": tolov_serial.data,
                 "shaharlar": shaharlar_serial.data,
                 "dokonlar": dokon_serial.data
