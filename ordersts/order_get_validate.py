@@ -12,25 +12,24 @@ from django.utils.timezone import activate
 
 
 def _teskor_buyurtma_test():
-    activate('Asia/Tashkent')
-    if int(datetime.now().strftime('%H'))>18:
-         return f"{datetime.now() + timezone.timedelta(days=1, hours=11)}" 
-    if int(datetime.now().strftime('%H'))>14:
-              return f"{datetime.now() + timezone.timedelta(hours=6)}" 
+    if int(timezone.now().strftime('%H'))>18:
+         return f"{timezone.now() + timezone.timedelta(days=1, hours=11)}" 
+    if int(timezone.now().strftime('%H'))>14:
+              return f"{timezone.now() + timezone.timedelta(hours=6)}" 
                
-    if int(datetime.now().strftime('%H'))<14:
-        return f"{datetime.now() + timezone.timedelta(hours=6)}" 
+    if int(timezone.now().strftime('%H'))<14:
+        return f"{timezone.now() + timezone.timedelta(hours=6)}" 
 
 class OrderValudeView(APIView):
     def get(self, request):
             
         delivery = DeliveryService.objects.all().first()
-        print(datetime.now().strftime('%H'))
+        print(timezone.now().strftime('%H'))
         if delivery.teskor_buyurtma:
              teskor_buyurtma_date = _teskor_buyurtma_test()
 
         if not(delivery.teskor_buyurtma):
-             teskor_buyurtma_date = datetime.now()
+             teskor_buyurtma_date = None
              
             
                     
