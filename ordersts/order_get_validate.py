@@ -13,7 +13,6 @@ from django.utils.timezone import activate
 
 def _teskor_buyurtma_test(request):
     if int(datetime.now().strftime('%H'))>=18:
-         print("hello")
          return f"{timezone.now() + timezone.timedelta(hours=16)}" 
     if int(timezone.now().strftime('%H'))<6:
         return f"{timezone.now() + timezone.timedelta(hours=16)}"
@@ -32,12 +31,6 @@ class OrderValudeView(APIView):
 
         if not(delivery.teskor_buyurtma):
              teskor_buyurtma_date = None
-             
-            
-                    
-                
-            
-        print(datetime.now().strftime('%H'))
         tolov = TolovUsullar.objects.all()
         shaharlar = Shaharlar.objects.all()
         dokon = Dokon.objects.all()
