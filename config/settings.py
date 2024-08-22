@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'clickApp',
     'ordersts',
     'importdata',
+    'xodimlar',
 
 ]
 
