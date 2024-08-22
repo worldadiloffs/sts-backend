@@ -87,6 +87,8 @@ class OrderCreateAPIView(APIView):
     def post(self, request):
         # order items is  required fields 
         order_item_data = []
+        zakas_id = (Order.objects.count() + 1000)
+        request.data["zakas_id"] = zakas_id
         if request.data.get("order_items") is not None:
             order_validate = _order_item_to_dict(request.data.get("order_items"))
             if order_validate['errors']:
