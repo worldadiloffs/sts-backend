@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     'blog',
     'payments',
     'clickApp',
-    'orders',
+    'ordersts',
     'importdata',
 
 ]
