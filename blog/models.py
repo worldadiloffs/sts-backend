@@ -4,13 +4,16 @@ from category.models import MainCategory , SubCategory
 from django.utils.text import slugify
 import random, string
 
+from django.utils.translation import gettext_lazy as _
+
+
 # Create your models here.
 
 class BlogCategory(models.Model):
-    title = models.CharField(max_length=200, blank=True)
-    image = models.ImageField(upload_to='blogcategory', blank=True)
-    status = models.BooleanField(default=False, blank=True)
-    site_sts = models.BooleanField(default=False, blank=True)
+    title = models.CharField(max_length=200, blank=True, verbose_name=_("Kategoriya nomi"))
+    image = models.ImageField(upload_to='blogcategory', blank=True, verbose_name=_("Rasm"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Status"))
+    site_sts = models.BooleanField(default=False, blank=True,)
     site_rts = models.BooleanField(default=False, blank=True)
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
 
@@ -55,17 +58,17 @@ class Tag(models.Model):
 
 
 class BlogItem(models.Model):
-    title = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='blogitems', blank=True)
-    content = RichTextField(blank=True)
-    blogcategory = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, blank=True, null=True)
-    tag = models.ManyToManyField(Tag , blank=True)
-    status = models.BooleanField(default=False, blank=True)
+    title = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Blog nomi"))
+    image = models.ImageField(upload_to='blogitems', blank=True, verbose_name=_("Rasm"))
+    content = RichTextField(blank=True, verbose_name=_("Blog uchun malumot"))
+    blogcategory = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Kategoriya"))
+    tag = models.ManyToManyField(Tag , blank=True, verbose_name=_("Taglar"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Status"))
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    create_at = models.DateField(auto_now_add=True, blank=True)
-    update_at = models.DateTimeField(auto_now=True, blank=True)
+    create_at = models.DateField(auto_now_add=True, blank=True, verbose_name=_("Yaratilgan vaqti"))
+    update_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Yangilanish vaqti"))
 
     class Meta:
         verbose_name_plural = "Bloglar"
@@ -96,16 +99,16 @@ class BlogItem(models.Model):
 
 
 class BlogHome(models.Model):
-    title = models.CharField(max_length=100, blank=True)
-    text = models.TextField(blank=True, null=True)
-    status = models.BooleanField(default=False, blank=True)
-    image = models.ImageField(upload_to='blog', blank=True)
-    site_sts = models.BooleanField(default=False, blank=True)
+    title = models.CharField(max_length=100, blank=True, verbose_name=_("Home sayti blog nomi"))
+    text = models.TextField(blank=True, null=True, verbose_name=_("Home sayti blog uchun malumot"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Status"))
+    image = models.ImageField(upload_to='blog', blank=True, verbose_name=_("Rasm"))
+    site_sts = models.BooleanField(default=False, blank=True,)
     site_rts = models.BooleanField(default=False, blank=True)
-    blog_category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL , blank=True, null=True)
-    slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    create_at = models.DateField(auto_now_add=True, blank=True)
-    update_at = models.DateTimeField(auto_now=True, blank=True)
+    blog_category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Kategoriya"))
+    slug = models.SlugField(unique=True, null=True, editable=False, blank=True,)
+    create_at = models.DateField(auto_now_add=True, blank=True, verbose_name=_("Yaratilgan vaqti"))
+    update_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Yangilanish vaqti"))
 
     
     class Meta:

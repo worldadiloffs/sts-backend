@@ -55,6 +55,8 @@ def _tolov_usullar_to_dict(tolov_usullar) ->dict:
         return {"errors": True, "data":{"tolov_usullar_id": None}}
 
 
+
+
 def _punkit_to_dict(punkit) -> int:
     dokonlar = Dokon.objects.filter(id=punkit).first()
     if dokonlar is not None:
@@ -76,6 +78,12 @@ def _validate_depozit(depozit, user) -> float:
 
 def _redirect_payment(request, order_id):
     pass 
+
+
+
+
+
+
 
 
 class OrderCreateAPIView(APIView):

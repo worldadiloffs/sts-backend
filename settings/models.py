@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from ckeditor.fields import RichTextField 
 from django.utils.text import slugify
 import random, string
@@ -12,6 +13,7 @@ from django.utils import timezone
 # Create your models here.
 
 from category.models import MainCategory
+
 
 
 class Shaharlar(models.Model):
@@ -298,12 +300,13 @@ class PaymentMethod(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-    
+
 
 class TolovUsullar(models.Model):
-    name = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=200, blank=True, )
     icon = models.FileField(upload_to='tolov', blank=True, null=True)
     content = models.TextField(blank=True, null=True)
+    firma = models.BooleanField(default=False, blank=True, editable=False)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=False, blank=True)
@@ -314,6 +317,9 @@ class TolovUsullar(models.Model):
         verbose_name = "Tolov usul"
         verbose_name_plural = "Tolov Usullar"
         ordering = ["pk", "name"]
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
 
 
@@ -348,6 +354,7 @@ class CountSettings(models.Model):
 
 class OrderSetting(models.Model):
     depozit_tolov = models.BooleanField(default=False, blank=True)
+    firma = models.BooleanField(default=False, blank=True, verbose_name=_("Firma orqali Mahsulot buyurtma"))
     cashback_tolov = models.BooleanField(default=False, blank=True)
     tolov_online = models.BooleanField(default=True, blank=True)
     nds = models.PositiveIntegerField(blank=True, null=True)
@@ -369,6 +376,16 @@ class OrderSetting(models.Model):
     def save(self, *args, **kwargs):
         if self.update_at is None:
             self.update_at = timezone.now()
+        if self.firma:
+            tolov_usullar = TolovUsullar.objects.filter(firma=True).first()
+            if tolov_usullar is  None:
+                tolovlar = TolovUsullar()
+                tolovlar.name_uz = "Firma orqali Mahsulot buyurtma"
+                tolovlar.name_ru = "Фирма илиганизационная покупка"
+                tolovlar.site_sts = self.site_sts
+                tolovlar.status = False
+                tolovlar.firma = True
+                tolovlar.save() 
         super().save(*args, **kwargs)
 
 

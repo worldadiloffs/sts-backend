@@ -114,12 +114,12 @@ class PhoneOtp(models.Model):
 
 
 class UserAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    district = models.CharField(max_length=255, blank=True, null=True)
-    address = models.CharField(max_length=255, blank=True, null=True)
-    qavat = models.PositiveIntegerField(blank=True, null=True)
-    lat = models.FloatField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name=_("Foydalanuvchi ID"))
+    city = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Shahri"))
+    district = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Tuman"))
+    address = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Manzil"))
+    qavat = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Qavat"))
+    lat = models.FloatField(blank=True, null=True, verbose_name=_("Latitud"))
     lon = models.FloatField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
