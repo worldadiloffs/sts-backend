@@ -5,21 +5,23 @@ from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, Sha
 
 from django.utils import timezone
 
+from datetime import datetime
+
 
 def _teskor_buyurtma_test():
-    if int(timezone.datetime.now().strftime('%H'))>18:
+    if int(datetime.now().strftime('%H'))>18:
          return f"{timezone.now() + timezone.timedelta(days=1, hours=11)}" 
-    if int(timezone.datetime.now().strftime('%H'))>14:
+    if int(datetime.now().strftime('%H'))>14:
               return f"{timezone.now() + timezone.timedelta(hours=6)}" 
                
-    if int(timezone.datetime.now().strftime('%H'))<14:
-        return f"{timezone.now() + timezone.timedelta(hours=6)}" 
+    if int(datetime.now().strftime('%H'))<14:
+        return f"{datetime.now() + timezone.timedelta(hours=6)}" 
 
 class OrderValudeView(APIView):
     def get(self, request):
             
         delivery = DeliveryService.objects.all().first()
-        print(timezone.datetime.now().strftime('%H'))
+        print(datetime.now().strftime('%H'))
         if delivery.teskor_buyurtma:
              teskor_buyurtma_date = _teskor_buyurtma_test()
 
@@ -43,7 +45,7 @@ class OrderValudeView(APIView):
               "data": { 
                 "delivery": delivery_serial.data,
                 "teskor_buyurtma_date" : teskor_buyurtma_date,
-                "date_today":f"{timezone.now()}",
+                "date_today":f"{datetime.now()}",
                 "tolov": tolov_serial.data,
                 "shaharlar": shaharlar_serial.data,
                 "dokonlar": dokon_serial.data
