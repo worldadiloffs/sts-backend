@@ -195,6 +195,8 @@ class DeliveryService(models.Model):
     comment = models.CharField(max_length=100, blank=True) 
     zakas_summa = models.BigIntegerField(blank=True)
     dastafka_summa = models.BigIntegerField(blank=True)
+    teskor_buyurtma = models.BooleanField(default=False, blank=True)
+    teskor_buyurtma_date = models.TimeField(blank=True, null=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
 
