@@ -11,9 +11,12 @@ from django.utils.timezone import activate
 
 
 
-def _teskor_buyurtma_test():
-    if int(timezone.now().strftime('%H'))>18:
-         return f"{timezone.now() + timezone.timedelta(days=1, hours=11)}" 
+def _teskor_buyurtma_test(request):
+    if int(datetime.now().strftime('%H'))>=18:
+         print("hello")
+         return f"{timezone.now() + timezone.timedelta(hours=16)}" 
+    if int(timezone.now().strftime('%H'))<6:
+        return f"{timezone.now() + timezone.timedelta(hours=16)}"
     if int(timezone.now().strftime('%H'))>14:
               return f"{timezone.now() + timezone.timedelta(hours=6)}" 
                
@@ -24,9 +27,8 @@ class OrderValudeView(APIView):
     def get(self, request):
             
         delivery = DeliveryService.objects.all().first()
-        print(timezone.now().strftime('%H'))
         if delivery.teskor_buyurtma:
-             teskor_buyurtma_date = _teskor_buyurtma_test()
+             teskor_buyurtma_date = _teskor_buyurtma_test(request=request)
 
         if not(delivery.teskor_buyurtma):
              teskor_buyurtma_date = None
@@ -35,7 +37,7 @@ class OrderValudeView(APIView):
                     
                 
             
-        print(timezone.now())
+        print(datetime.now().strftime('%H'))
         tolov = TolovUsullar.objects.all()
         shaharlar = Shaharlar.objects.all()
         dokon = Dokon.objects.all()
