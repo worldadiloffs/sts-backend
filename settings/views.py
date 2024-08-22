@@ -56,23 +56,23 @@ class SiteSettingsApiviews(APIView):
     },
 
 
-class ShaharLarPostApiviews(APIView):
-    def post(self, request):
-        data = request.data["data"]
-        for i in data:
-            shahar = Shaharlar()
-            shahar.name_uz = i['title']
-            shahar.name_ru = i['title_ru']
-            shahar.site_sts = True
-            shahar.site_rts = True
-            shahar.save()
-            index = 0
-            for j in range(0, (len(i['shahar'])-1)):
+# class ShaharLarPostApiviews(APIView):
+#     def post(self, request):
+#         data = request.data["data"]
+#         for i in data:
+#             shahar = Shaharlar()
+#             shahar.name_uz = i['title']
+#             shahar.name_ru = i['title_ru']
+#             shahar.site_sts = True
+#             shahar.site_rts = True
+#             shahar.save()
+#             index = 0
+#             for j in range(0, (len(i['shahar'])-1)):
 
-                tuman = Tumanlar()
-                tuman.name_uz = i['shahar'][j]['name']
-                tuman.name_ru = i['shahar_ru'][j]['name']
-                tuman.viloyat = shahar
-                tuman.save()
-        return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
+#                 tuman = Tumanlar()
+#                 tuman.name_uz = i['shahar'][j]['name']
+#                 tuman.name_ru = i['shahar_ru'][j]['name']
+#                 tuman.viloyat = shahar
+#                 tuman.save()
+#         return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
 

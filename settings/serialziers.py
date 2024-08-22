@@ -47,7 +47,7 @@ class SitePageSerialzier(serializers.ModelSerializer):
 
 
 class TolovUsullarSerialzier(serializers.ModelSerializer):
-    payment = PaymentSerialzier(many=True, read_only=True)
+    payment_methods = PaymentSerialzier(many=True)
     class Meta:
         model = TolovUsullar
         fields = "__all__"
