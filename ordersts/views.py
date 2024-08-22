@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from settings.models import Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar
+from settings.models import Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
 from .models import Order, OrderItem
 from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
@@ -30,8 +30,11 @@ def _order_item_to_dict(order_item) -> list[int]:
         validate_count = _validate_product_count(product_id=i['product_id'],count=i['quantity'])
         if not(validate_count):
             error_product.append({"product_id":i['product_id'], "quantity": i['quantity']})
+
     if len(error_product) > 0:
         return {"errors": True, "data": error_product}
+    else:
+        return {"errors": False, "data": order_item}
 
 
 
@@ -95,6 +98,8 @@ class OrderCreateAPIView(APIView):
     def post(self, request):
         # order items is  required fields 
         order_item_data = []
+        doller = OrderSetting.objects.first()
+        doller_value =int(doller.doller * doller.nds / 10)
         zakas_id = (Order.objects.count() + 1000)
         request.data["zakas_id"] = zakas_id
         if request.data.get("order_items") is not None:
@@ -102,16 +107,19 @@ class OrderCreateAPIView(APIView):
             if order_validate['errors']:
                 return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
-                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user, "site_sts": True}
+                prod = Product.objects.get(id=item['product_id'])
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "site_sts": True, "price":int(prod.price * doller_value)}
                 item_serializer = OrderItemSerializer(data=item_data)
-                if item_serializer.is_valid():
-                    item_serializer.save(user=request.user)
-                    order_item_data.append(item_serializer.data.get('id'))
+                if item_serializer.is_valid(raise_exception=True):
+                    item_serializer.save()
+                    order_item_data.append(item_data)
+        else:
+            return Response({"errors": "Invalid order items"}, status=400)
         #payment method is option fields 
-        if request.data["payment"]  is not None:
+        if request.data.get("payment_method")  is not None:
             payment_validate = __payment_method_to_dict(request.data.get("payment"))
             if not(payment_validate['errors']):
-                request.data["payment"] = payment_validate['payment_method_id']
+                request.data["payment_method"] = payment_validate['payment_method_id']
             return Response(payment_validate, status=400)
         
         if request.data.get("tolov_usullar") is None:
@@ -126,16 +134,16 @@ class OrderCreateAPIView(APIView):
             request.data["tolov_usullar"] = tolov_usullar_validate["tolov_usullar_id"]
 
         # punkit option fields
-        if request.data["punkit"] is not None:
+        if request.data.get("punkit") is not None:
             punkit_validate = _punkit_to_dict(request.data.get("punkit"))
             if punkit_validate['errors']:
                 return Response(punkit_validate, status=400)
             else:
                 request.data["punkit"] = punkit_validate["dokon_id"]
 
-        request.data["order_items"] = order_validate
+        # request.data["order_items"] =order_item_data
         request.data["site_sts"] = True
-        request.data["user"] = request.user
+        request.data["user"] = request.user.id
 
         # cashback field option fields 
         if request.data.get("cashback") is not None:
@@ -158,15 +166,20 @@ class OrderCreateAPIView(APIView):
                 return Response({"errors": "Invalid depozit amount"}, status=400)
         request.data["total_price"] = sum(
             [
-                item["price"] * item["quantity"]
-                for item in request.data.get("order_items")
+                int(item["price"]) * int(item["quantity"])
+                for item in order_item_data
             ]
         )
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            order_id = Order.objects.get(id=serializer.data.get('id'))
+            for i in order_item_data:
+                order_id.order_items.add(OrderItem.objects.get(id=i['product']))
             # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
-            return Response(serializer.data, status=201)
+            order_serial = OrderGetSerializer(order_id)
+            return Response(order_serial.data, status=201)
+        return Response(serializer.errors, status=400)
         
 
 class OrderGetAPIView(APIView):

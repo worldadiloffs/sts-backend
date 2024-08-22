@@ -89,7 +89,8 @@ class ProductsModelAdmin(TranslationAdmin):
         "aksiya_title",
         "price",
         "site_sts",
-        "site_rts"
+        "site_rts",
+        "counts",
     ]
 
     inlines = [GalleryInlines]
