@@ -386,7 +386,6 @@ class CategoryProductViews(APIView):
                             "name": filter_prods.sub_name,
                             "product": prod_serialzier.data,
                             "pagination": pagination,
-                            "filter_product": filter_prods.product_filter,
                             "sub_content": sub_data,
                             "filter_category": filter_serialzier.data,
                             "link": links
