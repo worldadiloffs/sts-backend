@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse
 from .serialziers import SitePageSerialzier , SettingsSeriazlier , PaymentSerialzier , DeliveryServiceSeriazleir
-from .models import SitePage , SiteSettings , PaymentMethod , DeliveryService
+from .models import SitePage , SiteSettings , PaymentMethod , DeliveryService, Shaharlar , Tumanlar
 
 
 class PageApiviews(APIView):
@@ -32,5 +32,38 @@ class SiteSettingsApiviews(APIView):
             }, "errors": False, "message": ""}, safe=False
         )
 
+ 
+ 
+    {
+      "title": "Toshkent viloyati",
+      "shahar": [
+        { "name": "Ohangaron tumani" },
+        { "name": "Ohangaron shahar" },
+        { "name": "Bo'stonliq tumani" },
+        { "name": "Quyi Chirchiq tumani" },
+        { "name": "Oqqo'rg'on tumani" },
+        { "name": "Parkent tumani" },
+        { "name": "Piskent tumani" },
+        { "name": "O'rta Chirchiq tumani" },
+        { "name": "Qibray tumani" },
+        { "name": "Yuqori Chirchiq tumani" },
+        { "name": "Yangiyo'l tumani" },
+        { "name": "Zangiota tumani" },
+        { "name": "Chinoz tumani" },
+        { "name": "Bekobod tumani" },
+        { "name": "Yangibozor shahar" }
+      ]
+    },
 
+
+class ShaharLarPostApiviews(APIView):
+    def post(self, request):
+        data = request.data["data"]
+        for i in data:
+            shahar = Shaharlar.objects.create(name=i['title'], site_sts=True,site_rts=True)
+            shahar.save()
+            for j in i['shahar']:
+                tuman = Tumanlar.objects.create(name=j['name'], viloyat=shahar)
+                tuman.save()
+        return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
 
