@@ -10,9 +10,9 @@ from datetime import datetime
 
 def _teskor_buyurtma_test():
     if int(datetime.now().strftime('%H'))>18:
-         return f"{timezone.now() + timezone.timedelta(days=1, hours=11)}" 
+         return f"{datetime.now() + timezone.timedelta(days=1, hours=11)}" 
     if int(datetime.now().strftime('%H'))>14:
-              return f"{timezone.now() + timezone.timedelta(hours=6)}" 
+              return f"{datetime.now() + timezone.timedelta(hours=6)}" 
                
     if int(datetime.now().strftime('%H'))<14:
         return f"{datetime.now() + timezone.timedelta(hours=6)}" 
