@@ -6,9 +6,13 @@ from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, Sha
 from django.utils import timezone
 
 from datetime import datetime
+from django.utils.timezone import activate
+
+
 
 
 def _teskor_buyurtma_test():
+    activate('Asia/Tashkent')
     if int(datetime.now().strftime('%H'))>18:
          return f"{datetime.now() + timezone.timedelta(days=1, hours=11)}" 
     if int(datetime.now().strftime('%H'))>14:
@@ -26,13 +30,13 @@ class OrderValudeView(APIView):
              teskor_buyurtma_date = _teskor_buyurtma_test()
 
         if not(delivery.teskor_buyurtma):
-             teskor_buyurtma_date = None
+             teskor_buyurtma_date = datetime.now()
              
             
                     
                 
             
-
+        print(timezone.now())
         tolov = TolovUsullar.objects.all()
         shaharlar = Shaharlar.objects.all()
         dokon = Dokon.objects.all()
