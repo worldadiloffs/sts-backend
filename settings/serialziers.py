@@ -58,7 +58,7 @@ class TumanlarSerialzier(serializers.ModelSerializer):
         fields = "__all__"
 
 class ShaharlarSerialzier(serializers.ModelSerializer):
-    tuman = TumanlarSerialzier(many=True, read_only=True)
+    viloyat = TumanlarSerialzier(many=True)
     class Meta:
         model = Shaharlar
         fields = "__all__"
