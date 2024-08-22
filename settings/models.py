@@ -87,10 +87,10 @@ class Dokon(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-        if self.image:
-            img = image.open(self.image)
-            img = img.resize((300, 300), image.ANTIALIAS)
-            img.save(self.image.path)
+        # if self.image:
+        #     img = image.open(self.image)
+        #     img = img.resize((300, 300), image.ANTIALIAS)
+        #     img.save(self.image.path)
     
     def get_absolute_url(self):
         return reverse('dokon:detail', kwargs={'slug': self.slug})
