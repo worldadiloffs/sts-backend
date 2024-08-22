@@ -162,13 +162,12 @@ class OrderCreateAPIView(APIView):
         
 
 class OrderGetAPIView(APIView):
-    def get(self, request, pk):
-        order = Order.objects.filter(id=pk).first()
-        if order is not None:
-            serializer = OrderGetSerializer(order)
-            return Response({"data": serializer.data, "errors": False, "message": ""})
-        return Response({"errors": True, "message": "Order not found"}, status=404)
-
+    def get(self, request):
+        order = Order.objects.all()
+     
+        serializer = OrderGetSerializer(order, many=True)
+        return Response({"data": serializer.data, "errors": False, "message": ""})
+       
 
 class OrderUpdateAPIView(APIView):
     def patch(self, request, pk):
