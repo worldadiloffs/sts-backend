@@ -380,8 +380,8 @@ class OrderSetting(models.Model):
             tolov_usullar = TolovUsullar.objects.filter(firma=True).first()
             if tolov_usullar is  None:
                 tolovlar = TolovUsullar()
-                tolovlar.name_uz = "Firma orqali Mahsulot buyurtma"
-                tolovlar.name_ru = "Фирма илиганизационная покупка"
+                tolovlar.name = "Firma orqali Mahsulot buyurtma"
+                # tolovlar.name_ru = "Фирма илиганизационная покупка"
                 tolovlar.site_sts = self.site_sts
                 tolovlar.status = False
                 tolovlar.firma = True
