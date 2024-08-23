@@ -1,3 +1,4 @@
+import requests
 from permission.permissions import IsSuperUser
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -99,7 +100,21 @@ class UserProfile(APIView):
                     addres_data = addres_serialzier.data
                 else:
                     addres_data = None
-                return Response({"data": {"user": serializer.data, "address": addres_data, "is_login": True}}, status=status.HTTP_200_OK)
+                client_ip = get_client_ip(request)
+                # client_ip = "213.230.120.73"
+                # Replace this with your actual API request
+                url =f"http://ipinfo.io/{client_ip}/geo"
+
+                api_response = requests.get(url=url)
+                data = api_response.json()
+                if data:
+                    location_data = {
+                        "ip": data.get("ip"),
+                        "city": data.get("city", ""),
+                        "region": data.get("region", ""),
+                        "loc": data.get("loc", ""),
+                    }
+                return Response({"data": {"user": serializer.data, "address": addres_data, "location": location_data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
