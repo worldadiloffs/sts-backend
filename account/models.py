@@ -6,12 +6,7 @@ from django.utils import timezone
 from django.db import models
 from datetime import date
 from .manager import CustomUserManager 
-
-from django.contrib.auth.models import Group
-
-
 import requests 
-
 
 # Create your models here.
 class GouseUser(models.Model):
@@ -186,5 +181,7 @@ class Profile(models.Model):
 
     def get_foiz(self):
         pass 
+
+
 
 

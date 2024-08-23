@@ -30,3 +30,5 @@ def send_otp(request, phone):
         data_set,
         status=status.HTTP_200_OK,
     )
+
+

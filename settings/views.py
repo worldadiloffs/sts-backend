@@ -51,4 +51,3 @@ class SiteSettingsApiviews(APIView):
 #                 tuman.viloyat = shahar
 #                 tuman.save()
 #         return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
-

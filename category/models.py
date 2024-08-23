@@ -193,3 +193,8 @@ class SubCategory(models.Model):
                 self.slug = create_shortcode_sub(self)
 
         super(SubCategory, self).save(*args, **kwargs)
+
+
+
+
+

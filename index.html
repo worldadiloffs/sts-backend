@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hover to Play Video</title>
+    <style>
+        /* Optional: Style the video container */
+        .video-container {
+            width: 600px;
+            margin: 50px auto;
+            border: 2px solid #ccc;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video id="myVideo" width="100%" muted>
+            <source src="https://api.sts-shop.uz/media/productvideo/RbhvXsneBu6ayBKVGECXxad4JKovxshuaI5Sqkcd.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+
+        // Play video on mouse hover
+        video.addEventListener('mouseenter', () => {
+            video.play();
+        });
+
+        // Pause video when mouse leaves
+        video.addEventListener('mouseleave', () => {
+            video.pause();
+        });
+    </script>
+</body>
+</html>

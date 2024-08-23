@@ -1,5 +1,4 @@
 import requests
-from permission.permissions import IsSuperUser
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
@@ -9,9 +8,6 @@ from .models import User, UserAddress
 from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
-    UpdateAPIView,
-    CreateAPIView,
-    RetrieveUpdateAPIView,
 )
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -32,14 +28,10 @@ from .serializers import (
     ChangeTwoStepPasswordSerializer,
     CreateTwoStepPasswordSerializer,
 )
-from .models import PhoneOtp
 from .send_otp import send_otp
 
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip
-
-from datetime import date as dt
-
 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -147,7 +139,7 @@ class UserAdressCreate(APIView):
     def post(self, request):
         user = request.user
         request.data['user'] = user.id
-        serializer = UserAdressSerializer(user, data=request.data, partial=True)
+        serializer = UserAdressSerializer(data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
