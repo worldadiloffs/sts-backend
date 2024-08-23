@@ -91,13 +91,6 @@ class Product(models.Model):
     def get_available(self):
         return f"{self.available}"
     
-
-    def get_kredit(self):
-        data = (self.p*(30.42)*foiz)/(365*100)
-        kredit_sum = data+(summa/oy)
-
-    
-    
     def link(self):
         if self.sub_category is not None:
              return  {
