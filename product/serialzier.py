@@ -51,6 +51,7 @@ class ProductSerialzier(serializers.ModelSerializer):
         model = Product
         fields = (  
             "id",
+            "articul",
             "product_name",
             'category_name',
             #  "link",
@@ -183,7 +184,8 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     
 
     def get_discount_price(self, obj):
-        return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
+        if obj.price:
+            return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
         
 
     def get_price(self, obj):
