@@ -35,11 +35,17 @@ def doller_funtion():
     return order.doller * 1.12 # 1.12 is for dollar exchange rate
 
 
+def kredit_cal(price, oy, foiz):
+        summa = price* doller_funtion()
+        data = (summa *(30.42)*foiz)/(365*100)
+        return  data+(summa/oy)
+
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     price = serializers.SerializerMethodField()
     discount_price = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()
+    kredit_summa = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -56,6 +62,7 @@ class ProductSerialzier(serializers.ModelSerializer):
             "slug",
             "price",
             "discount_price",
+            "kredit_summa",
             "short_content",
             "content",
             "tavar_dagavornaya",
@@ -67,6 +74,11 @@ class ProductSerialzier(serializers.ModelSerializer):
             "counts",
             "full_description"
             )
+        
+    def get_kredit_summa(self, obj):
+        if obj.price:
+            return int(kredit_cal(obj.price, 12, 36)) if obj.price  else 0
+        return None
         
 
     def get_price(self, obj):
@@ -142,7 +154,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     image = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField(read_only=True)
     price = serializers.SerializerMethodField()
-
+    kredit_summa = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
         fields = (
@@ -154,11 +166,19 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
             "slug",
             "price",
             "discount_price",
+            "kredit_summa",
             "short_content",
             "tavar_dagavornaya",
             "counts",
             "super_category",
         )
+
+
+    def get_kredit_summa(self, obj):
+        if obj.price:
+            return int(kredit_cal(obj.price, 12, 36)) if obj.price  else 0
+        return None
+        
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
