@@ -25,10 +25,10 @@ class LocationAPIView(APIView):
         data = api_response.json()
         if data:
             location_data = {
+                "ip": data.get("ip"),
                 "city": data.get("city", ""),
-                "country": data.get("country_name", ""),
-                "latitude": data.get("latitude", ""),
-                "longitude": data.get("longitude", "")
+                "region": data.get("region", ""),
+                "loc": data.get("loc", ""),
             }
             return Response(location_data)
         else:
