@@ -12,8 +12,8 @@ from django.utils.html import format_html
 
 
 class SuperCategory(models.Model):
-    rating = models.PositiveIntegerField(default=0, blank=True)
-    super_name = models.CharField(max_length=200, blank=False, null=False, unique=True)
+    rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
+    super_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Asosiy Kategoriya Nomi"))
     category_image = models.ImageField(
         upload_to="categories/super/imgs/",
         verbose_name=("Category Image"),
@@ -33,14 +33,15 @@ class SuperCategory(models.Model):
         blank=True,
         null=True,
         help_text=_("max_widht:50, max_height:50"),
+        verbose_name=_("Icon"),
     )
-    meta_name = models.CharField(max_length=200, blank=True, null=True)
-    meta_content = models.CharField(max_length=300, blank=True, null=True)
-    status = models.BooleanField(default=False, blank=True)
-    seo_content = RichTextField(blank=True, null=True)
-    sts_site = models.BooleanField(default=False)
-    rts_site = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    meta_name = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Meta uchun nom"))
+    meta_content = models.CharField(max_length=300, blank=True, null=True, verbose_name=_("Meta uchun  content"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Site chiqish uchun status"))
+    seo_content = RichTextField(blank=True, null=True, verbose_name=_("SEO uchun  Content"))
+    sts_site = models.BooleanField(default=False, verbose_name=_("Site STS uchun status"))
+    rts_site = models.BooleanField(default=False, verbose_name=_("Site RTS uchun status"))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqti"))
 
     class Meta:
         verbose_name_plural = "Asosiy Kategoriyalar"
@@ -78,27 +79,26 @@ class SuperCategory(models.Model):
         super(SuperCategory, self).save(*args, **kwargs)
 
 class MainCategory(models.Model):
-    rating = models.PositiveIntegerField(default=0, blank=True)
+    rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     superCategory = models.ForeignKey(
-        SuperCategory, on_delete=models.SET_NULL, null=True
-    )
-    main_name = models.CharField(max_length=200, blank=False, null=False, unique=True)
+        SuperCategory, on_delete=models.SET_NULL, null=True , verbose_name=_("Asosiy Kategoriya"))
+    main_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Kategoriya uchun nom"))
     main_image = models.ImageField(
         upload_to="categories/main/imgs/",
-        verbose_name=(" Main Category Image"),
+        verbose_name=("Kategoriya rasm"),
         blank=True,
         null=True,
     )
     slug = models.SlugField(unique=True,allow_unicode=True, null=True, editable=False, blank=True)
-    icon = models.FileField(upload_to='category', blank=True, null=True)
-    header_add = models.BooleanField(default=False, blank=True)
-    main_meta = models.CharField(max_length=200, blank=True, null=True)
-    ommabob = models.BooleanField(default=False, blank=True)
-    main_content = models.CharField(max_length=300, blank=True, null=True)
-    status = models.BooleanField(default=False, blank=True)
-    sts_site = models.BooleanField(default=False)
-    rts_site = models.BooleanField(default=False)
-    created = models.DateTimeField(blank=True, null=True)
+    icon = models.FileField(upload_to='category', blank=True, null=True, verbose_name=_("Icon"))
+    header_add = models.BooleanField(default=False, blank=True, verbose_name=_("Headerga qo'shish uchun status"))
+    main_meta = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Meta uchun nom"))
+    ommabob = models.BooleanField(default=False, blank=True, verbose_name=_("Ommabob Tavarlar uchun status"))
+    main_content = models.CharField(max_length=300, blank=True, null=True, verbose_name=_("Kategoriya uchun  content"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Site chiqish uchun status"))
+    sts_site = models.BooleanField(default=False, verbose_name=_("Site STS uchun status"))
+    rts_site = models.BooleanField(default=False, verbose_name=_("Site RTS uchun status"))
+    created = models.DateTimeField(blank=True, null=True, verbose_name=_("Yaratilgan vaqti"))
 
     class Meta:
         verbose_name_plural = "Main Kategoriyalar"
@@ -137,26 +137,26 @@ class MainCategory(models.Model):
 
 
 class SubCategory(models.Model):
-    rating = models.PositiveIntegerField(default=0, blank=True)
+    rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     mainCategory = models.ForeignKey(
-        MainCategory, on_delete=models.CASCADE, blank=True, null=True
+        MainCategory, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Main Kategoriya")
     )
-    sub_name = models.CharField(max_length=200, blank=False, null=False, unique=True)
+    sub_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Sub Kategoriya uchun nom"))
     sub_image = models.ImageField(
         upload_to="categories/main/imgs/",
-        verbose_name=("Sub Category Image"),
+        verbose_name=("Sub Kategoriya rasm"),
         blank=True,
         null=True,
     )
     slug = models.SlugField(unique=True, null=True, allow_unicode=True,editable=False, blank=True)
-    sub_meta = models.CharField(max_length=200, blank=True, null=True)
-    sub_content = models.CharField(max_length=300, blank=True, null=True)
-    seo_cub = RichTextField(blank=True, null=True)
-    product_description = models.JSONField(blank=True, null=True)
-    product_content = models.JSONField(blank=True, null=True)
-    sts_site = models.BooleanField(default=False)
-    rts_site = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    sub_meta = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Meta uchun nom"))
+    sub_content = models.CharField(max_length=300, blank=True, null=True, verbose_name=_("Sub Kategoriya uchun  content"))
+    seo_cub = RichTextField(blank=True, null=True, verbose_name=_("SEO uchun  Content"))
+    product_description = models.JSONField(blank=True, null=True, verbose_name=_("Tegishli tavarlar uchun qiymatlar"))
+    product_content = models.JSONField(blank=True, null=True, verbose_name=_("Tegishli tavarlar uchun short  qiymatlar"))
+    sts_site = models.BooleanField(default=False, verbose_name=_("Site STS uchun status"))
+    rts_site = models.BooleanField(default=False, verbose_name=_("Site RTS uchun status"))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqti"))
 
     class Meta:
         verbose_name_plural = "Sub Kategoriyalar"

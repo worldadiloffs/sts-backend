@@ -16,7 +16,6 @@ class Xodim(models.Model):
     sotuvchi = models.BooleanField(default=False, blank=True)
     content_manager = models.BooleanField(default=False, blank=True)
     coll_center = models.BooleanField(default=False, blank=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     admin = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
@@ -24,10 +23,13 @@ class Xodim(models.Model):
     permision = models.ManyToManyField(Group, blank=True)
     ishni_boshlash_vaqti = models.TimeField(blank=True, null=True)
     ishni_bitirish_vaqti = models.TimeField(blank=True, null=True)
-    # created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
 
 
+    def get_permission_names(self):
+        return ', '.join([p.name for p in self.permision.all()])
+    
+    
     class Meta:
         verbose_name = "Xodim"
         verbose_name_plural = "Xodimlar"
@@ -38,11 +40,4 @@ class Xodim(models.Model):
 
 
     def save(self, *args, **kwargs):
-        # if self.created_at is not None:
-        #     user = User.objects.get(phone=self.user.phone)
-        #     per = self.permision.all()
-        #     for i in per:
-        #         data = Group.objects.get(id=i.id)
-        #         user.groups.add(data)
-        #         user.save()
         super().save(*args, **kwargs)

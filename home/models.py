@@ -4,21 +4,21 @@ from category.models import MainCategory , SubCategory
 from django.utils.text import slugify
 import random, string
 # Create your models here.
-from config.settings import site_name , pages_setting
+from config.settings import site_name 
 
 from django.utils.html import format_html
 
 
 
 class Banner(models.Model):
-    title = models.CharField(max_length=200, blank=True)
+    title = models.CharField(max_length=200, blank=True , verbose_name=_("Banner uchun nom"))
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    status = models.BooleanField(default=False, blank=True)
-    url = models.URLField(blank=True)
-    image = models.ImageField(upload_to='banner/images', blank=True)
-    category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL , blank=True, null=True)
-    site_sts =models.BooleanField(default=False, blank=True)
-    site_rts =models.BooleanField(default=False, blank=True)
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Status"))
+    url = models.URLField(blank=True, verbose_name=_("URL Linki"))
+    image = models.ImageField(upload_to='banner/images', blank=True, verbose_name=_("Rasim"))
+    category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Kategoriya"))
+    site_sts =models.BooleanField(default=False, blank=True, verbose_name=_("Site STS"))
+    site_rts =models.BooleanField(default=False, blank=True, verbose_name=_("Site RTS"))
     
     class Meta:
         verbose_name_plural = "Home Banner"
@@ -56,21 +56,20 @@ class Banner(models.Model):
 class HomePageCategory(models.Model):
     top= models.IntegerField(blank=True, null=True, help_text=_("home page nechinchi orinda chiqsin"))
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
-    title = models.CharField(max_length=200, blank=True)
-    mainCategory = models.ForeignKey(MainCategory, on_delete=models.SET_NULL, blank=True , null=True)
-    # subcategory_filter = models.ManyToManyField(SubCategory , blank=True)
-    image = models.ImageField(upload_to='homepage/images', blank=True, null=True)
-    image_url = models.URLField(blank=True, null=True)
-    status = models.BooleanField(default=False, blank=True) 
-    site_sts =models.BooleanField(default=False, blank=True)
-    site_rts =models.BooleanField(default=False, blank=True)
+    title = models.CharField(max_length=200, blank=True, verbose_name=_("Nom"))
+    mainCategory = models.ForeignKey(MainCategory, on_delete=models.SET_NULL, blank=True , null=True, verbose_name=_("Kategoriya tanlang"))
+    image = models.ImageField(upload_to='homepage/images', blank=True, null=True, verbose_name=_("Rasim"))
+    image_url = models.URLField(blank=True, null=True, verbose_name=_("URL Linki"))
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("Status")) 
+    site_sts =models.BooleanField(default=False, blank=True, verbose_name=_("Site STS"))
+    site_rts =models.BooleanField(default=False, blank=True, verbose_name=_("Site RTS"))
       # filter product news
-    news = models.BooleanField(default=False, blank=True)
+    news = models.BooleanField(default=False, blank=True, verbose_name=_("Yangi Tavarlar ro'yxati"))
     # banner product add filter 
-    banner_add = models.BooleanField(default=False, blank=True)
+    banner_add = models.BooleanField(default=False, blank=True, verbose_name=_("Banner Tavarlar ro'yxati"))
     #  aksiya product 
-    aksiya = models.BooleanField(default=False, blank=True)
-    xitlar = models.BooleanField(default=False, blank=True)
+    aksiya = models.BooleanField(default=False, blank=True, verbose_name=_("Aksiya Tavarlar ro'yxati"))
+    xitlar = models.BooleanField(default=False, blank=True, verbose_name=_("Xitlar ro'yxati"))
 
     class Meta:
         verbose_name_plural = "Home Page Category"
