@@ -19,6 +19,7 @@ from rest_framework.views import APIView
 from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from account.models import User 
+from drf_spectacular.utils import extend_schema
 
 from .serializers import (
     UserAdressSerializer,
@@ -117,6 +118,11 @@ class UserUPdate(APIView):
 
 class UserAdressCreate(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    @extend_schema(
+            request=UserAdressSerializer(),
+            responses=UserAdressSerializer()
+    )
+    
     def post(self, request):
         user = request.user
         serializer = UserAdressSerializer(user, data=request.data, partial=True)
@@ -127,6 +133,10 @@ class UserAdressCreate(APIView):
     
 class UserUpdateAddress(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    @extend_schema(
+            request=UserAdressSerializer(),
+            responses= UserAdressSerializer()
+    )
     def put(self, request, pk):
         address = get_object_or_404(UserAddress, pk=pk)
         serializer = UserAdressSerializer(address, data=request.data, partial=True)
