@@ -2,7 +2,7 @@ from os import access
 from django.contrib.auth import get_user_model
 from django_countries.serializers import CountryFieldMixin
 from rest_framework import serializers
-from .models import   GouseUser , User
+from .models import   GouseUser , User , UserAddress, Profile
 
 
 class GostSerialzier(serializers.ModelSerializer):
@@ -157,3 +157,10 @@ class ChangeTwoStepPasswordSerializer(CreateTwoStepPasswordSerializer):
         max_length=20,
     )
 
+
+
+
+class UserAdressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAddress
+        fields = "__all__"

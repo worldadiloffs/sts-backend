@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from .models import User
+from .models import User, UserAddress
 from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -21,6 +21,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from account.models import User 
 
 from .serializers import (
+    UserAdressSerializer,
     UsersListSerializer,
     UserDetailUpdateDeleteSerializer,
     UserProfileSerializer,
@@ -89,7 +90,9 @@ class UserProfile(APIView):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
-                return Response({"data": {"user": serializer.data, "is_login": True}}, status=status.HTTP_200_OK)
+                addres  = UserAddress.objects.filter(user=user).first()
+                addres_serialzier = UserAdressSerializer(addres) if addres else None
+                return Response({"data": {"user": serializer.data, "address": addres_serialzier.data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
@@ -108,6 +111,27 @@ class UserUPdate(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+
+
+
+class UserAdressCreate(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        user = request.user
+        serializer = UserAdressSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, pk):
+        address = get_object_or_404(UserAddress, pk=pk)
+        serializer = UserAdressSerializer(address, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
         
