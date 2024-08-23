@@ -183,7 +183,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     
 
     def get_discount_price(self, obj):
-        return obj.discount_price and int(obj.discount_price * doller_funtion()) or int((obj.price * doller_funtion()) * 1.2)
+        return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
         
 
     def get_price(self, obj):
