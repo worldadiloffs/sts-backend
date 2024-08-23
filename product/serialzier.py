@@ -155,6 +155,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     image = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField(read_only=True)
     price = serializers.SerializerMethodField()
+    discount_price = serializers.SerializerMethodField(read_only=True)
     kredit_summa = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Product
@@ -179,6 +180,10 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
         if obj.price:
             return int(kredit_cal(obj.price, 12, 36)) if obj.price  else 0
         return None
+    
+
+    def get_discount_price(self, obj):
+        return obj.discount_price and int(obj.discount_price * doller_funtion()) or int((obj.price * doller_funtion()) * 1.2)
         
 
     def get_price(self, obj):
