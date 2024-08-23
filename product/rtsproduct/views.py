@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
-from .serialzier import ImagePostSeriazilizer, ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier , ImageSeriazilizer
-from .models import Product , Image
+from product.serialzier import ImagePostSeriazilizer, ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier , ImageSeriazilizer
+from product.models import Product , Image
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
     MainCategortStsSerializer,
@@ -23,12 +23,12 @@ from django.db.models import Q
 from settings.models import OrderSetting
 from config.settings import site_name
 
-from .serialzier import kredit_cal
+from product.serialzier import kredit_cal
 
 
 
 
-class ProductListMiniView(APIView):
+class RTSProductListMiniView(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
@@ -42,29 +42,7 @@ class ProductListMiniView(APIView):
         )
     
 
-
-
-class ImageProductApiview(APIView):
-    parser_classes =[MultiPartParser, FormParser]
-    def post(self, request):
-        serialzier = ImagePostSeriazilizer(data=request.data)
-        if serialzier.is_valid():
-            serialzier.save()
-            return JsonResponse({"data": serialzier.data, "errors":False, "message": ""},safe=False)
-        return JsonResponse({"data": None, "errors":False, "message": ""}, safe=False)
-    
-    def get(self, request):
-        image = Image.objects.all()
-        seriazlier =ImagePostSeriazilizer(image, many=True)
-        return JsonResponse(seriazlier.data)
-
-
-
-       
-
-
-
-class ProductDetailApiview(APIView):
+class RTSProductDetailApiview(APIView):
     def get(self, request, slug):
         product = Product.objects.get(slug=slug, status=True, site_sts=True)
         data = None
@@ -145,7 +123,7 @@ def _sub_category_list(main_id):
 
 
 
-class SearchProductView(APIView):
+class RTSSearchProductView(APIView):
     def get(self, request):
         search = request.GET.get("search", "")
         if search:
@@ -172,7 +150,7 @@ class SearchProductView(APIView):
         )    
 
 
-class CartProductApiview(APIView):
+class RTSCartProductApiview(APIView):
     def post(self, request):
         products = request.data.get("products", None)
         doller_obj = OrderSetting.objects.first()
@@ -207,7 +185,7 @@ class CartProductApiview(APIView):
 
     
 
-class CategoryProductViews(APIView):
+class RTSCategoryProductViews(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
