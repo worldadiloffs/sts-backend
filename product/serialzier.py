@@ -43,7 +43,7 @@ def kredit_cal(price, oy, foiz):
 class ProductSerialzier(serializers.ModelSerializer):
     images = ImageSeriazilizer(required=False, read_only=True, many=True)
     price = serializers.SerializerMethodField()
-    discount_price = serializers.SerializerMethodField()
+    discount_price = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField()
     kredit_summa = serializers.SerializerMethodField()
 
@@ -84,7 +84,8 @@ class ProductSerialzier(serializers.ModelSerializer):
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
     def get_discount_price(self, obj):
-        return obj.discount_price and int(obj.discount_price * doller_funtion()) or 0
+        return obj.discount_price and int(obj.discount_price * doller_funtion()) or int((obj.price * doller_funtion()) * 1.2) 
+      
 
     
     def get_category_name(self, obj):
