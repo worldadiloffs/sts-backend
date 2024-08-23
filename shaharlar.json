@@ -1,0 +1,354 @@
+{
+    "data": [
+      {
+        "title": "Toshkent viloyati",
+         "title_ru": "Тошкент вилояти",
+        "shahar": [
+          { "name": "Ohangaron tumani" },
+          { "name": "Ohangaron shahar" },
+          { "name": "Bo'stonliq tumani" },
+          { "name": "Quyi Chirchiq tumani" },
+          { "name": "Oqqo'rg'on tumani" },
+          { "name": "Parkent tumani" },
+          { "name": "Piskent tumani" },
+          { "name": "O'rta Chirchiq tumani" },
+          { "name": "Qibray tumani" },
+          { "name": "Yuqori Chirchiq tumani" },
+          { "name": "Yangiyo'l tumani" },
+          { "name": "Zangiota tumani" },
+          { "name": "Chinoz tumani" },
+          { "name": "Bekobod tumani" },
+          { "name": "Yangibozor shahar" }
+        ],
+        "shahar_ru": [
+          { "name": "Оҳангарон тумани" },
+          { "name": "Бўстонлиқ тумани" },
+          { "name": "Қуйичирчиқ тумани" },
+          { "name": "Оққўрғон тумани" },
+          { "name": "Паркент тумани" },
+          { "name": "Пскент тумани" },
+          { "name": "Ўртачирчиқ тумани" },
+          { "name": "Қибрай тумани" },
+          { "name": "Юқоричирчиқ тумани" },
+          { "name": "Янгийўл тумани" },
+          { "name": "Зангиота тумани" },
+          { "name": "Чиноз тумани" },
+          { "name": "Юқоричирчиқ тумани" },
+          { "name": "Оҳангарон шаҳар" },
+          { "name": "Янгибозор шаҳар" }
+        ]
+      },
+      {
+        "title": "Jizzax viloyati",
+         "title_ru": "Жиззах вилояти",
+        "shahar": [
+          { "name": "Jizzax shahar" },
+          { "name": "Arnasoy tumani" },
+          { "name": "Baxmal tumani" },
+          { "name": "Do'stlik tumani" },
+          { "name": "Zafarobod tumani" },
+          { "name": "Zarbdor tumani" },
+          { "name": "Mirzacho'l tumani" },
+          { "name": "Paxtakor tumani" },
+          { "name": "Yangiobod tumani" },
+          { "name": "G'allaorol tumani" },
+          { "name": "Sharof Rashidov tumani" },
+          { "name": "Zomin tumani" }
+        ],
+          "shahar_ru": [
+          { "name": "Жиззах шаҳар" },
+          { "name": "Арнасой тумани" },
+          { "name": "Бахмал тумани" },
+          { "name": "Дўстлик тумани" },
+          { "name": "Зафаробод тумани" },
+          { "name": "Зарбдор тумани" },
+          { "name": "Мирзачўл тумани" },
+          { "name": "Пахтакор тумани" },
+          { "name": "Янгиобод тумани" },
+          { "name": "Ғаллаорол тумани" },
+          { "name": "Ш.Рашидов тумани" },
+          { "name": "Зомин тумани" }
+        ]
+      },
+      {
+        "title": "Namangan viloyati",
+        "title_ru": "Наманган вилояти",
+        "shahar": [
+          { "name": "Namangan shahar" },
+          { "name": "Kosonsoy tumani" },
+          { "name": "Norin tumani" },
+          { "name": "Pop tumani" },
+          { "name": "To'raqo'rg'on tumani" },
+          { "name": "Uchqo'rg'on tumani" },
+          { "name": "Uychi tumani" },
+          { "name": "Chortoq tumani" },
+          { "name": "Yangiqo'rg'on tumani" },
+          { "name": "Mingbuloq tumani" }
+        ],
+         "shahar_ru": [
+          { "name": "Наманган шаҳар" },
+          { "name": "Косонсой тумани" },
+          { "name": "Норин тумани" },
+          { "name": "Поп тумани" },
+          { "name": "Тўрақўрғон тумани" },
+          { "name": "Учқўрғон тумани" },
+          { "name": "Уйчи тумани" },
+          { "name": "Чортоқ тумани" },
+          { "name": "Янгиқўрғон тумани" },
+          { "name": "Мингбулоқ тумани" },
+          { "name": "Янгиқўрғон тумани" }
+        ]
+      },
+      {
+        "title": "Samarqand viloyati",
+        "shahar": [
+          { "name": "Samarqand shahar" },
+          { "name": "Kattaqo'rg'on shahar" },
+          { "name": "Kattaqo'rg'on tumani" },
+          { "name": "Oqdaryo tumani" },
+          { "name": "Bulung'ur tumani" },
+          { "name": "Jomboy tumani" },
+          { "name": "Ishtixon tumani" },
+          { "name": "Qo'shrabot tumani" },
+          { "name": "Narpay tumani" },
+          { "name": "Nurobod tumani" },
+          { "name": "Olot tumani" },
+          { "name": "Pastdarg'om tumani" },
+          { "name": "Payariq tumani" },
+          { "name": "Paxtachi tumani" },
+          { "name": "Toyloq tumani" },
+          { "name": "Urgut tumani" }
+        ],
+         "title_ru": "Самарқанд вилояти",
+        "shahar_ru": [
+          { "name": "Самарқанд шаҳар" },
+          { "name": "Каттақўрғон шаҳар" },
+          { "name": "Каттақўрғон тумани" },
+          { "name": "Оқдарё тумани" },
+          { "name": "Булунғур тумани" },
+          { "name": "Жомбой тумани" },
+          { "name": "Иштихон тумани" },
+          { "name": "Қўшработ тумани" },
+          { "name": "Нарпай тумани" },
+          { "name": "Нуробод тумани" },
+          { "name": "Олот тумани" },
+          { "name": "Пастдарғом тумани" },
+          { "name": "Пайариқ тумани" },
+          { "name": "Пахтачи тумани" },
+          { "name": "Тойлоқ тумани" },
+          { "name": "Ургут тумани" }
+        ]
+        
+      },
+      {
+        "title": "Surxondaryo viloyati",
+        "shahar": [
+          { "name": "Termiz shahar" },
+          { "name": "Angor tumani" },
+          { "name": "Boysun tumani" },
+          { "name": "Denov tumani" },
+          { "name": "Jarqo'rg'on tumani" },
+          { "name": "Qumqo'rg'on tumani" },
+          { "name": "Muzrabot tumani" },
+          { "name": "Oltinsoy tumani" },
+          { "name": "Sariosiyo tumani" },
+          { "name": "Sherobod tumani" },
+          { "name": "Sho'rchi tumani" },
+          { "name": "Termiz tumani" }
+        ],
+          "title_ru": "Сурхондарё вилояти",
+        "shahar_ru": [
+          { "name": "Термиз шаҳар" },
+          { "name": "Ангор тумани" },
+          { "name": "Бойсун тумани" },
+          { "name": "Денов тумани" },
+          { "name": "Жарқўрғон тумани" },
+          { "name": "Қумқўрғон тумани" },
+          { "name": "Музработ тумани" },
+          { "name": "Олтинсой тумани" },
+          { "name": "Сариосиё тумани" },
+          { "name": "Шерабад тумани" },
+          { "name": "Шўрчи тумани" },
+          { "name": "Термиз тумани" }
+        ]
+      },
+      {
+        "title": "Sirdaryo viloyati",
+        "shahar": [
+          { "name": "Guliston shahar" },
+          { "name": "Oqoltin tumani" },
+          { "name": "Boyovut tumani" },
+          { "name": "Sirdaryo tumani" },
+          { "name": "Sayxunobod tumani" },
+          { "name": "Mirzaobod tumani" },
+          { "name": "Shirin shahar" },
+          { "name": "Yangiyer shahar" },
+          { "name": "Xovos tumani" }
+        ],
+         "title_ru": "Сирдарё вилояти",
+        "shahar_ru": [
+          { "name": "Гулистон шаҳар" },
+          { "name": "Акалтумани" },
+          { "name": "Бахт тумани" },
+          { "name": "Сирдарё тумани" },
+          { "name": "Сайҳунобод тумани" },
+          { "name": "Мирзаобод тумани" },
+          { "name": "Ширин шаҳар" },
+          { "name": "Янгийўл шаҳар" },
+          { "name": "Ҳовос тумани" }
+        ]
+      },
+      {
+        "title": "Farg'ona viloyati",
+        "shahar": [
+          { "name": "Farg'ona shahar" },
+          { "name": "Qo'qon shahar" },
+          { "name": "Marg'ilon shahar" },
+          { "name": "Beshariq tumani" },
+          { "name": "Buvayda tumani" },
+          { "name": "Dang'ara tumani" },
+          { "name": "Yozyovon tumani" },
+          { "name": "Oltiariq tumani" },
+          { "name": "Quva tumani" },
+          { "name": "Rishton tumani" },
+          { "name": "So'x tumani" },
+          { "name": "Toshloq tumani" },
+          { "name": "O'zbekiston tumani" },
+          { "name": "Uchko'prik tumani" },
+          { "name": "Furqat tumani" }
+        ],
+          "title_ru": "Фарғона вилояти",
+        "shahar_ru": [
+          { "name": "Фарғона шаҳар" },
+          { "name": "Қўқон шаҳар" },
+          { "name": "Марғилон шаҳар" },
+          { "name": "Бешариқ тумани" },
+          { "name": "Бувайда тумани" },
+          { "name": "Данғара тумани" },
+          { "name": "Ёзёвон тумани" },
+          { "name": "Олтиариқ тумани" },
+          { "name": "Қува тумани" },
+          { "name": "Риштон тумани" },
+          { "name": "Сўх тумани" },
+          { "name": "Тошлоқ тумани" },
+          { "name": "Ўзбекистон тумани" },
+          { "name": "Ўшарн тумани" },
+          { "name": "Фурқат тумани" },
+          { "name": "Қўшариқ тумани" }
+        ]
+      },
+      {
+        "title": "Xorazm viloyati",
+        "shahar": [
+          { "name": "Urganch shahar" },
+          { "name": "Bog'ot tumani" },
+          { "name": "Gurlan tumani" },
+          { "name": "Qo'shko'pir tumani" },
+          { "name": "Shovot tumani" },
+          { "name": "Xonqa tumani" },
+          { "name": "Hazorasp tumani" },
+          { "name": "Tuproqqala tumani" },
+          { "name": "Yangiariq tumani" },
+          { "name": "Yangibozor tumani" }
+        ],
+         "title_ru": "Хоразм вилояти",
+        "shahar_ru": [
+          { "name": "Урганч шаҳар" },
+          { "name": "Боғот тумани" },
+          { "name": "Гурлан тумани" },
+          { "name": "Қўшкўпир тумани" },
+          { "name": "Шовот тумани" },
+          { "name": "Хонқа тумани" },
+          { "name": "Ҳазорасп тумани" },
+          { "name": "Тупроққала тумани" },
+          { "name": "Янгиариқ тумани" },
+          { "name": "Янгибозор тумани" }
+        ]
+      },
+      {
+        "title": "Navoiy viloyati",
+        "shahar": [
+          { "name": "Navoiy shahar" },
+          { "name": "Qiziltepa tumani" },
+          { "name": "Uchquduq tumani" },
+          { "name": "Zarafshon shahar" },
+          { "name": "Nurota tumani" },
+          { "name": "Tomdi tumani" },
+          { "name": "Xatirchi tumani" },
+          { "name": "Konimex tumani" }
+        ],
+         "title_ru": "Навоий вилояти",
+        "shahar_ru": [
+          { "name": "Навоий шаҳар" },
+          { "name": "Қизилтепа тумани" },
+          { "name": "Учқудуқ тумани" },
+          { "name": "Зарафшон шаҳар" },
+          { "name": "Нуратоб тумани" },
+          { "name": "Томди тумани" },
+          { "name": "Қизилтепа тумани" },
+          { "name": "Хатирчи тумани" },
+          { "name": "Конимех тумани" }
+        ]
+      },
+      {
+        "title": "Toshkent shahar",
+        "shahar": [
+          { "name": "Mirobod tumani" },
+          { "name": "Yunusobod tumani" },
+          { "name": "Chilonzor tumani" },
+          { "name": "Mirzo Ulug'bek tumani" },
+          { "name": "Yakkasaroy tumani" },
+          { "name": "Olmazor tumani" },
+          { "name": "Yashnobod tumani" },
+          { "name": "Bektemir tumani" },
+          { "name": "Shayxontohur tumani" },
+          { "name": "Sergeli tumani" },
+          { "name": "Uchtepa tumani" }
+        ],
+        "title_ru": "Тошкент шаҳар",
+        "shahar_ru": [
+          { "name": "Миробод тумани" },
+          { "name": "Юнусобод тумани" },
+          { "name": "Чилонзор тумани" },
+          { "name": "Мирзо Улуғбек тумани" },
+          { "name": "Яккасарой тумани" },
+          { "name": "Олмазор тумани" },
+          { "name": "Яшнобод тумани" },
+          { "name": "Бектемир тумани" },
+          { "name": "Шайхонтоҳур тумани" },
+          { "name": "Сергелий тумани" },
+          { "name": "Учинчи тумани" }
+        ]
+      },
+      {
+        "title": "Qoraqalpog'iston Respublikasi",
+        "shahar": [
+          { "name": "Nukus shahar" },
+          { "name": "Mo'ynoq tumani" },
+          { "name": "Qo'ng'irot tumani" },
+          { "name": "Qorao'zak tumani" },
+          { "name": "Taxtako'pir tumani" },
+          { "name": "Chimboy tumani" },
+          { "name": "Shumanay tumani" },
+          { "name": "Beruniy tumani" },
+          { "name": "Ellikqal'a tumani" },
+          { "name": "Xo'jayli tumani" },
+          { "name": "To'rtko'l tumani" }
+        ],
+         "title_ru": "Қорақалпоғистон",
+        "shahar_ru": [
+          { "name": "Нукус шаҳар" },
+          { "name": "Мўйноқ тумани" },
+          { "name": "Қўнғирот тумани" },
+          { "name": "Қораўзак тумани" },
+          { "name": "Тахтакўпир тумани" },
+          { "name": "Чимбой тумани" },
+          { "name": "Шўрчи тумани" },
+          { "name": "Шуманай тумани" },
+          { "name": "Берунӣ тумани" },
+          { "name": "Тахтакўпир тумани" }
+        ]
+      }
+    ]
+  }
+
