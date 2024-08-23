@@ -23,6 +23,8 @@ from django.db.models import Q
 from settings.models import OrderSetting
 from config.settings import site_name
 
+from .serialzier import kredit_cal
+
 
 
 
@@ -175,6 +177,7 @@ class CartProductApiview(APIView):
         products = request.data.get("products", None)
         doller_obj = OrderSetting.objects.first()
         doller = doller_obj.doller * 1.12
+        
         data = []
         try:
             if products is not None:
@@ -190,7 +193,8 @@ class CartProductApiview(APIView):
                         "product_name": product_obj.product_name,
                         "product_video": product_obj.product_video  and (site_name + product_obj.product_video.url)  or None,
                         "slug": product_obj.slug,
-                        "tavar_dagavornaya": product_obj.tavar_dagavornaya
+                        "tavar_dagavornaya": product_obj.tavar_dagavornaya,
+                        "kredit_summa": int(kredit_cal(price=product_obj.price, oy=12, foiz=36)),
                         }
                     data.append(obj)
                 return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
