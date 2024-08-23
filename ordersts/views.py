@@ -13,6 +13,7 @@ from django.http import JsonResponse
 
 from drf_spectacular.utils import extend_schema
 
+from rest_framework.throttling import ScopedRateThrottle
 
 
 
@@ -95,11 +96,16 @@ class OrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
-    # authentication_classes = [JWTAuthentication ,]
+    authentication_classes = [JWTAuthentication ,]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
     @extend_schema(
             request=OrderGetSerializer(),
             responses=OrderGetSerializer()
     )
+   
 
     def post(self, request):
         # order items is  required fields 
