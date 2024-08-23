@@ -161,6 +161,9 @@ class UserUpdateAddress(APIView):
     )
     def put(self, request, pk):
         address = get_object_or_404(UserAddress, pk=pk)
+        user = request.user
+        if user!= address.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         serializer = UserAdressSerializer(address, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
