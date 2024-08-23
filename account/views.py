@@ -125,6 +125,8 @@ class UserAdressCreate(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class UserUpdateAddress(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def put(self, request, pk):
         address = get_object_or_404(UserAddress, pk=pk)
         serializer = UserAdressSerializer(address, data=request.data, partial=True)

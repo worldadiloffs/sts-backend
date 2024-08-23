@@ -1,7 +1,7 @@
 from django.urls import path
 
 from .views import (
-    UserUPdate, UsersList, UsersDetailUpdateDelete, UserProfile, 
+    UserUPdate, UserUpdateAddress, UsersList, UsersDetailUpdateDelete, UserProfile, 
     Login, Register, VerifyOtp,
     ChangeTwoStepPassword, CreateTwoStepPassword,LogoutView , UserAdressCreate
 )
@@ -21,6 +21,6 @@ urlpatterns = [
     path("sts/account/create-two-step-password/", CreateTwoStepPassword.as_view(), name="create-two-step-password"),
     path("sts/account/users/<int:pk>/",csrf_exempt(UserUPdate.as_view()), name="users-detail"  ),
     path("sts/account/address/", csrf_exempt(UserAdressCreate.as_view()), name="address-create" ),
-    path("sts/account/address/<int:pk>/", csrf_exempt(UserAdressCreate.as_view()), name="address-create" ),
+    path("sts/account/address/<int:pk>/", csrf_exempt(UserUpdateAddress.as_view()), name="address-update"),
     # path("sts/account/users/<int:pk>/", UsersDetailUpdateDelete.as_view(), name="users-detail"),
 ]
