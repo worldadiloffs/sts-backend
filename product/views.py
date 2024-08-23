@@ -195,6 +195,7 @@ class CartProductApiview(APIView):
                         "slug": product_obj.slug,
                         "tavar_dagavornaya": product_obj.tavar_dagavornaya,
                         "kredit_summa": int(kredit_cal(price=product_obj.price, oy=12, foiz=36)),
+                        "discount_price": int(product_obj.discount_price and int(product_obj.discount_price * doller) or int((product_obj.price * doller) * 1.2) )
                         }
                     data.append(obj)
                 return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
