@@ -91,9 +91,15 @@ class UserProfile(APIView):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
-                addres  = UserAddress.objects.filter(user=user).first()
-                addres_serialzier = UserAdressSerializer(addres) if addres else None
-                return Response({"data": {"user": serializer.data, "address": addres_serialzier.data, "is_login": True}}, status=status.HTTP_200_OK)
+                addres_bool:bool  = UserAddress.objects.filter(user=user).exists()
+                if addres_bool:
+                    addres = UserAddress.objects.get(user=user)
+    
+                    addres_serialzier = UserAdressSerializer(addres) if addres else None
+                    addres_data = addres_serialzier.data
+                else:
+                    addres_data = None
+                return Response({"data": {"user": serializer.data, "address": addres_data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
