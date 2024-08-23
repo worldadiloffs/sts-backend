@@ -46,6 +46,7 @@ class ProductSerialzier(serializers.ModelSerializer):
     discount_price = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField()
     kredit_summa = serializers.SerializerMethodField()
+    product_video = serializers.SerializerMethodField(required=False, read_only=True)
 
     class Meta:
         model = Product
@@ -81,6 +82,11 @@ class ProductSerialzier(serializers.ModelSerializer):
             return int(kredit_cal(obj.price, 12, 36)) if obj.price  else 0
         return None
         
+
+    def get_product_video(self, obj):
+        if obj.product_video:
+            return site_name + obj.product_video.url
+        return None
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
