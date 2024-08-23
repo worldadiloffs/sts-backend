@@ -125,6 +125,7 @@ class UserAdressCreate(APIView):
     
     def post(self, request):
         user = request.user
+        request.data['user'] = user.id
         serializer = UserAdressSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
