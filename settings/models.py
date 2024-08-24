@@ -69,6 +69,8 @@ class Dokon(models.Model):
     address = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=15, blank=True)
     image = models.ImageField(upload_to='dokonlar', blank=True, null=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
 
 
     class Meta:
