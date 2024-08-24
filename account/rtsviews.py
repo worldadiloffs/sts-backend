@@ -64,7 +64,7 @@ class RTSUserProfile(APIView):
                     }
                 return Response({"data": {"user": serializer.data, "address": addres_data, "location": location_data, "is_login": True}}, status=status.HTTP_200_OK)
         else:
-            return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"user": None, "is_login": False}, status=status.HTTP_403_FORBIDDEN)
         
 
 
