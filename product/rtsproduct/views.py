@@ -44,10 +44,10 @@ class RTSProductListMiniView(APIView):
 
 class RTSProductDetailApiview(APIView):
     def get(self, request, slug):
-        product = Product.objects.get(slug=slug, status=True, site_sts=True)
+        product = Product.objects.get(slug=slug, status=True, site_rts=True)
         data = None
         if product.main_category is not None:
-            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk, status=True, site_sts=True)[:10]
+            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk, status=True, site_rts=True)[:10]
             main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
             data = main_serialzier.data 
             # link = get_link(product.super_category , product.main_category, product.sub_category)
@@ -104,10 +104,10 @@ class RTSProductDetailApiview(APIView):
 
 def _sub_category_list(main_id):
     filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk 
-    main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
+    main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category,rts_site=True )
     data = []
     for i in main_obj:
-        sub_category = SubCategory.objects.filter(mainCategory__id=i.pk)
+        sub_category = SubCategory.objects.filter(mainCategory__id=i.pk, rts_site=True)
         if sub_category is not None:
             for sub in sub_category:
                 prod_count = len(Product.objects.filter(sub_category__id=sub.pk))
@@ -131,8 +131,8 @@ class RTSSearchProductView(APIView):
         next = int(request.GET.get("page", 1))
         limit = 12
         current = int(next) - 1
-        count = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).count()
-        product = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).order_by("id")[
+        count = Product.objects.filter(status=True, site_rts=True).filter(Q(product_name__icontains=search)).count()
+        product = Product.objects.filter(status=True, site_rts=True).filter(Q(product_name__icontains=search)).order_by("id")[
                     current * limit : next * limit
                 ]
         # count = product.count()
@@ -211,7 +211,7 @@ class RTSCategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for main in MainCategory.objects.filter(superCategory__id=super_id):
-                        prod_obj = Product.objects.filter(status=True, site_sts=True, main_category__id=main.pk)
+                        prod_obj = Product.objects.filter(status=True, site_rts=True, main_category__id=main.pk)
                         serialzier = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             sub_names = main.main_name
@@ -248,7 +248,7 @@ class RTSCategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
-                        prod_obj = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub.pk)
+                        prod_obj = Product.objects.filter(status=True, site_rts=True, sub_category__id=sub.pk)
                         serialzeir = ProductListMiniSerilizers(prod_obj, many=True) 
                         if len(prod_obj) > 0:
                             if prod_obj is not None:
@@ -285,27 +285,27 @@ class RTSCategoryProductViews(APIView):
                     if avalable:
                         count = Product.objects.filter(
                             status=True,
-                            site_sts=True,
+                            site_rts=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
                         ).count()
                         product = Product.objects.filter(
                             status=True,
-                            site_sts=True,
+                            site_rts=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
                     count = Product.objects.filter(
                         status=True,
-                        site_sts=True,
+                        site_rts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
                     ).count()
                     product = Product.objects.filter(
                         status=True,
-                        site_sts=True,
+                        site_rts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
                     ).order_by(order_py)[ current * limit : next * limit]
@@ -313,19 +313,19 @@ class RTSCategoryProductViews(APIView):
                     if avalable:
                         count = Product.objects.filter(
                             status=True,
-                            site_sts=True,
+                            site_rts=True,
                             sub_category__id=sub_id,
                             available=True,
                         ).count()
 
                         product = Product.objects.filter(
                             status=True,
-                            site_sts=True,
+                            site_rts=True,
                             sub_category__id=sub_id,
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
-                    count = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(order_py)[
+                    count = Product.objects.filter(status=True, site_rts=True, sub_category__id=sub_id).count()
+                    product = Product.objects.filter(status=True, site_rts=True, sub_category__id=sub_id).order_by(order_py)[
                         current * limit : next * limit
                     ]
                 

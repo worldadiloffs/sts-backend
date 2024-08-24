@@ -29,7 +29,7 @@ class RTSCategoryListJsonViews(APIView):
         responses=CategorySchemaserialzeir
     )
     def get(self, request):
-        category = SuperCategory.objects.filter(status=True, sts_site=True).order_by(
+        category = SuperCategory.objects.filter(status=True, rts_site=True).order_by(
             "id"
         )
         serilalizer = SuperCategoryStsMiniSerializer(category, many=True)
@@ -44,11 +44,11 @@ class RTSCategoryHeaderViews(APIView):
     )
     def get(self, request):
         main = MainCategory.objects.filter(
-            sts_site=True, status=True, header_add=True
+            rts_site=True, status=True, header_add=True
         ).order_by("id")
         serialzier = MainCategortStsMiniHomeSerializer(main, many=True)
         ommaobo_category = MainCategory.objects.filter(
-            sts_site=True, status=True, ommabob=True
+            rts_site=True, status=True, ommabob=True
         ).order_by("id")[:6]
         ommabob_serialzier = MainCategortStsMiniHomeSerializer(
             ommaobo_category, many=True

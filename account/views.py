@@ -310,9 +310,10 @@ class VerifyOtp(APIView):
                         "refresh": str(refresh),
                         "access": str(refresh.access_token),
                     }
-                    # if created:
-                    #     datase = Hamyon.objects.create(id=phone)
-                    #     datase.save()
+                    if created:
+                        datase = User.objects.create(phone=phone)
+                        datase.site_sts= True
+                        datase.save()
 
                     return Response(
                         context,

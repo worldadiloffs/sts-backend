@@ -117,7 +117,7 @@ class RTSOrderCreateAPIView(APIView):
     def post(self, request):
         # order items is  required fields 
         order_item_data = []
-        doller = OrderSetting.objects.first()
+        doller = OrderSetting.objects.filter(site_rts=True).first()
         doller_value =int(doller.doller * doller.nds / 10)
         zakas_id = (Order.objects.count() + 1000)
         request.data["zakas_id"] = zakas_id
@@ -127,7 +127,7 @@ class RTSOrderCreateAPIView(APIView):
                 return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
                 prod = Product.objects.get(id=item['product_id'])
-                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "site_sts": True, "price":int(prod.price * doller_value)}
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "site_rts": True, "price":int(prod.price * doller_value)}
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
@@ -161,7 +161,7 @@ class RTSOrderCreateAPIView(APIView):
                 request.data["punkit"] = punkit_validate["dokon_id"]
 
         # request.data["order_items"] =order_item_data
-        request.data["site_sts"] = True
+        request.data["site_rts"] = True
         request.data["user"] = request.user.id
 
         # cashback field option fields 
@@ -231,15 +231,15 @@ def _teskor_buyurtma_test(request):
 class RTSOrderValudeView(APIView):
     def get(self, request):
             
-        delivery = DeliveryService.objects.all().first()
+        delivery = DeliveryService.objects.filter(site_rts=True).first()
         if delivery.teskor_buyurtma:
              teskor_buyurtma_date = _teskor_buyurtma_test(request=request)
 
         if not(delivery.teskor_buyurtma):
              teskor_buyurtma_date = None
-        tolov = TolovUsullar.objects.all()
+        tolov = TolovUsullar.objects.filter(site_rts=True)
         shaharlar = Shaharlar.objects.all()
-        dokon = Dokon.objects.all()
+        dokon = Dokon.objects.filter(site_rts=True)
         delivery_serial = DeliveryServiceSeriazleir(delivery)
         tolov_serial = TolovUsullarSerialzier(tolov, many=True)
         shaharlar_serial = ShaharlarSerialzier(shaharlar, many=True)

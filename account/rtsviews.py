@@ -226,6 +226,11 @@ class RTSVerifyOtp(APIView):
                     #     datase = Hamyon.objects.create(id=phone)
                     #     datase.save()
 
+                    if created:
+                        rts_user =User.objects.get(phone=phone)
+                        rts_user.site_rts = True
+                        rts_user.save()
+
                     return Response(
                         context,
                         status=status.HTTP_200_OK,
