@@ -25,15 +25,15 @@ def _teskor_buyurtma_test(request):
 class OrderValudeView(APIView):
     def get(self, request):
             
-        delivery = DeliveryService.objects.all().first()
+        delivery = DeliveryService.objects.filter(site_sts=True).first()
         if delivery.teskor_buyurtma:
              teskor_buyurtma_date = _teskor_buyurtma_test(request=request)
 
         if not(delivery.teskor_buyurtma):
              teskor_buyurtma_date = None
-        tolov = TolovUsullar.objects.all()
+        tolov = TolovUsullar.objects.filter(site_sts=True)
         shaharlar = Shaharlar.objects.all()
-        dokon = Dokon.objects.all()
+        dokon = Dokon.objects.filter(site_sts=True)
         delivery_serial = DeliveryServiceSeriazleir(delivery)
         tolov_serial = TolovUsullarSerialzier(tolov, many=True)
         shaharlar_serial = ShaharlarSerialzier(shaharlar, many=True)

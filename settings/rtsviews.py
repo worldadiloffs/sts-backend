@@ -5,23 +5,23 @@ from .serialziers import SitePageSerialzier , SettingsSeriazlier , PaymentSerial
 from .models import SitePage , SiteSettings , PaymentMethod , DeliveryService, Shaharlar , Tumanlar
 
 
-class PageApiviews(APIView):
+class RTSPageApiviews(APIView):
     def get(self, request):
-        site_page = SitePage.objects.filter(status=True, site_sts=True)
+        site_page = SitePage.objects.filter(status=True, site_rts=True)
         serialzieer = SitePageSerialzier(site_page, many=True)
         return JsonResponse(
             {"data": serialzieer.data, "errors":True, "message": ""}, safe=False
         )
     
-class SiteSettingsApiviews(APIView):
+class RTSSiteSettingsApiviews(APIView):
     def get(self, request):
-        settings_model = SiteSettings.objects.filter(site_sts=True).first()
+        settings_model = SiteSettings.objects.filter(site_rts=True).first()
         setting_serialzier = SettingsSeriazlier(settings_model, many=False)
-        payment = PaymentMethod.objects.filter(site_sts=True, status=True)
+        payment = PaymentMethod.objects.filter(site_rts=True, status=True)
         payment_serialzier = PaymentSerialzier(payment, many=True)
-        site_page = SitePage.objects.filter(status=True, site_sts=True)
+        site_page = SitePage.objects.filter(status=True, site_rts=True)
         serialzieer = SitePageSerialzier(site_page, many=True)
-        delivery =DeliveryService.objects.filter(site_sts=True).first()
+        delivery =DeliveryService.objects.filter(site_rts=True).first()
         delivery_serialzeir = DeliveryServiceSeriazleir(delivery) 
         return JsonResponse(
             {"data": {

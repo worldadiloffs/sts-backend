@@ -2,6 +2,8 @@ import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from extensions.code_generator import get_client_ip
+import threading
+from product.models import Product
 
 # def get_client_ip(request):
 #     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -11,26 +13,25 @@ from extensions.code_generator import get_client_ip
 #         ip = request.META.get('REMOTE_ADDR')
 #     return ip
 
-class LocationAPIView(APIView):
-    def get(self, request):
-        # Fetching location data from an external API
-        # Here we use a dummy API for demonstration purposes
-     # For real-world application, you'd use an external API like IP Geolocation API or MaxMind GeoIP API
-        client_ip = get_client_ip(request)
-        # client_ip = "213.230.120.73"
-        # Replace this with your actual API request
-        url =f"http://ipinfo.io/{client_ip}/geo"
+def my_function(data):
+    print(f"Bu xabar {data} !")
+    product = Product.objects.get(id=data)
+    print(f"Bu xabar {product.product_name}!")
+    # print(f"Bu xabar {timess} shundan keyin chiqadi!")
+    print("Bu xabar 5 soniyadan keyin chiqadi!")
 
-        api_response = requests.get(url=url)
-        data = api_response.json()
-        if data:
-            location_data = {
-                "ip": data.get("ip"),
-                "city": data.get("city", ""),
-                "region": data.get("region", ""),
-                "loc": data.get("loc", ""),
-            }
-            return Response(location_data)
-        else:
-            return Response({"error": "Failed to retrieve location data"}, status=500)
+class LocationAPIView(APIView):
+    def get(self, request, pk=None):
+    # 5 soniyadan keyin funksiyani ishga tushirish uchun Timer yaratish
+        timer = threading.Timer(5.0, my_function, args={pk})
+
+        # Timer'ni boshlash
+        timer.start()
+        return Response({"message": "Location API ishlaydi"}, status=200)
+
+print("Bu xabar darhol chiqadi!")
        
+
+
+
+

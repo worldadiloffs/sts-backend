@@ -33,52 +33,8 @@ from .send_otp import send_otp
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip
 
-class LogoutView(APIView):
-    permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-
-            return Response(
-                status=status.HTTP_205_RESET_CONTENT, content_type="status seksesfull"
-            )
-        except Exception as e:
-            return Response(
-                status=status.HTTP_400_BAD_REQUEST, content_type="status error"
-            )
-
-
-class UsersList(ListAPIView):
-    """
-    get:
-        Returns a list of all existing users.
-    """
-
-    serializer_class = UsersListSerializer
-    # permission_classes =  IsSuperUser,
-
-    filterset_fields = [
-        "phone",
-    ]
-
-    def get_queryset(self):
-        return get_user_model().objects.all()
-
-
-class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
-
-    serializer_class = UserDetailUpdateDeleteSerializer
-    # permission_classes = [permissions.IsAdminUser]
-
-    def get_object(self):
-        pk = self.kwargs.get("pk")
-        return get_object_or_404(get_user_model(), pk=pk)
-
-
-class UserProfile(APIView):
+class RTSUserProfile(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         user = request.user
@@ -114,7 +70,7 @@ class UserProfile(APIView):
 
 
 
-class UserUPdate(APIView):
+class RTSUserUPdate(APIView):
     def put(self, request, pk):
         try:
             user = User.objects.get(pk=pk)
@@ -129,7 +85,7 @@ class UserUPdate(APIView):
 
 
 
-class UserAdressCreate(APIView):
+class RTSUserAdressCreate(APIView):
     permission_classes = [permissions.IsAuthenticated]
     @extend_schema(
             request=UserAdressSerializer(),
@@ -145,7 +101,9 @@ class UserAdressCreate(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class UserUpdateAddress(APIView):
+
+
+class RTSUserUpdateAddress(APIView):
     permission_classes = [permissions.IsAuthenticated]
     @extend_schema(
             request=UserAdressSerializer(),
@@ -163,54 +121,8 @@ class UserUpdateAddress(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-        
 
-
-class Login(APIView):
-    """
-    post:
-        Send mobile number for Login.
-        parameters: [phone,]
-    """
-
-    permission_classes = [
-        AllowAny,
-    ]
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
-
-    def post(self, request):
-        serializer = AuthenticationSerializer(data=request.data)
-        if serializer.is_valid():
-            received_phone = serializer.data.get("phone")
-
-            user_is_exists: bool = (
-                User.objects.filter(phone=received_phone).values("phone").exists()
-            )
-            if not user_is_exists:
-                return Response(
-                    {
-                        "No User exists.": "Please enter another phone number.",
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-
-            # The otp code is sent to the user's phone number for authentication
-            return send_otp(
-                request,
-                phone=received_phone,
-            )
-
-        else:
-            return Response(
-                serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-
-class Register(APIView):
+class RTSRegister(APIView):
     """
     post:
         Send mobile number for Register.
@@ -254,7 +166,7 @@ class Register(APIView):
             )
 
 
-class VerifyOtp(APIView):
+class RTSVerifyOtp(APIView):
     """
     post:
         Send otp code to verify mobile number and complete authentication.
@@ -310,10 +222,14 @@ class VerifyOtp(APIView):
                         "refresh": str(refresh),
                         "access": str(refresh.access_token),
                     }
+                    # if created:
+                    #     datase = Hamyon.objects.create(id=phone)
+                    #     datase.save()
+
                     if created:
-                        datase = User.objects.create(phone=phone)
-                        datase.site_sts= True
-                        datase.save()
+                        rts_user =User.objects.get(phone=phone)
+                        rts_user.site_rts = True
+                        rts_user.save()
 
                     return Response(
                         context,
@@ -339,94 +255,3 @@ class VerifyOtp(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-
-class CreateTwoStepPassword(APIView):
-    """
-    post:
-        Send a password to create a two-step-password.
-
-        parameters: [new_password, confirm_new_password]
-    """
-
-    permission_classes = [
-        IsAuthenticated,
-    ]
-
-    def post(self, request):
-        if request.user.two_step_password:
-            return Response(
-                {"Error!": "Your request could not be approved."},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        serializer = CreateTwoStepPasswordSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        new_password = serializer.data.get("new_password")
-        try:
-            _: None = validate_password(new_password)
-        except ValidationError as err:
-            return Response({"errors": err}, status=status.HTTP_401_UNAUTHORIZED)
-        user = get_object_or_404(get_user_model(), pk=request.user.pk)
-        user.set_password(new_password)
-        user.two_step_password = True
-        user.save(update_fields=["password", "two_step_password"])
-        return Response(
-            {"Successful.": "Your password was changed successfully."},
-            status=status.HTTP_200_OK,
-        )
-
-
-class ChangeTwoStepPassword(APIView):
-    """
-    post:
-        Send a password to change a two-step-password.
-
-        parameters: [old_password, new_password, confirm_new_password,]
-    """
-
-    permission_classes = [
-        IsAuthenticated,
-    ]
-
-    def post(self, request):
-        if request.user.two_step_password:
-            serializer = ChangeTwoStepPasswordSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-
-            new_password = serializer.data.get("new_password")
-
-            try:
-                _: None = validate_password(new_password)
-            except ValidationError as err:
-                return Response(
-                    {"errors": err},
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
-
-            old_password = serializer.data.get("old_password")
-            user = get_object_or_404(get_user_model(), pk=request.user.pk)
-            check_password: bool = user.check_password(old_password)
-            if check_password:
-                user.set_password(new_password)
-                user.save(update_fields=["password"])
-
-                return Response(
-                    {
-                        "Successful.": "Your password was changed successfully.",
-                    },
-                    status=status.HTTP_200_OK,
-                )
-            else:
-                return Response(
-                    {
-                        "Error!": "The password entered is incorrect.",
-                    },
-                    status=status.HTTP_406_NOT_ACCEPTABLE,
-                )
-
-        return Response(
-            {
-                "Error!": "Your request could not be approved.",
-            },
-            status=status.HTTP_401_UNAUTHORIZED,
-        )

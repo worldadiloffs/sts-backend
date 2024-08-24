@@ -1,11 +1,8 @@
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from .models import Product
 from django.http import JsonResponse
 from category.models import SuperCategory , MainCategory , SubCategory
 from settings.models import CountSettings 
-from rest_framework.decorators import api_view
-# from rest_framework.decorators import APIView
 import requests
 
 class ProductPost(APIView):
@@ -79,6 +76,8 @@ class ProductPost(APIView):
             return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
         except Exception as e:
             return JsonResponse({"data": None, "errors": True, "message": f"{e}"})
+        
+
 
 class ProductUpdateAPiview(APIView):
     def post(self, request):
