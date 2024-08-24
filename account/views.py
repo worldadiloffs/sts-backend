@@ -30,6 +30,10 @@ from .serializers import (
 )
 from .send_otp import send_otp
 
+import threading
+
+from config.settings import CRM_KEY , CRM_TOKEN , CRM_URL
+
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip
 
@@ -254,6 +258,23 @@ class Register(APIView):
             )
 
 
+
+def _request_user_crm(phone):
+    headers = {
+    "X-Client-Key": CRM_KEY,
+    "Content-Type": "application/json"
+     }
+    res = requests.get(f"{CRM_URL}/users/phone/{phone}/", headers=headers)
+    if res.status_code == 200:
+        if (res.json()['status'] == "success"):
+            user = User.objects.get(phone=phone)
+            user.crm_user = True
+
+
+
+
+
+
 class VerifyOtp(APIView):
     """
     post:
@@ -314,6 +335,8 @@ class VerifyOtp(APIView):
                         datase = User.objects.create(phone=phone)
                         datase.site_sts= True
                         datase.save()
+                        threading.Timer(3, _request_user_crm, phone).start()
+
 
                     return Response(
                         context,

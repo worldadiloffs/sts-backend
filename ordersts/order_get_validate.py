@@ -29,7 +29,7 @@ class OrderValudeView(APIView):
         if delivery.teskor_buyurtma:
              teskor_buyurtma_date = _teskor_buyurtma_test(request=request)
 
-        if not(delivery.teskor_buyurtma):
+        else:
              teskor_buyurtma_date = None
         tolov = TolovUsullar.objects.filter(site_sts=True)
         shaharlar = Shaharlar.objects.all()

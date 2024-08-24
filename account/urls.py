@@ -31,3 +31,4 @@ urlpatterns = [
     path("rts/account/address/", csrf_exempt(RTSUserAdressCreate.as_view()), name="rts-address-create" ),
     path("rts/account/address/<int:pk>/", csrf_exempt(RTSUserUpdateAddress.as_view()), name="rts-address-update"),
 ]
+

@@ -6,5 +6,4 @@ def fibonacci(n):
         return n
     return fibonacci(n - 1) + fibonacci(n - 2)
 
-# Fibonaçchi sonini hisoblash
 print(fibonacci(40))

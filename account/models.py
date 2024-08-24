@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
+    crm_user = models.BooleanField(default=False, blank=True, editable=False)
 
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)

@@ -446,7 +446,11 @@ JAZZMIN_SETTINGS = {
 
 site_name = 'https://api.sts-shop.uz' # media url 
 
-# site_name = 'http://127.0.0.1:8000'
+CRM_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6"
+CRM_KEY = "hikvision"
+CRM_URL = "https://hikvision.uz/" 
+
+
 
 
 

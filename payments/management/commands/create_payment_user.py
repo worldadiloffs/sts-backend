@@ -9,7 +9,6 @@ from config.settings import PAYCOM_SETTINGS
 # User model
 user_model = get_user_model()
 
-
 class Command(BaseCommand):
     help = 'Create User for payments'
     username = 'Paycom'
