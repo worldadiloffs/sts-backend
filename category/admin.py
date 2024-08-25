@@ -20,6 +20,17 @@ class SubCategoryAdmin(TranslationAdmin):
         # Save the object
         super().save_model(request, obj, form, change)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user = request.user
+        if db_field.name == "mainCategory":
+            if user.site_sts:
+                kwargs["queryset"] = SubCategory.objects.filter(sts_site=True)
+            if user.site_rts:
+                kwargs["queryset"] = SubCategory.objects.filter(rts_site=True)
+            if not(user.site_sts) and not(user.site_rts):
+                kwargs["queryset"] = SubCategory.objects.filter(sts_site=True, rts_site=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def get_queryset(self, request):
         user = request.user
         if user.site_sts:
@@ -53,6 +64,17 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user = request.user
+        if db_field.name == "supercategory":
+            if user.site_sts:
+                kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
+            if user.site_rts:
+                kwargs["queryset"] = SuperCategory.objects.filter(rts_site=True)
+            if not(user.site_sts) and not(user.site_rts):
+                kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True, rts_site=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
     def save_model(self, request, obj, form, change):
         user = request.user
         # Custom logic before saving the object
