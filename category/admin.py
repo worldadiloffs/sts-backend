@@ -9,6 +9,17 @@ from product.models import Product
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(TranslationAdmin):
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        # Custom logic before saving the object
+        if not change:  # If the object is being created (not edited)
+            if user.site_sts:
+                obj.sts_site = True
+            if user.site_rts:
+                obj.rts_site = True
+        # Save the object
+        super().save_model(request, obj, form, change)
+
     def get_queryset(self, request):
         user = request.user
         if user.site_sts:
@@ -20,8 +31,9 @@ class SubCategoryAdmin(TranslationAdmin):
         else:
             qs = super().get_queryset(request)
             return qs.filter()
+    readonly_fields = ("sts_site", "rts_site",)
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
-    readonly_fields = ("sub_meta","seo_cub",)
+    readonly_fields = ("sub_meta","seo_cub", "sts_site", "rts_site",)
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
@@ -41,6 +53,16 @@ class SubCategoryAdmin(TranslationAdmin):
 
 @admin.register(MainCategory)
 class MainCategoryAdmin(TranslationAdmin):
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        # Custom logic before saving the object
+        if not change:  # If the object is being created (not edited)
+            if user.site_sts:
+                obj.sts_site = True
+            if user.site_rts:
+                obj.rts_site = True
+        # Save the object
+        super().save_model(request, obj, form, change)
     def get_queryset(self, request):
         user = request.user
         if user.site_sts:
@@ -52,7 +74,7 @@ class MainCategoryAdmin(TranslationAdmin):
         else:
             qs = super().get_queryset(request)
             return qs.filter()
-            return qs.filter(sts_site=True)
+    readonly_fields = ("sts_site", "rts_site",)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
     list_editable = ("status", "header_add", "ommabob","sts_site", "rts_site",)
     search_fields = ("main_name","id",)
@@ -75,6 +97,16 @@ class MainCategoryAdmin(TranslationAdmin):
 
 @admin.register(SuperCategory)
 class SuperCategoryAdmin(TranslationAdmin):
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        # Custom logic before saving the object
+        if not change:  # If the object is being created (not edited)
+            if user.site_sts:
+                obj.sts_site = True
+            if user.site_rts:
+                obj.rts_site = True
+        # Save the object
+        super().save_model(request, obj, form, change)
     def get_queryset(self, request):
         user = request.user
         if user.site_sts:
