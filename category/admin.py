@@ -14,9 +14,9 @@ class SubCategoryAdmin(TranslationAdmin):
         # Custom logic before saving the object
         if not change:  # If the object is being created (not edited)
             if user.site_sts:
-                obj.sts_site = True
+                obj.site_sts = True
             if user.site_rts:
-                obj.rts_site = True
+                obj.site_rts = True
         # Save the object
         super().save_model(request, obj, form, change)
 
