@@ -318,10 +318,10 @@ class VerifyOtp(APIView):
                         "access": str(refresh.access_token),
                     }
                     if created:
-                        datase = User.objects.create(phone=phone)
+                        datase = User.objects.get(phone=phone)
                         datase.site_sts= True
                         datase.save()
-                        threading.Timer(3, _request_user_crm, phone).start()
+                        # threading.Timer(3, _request_user_crm, phone).start()
 
 
                     return Response(

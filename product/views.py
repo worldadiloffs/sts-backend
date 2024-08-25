@@ -125,6 +125,8 @@ class ProductDetailApiview(APIView):
                         "logo": i.logo and ( site_name +  i.logo.url) or None,
                         "name": i.name,
                         "oylar": i.kredit(product.price)})
+                    
+        
               
         return JsonResponse(
                 {"data": {"link": link, "muddatli_tolov": muddat_tolov, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
