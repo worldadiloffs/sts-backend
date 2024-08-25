@@ -16,11 +16,11 @@ class GalleryInlines(admin.TabularInline):
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    readonly_fields = ('full_description',)
+    # readonly_fields = ('full_description',)
     # add_form = ProductEditForm
     change_list_template = "admin/product/product/change-list.html"
 
-    autocomplete_fields = ("main_category", "super_category", "sub_category",)
+    # autocomplete_fields = ("main_category", "super_category", "sub_category",)
 
     # def get_fields(self, request, obj=None):
     #     user = request.user
