@@ -9,10 +9,14 @@ from .views import (
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .rtsviews import RTSUserProfile, RTSUserUPdate, RTSUserAdressCreate , RTSRegister, RTSUserUpdateAddress
 
-
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+    TokenVerifyView
+)
 app_name = "account"
 
 urlpatterns = [
+    path('sts/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('sts/account/logaut/',LogoutView.as_view(), name='auth_logout' ),
     path("sts/account/profile/", UserProfile.as_view(), name="profile"),
     path("sts/account/login/", Login.as_view(), name="login"),
@@ -24,6 +28,7 @@ urlpatterns = [
     path("sts/account/address/", csrf_exempt(UserAdressCreate.as_view()), name="address-create" ),
     path("sts/account/address/<int:pk>/", csrf_exempt(UserUpdateAddress.as_view()), name="address-update"),
     # rts site uchun api 
+    path('rts/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("rts/account/profile/", RTSUserProfile.as_view(), name="rts-profile"),
     path("rts/account/register/", RTSRegister.as_view(), name="rts-register"),
     path("rts/account/verify/", VerifyOtp.as_view(), name="rts-verify-otp"),
