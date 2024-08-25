@@ -34,6 +34,17 @@ class OrderAdmin(admin.ModelAdmin):
             color = 'red'
         else:
             color = 'green'
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(site_sts=True)
+        if user.site_rts:
+            qs = super().get_queryset(request)
+            return qs.filter(site_rts=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs.filter()
         
         # return f'<span style="color: {color};">{obj.get_status_display()}</span>'
         return format_html('<span style="color: {};">{}</span>', color, obj.status)

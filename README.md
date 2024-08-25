@@ -25,3 +25,7 @@ ALTER ROLE azamatdev SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE hikvisionsts TO azamatdev;
 
 ALTER DATABASE hikvisionsts OWNER TO azamatdev;
+
+
+ "phone": 998951234568
+ password: "azamat1796"
