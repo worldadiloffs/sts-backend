@@ -1,10 +1,12 @@
 from django.contrib import admin
 from .models import (CardGril , PageContent  , PaymentMethod , DeliveryService, Shaharlar ,
-                      SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , CountSettings, Tumanlar, TolovUsullar, Dokon)
+                      SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , CountSettings, Tumanlar, TolovUsullar, Dokon, MuddatliTolovxizmatlar)
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
 # Register your models here.
+from django.db.models.fields.json import JSONField
+from jsoneditor.forms import JSONEditor
 
 admin.site.register(PaymentMethod)
 admin.site.register(DeliveryService)
@@ -14,6 +16,27 @@ admin.site.register(Shaharlar)
 admin.site.register(Tumanlar)
 admin.site.register(TolovUsullar)
 admin.site.register(Dokon)
+
+
+@admin.register(MuddatliTolovxizmatlar)
+class MuddatliTolovxizmatlarAdmin(admin.ModelAdmin):
+    list_display =("name",)
+
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditor},
+    }
+
+    group_fieldsets = False 
+    class Media:
+        js = (
+            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
+
 
 @admin.register(CountSettings)
 class CountSettingAdmin(admin.ModelAdmin):

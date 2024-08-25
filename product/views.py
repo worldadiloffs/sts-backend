@@ -25,7 +25,7 @@ from config.settings import site_name
 
 from .serialzier import kredit_cal
 
-
+from settings.models import MuddatliTolovxizmatlar
 
 
 class ProductListMiniView(APIView):
@@ -112,15 +112,32 @@ class ProductDetailApiview(APIView):
             }
            
         serialzier = ProductSerialzier(product)
-        
+        muddat_tolov = []
+        oylik_3 = []
+        oylik_6 = []
+        oylik_12 = []
+        oylik_15 = []
+        oylik_24 = []
+        if product.price is not None:
+            if (MuddatliTolovxizmatlar.objects.count() > 0):
+                for i in MuddatliTolovxizmatlar.objects.all():
+                    muddat_tolov.append({
+                        "logo": i.logo and ( site_name +  i.logo.url) or None,
+                        "name": i.name,
+                        "oylar": i.kredit(product.price)})
               
         return JsonResponse(
-                {"data": {"link": link, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
+                {"data": {"link": link, "muddatli_tolov": muddat_tolov, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
             )
 
             
         
 
+
+class MuddatLiAPIview(APIView):
+    def get(self, request):
+        muddatli_tolov = list(MuddatliTolovxizmatlar.objects.all().values("").order_by("id"))
+        return JsonResponse({"data": muddatli_tolov}, safe=False)
   
         
 

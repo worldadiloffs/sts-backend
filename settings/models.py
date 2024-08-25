@@ -14,6 +14,8 @@ from django.utils import timezone
 
 from category.models import MainCategory
 
+# from product.serialzier import doller_funtion, kredit_cal
+
 
 
 class Shaharlar(models.Model):
@@ -391,5 +393,65 @@ class OrderSetting(models.Model):
                 tolovlar.firma = True
                 tolovlar.save() 
         super().save(*args, **kwargs)
+
+
+def muddat_tolov_fn():
+    return dict({
+        "oylik_3": None,
+         "oylik_6":None,
+         "oylik_12":None,
+         "oylik_15": None,
+         "oylik_24": None         
+    })
+
+def doller_funtion():
+    order = OrderSetting.objects.first()
+    return order.doller * 1.12 # 1.12 is for dollar exchange rate
+
+def kredit_cal(price, oy, foiz):
+        summa = price* doller_funtion()
+        data = (summa *(30.42)*foiz)/(365*100)
+        return  data+(summa/oy)
+
+
+
+
+
+class MuddatliTolovxizmatlar(models.Model):
+    name = models.CharField(max_length=200, blank=True)
+    logo = models.FileField(upload_to='tolov', blank=True)
+    key= models.CharField(max_length=200, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    kredit_muddat_foiz = models.JSONField(blank=True, default=muddat_tolov_fn)
+
+
+
+
+
+    
+    def kredit(self, price):
+        oylik_3 = None
+        oylik_6 = None
+        oylik_12 = None
+        oylik_15 = None
+        oylik_24 = None
+        if self.kredit_muddat_foiz.get("oylik_3") is not None:
+            oylik_3 =int(kredit_cal(price=price, oy=3, foiz=self.kredit_muddat_foiz["oylik_3"]))
+
+        if self.kredit_muddat_foiz["oylik_6"] is not None:
+            oylik_6 = int(kredit_cal(price=price, oy=6, foiz=self.kredit_muddat_foiz["oylik_6"]))
+        if self.kredit_muddat_foiz["oylik_12"] is not None:
+            oylik_12 =int(kredit_cal(price=price, oy=12, foiz=self.kredit_muddat_foiz["oylik_12"]))
+        if self.kredit_muddat_foiz["oylik_15"] is not None:
+            oylik_15 = int(kredit_cal(price=price, oy=15, foiz=self.kredit_muddat_foiz["oylik_15"]))
+        if self.kredit_muddat_foiz["oylik_24"] is not None:
+            oylik_24 = int(kredit_cal(price=price, oy=24, foiz=self.kredit_muddat_foiz["oylik_24"]))
+
+        return {"oylik_3":oylik_3, "oylik_6":oylik_6, "oylik_12":oylik_12, "oylik_15":oylik_15, "oylik_24":oylik_24}
+
+
+
 
 
