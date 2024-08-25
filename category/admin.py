@@ -24,11 +24,11 @@ class SubCategoryAdmin(TranslationAdmin):
         user = request.user
         if db_field.name == "mainCategory":
             if user.site_sts:
-                kwargs["queryset"] = SubCategory.objects.filter(sts_site=True)
+                kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
             if user.site_rts:
-                kwargs["queryset"] = SubCategory.objects.filter(rts_site=True)
+                kwargs["queryset"] = MainCategory.objects.filter(rts_site=True)
             if not(user.site_sts) and not(user.site_rts):
-                kwargs["queryset"] = SubCategory.objects.filter(sts_site=True, rts_site=True)
+                kwargs["queryset"] = MainCategory.objects.filter(sts_site=True, rts_site=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     def get_queryset(self, request):
@@ -66,7 +66,7 @@ class SubCategoryAdmin(TranslationAdmin):
 class MainCategoryAdmin(TranslationAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user
-        if db_field.name == "supercategory":
+        if db_field.name == "superCategory":
             if user.site_sts:
                 kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
             if user.site_rts:
