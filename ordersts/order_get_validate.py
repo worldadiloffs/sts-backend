@@ -121,7 +121,7 @@ class DastafkaOrderView(APIView):
                 res_summa = shahar.summa
 
         if res_summa is  None:
-            return JsonResponse({"summa": summa , "message": "ok"}, safe=False)
+            return JsonResponse({"summa": 0 , "message": "ok"}, safe=False)
         return JsonResponse({"summa": res_summa , "message": "ok"}, safe=False)
            
           

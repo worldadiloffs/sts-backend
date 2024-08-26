@@ -11,10 +11,34 @@ from datetime import date
 from django.urls import reverse
 from django.utils import timezone
 # Create your models here.
+from product.models import Product
 
-from category.models import MainCategory
+from category.models import MainCategory , SubCategory
 
 # from product.serialzier import doller_funtion, kredit_cal
+
+
+class CashBackSetting(models.Model):
+    category_tavar = models.OneToOneField(SubCategory, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('Tavar turi'))
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("BIttiy Tovar uchun cashback"))
+    cashback_foiz = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("cashback foizi"))
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True) 
+
+
+
+    class Meta:
+        verbose_name = 'Cashback Setting'
+        verbose_name_plural = 'Cashback Settings'
+        ordering = ['id']
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
 
 
 
