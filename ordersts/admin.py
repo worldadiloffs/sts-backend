@@ -28,12 +28,7 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ( "total_price",'is_finished', 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
     list_editable = ('comment',  'status',)
     list_display = ( 'get_status','id', 'user', 'status', 'created_at', 'updated_at', 'total_price', 'comment', 'is_finished', 'get_product_names',)
-    def get_status(self, obj):
-        if obj.status == 'pending':
-            print(obj.status)
-            color = 'red'
-        else:
-            color = 'green'
+
     def get_queryset(self, request):
         user = request.user
         if user.site_sts:
@@ -46,10 +41,16 @@ class OrderAdmin(admin.ModelAdmin):
             qs = super().get_queryset(request)
             return qs.filter()
         
+    def get_status(self, obj):
+        if obj.status == 'pending':
+            print(obj.status)
+            color = 'red'
+        else:
+            color = 'green'
+        
         # return f'<span style="color: {color};">{obj.get_status_display()}</span>'
         return format_html('<span style="color: {};">{}</span>', color, obj.status)
     get_status.short_description = 'Status'
-
     def save_model(self, request, obj, form, change):
         # if not obj.pk:  # If the object is being created (not updated)
         #     obj.created_by = request.user
