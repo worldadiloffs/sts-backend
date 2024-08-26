@@ -98,26 +98,26 @@ class DastafkaOrderView(APIView):
             shahar = Shaharlar.objects.get(id=viloyat_id)
             if shahar.zakas_summa is not None:
                 if summa >= shahar.zakas_summa:
-                    res_summa = summa 
+                    res_summa = 0
                 else:
-                    res_summa = summa + shahar.summa
+                    res_summa = shahar.summa
             if shahar.zakas_summa is None:
-                res_summa = summa
+                res_summa = 0
         if yetkazib_berish_turi == 'teskor':
             deliver  = DeliveryService.objects.filter(site_sts=True).first()
             if summa >=deliver.zakas_summa:
-                res_summa = summa
-            res_summa =  summa + deliver.dastafka_summa
+                res_summa = 0
+            res_summa =  deliver.dastafka_summa
         
         if yetkazib_berish_turi =='standart':
             shahar = Shaharlar.objects.get(id=viloyat_id)
             if shahar.zakas_summa is not None:
                 if summa >= shahar.zakas_summa:
-                    res_summa = summa 
+                    res_summa = 0
                 else:
-                    res_summa = summa + shahar.summa
+                    res_summa = shahar.summa
             if shahar.zakas_summa is None:
-                res_summa = summa
+                res_summa = shahar.summ
 
         if res_summa is  None:
             return JsonResponse({"summa": summa , "message": "ok"}, safe=False)
