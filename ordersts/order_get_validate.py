@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from settings.models import DeliveryService, OrderSetting, PaymentMethod , TolovUsullar , Shaharlar, Tumanlar, Dokon
+from settings.models import DeliveryService, MuddatliTolovxizmatlar, OrderSetting, PaymentMethod , TolovUsullar , Shaharlar, Tumanlar, Dokon
 from django.http import JsonResponse
 from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, ShaharlarSerialzier, TolovUsullarSerialzier, TumanlarSerialzier
 
@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from datetime import datetime
 from django.utils.timezone import activate
+from config.settings import site_name
 
 
 
@@ -52,5 +53,38 @@ class OrderValudeView(APIView):
               
 
             }, safe=False)
+    
 
+
+
+
+class MuddatliTOlovOrderView(APIView):
+     def post(self, request):
+            muddat_tolov = []
+            price = request.data.get('price')
+            if price is not None:
+                if (MuddatliTolovxizmatlar.objects.count() > 0):
+                    for i in MuddatliTolovxizmatlar.objects.all():
+                        muddat_tolov.append({
+                        "logo": i.logo and ( site_name +  i.logo.url) or None,
+                        "name": i.name,
+                        "oylar": i.kredit(price)})
+                    
+                    return JsonResponse(
+                        {
+                        "data": muddat_tolov,
+                        "errors": False,
+                        "message": "ok"}, safe=False)
+                return JsonResponse({"data": None, "errors": True, "message": "Muddatli tolov mavjud emas"}, safe=False)
+                
+            else:
+                return JsonResponse(
+                    {"data": None, "errors": True, "message": "Muddatli tolov qator bo'ladi"}, safe=False)
+            
+
+
+
+
+           
+  
 

@@ -113,11 +113,6 @@ class ProductDetailApiview(APIView):
            
         serialzier = ProductSerialzier(product)
         muddat_tolov = []
-        # oylik_3 = []
-        # oylik_6 = []
-        # oylik_12 = []
-        # oylik_15 = []
-        # oylik_24 = []
         if product.price is not None:
             if (MuddatliTolovxizmatlar.objects.count() > 0):
                 for i in MuddatliTolovxizmatlar.objects.all():

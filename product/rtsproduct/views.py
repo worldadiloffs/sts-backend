@@ -20,7 +20,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.parsers import MultiPartParser , FormParser
 
 from django.db.models import Q 
-from settings.models import OrderSetting
+from settings.models import MuddatliTolovxizmatlar, OrderSetting
 from config.settings import site_name
 
 from product.serialzier import kredit_cal
@@ -90,12 +90,22 @@ class RTSProductDetailApiview(APIView):
             }
            
         serialzier = ProductSerialzier(product)
+
+
+        muddat_tolov = []
+        if product.price is not None:
+            if (MuddatliTolovxizmatlar.objects.count() > 0):
+                for i in MuddatliTolovxizmatlar.objects.all():
+                    muddat_tolov.append({
+                        "logo": i.logo and ( site_name +  i.logo.url) or None,
+                        "name": i.name,
+                        "oylar": i.kredit(product.price)})
+                    
         
               
         return JsonResponse(
-                {"data": {"link": link, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
+                {"data": {"link": link, "muddatli_tolov": muddat_tolov, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
             )
-
             
         
 
