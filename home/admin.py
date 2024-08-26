@@ -18,9 +18,9 @@ class BannerAdmin(TranslationAdmin):
         if user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(site_rts=True)
-        else:
+        if user.site_rts and user.site_sts:
             qs = super().get_queryset(request)
-            return qs.filter()
+            return qs.filter(site_sts=True, site_rts=True)
     list_display = ("title", "site_sts", "site_rts", "image_tag", "status",)
     list_editable = ("site_sts", "site_rts", "status",)
     search_fields = ("title",)
@@ -51,9 +51,9 @@ class HomePageCategoryAdmin(TranslationAdmin):
         if user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(site_rts=True)
-        else:
+        if user.site_rts and user.site_sts:
             qs = super().get_queryset(request)
-            return qs.filter()
+            return qs.filter(site_sts=True, site_rts=True)
     
     list_display = ("top", "title", "category",  "status", "site_sts", "site_rts")
     list_editable = ("status","site_sts", "site_rts")
