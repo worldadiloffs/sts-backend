@@ -85,6 +85,46 @@ class MuddatliTOlovOrderView(APIView):
 
 
 
+class DastafkaOrderView(APIView):
+     def post(self, request):
+        summa = request.data.get('summa')
+        viloyat_id = request.data.get('viloyat_id')
+        res_summa = None
+        if viloyat_id is None:
+            return JsonResponse(
+                   {"data": None, "errors": True, "message": "Viloyat id bo'ladi"}, safe=False)
+        yetkazib_berish_turi = request.data.get('yetkazib_berish_turi')
+        if yetkazib_berish_turi is None:
+            shahar = Shaharlar.objects.get(id=viloyat_id)
+            if shahar.zakas_summa is not None:
+                if summa >= shahar.zakas_summa:
+                    res_summa = summa 
+                else:
+                    res_summa = summa + shahar.summa
+            if shahar.zakas_summa is None:
+                res_summa = summa
+        if yetkazib_berish_turi == 'teskor':
+            deliver  = DeliveryService.objects.filter(site_sts=True).first()
+            if summa >=deliver.zakas_summa:
+                res_summa = summa
+            res_summa =  summa + deliver.dastafka_summa
+        
+        if yetkazib_berish_turi =='standart':
+            shahar = Shaharlar.objects.get(id=viloyat_id)
+            if shahar.zakas_summa is not None:
+                if summa >= shahar.zakas_summa:
+                    res_summa = summa 
+                else:
+                    res_summa = summa + shahar.summa
+            if shahar.zakas_summa is None:
+                res_summa = summa
+
+        if res_summa is  None:
+            return JsonResponse({"summa": summa , "message": "ok"}, safe=False)
+        return JsonResponse({"summa": res_summa , "message": "ok"}, safe=False)
            
+          
+       
+          
   
 

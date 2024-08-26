@@ -21,7 +21,9 @@ from category.models import MainCategory
 class Shaharlar(models.Model):
     name = models.CharField(max_length=200, blank=True)
     dastafka =models.BooleanField(default=True, blank=True)
+    zakas_summa = models.PositiveIntegerField(blank=True, null=True)
     summa = models.PositiveIntegerField(blank=True, null=True)
+    teskor_buyurtma = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
 
