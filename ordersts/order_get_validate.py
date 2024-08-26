@@ -103,14 +103,14 @@ class DastafkaOrderView(APIView):
                     res_summa = shahar.summa
             if shahar.zakas_summa is None:
                 res_summa = 0
-        if yetkazib_berish_turi == 'teskor':
+        if str(yetkazib_berish_turi) =='teskor':
             deliver  = DeliveryService.objects.filter(site_sts=True).first()
-            if summa >=deliver.zakas_summa:
+            if summa >= deliver.zakas_summa:
                 res_summa = 0
             else:
                 res_summa =  deliver.dastafka_summa
         
-        if yetkazib_berish_turi =='standart':
+        if str(yetkazib_berish_turi) =='standart':
             shahar = Shaharlar.objects.get(id=viloyat_id)
             if shahar.zakas_summa is not None:
                 if summa >= shahar.zakas_summa:
