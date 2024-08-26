@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (CardGril , PageContent  , PaymentMethod , DeliveryService, Shaharlar ,
-                      SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , CountSettings, Tumanlar, TolovUsullar, Dokon, MuddatliTolovxizmatlar)
+                      SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , 
+                      CountSettings, Tumanlar, TolovUsullar, Dokon, MuddatliTolovxizmatlar, CashBackSetting)
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -16,6 +17,8 @@ admin.site.register(Shaharlar)
 admin.site.register(Tumanlar)
 admin.site.register(TolovUsullar)
 admin.site.register(Dokon)
+admin.site.register(CashBackSetting)
+
 
 
 @admin.register(MuddatliTolovxizmatlar)
