@@ -7,7 +7,7 @@ from django.db import models
 from datetime import date
 from .manager import CustomUserManager 
 import requests 
-
+from settings.models import Shaharlar
 # Create your models here.
 class GouseUser(models.Model):
     token_uuid = models.CharField(max_length=200, blank=True, verbose_name=_("user uuid"))
@@ -112,6 +112,7 @@ class PhoneOtp(models.Model):
 class UserAddress(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, verbose_name=_("Foydalanuvchi ID"))
     city = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Shahri"))
+    viloyat_id = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Viloyat Id"))
     district = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Tuman"))
     address = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Manzil"))
     qavat = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Qavat"))
