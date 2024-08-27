@@ -53,6 +53,8 @@ class Shaharlar(models.Model):
 
 
 
+
+
     def __str__(self):
         return self.name
 
