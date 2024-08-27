@@ -161,7 +161,7 @@ class ChangeTwoStepPasswordSerializer(CreateTwoStepPasswordSerializer):
 
 
 class UserAdressSerializer(serializers.ModelSerializer):
-    viloyat_id = serializers.IntegerField(required=False)
+    viloyat_id = serializers.SerializerMethodField()
     class Meta:
         model = UserAddress
         fields = "__all__"
