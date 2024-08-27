@@ -131,10 +131,6 @@ class ProductDetailApiview(APIView):
         
 
 
-class MuddatLiAPIview(APIView):
-    def get(self, request):
-        muddatli_tolov = list(MuddatliTolovxizmatlar.objects.all().values("").order_by("id"))
-        return JsonResponse({"data": muddatli_tolov}, safe=False)
   
         
 

@@ -12,18 +12,6 @@ from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema
 
 
-# class SuperCategoryListViews(ListAPIView):
-#     # queryset = SuperCategory.objects.all()
-#     serializer_class = SuperCategoryStsSerializer
-#     lookup_field = "slug"
-#     lookup_url_kwarg = "slug"
-
-#     def get_queryset(self):
-#         queryset = SuperCategory.objects.filter(sts_site=False).order_by("?")
-#         return queryset
-
-
-
 class CategoryListJsonViews(APIView):
     @extend_schema(
         responses=CategorySchemaserialzeir

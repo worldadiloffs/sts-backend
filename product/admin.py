@@ -6,7 +6,7 @@ from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
 from category.models import MainCategory , SuperCategory , SubCategory
-from .form import ProductForm
+
 
 class GalleryInlines(admin.TabularInline):
     model = Image

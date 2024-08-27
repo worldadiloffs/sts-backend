@@ -17,6 +17,8 @@ from rest_framework.throttling import ScopedRateThrottle
 
 
 
+
+
 def _validate_product_count(product_id, count):
     product = Product.objects.filter(id=product_id).first()
     if product and product.counts >= count:
@@ -42,13 +44,12 @@ def _order_item_to_dict(order_item) -> list[int]:
 
 
 
-
 def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
     payment = PaymentMethod.objects.filter(id=payment_method).first()
     if payment is not None:
         for tolov in TolovUsullar.objects.filter(id=tolov_usullar).first().payment_methods.all():
             if tolov.id == payment.id:
-                return {"errors": False, "payment_method_id": payment.id}
+                return {"errors": False, "payment_method_id": payment.pk}
         return {"errors": True, "data":{"payment_method_id": None}}
     return {"errors": True,  "data":{"payment_method_id": None}}
 
@@ -56,7 +57,7 @@ def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
 def _tolov_usullar_to_dict(tolov_usullar) ->dict:
     tolov = TolovUsullar.objects.filter(id=tolov_usullar).first()
     if tolov is not None:
-        return {"errors": False, "tolov_usullar_id": tolov.id}
+        return {"errors": False, "tolov_usullar_id": tolov.pk}
     else:
         return {"errors": True, "data":{"tolov_usullar_id": None}}
 
@@ -66,7 +67,7 @@ def _tolov_usullar_to_dict(tolov_usullar) ->dict:
 def _punkit_to_dict(punkit) -> int:
     dokonlar = Dokon.objects.filter(id=punkit).first()
     if dokonlar is not None:
-        return {"errors": False, "dokon_id": dokonlar.id}
+        return {"errors": False, "dokon_id": dokonlar.pk}
     else:
         return {"errors": True, "data":{"dokon_id": None}}
 

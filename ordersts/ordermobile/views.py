@@ -23,20 +23,8 @@ class UserMobileToken(APIView):
         else:
             user = User.objects.create(phone=phone, crm_user=True)
             user.save()
+            token = RefreshToken.for_user(user)
             return Response({"refresh": str(token), "access": str(token.access_token)}, status=200)
-        
-
-"""
-products: [
-
-    {
-        "id": 1,
-        "count": 1,
-    }
-        ]
-
-"""
-
 
 class CashbackMobile(APIView):
     def post(self, request):

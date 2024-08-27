@@ -63,7 +63,7 @@ class FirmaBuyurtma(models.Model):
     firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
     buyurtma_raqami = models.IntegerField(blank=True, unique=True, verbose_name=_("Buyurtma raqami") )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Foydalanuvchi"))
-    inn_nomer = models.CharField(max_length=12, blank=True, verbose_name=_("INN nomer"))
+    inn_nomer = models.CharField(max_length=12, blank=True, null=True,verbose_name=_("INN nomer"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Savdo qilingan vaqt"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Ozgartirilgan vaqt"))
     shartnoma_file = models.FileField(upload_to='shartnoma/', blank=True,null=True, verbose_name=_("Sharhnoma file"))
@@ -118,18 +118,14 @@ class Order(models.Model):
         verbose_name_plural = "Buyurtmalar"
         ordering = ["-created_at", "zakas_id"]
 
+
+
     def __str__(self):
         return f"Order {self.zakas_id} +  {self.user.phone}"
-    
-
-    def get_addres_address(self):
-        return f"{self.addres.city} - {self.addres.district} - {self.addres.address}" if self.addres else None
-    
+        
 
     
     def save(self, *args, **kwargs):
-        # self.total_price = sum(item.price for item in self.order_items.all())
-
         super().save(*args, **kwargs)
 
     def get_total_price(self):
@@ -138,8 +134,6 @@ class Order(models.Model):
     def get_product_names(self):
         data = [item.get_product_name() for item in self.order_items.all()]
         return ''',  '''.join(data) if data else None
-
-    
     
     def get_order_items(self):
         return self.order_items.all()
