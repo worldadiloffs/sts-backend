@@ -28,7 +28,7 @@ class UserMobileToken(APIView):
 
 class CashbackMobile(APIView):
     def post(self, request):
-        products = request.data
+        products = request.data['products']
         order_setting = OrderSetting.objects.first()
         doller_value = int(order_setting.doller * order_setting.nds / 10)
         berialadigan_cashback = 0
