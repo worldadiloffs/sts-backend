@@ -96,6 +96,8 @@ class Dokon(models.Model):
     close_time = models.TimeField(blank=True, null=True)
     address = models.CharField(max_length=200, blank=True)
     phone = models.CharField(max_length=15, blank=True)
+    lat =   models.FloatField(blank=True, null=True)
+    lng = models.FloatField(blank=True, null=True)
     image = models.ImageField(upload_to='dokonlar', blank=True, null=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)

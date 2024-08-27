@@ -217,6 +217,10 @@ DATABASES = {
         "PASSWORD": "azamat1796hikvision",
         "HOST": "127.0.0.1",
         "PORT": "5432",
+        'TEST': {
+            'NAME': 'mytestdatabase',  # Custom test database name
+            'MIRROR': 'default',  # Use the same database configuration for tests
+        },
     },
 }
 

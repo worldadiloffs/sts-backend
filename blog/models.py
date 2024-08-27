@@ -54,6 +54,9 @@ class Tag(models.Model):
         verbose_name_plural = "Blog Taglar"
         ordering = ["pk", "title"]
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
 
 
 
