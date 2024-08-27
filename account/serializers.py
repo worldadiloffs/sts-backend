@@ -161,10 +161,6 @@ class ChangeTwoStepPasswordSerializer(CreateTwoStepPasswordSerializer):
 
 
 class UserAdressSerializer(serializers.ModelSerializer):
-    viloyat_id = serializers.SerializerMethodField()
     class Meta:
         model = UserAddress
         fields = "__all__"
-
-    def get_viloyat_id(self, obj):
-        return obj.id 
