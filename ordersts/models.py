@@ -15,13 +15,14 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1, blank=True, verbose_name=_("Soni"))
     serena = ArrayField(models.CharField(max_length=20, blank=True), blank=True, null=True, verbose_name=_("Mahsulot serena nomerlari"))
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_items', verbose_name=_("Foydalanuvchi"), blank=True)
+    zakas_id = models.IntegerField(blank=True, null=True)
     # price = models.PositiveIntegerField(blank=True, null=True , verbose_name=_("Narx"))
     site_sts = models.BooleanField(default=True, blank=True, verbose_name=_('STS SITE'))
     site_rts = models.BooleanField(default=True, blank=True, verbose_name=_('RTS SITE'))
     created_at = models.DateTimeField(auto_now_add=True , verbose_name=_('Savdo qilingan vaqt'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Ozgartirilgan vaqt'))
 
-
+    
     class Meta:
         verbose_name_plural = "Savdo qilingan mahsulotlar"
         ordering = ["pk", "created_at"]
