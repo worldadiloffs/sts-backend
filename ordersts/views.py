@@ -47,7 +47,8 @@ def _order_item_to_dict(order_item) -> list[int]:
 def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
     payment = PaymentMethod.objects.filter(id=payment_method).first()
     if payment is not None:
-        for tolov in TolovUsullar.objects.filter(id=tolov_usullar).first().payment_methods.all():
+        tolov_usul = TolovUsullar.objects.filter(id=tolov_usullar).first()
+        for tolov in tolov_usul.payment_methods.all():
             if tolov.id == payment.pk:
                 return {"errors": False, "payment_method_id": payment.pk}
         return {"errors": True, "data":{"payment_method_id": None}}
@@ -141,11 +142,11 @@ class OrderCreateAPIView(APIView):
         else:
             return Response({"errors": "Invalid order items"}, status=400)
         #payment method is option fields 
-        if request.data.get("payment_method")  is not None:
-            payment_validate = __payment_method_to_dict(request.data.get("payment"))
-            if not(payment_validate['errors']):
-                request.data["payment_method"] = payment_validate['payment_method_id']
-            return Response(payment_validate, status=400)
+        # if request.data.get("payment_method")  is not None:
+        #     payment_validate = __payment_method_to_dict(request.data.get("payment"))
+        #     if not(payment_validate['errors']):
+        #         request.data["payment_method"] = payment_validate['payment_method_id']
+        #     return Response(payment_validate, status=400)
         
         if request.data.get("tolov_usullar") is None:
             return Response({"errors": "Invalid tolov usullar"}, status=400)
