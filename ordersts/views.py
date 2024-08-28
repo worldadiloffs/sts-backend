@@ -100,10 +100,10 @@ class OrderCreateAPIView(APIView):
         IsAuthenticated,
     ]
     authentication_classes = [JWTAuthentication ,]
-    # throttle_scope = "authentication"
-    # throttle_classes = [
-    #     ScopedRateThrottle,
-    # ]
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
     @extend_schema(
             request=OrderGetSerializer(),
             responses=OrderGetSerializer()
