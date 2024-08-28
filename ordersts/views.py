@@ -279,6 +279,7 @@ class STSCashbackMobile(APIView):
 
 
 class UserOrderGet(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user 
         if user.is_authenticated:
