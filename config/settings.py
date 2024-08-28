@@ -455,6 +455,15 @@ CRM_KEY = "hikvision"
 CRM_URL = "https://hikvision.uz/" 
 
 
+if int(os.environ.get("test", 1)) == 1:
+    data = os.environ.get("test")
+    import sentry_sdk
+
+    sentry_sdk.init(
+        dsn="https://67203abc136def9ec4785ef62813ae9a@o4506868426145792.ingest.us.sentry.io/4506868430667776",
+        traces_sample_rate=1.0,
+        profiles_sample_rate=1.0,
+    )
 
 
 
