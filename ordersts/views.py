@@ -196,6 +196,12 @@ class OrderCreateAPIView(APIView):
                 for item in order_item_data
             ]
         )
+        if request.data.get('shahar') is not None:
+            shhar = Shaharlar.objects.get(name=request.data['shahar'])
+            request.data['shahar'] = shhar.pk
+        if request.data['tuman'] is not None:
+            tuman = Tumanlar.objects.get(name=request.data['tuman'])
+            request.data['tuman']=  tuman.pk
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
