@@ -14,7 +14,7 @@ urlpatterns = [
     path('sts/orders/muddatli_tolov/', MuddatliTOlovOrderView.as_view(), name='muddatli_tolov'),
     path('sts/orders/dastafka/', DastafkaOrderView.as_view(),),
     path('sts/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
-    path("sts/orders/user_order_get/", UserOrderGet.as_view(), name="user-order-get"),
+    path("sts/orders/user-order-get/", UserOrderGet.as_view(), name="user-order-get"),
     # rts orders
     path('rts/orders/craate/', RTSOrderCreateAPIView.as_view(), name='order_create'),
     path('rts/orders/validate/', RTSOrderValudeView.as_view(), name='order_get_validate'),
