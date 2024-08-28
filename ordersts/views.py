@@ -200,7 +200,7 @@ class OrderCreateAPIView(APIView):
             serializer.save()
             order_id = Order.objects.get(id=serializer.data.get('id'))
             for i in order_item_data:
-                order_id.order_items.add(OrderItem.objects.get(id=i['product']))
+                order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
             order_serial = OrderGetSerializer(order_id)
             return Response(order_serial.data, status=201)
