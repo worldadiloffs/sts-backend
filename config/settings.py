@@ -78,7 +78,7 @@ JSON_EDITOR_CSS = (
     "https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/8.6.4/jsoneditor.css"
 )
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 SILKY_MIDDLEWARE_CLASS = "silk.middleware.SilkyMiddleware"
 
 # CORS_ALLOWED_ORIGINS = [
