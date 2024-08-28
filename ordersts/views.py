@@ -142,11 +142,11 @@ class OrderCreateAPIView(APIView):
         else:
             return Response({"errors": "Invalid order items"}, status=400)
         #payment method is option fields 
-        # if request.data.get("payment_method")  is not None:
-        #     payment_validate = __payment_method_to_dict(request.data.get("payment"))
-        #     if not(payment_validate['errors']):
-        #         request.data["payment_method"] = payment_validate['payment_method_id']
-        #     return Response(payment_validate, status=400)
+        if request.data.get("payment_method")  is not None:
+            payment_validate = __payment_method_to_dict(request.data.get("payment_method"))
+            if not(payment_validate['errors']):
+                request.data["payment_method"] = payment_validate['payment_method_id']
+            return Response(payment_validate, status=400)
         
         if request.data.get("tolov_usullar") is None:
             return Response({"errors": "Invalid tolov usullar"}, status=400)
