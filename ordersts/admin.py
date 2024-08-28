@@ -17,7 +17,7 @@ from django.template.response import TemplateResponse
 class OrderItemAdmin(admin.ModelAdmin):
     # readonly_fields =("serena",)
     list_display = (
-        'id', 'product', 'quantity', 'created_at', 'updated_at', 'user',
+        'id','zakas_id', 'product', 'quantity', 'created_at', 'updated_at', 'user',
     )
 
 

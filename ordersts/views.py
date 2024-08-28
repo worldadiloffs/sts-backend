@@ -132,7 +132,7 @@ class OrderCreateAPIView(APIView):
                 return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
                 prod = Product.objects.get(id=item['product_id'])
-                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "site_sts": True, "price":int(prod.price * doller_value)}
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "zakas_id": zakas_id,"site_sts": True, "price":int(prod.price * doller_value)}
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
