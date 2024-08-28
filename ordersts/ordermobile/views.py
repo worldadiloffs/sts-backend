@@ -50,10 +50,25 @@ class CashbackMobile(APIView):
 
 
 
-            
 
-
-
-
-
-           
+{
+    "cashback_summa": 100,
+    "dokon_id": 1,
+    "payment_method_id": 1,
+    "products": [
+        {"id": 1, "count": 2, "price": 1000000000000000},
+        {"id": 2, "count": 3, "price": 2000000000000000}
+    ],
+    "hisobot": [
+        { 
+        "zakas_id": 1,
+        "tolov_usullar": "site , mobile , dokon",
+        "yechilgan_summa": 1000000000000000,
+        "tushgan_summa": 1000000000000000,
+        "date": "2022-01-01",
+        "time": "10:00:00"
+        }
+    ],
+        
+    "depozit_summa": 1000,  
+}

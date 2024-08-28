@@ -27,10 +27,6 @@ class TagSerializerTest(TestCase):
              "image": self.valid_image,
              "tag": []
         }
-        
-
-
-          
 
     def test_blog_item_serializer_valid_data(self):
         serializer = BlogItemsSeriazler(data=self.blog_item_data)

@@ -89,7 +89,6 @@ class Order(models.Model):
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Qanday to'lov qilish"))
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', verbose_name=_("Buyurtma statusi"))
     user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True, verbose_name=_("Buyurtma Bergan Foydalanuvchi"))
-    # addres = models.ForeignKey(UserAddress, on_delete=models.SET_NULL, blank=True, null=True)
     shahar = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Shahar"))
     tuman = models.ForeignKey(Tumanlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Tuman"))
     qishloq = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Qishloq"))
@@ -107,8 +106,6 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Ozgartirilgan vaqt"))
     is_finished = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma tolov statusi"))
     cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
-    site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
-    site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
     xodim = models.ForeignKey(Xodim, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Xodim"), editable=False)
 
 

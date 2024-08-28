@@ -10,9 +10,9 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from .rtsviews import RTSUserProfile, RTSUserUPdate, RTSUserAdressCreate , RTSRegister, RTSUserUpdateAddress
 
 from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-    TokenVerifyView
+    TokenRefreshView, TokenVerifyView
 )
+
 app_name = "account"
 
 urlpatterns = [

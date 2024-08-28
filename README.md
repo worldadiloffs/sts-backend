@@ -29,3 +29,7 @@ ALTER DATABASE hikvisionsts OWNER TO azamatdev;
 
  "phone": 998951234568
  password: "azamat1796"
+
+
+ ctrl shift p
+ 

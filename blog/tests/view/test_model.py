@@ -1,30 +1,21 @@
 from django.test import TestCase
-from blog.models import Tag 
 from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
-
-class BookAPITest(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-        # Set up any initial data you need
-        Tag.objects.create(title="Book 1")
-        Tag.objects.create(title="Book 2")
-
-    def test_get_books(self):
-        # Make the GET request
-        response = self.client.get(reverse('blog:tag-list'))
-        
-        # Check the status code
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
-        # Verify the response data
-        self.assertEqual(len(response.data), 1)
+from blog.models import Tag 
 
 
-        # Check that the data structure matches what you expect
-        expected_data = {"data":"success", "errors": False, "message": ""},
-        data = response.data
-    
-        
-        self.assertEqual(data, expected_data)
+
+class TagTest(TestCase):
+    tag_1 = Tag.objects.create(title="Tag 1")
+    tag_2 = Tag.objects.create(title="Tag 2")
+
+
+    def test_tag_create(self):
+        self.assertCountEqual(self.tag_1)
+
+
+
+
+
+

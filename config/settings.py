@@ -78,13 +78,13 @@ JSON_EDITOR_CSS = (
     "https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/8.6.4/jsoneditor.css"
 )
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 SILKY_MIDDLEWARE_CLASS = "silk.middleware.SilkyMiddleware"
 
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:3001",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:3000",
+#     "http://127.0.0.1:3001",
+# ]
 
 MIDDLEWARE = [
   
@@ -338,7 +338,6 @@ SIMPLE_JWT = {
 
 SMS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTczOTA3NTQsImlhdCI6MTcxNDc5ODc1NCwicm9sZSI6InVzZXIiLCJzaWduIjoiY2Y0N2M0NzdmYmE2OWMxNmM4ZDllMmZmMjE5MDFhNzg3N2NkYmNmYTVkM2FiZGI3NjU4ZTVhYjgxZjk2MThjOCIsInN1YiI6IjgyOCJ9.MqCjW7LDM9UWQ3gla9VjXi807rG-wVrWqoaeoYcM_9Q"
 EXPIRY_TIME_OTP = 60
-
 
 
 SPECTACULAR_SETTINGS = {

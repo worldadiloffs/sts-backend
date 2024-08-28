@@ -360,12 +360,6 @@ class CategoryProductViews(APIView):
                     product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(order_py)[
                         current * limit : next * limit
                     ]
-                
-                
-                # count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                # product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
-                #     current * limit : next * limit
-                # ]
                 prod_serialzier = ProductListMiniSerilizers(product, many=True)
            
                 pages = int(count / limit) + 1

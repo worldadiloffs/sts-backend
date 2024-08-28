@@ -4,6 +4,12 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from extensions.code_generator import otp_generator, get_client_ip
+from rest_framework.response import Response
+
+from account.send_otp import send_otp
+
+
 class BookTestAPITest(TestCase):
     def setUp(self):
         self.client = APIClient()

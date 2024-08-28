@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from settings.models import Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
+from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
 from .models import Order, OrderItem
 from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
@@ -221,3 +221,41 @@ class OrderPaymentAPIView(APIView):
 class VazvratProductAPIView(APIView):
     def post(self, request):
         pass # your code here
+
+
+
+
+class STSCashbackMobile(APIView):
+    def post(self, request):
+        products = request.data['products']
+        order_setting = OrderSetting.objects.first()
+        doller_value = int(order_setting.doller * order_setting.nds / 10)
+        berialadigan_cashback = 0
+        if products is not None:
+            for product in products:
+                product_obj = Product.objects.get(id=product["id"])
+                cashback_setting = CashBackSetting.objects.filter(product=product_obj).first()
+                if cashback_setting:
+                    berialadigan_cashback += cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value
+                
+                else:
+                    prod = Product.objects.get(id=product["id"])
+                    sub_id = prod.sub_category.pk
+                    cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
+                    if cashback_setting:
+                        berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
+            return JsonResponse({"data": berialadigan_cashback, "errors": False, "message": "ok"},safe=False)
+        return JsonResponse({"data": None, "errors": True, "message": "Productlar mavjud"}, safe=False)
+
+
+
+class UserOrderGet(APIView):
+    def get(self, request):
+        user = request.user 
+        if user.is_authenticated:
+            order = Order.objects.filter(user=user).order_by("created_at")
+            serialzier = OrderGetSerializer(order, many=True)
+            JsonResponse({'data': serialzier.data, 'errors': False, 'message': 'ok'}, safe=False) 
+        JsonResponse({'data': None, 'errors': True, 'message': ''}, safe=False)
+
+

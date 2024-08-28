@@ -255,6 +255,7 @@ def _request_user_crm(phone):
         if (res.json()['status'] == "success"):
             user = User.objects.get(phone=phone)
             user.crm_user = True
+            user.save()
 
 
 
@@ -321,7 +322,7 @@ class VerifyOtp(APIView):
                         datase = User.objects.get(phone=phone)
                         datase.site_sts= True
                         datase.save()
-                        # threading.Timer(3, _request_user_crm, phone).start()
+                        threading.Timer(3, _request_user_crm, phone).start()
 
 
                     return Response(
