@@ -48,7 +48,7 @@ def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
     payment = PaymentMethod.objects.filter(id=payment_method).first()
     if payment is not None:
         for tolov in TolovUsullar.objects.filter(id=tolov_usullar).first().payment_methods.all():
-            if tolov.id == payment.id:
+            if tolov.id == payment.pk:
                 return {"errors": False, "payment_method_id": payment.pk}
         return {"errors": True, "data":{"payment_method_id": None}}
     return {"errors": True,  "data":{"payment_method_id": None}}
@@ -90,7 +90,8 @@ def _redirect_payment(request, order_id):
 
 
 
-
+def _profile_update(first_name, last_name):
+    pass 
 
 
 class OrderCreateAPIView(APIView):
@@ -110,7 +111,17 @@ class OrderCreateAPIView(APIView):
 
     def post(self, request):
         # order items is  required fields 
+        
         order_item_data = []
+        
+        first_name = request.data.get('firt_name', None)
+        
+        last_name = request.data.get("last_name", None)
+        
+        firma_nomi = request.data.get("firma_nomi", None) 
+        
+        profile_user = _profile_update(first_name=first_name, last_name=last_name)
+        
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
         zakas_id = (Order.objects.count() + 1000)
