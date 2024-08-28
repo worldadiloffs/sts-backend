@@ -136,6 +136,7 @@ class OrderCreateAPIView(APIView):
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
+                    item_data['id'] = item_serializer.data.get('id')
                     order_item_data.append(item_data)
         else:
             return Response({"errors": "Invalid order items"}, status=400)
