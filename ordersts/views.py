@@ -140,7 +140,7 @@ class OrderCreateAPIView(APIView):
                     item_data['id'] = item_serializer.data.get('id')
                     order_item_data.append(item_data)
         else:
-            return Response({"errors": "Invalid order items"}, status=400)
+            return Response({"errors": "Invalid order items"}, status=200)
         #payment method is option fields 
         # if request.data.get("payment_method")  is not None:
         #     payment_validate = __payment_method_to_dict(request.data.get("payment_method"))
@@ -242,6 +242,16 @@ class VazvratProductAPIView(APIView):
         pass # your code here
 
 
+{
+    "products": [
+      { 
+           "id": 1,
+        "count": 2},
+          { 
+           "id": 1,
+        "count": 2}
+    ]
+}
 
 
 class STSCashbackMobile(APIView):

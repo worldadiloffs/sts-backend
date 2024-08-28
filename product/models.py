@@ -88,6 +88,15 @@ class Product(models.Model):
     available = models.BooleanField(default=True, blank=True, editable=False)
 
 
+
+
+    def cart_title(self, obj):
+        if self.news:
+            return self.news_title
+        
+        
+
+
     def get_available(self):
         return f"{self.available}"
     
