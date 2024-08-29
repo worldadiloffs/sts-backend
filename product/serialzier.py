@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Product, Image
 from config.settings import site_name
-from settings.models import OrderSetting
+from settings.models import CashBackSetting, OrderSetting
 from category.serializers import (
     SuperCategoryStsMiniSerializer,
     MainCategortStsMiniSerializer,
@@ -47,7 +47,7 @@ class ProductSerialzier(serializers.ModelSerializer):
     category_name = serializers.SerializerMethodField()
     kredit_summa = serializers.SerializerMethodField()
     product_video = serializers.SerializerMethodField(required=False, read_only=True)
-
+    cashback_value = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = (  
@@ -77,6 +77,22 @@ class ProductSerialzier(serializers.ModelSerializer):
             "full_description",
             "cashback_value",
             )
+        
+
+    def get_cashback_value(self, obj):
+        order_setting = OrderSetting.objects.first()
+        berialadigan_cashback = 0
+        doller_value = int(order_setting.doller * order_setting.nds / 10)
+        cashback_setting = CashBackSetting.objects.filter(product__id=obj.pk).first()
+        if cashback_setting:
+            berialadigan_cashback = cashback_setting.cashback_foiz *  obj.price *doller_value
+        else:
+            if obj.sub_category is not None:
+                sub_id = obj.sub_category.pk
+                cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
+                if cashback_setting:
+                    berialadigan_cashback = int(cashback_setting.cashback_foiz  * obj.price * doller_value * 0.01)
+        return berialadigan_cashback
         
     def get_kredit_summa(self, obj):
         if obj.price:
