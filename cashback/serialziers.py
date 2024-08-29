@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import CashbackKard
 
 class CashbackKardSerializer(serializers.ModelSerializer):
-    hisobot_ob = serializers.SerializerMethodField()
+    hisobot_ob = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = CashbackKard
         fields = "__all__"
@@ -22,6 +22,9 @@ class CashbackKardSerializer(serializers.ModelSerializer):
                     "Mahsulotni Buyurtma qilingan vaqt": i['created_at'],
                     "Hisob": i['hisob']
                 })
+            return data
+        return None
+            
 
             
 
