@@ -1,7 +1,7 @@
 from django.urls import path
 
 from ordersts.order_get_validate import OrderValudeView , MuddatliTOlovOrderView , DastafkaOrderView
-from .views import OrderCreateAPIView , STSCashbackMobile 
+from .views import OrderCreateAPIView , STSCashbackMobile, UserOrderGet 
 from .rtsviews import RTSOrderCreateAPIView , RTSOrderGetAPIView , RTSOrderValudeView , RTSMuddatliTOlovOrderView
 from ordersts.ordermobile.views import CashbackMobile ,  UserMobileToken
 
@@ -27,6 +27,7 @@ urlpatterns = [
     # mobile orders
     path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
+    path('orders/', UserOrderGet.as_view()),
 ]
 
 

@@ -262,7 +262,7 @@ class UserOrderGet(APIView):
     def get(self, request):
         user = request.user 
         # if user.is_authenticated:
-        order = Order.objects.all().order_by("created_at")
+        order = Order.objects.all().order_by("-created_at")
         serialzier = OrderGetSerializer(order, many=True)
         return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False) 
         # return JsonResponse({"data": None, "errors": True, "message": ""}, safe=False)
