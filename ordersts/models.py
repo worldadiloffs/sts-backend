@@ -129,11 +129,13 @@ class Order(models.Model):
     
     def save(self, *args, **kwargs):
         if self.is_finished and self.status == 'delivered':
-            if self.tushadigan_cash_summa is not None:
-                cash = CashbackKard.objects.filter(user=self.user, site_sts=self.site_sts, site_rts=self.site_rts).first()
-                if cash is not None:
-                    cash.balance  += self.tushadigan_cash_summa
-                    cash.save()
+            if not self.order_close:
+                self.order_close = True
+                if self.tushadigan_cash_summa is not None:
+                    cash = CashbackKard.objects.filter(user=self.user, site_sts=self.site_sts, site_rts=self.site_rts).first()
+                    if cash is not None:
+                        cash.balance  += self.tushadigan_cash_summa
+                        cash.save()
         super().save(*args, **kwargs)
 
     def get_total_price(self):
