@@ -134,7 +134,19 @@ class Order(models.Model):
                 if self.tushadigan_cash_summa is not None:
                     cash = CashbackKard.objects.filter(user=self.user, site_sts=self.site_sts, site_rts=self.site_rts).first()
                     if cash is not None:
-                        cash.balance  += self.tushadigan_cash_summa
+                        if cash.hisobot is not None:
+                            cash_summa = True
+                            for his in cash.hisobot:
+                                if int(self.zakas_id) == int(his['zakas_id']):
+                                    cash_summa = False
+                            if cash_summa:
+                                cash.balance  += self.tushadigan_cash_summa
+                                cash.hisobot.append({"zakas_id": self.zakas_id, "summa": self.tushadigan_cash_summa, "created_at": self.created_at.strftime('%Y-%m-%d %H:%M') , "hisob": "+"})
+                                cash.save()
+                        
+                        else:
+                            cash.balance  += self.tushadigan_cash_summa
+                            cash.hisobot = [{"zakas_id": self.zakas_id, "summa": self.tushadigan_cash_summa , "created_at": self.created_at.strftime('%Y-%m-%d %H:%M'), "hisob": "+"}]
                         cash.save()
         super().save(*args, **kwargs)
 
