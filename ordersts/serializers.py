@@ -96,7 +96,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         yetkazish_vaqti = obj.yetkazish and obj.yetkazish.strftime("%Y-%m-%d") or (obj.teskor_buyurtma and "90 minut" or 'olib ketish')
         create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
         cashack_summa = obj.tushadigan_cash_summa and obj.tushadigan_cash_summa or 0
-        comment = obj.comment and obj.comment or ""
+        comment = obj.comment and obj.comment or "-- "
         
         data = {
                 "Buyurtma raqami": obj.zakas_id,
@@ -108,7 +108,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
                 "Yetkazib berish manzili": yetkazib_berish_manzili,
                 "Sotuvchi Xabari": comment
             }
-        if cashack_summa> 0:
+        if cashack_summa>0:
             data[ "Tushadigan Cashback "] = cashack_summa
         return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
