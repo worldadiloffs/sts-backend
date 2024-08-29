@@ -21,6 +21,11 @@ class CashbackKard(models.Model):
         verbose_name_plural = 'Cashback Kardlar' 
         ordering = ['id']
 
+
+    def get_user(self):
+        if self.user is not None:
+            return self.user.phone
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         
