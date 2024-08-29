@@ -82,7 +82,9 @@ class ProductSerialzier(serializers.ModelSerializer):
         
 
     def get_cashback_value(self, obj):
-        cashback_values(products=[{"id": obj.id, "count": 1}])
+        cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+        return cash 
+    
         
     def get_kredit_summa(self, obj):
         if obj.price:
