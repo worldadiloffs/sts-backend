@@ -1,3 +1,4 @@
+import random
 import requests
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -17,6 +18,8 @@ from rest_framework import status, permissions
 from rest_framework_simplejwt.tokens import RefreshToken
 from account.models import User 
 from drf_spectacular.utils import extend_schema
+
+from cashback.models import CashbackKard
 
 from .serializers import (
     UserAdressSerializer,
@@ -259,6 +262,22 @@ def _request_user_crm(phone):
 
 
 
+def _cart_random():
+    return int(f"8860{random.randint(100000000, 999999999)}")
+
+
+
+def _cashback_create(phone):
+    cashback = CashbackKard.objects.filter(user__phone=phone, site_sts=True).first()
+    if cashback is None:
+        cashacks = CashbackKard()
+        cashacks.card = _cart_random()
+        cashacks.user = User.objects.get(phone=phone)
+        cashacks.site_sts = True
+        cashacks.save()
+        return True
+    return False
+
 
 
 
@@ -322,7 +341,8 @@ class VerifyOtp(APIView):
                         datase = User.objects.get(phone=phone)
                         datase.site_sts= True
                         datase.save()
-                        threading.Timer(3, _request_user_crm, phone).start()
+                        # threading.Timer(3, _request_user_crm, phone).start()
+                        threading.Timer(3, _cashback_create, phone).start()
 
 
                     return Response(

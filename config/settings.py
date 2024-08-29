@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'ordersts',
     'importdata',
     'xodimlar',
+    'cashback',
 
 ]
 

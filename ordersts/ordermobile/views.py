@@ -26,6 +26,8 @@ class UserMobileToken(APIView):
             token = RefreshToken.for_user(user)
             return Response({"refresh": str(token), "access": str(token.access_token)}, status=200)
 
+
+
 class CashbackMobile(APIView):
     def post(self, request):
         products = request.data['products']

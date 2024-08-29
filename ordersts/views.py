@@ -116,8 +116,6 @@ class OrderCreateAPIView(APIView):
             request=OrderGetSerializer(),
             responses=OrderGetSerializer()
     )
-   
-
     def post(self, request):
         # order items is  required fields 
         
@@ -223,10 +221,6 @@ class OrderCreateAPIView(APIView):
             order_serial = OrderGetSerializer(order_id)
             return Response(order_serial.data, status=201)
         return Response(serializer.errors, status=400)
-        
-
-
-
 
 
 class OrderGetAPIView(APIView):
