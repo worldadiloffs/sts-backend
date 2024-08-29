@@ -5,7 +5,7 @@ from .views import OrderCreateAPIView , STSCashbackMobile , UserOrderGet
 from .rtsviews import RTSOrderCreateAPIView , RTSOrderGetAPIView , RTSOrderValudeView , RTSMuddatliTOlovOrderView
 from ordersts.ordermobile.views import CashbackMobile ,  UserMobileToken
 
-from .order_get_user import OrderGetApiviews
+from .order_get_user import OrderGetApiviews , RTSOrderGetApiviews
 
 app_name = 'ordersts'
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('rts/orders/muddatli_tolov/', RTSMuddatliTOlovOrderView.as_view(), name='order_muddatli_tolov'),
     path('rts/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
     path('rts/orders/dastafka/', DastafkaOrderView.as_view(),),
+    path("sts/orders/user-order-get/", RTSOrderGetApiviews.as_view(), name="user-order-get"),
 
 
 

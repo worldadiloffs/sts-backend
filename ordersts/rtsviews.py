@@ -112,7 +112,7 @@ def _firma_create_views(firma_nomi, zakas_id, user_id):
 
 
 
-class OrderCreateAPIView(APIView):
+class RTSOrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
