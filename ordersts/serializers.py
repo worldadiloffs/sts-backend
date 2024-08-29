@@ -103,14 +103,13 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "status": status,
             "Buyurtma vaqti": create_at,
             "Yetkazib berish vaqti": yetkazish_vaqti,
-            "Tushgan Cashback summa": cashack_summa,
-            "Yechilgan Cashback summa": yechilgan_cashback,
             "Tolov usuli": tolov_usuli,
             "Buyurtma turi": "onliyn",
             "Yetkazib berish manzili": yetkazib_berish_manzili,
             "Sotuvchi Xabari": comment
         }
-        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish)}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish), "Tushgan Cashback summa": cashack_summa,
+            "Yechilgan Cashback summa": yechilgan_cashback, }, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
