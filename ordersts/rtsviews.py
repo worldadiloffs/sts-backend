@@ -101,8 +101,12 @@ def _redirect_payment(request, order_id):
 
 
 
-def _profile_update(first_name, last_name):
-    pass 
+def _profile_update(first_name, last_name, user_id):
+    if first_name is not None and last_name is not None:
+        user = User.objects.get(id=user_id)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
 
 
 def _firma_create_views(firma_nomi, zakas_id, user_id):
@@ -136,7 +140,7 @@ class RTSOrderCreateAPIView(APIView):
         
         firma_nomi = request.data.get("firma_nomi", None) 
             
-        profile_user = _profile_update(first_name=first_name, last_name=last_name)
+        profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id)
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
