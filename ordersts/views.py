@@ -17,6 +17,7 @@ from rest_framework.throttling import ScopedRateThrottle
 
 from account.models import User
 
+from cashback.views import cashback_values
 
 
 def _validate_product_count(product_id, count):
@@ -120,6 +121,7 @@ class OrderCreateAPIView(APIView):
         # order items is  required fields 
         
         order_item_data = []
+        cashback_list = []
         
         first_name = request.data.get('firt_name', None)
         
@@ -143,6 +145,7 @@ class OrderCreateAPIView(APIView):
             for item in request.data.get("order_items"):
                 prod = Product.objects.get(id=item['product_id'])
                 item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "zakas_id": zakas_id,"site_sts": True, "mahsul0t_narxi":int(prod.price * doller_value)}
+                cashback_list.append({"id": item['product_id'], "count": item['quantity']})
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
@@ -211,14 +214,19 @@ class OrderCreateAPIView(APIView):
         if request.data['tuman'] is not None:
             tuman = Tumanlar.objects.get(name=request.data['tuman'])
             request.data['tuman']=  tuman.pk
+
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            cash_summa = cashback_values(products=cashback_list)
             order_id = Order.objects.get(id=serializer.data.get('id'))
+            order_id.tushadigan_cash_summa =cash_summa
+            order_id.save()
             for i in order_item_data:
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
             order_serial = OrderGetSerializer(order_id)
+
             return Response(order_serial.data, status=201)
         return Response(serializer.errors, status=400)
 

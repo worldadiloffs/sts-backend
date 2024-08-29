@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
 from django.contrib.auth import get_user_model
 from xodimlar.models import Xodim
-
+from cashback.models import CashbackKard
 
 
 class OrderItem(models.Model):
@@ -88,6 +88,7 @@ class Order(models.Model):
     punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True, verbose_name=_(" Yetkazib beriladigan dokon Manzil"))
     zakas_id = models.IntegerField(blank=True, unique=True, verbose_name=_("Buyurtma raqami") )
     cashback = models.FloatField(blank=True, null=True, verbose_name=_("Cashback  yechgan summa"))
+    tushadigan_cash_summa = models.FloatField(blank=True, null=True, editable=False, verbose_name=_("Tushadigan cash summasi"))
     depozit = models.FloatField(blank=True, null=True, verbose_name=_("Depozit yechgan summasi"))
     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Qanday to'lov qilish"))
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', verbose_name=_("Buyurtma statusi"))
@@ -127,6 +128,12 @@ class Order(models.Model):
 
     
     def save(self, *args, **kwargs):
+        if self.is_finished and self.status == 'delivered':
+            if self.tushadigan_cash_summa is not None:
+                cash = CashbackKard.objects.filter(user=self.user, site_sts=self.site_sts, site_rts=self.site_rts).first()
+                if cash is not None:
+                    cash.balance  += self.tushadigan_cash_summa
+                    cash.save()
         super().save(*args, **kwargs)
 
     def get_total_price(self):
