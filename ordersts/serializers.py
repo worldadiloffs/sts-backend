@@ -11,9 +11,14 @@ def doller_funtion():
 class OrderItemSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
     mahsul0t_narxi = serializers.SerializerMethodField()
+    mahsulot_nomi = serializers.SerializerMethodField()
     class Meta:
         model = OrderItem
         fields = "__all__"
+
+
+    def get_mahsulot_nomi(self, obj):
+        return obj.product.product_name
 
     def get_mahsul0t_narxi(self, obj):
         if obj.mahsul0t_narxi:
