@@ -19,12 +19,12 @@ class UserMobileToken(APIView):
         user = User.objects.filter(phone=phone).first()
         if user is not None:
             token = RefreshToken.for_user(user)
-            return Response({"refresh": str(token), "access": str(token.access_token)}, status=200)
+            return Response({"refresh": str(token), "access": str(token.access_token)}, status=201)
         else:
             user = User.objects.create(phone=phone, crm_user=True)
             user.save()
             token = RefreshToken.for_user(user)
-            return Response({"refresh": str(token), "access": str(token.access_token)}, status=200)
+            return Response({"refresh": str(token), "access": str(token.access_token)}, status=201)
 
 
 
