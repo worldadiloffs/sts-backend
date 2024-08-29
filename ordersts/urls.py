@@ -23,7 +23,7 @@ urlpatterns = [
     path('rts/orders/muddatli_tolov/', RTSMuddatliTOlovOrderView.as_view(), name='order_muddatli_tolov'),
     path('rts/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
     path('rts/orders/dastafka/', DastafkaOrderView.as_view(),),
-    path("sts/orders/user-order-get/", RTSOrderGetApiviews.as_view(), name="user-order-get"),
+    path("rts/orders/user-order-get/", RTSOrderGetApiviews.as_view(), name="user-order-get"),
 
 
 
