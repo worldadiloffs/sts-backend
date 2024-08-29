@@ -184,6 +184,7 @@ def _cashback_create_rts(phone):
         cashacks.user = User.objects.get(phone=phone)
         cashacks.site_rts = True
         cashacks.save()
+        print(f"Cashback card created for {cashacks.balance}")
         return True
     return False
 
@@ -251,7 +252,7 @@ class RTSVerifyOtp(APIView):
                         rts_user =User.objects.get(phone=phone)
                         rts_user.site_rts = True
                         rts_user.save()
-                    threading.Timer(3, _cashback_create_rts,args=(phone)).start()
+                    _cashback_create_rts(phone=phone)
 
                     return Response(
                         context,

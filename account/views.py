@@ -342,7 +342,7 @@ class VerifyOtp(APIView):
                         datase.site_sts= True
                         datase.save()
                         # threading.Timer(3, _request_user_crm, phone).start()
-                        threading.Timer(3, _cashback_create,args=(phone)).start()
+                    _cashback_create(phone)
 
 
                     return Response(
