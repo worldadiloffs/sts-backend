@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('product.urls', namespace='product')),
     path('', include('home.urls', namespace='home')),
     path('', include('blog.urls', namespace='blog')),
+    path('', include('cashback.urls', namespace='cashback')),
     # path('', include('ordersts.urls', namespace='ordersts')),
     path('', include('settings.urls', namespace='settings')),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
