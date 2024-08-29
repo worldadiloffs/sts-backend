@@ -26,4 +26,4 @@ def cashback_values(products):
                 if cashback_setting:
                     berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
         return {"data": berialadigan_cashback, "errors": False, "message": "ok"}
-    return {"data": None, "errors": True, "message": "Productlar mavjud"}
+    return {"data": 0, "errors": True, "message": "Productlar mavjud"}
