@@ -1,14 +1,25 @@
 from rest_framework import serializers
 
+from settings.models import OrderSetting
+
 from .models import Order, OrderItem
 from config.settings import site_name
-
+def doller_funtion():
+    order = OrderSetting.objects.first()
+    return order.doller * 1.12 # 1.12 is for dollar exchange rate
 
 class OrderItemSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
+    mahsul0t_narxi = serializers.SerializerMethodField()
     class Meta:
         model = OrderItem
         fields = "__all__"
+
+    def get_mahsul0t_narxi(self, obj):
+        if obj.mahsul0t_narxi:
+            return obj.mahsul0t_narxi
+        else:
+            return int(obj.product.price * doller_funtion())
 
     def get_images(self, obj):
         images = obj.product.images.all()
@@ -29,52 +40,6 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
-
-
-
-
-  
-
-    
-
-
-
-#  STATUS_CHOICES = (
-#         ('pending', "Yig'ilyapti"),
-#         ('processing', 'Yetkazilyapti'),
-#         ('shipped', "Yetkazildi"),
-#         ('delivered', "Xaridorga berildi"),
-#     )
-#     yetkazish = models.DateField(blank=True, null=True, verbose_name=_("Yetkazish sanasi"))
-#     tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("To'lov usullari"))
-#     punkit = models.ForeignKey(Dokon, on_delete=models.CASCADE, related_name='Manzil', blank=True, null=True, verbose_name=_(" Yetkazib beriladigan dokon Manzil"))
-#     zakas_id = models.IntegerField(blank=True, unique=True, verbose_name=_("Buyurtma raqami") )
-#     cashback = models.FloatField(blank=True, null=True, verbose_name=_("Cashback  yechgan summa"))
-#     depozit = models.FloatField(blank=True, null=True, verbose_name=_("Depozit yechgan summasi"))
-#     payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Qanday to'lov qilish"))
-#     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', verbose_name=_("Buyurtma statusi"))
-#     user = models.ForeignKey(User, on_delete=models.CASCADE,  blank=True, verbose_name=_("Buyurtma Bergan Foydalanuvchi"))
-#     shahar = models.ForeignKey(Shaharlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Shahar"))
-#     tuman = models.ForeignKey(Tumanlar, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Tuman"))
-#     qishloq = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Qishloq"))
-#     uy_nomer = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Uy nomer"))
-#     order_items = models.ManyToManyField(OrderItem,  blank=True, verbose_name=_("Savdo qilingan mahsulotlar"))
-#     dastafka_summa = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Dastafka summasi"))
-#     # teskor_buyurtma_time = models.DateTimeField(blank=True, null=True, verbose_name=_("Teskor buyurtma vaqt"))
-#     teskor_buyurtma = models.BooleanField(default=False, blank=True)
-#     total_price = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_("Buyurtma narxi"))
-#     comment = models.CharField(max_length=200,blank=True, null=True, verbose_name=_("Buyurtma uchun admin  xabarlari"))
-#     firma_buyurtma = models.ForeignKey(FirmaBuyurtma, on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Firma buyurtma"))
-#     # firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
-#     vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, verbose_name=_("Qaytarilgan Mahsulotlar") )
-#     site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
-#     site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
-#     created_at = models.DateTimeField(auto_now_add=True, blank=True, verbose_name=_("Savdo qilingan vaqt"))
-#     updated_at = models.DateTimeField(auto_now=True, blank=True, verbose_name=_("Ozgartirilgan vaqt"))
-#     is_finished = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma tolov statusi"))
-#     cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
-#     xodim = models.ForeignKey(Xodim, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Xodim"), editable=False)
-
 
 
 
