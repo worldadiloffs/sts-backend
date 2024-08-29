@@ -52,15 +52,27 @@ class OrderItem(models.Model):
     
 class VazvratProdcut(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE,blank=True, null=True , verbose_name=_("Mahsulot ID"))
+    mahsulot_narxi = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Mahsulot narxi"))
     serena = ArrayField(models.CharField(max_length=20, blank=True),blank=True, null=True, verbose_name=_("Mahsulot serena nomerlar"))
-    counts= models.PositiveIntegerField(default=1, blank=True, null=True, verbose_name=_("Soni"))
+    zakas_id = models.IntegerField(blank=True, null=True, verbose_name=_("Buyurtma raqami"))
+    counts = models.PositiveIntegerField(default=1, blank=True, null=True, verbose_name=_("Soni"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Savdo qilingan vaqt"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Ozgartirilgan vaqt"))
+    site_sts = models.BooleanField(default=True, blank=True, verbose_name=_('STS SITE'))
+    site_rts = models.BooleanField(default=True, blank=True, verbose_name=_('RTS SITE'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Foydalanuvchi"))
 
+    def __str__(self):
+        return f'''{self.product_id.product_name}  : {self.counts}   : {self.product_id.price} \n '''
     class Meta:
         verbose_name_plural = "Vazvrat qilingan mahsulotlar"
         ordering = ["pk", "created_at"]
+
+
+    def save(self, *args, **kwargs):
+        if self.zakas_id is None:
+            raise ValueError("Buyurtma raqami bo'sh bo'lmasligi kerak")
+        super().save(*args, **kwargs)
 
 class FirmaBuyurtma(models.Model):
     firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
