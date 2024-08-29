@@ -86,7 +86,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         status = obj.status and obj.status or ""
         status_color = "blue" if status == "pending" else "green"
         yetkazish_vaqti = obj.yetkazish and obj.yetkazish.strftime("%Y-%m-%d") or "90 minutov"
-        create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d %") 
+        create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
         data = {
             "Buyurtma raqami": obj.zakas_id,
             "status": status,
