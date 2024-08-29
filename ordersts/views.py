@@ -96,7 +96,7 @@ def _profile_update(first_name, last_name):
 
 
 def _firma_create_views(firma_nomi, zakas_id, user_id):
-    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi, buyurtma_raqami=zakas_id, user__id=user_id)
+    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi, buyurtma_raqami=zakas_id, user=user_id)
     firma_nomi.save()
     return firma_nomi.pk
 
