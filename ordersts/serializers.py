@@ -84,6 +84,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         data = {
             "Buyurtma raqami": obj.zakas_id,
             "status": status,
+            "status_color": status_color,
             "Buyurtma vaqti": obj.created_at,
             "Yetkazib berish vaqti": yetkazish_vaqti,
             "Tolov usuli": tolov_usuli,
@@ -92,7 +93,6 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Summa": narxi,
             "Yetkazib berish": yetkazib_berish,
             "Jami": narxi - yetkazib_berish,
-            "status_color": status_color,
         }
         return data
 
