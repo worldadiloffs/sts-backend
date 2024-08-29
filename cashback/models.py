@@ -12,8 +12,8 @@ class CashbackKard(models.Model):
     hisobot =models.JSONField(blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True, blank=True)
     update_date = models.DateTimeField(auto_now=True, blank=True)
-    site_sts = models.BooleanField(default=True, blank=True)
-    site_rts = models.BooleanField(default=True, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return str(self.card)
