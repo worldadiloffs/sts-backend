@@ -10,7 +10,7 @@ from .models import CashbackKard
 
 @admin.register(CashbackKard)
 class CashbackKardAdmin(admin.ModelAdmin):
-    list_display = ('id','card','balance','created_at')
+    list_display = ('id','card','balance')
 
 
     formfield_overrides = {
