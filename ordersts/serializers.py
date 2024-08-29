@@ -81,7 +81,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
 
     def get_order_obj(self, obj):
         prod_lengs = obj.order_items.count()
-        yetkazib_berish_manzili = obj.punkit and obj.punkit.name or (obj.qishloq and obj.qishloq or "")
+        yetkazib_berish_manzili = obj.punkit and obj.punkit.name or (obj.qishloq and obj.qishloq or "FIrma orqali buyurtma")
         tolov_usuli = obj.tolov_usullar and obj.tolov_usullar.name or ""
         narxi = obj.total_price and obj.total_price or 0 
         yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
@@ -107,5 +107,4 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
 
         
 
-        
-    
+

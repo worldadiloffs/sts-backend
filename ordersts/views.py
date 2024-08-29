@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
-from .models import Order, OrderItem
+from .models import Order, OrderItem , FirmaBuyurtma
 from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
@@ -95,6 +95,13 @@ def _profile_update(first_name, last_name):
     pass 
 
 
+def _firma_create_views(firma_nomi):
+    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi)
+    firma_nomi.save()
+    return firma_nomi.pk
+
+
+
 class OrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
@@ -120,7 +127,10 @@ class OrderCreateAPIView(APIView):
         last_name = request.data.get("last_name", None)
         
         firma_nomi = request.data.get("firma_nomi", None) 
-        
+        if firma_nomi is not None:
+            firma_id  = _firma_create_views(firma_nomi)
+            request.data["firma_buyurtma"] = firma_id
+            
         profile_user = _profile_update(first_name=first_name, last_name=last_name)
         
         doller = OrderSetting.objects.first()
