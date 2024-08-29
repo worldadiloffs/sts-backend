@@ -109,7 +109,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
                 "Sotuvchi Xabari": comment
             }
         if cashack_summa> 0:
-            data[ "Cashback summa"] = cashack_summa
+            data[ "Tushadigan Cashback "] = cashack_summa
         return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
