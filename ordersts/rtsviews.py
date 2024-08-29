@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from account.models import User
+from account.models import User, UserAddress
 from cashback.views import cashback_values
 from settings.models import DeliveryService, Dokon, MuddatliTolovxizmatlar, Shaharlar , PaymentMethod, TolovUsullar , OrderSetting, Tumanlar
 from product.models import Product
@@ -98,7 +98,14 @@ def _redirect_payment(request, order_id):
     pass 
 
 
-
+def _user_address_to_dict(shahar, tuman , user_id , qishloq):
+    address = UserAddress.objects.filter(user__id=user_id).first()
+    if address is not None:
+        address.city = shahar and shahar or ''
+        address.district = tuman and tuman or ''
+        if qishloq is not None:
+            address.address = qishloq
+        address.save()
 
 
 def _profile_update(first_name, last_name, user_id):
@@ -225,6 +232,8 @@ class RTSOrderCreateAPIView(APIView):
         if request.data['tuman'] is not None:
             tuman = Tumanlar.objects.get(name=request.data['tuman'])
             request.data['tuman']=  tuman.pk
+            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user=request.user.id, qishloq=request.data['qishloq'])
+
 
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):

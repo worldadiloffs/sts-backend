@@ -15,7 +15,7 @@ from drf_spectacular.utils import extend_schema
 
 from rest_framework.throttling import ScopedRateThrottle
 
-from account.models import User
+from account.models import User , UserAddress
 
 from cashback.views import cashback_values
 
@@ -73,6 +73,17 @@ def _punkit_to_dict(punkit) -> int:
     else:
         return {"errors": True, "data":{"dokon_id": None}}
 
+
+
+def _user_address_to_dict(shahar, tuman , user_id , qishloq):
+    address = UserAddress.objects.filter(user__id=user_id).first()
+    if address is not None:
+        address.city = shahar and shahar or ''
+        address.district = tuman and tuman or ''
+        if qishloq is not None:
+            address.address = qishloq
+        address.save()
+        
 
 
 # cashback funtion user cashback validate 
@@ -217,7 +228,9 @@ class OrderCreateAPIView(APIView):
             request.data['shahar'] = shhar.pk
         if request.data['tuman'] is not None:
             tuman = Tumanlar.objects.get(name=request.data['tuman'])
-            request.data['tuman']=  tuman.pk
+            request.data['tuman']=  tuman.pk 
+            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user=request.user.id, qishloq=request.data['qishloq'])
+
 
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
