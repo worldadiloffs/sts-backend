@@ -33,6 +33,7 @@ class OrderGetApiviews(APIView):
             for i in serializer.data:
                 zakas_lar.append({
                       "order_items": i['order_items'],
+                      "status_color": i['status_color'],
                       "order": i['order_obj'], })
                 # zakas_lar.sort(key=lambda x: x['tavarlar']['created_at'], reverse=True)
             

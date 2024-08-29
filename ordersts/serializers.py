@@ -74,6 +74,7 @@ data = {
 class OrderGetUserSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True)
     order_obj = serializers.SerializerMethodField(read_only=True)
+    status_color = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
         fields = "__all__"
@@ -90,7 +91,6 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         data = {
             "Buyurtma raqami": obj.zakas_id,
             "status": status,
-            "status_color": status_color,
             "Buyurtma vaqti": create_at,
             "Yetkazib berish vaqti": yetkazish_vaqti,
             "Tolov usuli": tolov_usuli,
@@ -101,6 +101,11 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Jami": narxi - yetkazib_berish,
         }
         return data
+    
+    def status_color(self, obj):
+        status = obj.status and obj.status or ""
+        status_color = "blue" if status == "pending" else "green"
+        return status_color
 
 
         
