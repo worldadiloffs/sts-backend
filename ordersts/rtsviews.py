@@ -108,6 +108,7 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
         address.save()
     else:
         address = UserAddress()
+        address.user = User.objects.get(id=user_id)
         address.city = shahar and shahar or ''
         address.district = tuman and tuman or ''
         if qishloq is not None:
