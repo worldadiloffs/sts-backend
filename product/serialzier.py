@@ -74,7 +74,8 @@ class ProductSerialzier(serializers.ModelSerializer):
             "serenaTrue_countFalse",
             "tavar_dagavornaya",
             "counts",
-            "full_description"
+            "full_description",
+            "cashback_value",
             )
         
     def get_kredit_summa(self, obj):

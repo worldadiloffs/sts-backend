@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from settings.models import CashBackSetting, OrderSetting
+
 from .utils import  create_shortcode 
 
 
@@ -94,6 +96,20 @@ class Product(models.Model):
         if self.news:
             return self.news_title
         
+    def cashback_value(self, obj):
+        order_setting = OrderSetting.objects.first()
+        berialadigan_cashback = 0
+        doller_value = int(order_setting.doller * order_setting.nds / 10)
+        cashback_setting = CashBackSetting.objects.filter(product__id=self.pk).first()
+        if cashback_setting:
+            berialadigan_cashback = cashback_setting.cashback_foiz *  self.price *doller_value
+        else:
+            if self.sub_category is not None:
+                sub_id = self.sub_category.pk
+                cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
+                if cashback_setting:
+                    berialadigan_cashback = int(cashback_setting.cashback_foiz  * self.price * doller_value * 0.01)
+        return berialadigan_cashback
         
 
 
