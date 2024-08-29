@@ -17,7 +17,7 @@ class UserMobileToken(APIView):
     def post(self, request):
         phone = request.data.get('phone')
         user = User.objects.filter(phone=phone).first()
-        if user:
+        if user is not None:
             token = RefreshToken.for_user(user)
             return Response({"refresh": str(token), "access": str(token.access_token)}, status=200)
         else:
