@@ -106,6 +106,14 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
         if qishloq is not None:
             address.address = qishloq
         address.save()
+    else:
+        address = UserAddress()
+        address.city = shahar and shahar or ''
+        address.district = tuman and tuman or ''
+        if qishloq is not None:
+            address.address = qishloq
+        address.save()
+
 
 
 def _profile_update(first_name, last_name, user_id):
