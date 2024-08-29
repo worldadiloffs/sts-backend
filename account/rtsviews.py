@@ -1,9 +1,13 @@
+import random
+import threading
 import requests
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
+
+from cashback.models import CashbackKard
 from .models import User, UserAddress
 from rest_framework.generics import (
     ListAPIView,
@@ -166,6 +170,23 @@ class RTSRegister(APIView):
             )
 
 
+
+def _cart_random():
+    return int(f"8860{random.randint(100000000, 999999999)}")
+
+
+
+def _cashback_create_rts(phone):
+    cashback :bool = CashbackKard.objects.filter(user__phone=phone, site_rts=True).exists()
+    if not cashback:
+        cashacks = CashbackKard()
+        cashacks.card = _cart_random()
+        cashacks.user = User.objects.get(phone=phone)
+        cashacks.site_rts = True
+        cashacks.save()
+        return True
+    return False
+
 class RTSVerifyOtp(APIView):
     """
     post:
@@ -230,6 +251,7 @@ class RTSVerifyOtp(APIView):
                         rts_user =User.objects.get(phone=phone)
                         rts_user.site_rts = True
                         rts_user.save()
+                        threading.Timer(3, _cashback_create_rts,args=(phone)).start()
 
                     return Response(
                         context,
