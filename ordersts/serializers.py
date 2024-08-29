@@ -97,17 +97,19 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
         cashack_summa = obj.tushadigan_cash_summa and obj.tushadigan_cash_summa or 0
         comment = obj.comment and obj.comment or ""
+        
         data = {
-            "Buyurtma raqami": obj.zakas_id,
-            "Cashback": cashack_summa,
-            "status": status,
-            "Buyurtma vaqti": create_at,
-            "Yetkazib berish vaqti": yetkazish_vaqti,
-            "Tolov usuli": tolov_usuli,
-            "Buyurtma turi": "onliyn",
-            "Yetkazib berish manzili": yetkazib_berish_manzili,
-            "Sotuvchi Xabari": comment
-        }
+                "Buyurtma raqami": obj.zakas_id,
+                "status": status,
+                "Buyurtma vaqti": create_at,
+                "Yetkazib berish vaqti": yetkazish_vaqti,
+                "Tolov usuli": tolov_usuli,
+                "Buyurtma turi": "onliyn",
+                "Yetkazib berish manzili": yetkazib_berish_manzili,
+                "Sotuvchi Xabari": comment
+            }
+        if cashack_summa> 0:
+            data[ "Cashback summa"] = cashack_summa
         return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
