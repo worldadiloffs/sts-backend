@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import CashbackKard
 
 class CashbackKardSerializer(serializers.ModelSerializer):
-    hisobot_ob = serializers.SerializerMethodField(read_only=True)
+    hisobot_ob = serializers.SerializerMethodField()
     class Meta:
         model = CashbackKard
         fields = "__all__"
