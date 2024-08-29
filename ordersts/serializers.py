@@ -99,6 +99,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         comment = obj.comment and obj.comment or ""
         data = {
             "Buyurtma raqami": obj.zakas_id,
+            "Cashback": cashack_summa,
             "status": status,
             "Buyurtma vaqti": create_at,
             "Yetkazib berish vaqti": yetkazish_vaqti,
@@ -107,7 +108,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Yetkazib berish manzili": yetkazib_berish_manzili,
             "Sotuvchi Xabari": comment
         }
-        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish), "Cashback": cashack_summa,}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
