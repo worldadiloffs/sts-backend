@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -25,16 +26,17 @@ data = {
 class OrderGetApiviews(APIView):
     def get(self, request):
         user = request.user
-        # if user.is_authenticated:
-        order = Order.objects.all().order_by("created_at")
-        serializer = OrderGetUserSerializer(order, many=True)
-        zakas_lar = []
-        if serializer.data:
-            for i in serializer.data:
-                zakas_lar.append({
-                      "order_items": i['order_items'],
-                      "status_color": i['status_color'],
-                      "order": i['order_obj'], })
+        if user.is_authenticated:
+            order = Order.objects.filter(user__id=user.id).order_by("created_at")
+            serializer = OrderGetUserSerializer(order, many=True)
+            zakas_lar = []
+            if serializer.data:
+                for i in serializer.data:
+                    zakas_lar.append({
+                        "order_items": i['order_items'],
+                        "status_color": i['status_color'],
+                        "order": i['order_obj'], })
                 # zakas_lar.sort(key=lambda x: x['tavarlar']['created_at'], reverse=True)
             
-        return Response({"data": zakas_lar, "errors": False, "message": ""}, status=status.HTTP_200_OK)
+            return Response({"data": zakas_lar, "errors": False, "message": ""}, status=status.HTTP_200_OK)
+        return JsonResponse({'data': None, 'errors': True, 'message': ''}, safe=False)
