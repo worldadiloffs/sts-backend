@@ -22,6 +22,8 @@ urlpatterns = [
     path('rts/orders/validate/', RTSOrderValudeView.as_view(), name='order_get_validate'),
     path('rts/orders/muddatli_tolov/', RTSMuddatliTOlovOrderView.as_view(), name='order_muddatli_tolov'),
     path('rts/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
+    path('rts/orders/dastafka/', DastafkaOrderView.as_view(),),
+
 
 
     # mobile orders
