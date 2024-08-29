@@ -5,5 +5,5 @@ app_name = 'cashback'
 
 
 urlpatterns = [
-    path('sts/cashback/card/', CashbackApiviews.as_view(), name='cashback-card-sts'),
+    path('rts/cashback/card/', CashbackApiviews.as_view(), name='cashback-card-sts'),
 ]
