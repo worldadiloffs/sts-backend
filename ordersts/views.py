@@ -95,8 +95,8 @@ def _profile_update(first_name, last_name):
     pass 
 
 
-def _firma_create_views(firma_nomi):
-    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi)
+def _firma_create_views(firma_nomi, zakas_id, user_id):
+    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi, buyurtma_raqami=zakas_id, user__id=user_id)
     firma_nomi.save()
     return firma_nomi.pk
 
@@ -135,7 +135,7 @@ class OrderCreateAPIView(APIView):
         zakas_id = (Order.objects.count() + 1000)
         request.data["zakas_id"] = zakas_id 
         if firma_nomi is not None:
-            firma_id  = _firma_create_views(firma_nomi, zakas_id=zakas_id)
+            firma_id  = _firma_create_views(firma_nomi, zakas_id=zakas_id, user_id=request.user.id)
             request.data["firma_buyurtma"] = firma_id
         if request.data.get("order_items") is not None:
             order_validate = _order_item_to_dict(request.data.get("order_items"))
