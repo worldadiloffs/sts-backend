@@ -47,6 +47,6 @@ if SPECTACULAR_SETTINGS["VERSION"]==2:
 
 
 urlpatterns = [
-    *i18n_patterns(*urlpatterns, prefix_default_language=False),
+    *i18n_patterns(*urlpatterns, prefix_default_language=True),
     ]
 
