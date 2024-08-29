@@ -96,7 +96,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Buyurtma turi": "onliyn",
             "Yetkazib berish manzili": yetkazib_berish_manzili,
         }
-        return {"data": data, "summa": {"summa": narxi,"yetkazib_berish": yetkazib_berish,"jami": narxi - yetkazib_berish,}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {"summa": narxi,"yetkazib_berish": yetkazib_berish,"jami": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
