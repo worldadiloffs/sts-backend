@@ -18,7 +18,7 @@ class CashbackKardSerializer(serializers.ModelSerializer):
             for i in hisobot_ob:
                 data.append({
                     "Buyurtma raqami": i['zakas_id'],
-                    "Summa": f"{i['summa']} so'm {i['hisob']=='+' and "tushgan cashback summa" or 'Cashback yechgan summa'}",
+                    "Summa": f"{i['summa']} so'm ",
                     "Mahsulotni Buyurtma qilingan vaqt": i['created_at'],
                     "Hisob": i['hisob']
                 })
