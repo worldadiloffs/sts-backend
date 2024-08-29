@@ -268,8 +268,8 @@ def _cart_random():
 
 
 def _cashback_create(phone):
-    cashback = CashbackKard.objects.filter(user__phone=phone, site_sts=True).first()
-    if cashback is None:
+    cashback :bool = CashbackKard.objects.filter(user__phone=phone, site_sts=True).exists()
+    if not cashback:
         cashacks = CashbackKard()
         cashacks.card = _cart_random()
         cashacks.user = User.objects.get(phone=phone)
@@ -342,7 +342,7 @@ class VerifyOtp(APIView):
                         datase.site_sts= True
                         datase.save()
                         # threading.Timer(3, _request_user_crm, phone).start()
-                        # threading.Timer(3, _cashback_create, phone).start()
+                        # threading.Timer(3, _cashback_create,args=(phone)).start()
 
 
                     return Response(
