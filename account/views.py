@@ -268,11 +268,12 @@ def _cart_random():
 
 
 def _cashback_create(phone):
-    cashback :bool = CashbackKard.objects.filter(user__phone=phone, site_sts=True).exists()
-    if not cashback:
+    user = User.objects.get(phone=phone)
+    cashback :bool = CashbackKard.objects.filter(user=user, site_sts=True).exists()
+    if not(cashback):
         cashacks = CashbackKard()
         cashacks.card = _cart_random()
-        cashacks.user = User.objects.get(phone=phone)
+        cashacks.user = user
         cashacks.site_sts = True
         cashacks.save()
         return True
