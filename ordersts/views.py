@@ -148,7 +148,7 @@ class OrderCreateAPIView(APIView):
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
-        zakas_id = (Order.objects.count() + 1000)
+        zakas_id = (Order.objects.count() + 1111)
         request.data["zakas_id"] = zakas_id 
         if firma_nomi is not None:
             firma_id  = _firma_create_views(firma_nomi, zakas_id=zakas_id, user_id=request.user.id)
