@@ -11,9 +11,6 @@ class TagTest(TestCase):
     tag_2 = Tag.objects.create(title="Tag 2")
 
 
-    def test_tag_create(self):
-        self.assertCountEqual(self.tag_1)
-
 
 
 

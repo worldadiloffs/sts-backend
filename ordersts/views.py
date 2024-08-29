@@ -133,7 +133,7 @@ class OrderCreateAPIView(APIView):
                 return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
                 prod = Product.objects.get(id=item['product_id'])
-                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "zakas_id": zakas_id,"site_sts": True, "price":int(prod.price * doller_value)}
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "zakas_id": zakas_id,"site_sts": True, "mahsul0t_narxi":int(prod.price * doller_value)}
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
@@ -279,13 +279,12 @@ class STSCashbackMobile(APIView):
 
 
 class UserOrderGet(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def get(self, request):
         user = request.user 
-        if user.is_authenticated:
-            order = Order.objects.filter(user__id=user.id).order_by("created_at")
-            serialzier = OrderGetSerializer(order, many=True)
-            return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False) 
-        return JsonResponse({"data": None, "errors": True, "message": ""}, safe=False)
-
-
+        # if user.is_authenticated:
+        order = Order.objects.all().order_by("created_at")
+        serialzier = OrderGetSerializer(order, many=True)
+        return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False) 
+        # return JsonResponse({"data": None, "errors": True, "message": ""}, safe=False)
+        

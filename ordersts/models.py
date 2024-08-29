@@ -1,7 +1,7 @@
 from django.db import models
 from product.models import Product
 from account.models import User, UserAddress
-from settings.models import Dokon, Shaharlar , Tumanlar
+from settings.models import Dokon, OrderSetting, Shaharlar , Tumanlar
 from django.contrib.postgres.fields import ArrayField
 from settings.models import PaymentMethod , TolovUsullar
 from django.utils.translation import gettext_lazy as _
@@ -10,13 +10,14 @@ from django.contrib.auth import get_user_model
 from xodimlar.models import Xodim
 
 
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', verbose_name=_("Mahsulotlar"), blank=True)
     quantity = models.PositiveIntegerField(default=1, blank=True, verbose_name=_("Soni"))
     serena = ArrayField(models.CharField(max_length=20, blank=True), blank=True, null=True, verbose_name=_("Mahsulot serena nomerlari"))
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_items', verbose_name=_("Foydalanuvchi"), blank=True)
     zakas_id = models.IntegerField(blank=True, null=True)
-    # price = models.PositiveIntegerField(blank=True, null=True , verbose_name=_("Narx"))
+    mahsul0t_narxi = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Mahsulot narxi"))
     site_sts = models.BooleanField(default=True, blank=True, verbose_name=_('STS SITE'))
     site_rts = models.BooleanField(default=True, blank=True, verbose_name=_('RTS SITE'))
     created_at = models.DateTimeField(auto_now_add=True , verbose_name=_('Savdo qilingan vaqt'))
@@ -34,9 +35,10 @@ class OrderItem(models.Model):
         return f'''{self.product.product_name}  : {self.quantity}   : {self.product.price} \n '''
     
     def save(self, *args, **kwargs):
-        # if self.serena is not None:
-        #     self.quantity = len(self.serena)
-        # self.price = self.quantity * self.product.price
+        if self.mahsul0t_narxi is None:
+            doller = OrderSetting.objects.first()
+            doller_value =int(doller.doller * doller.nds / 10)
+            self.mahsul0t_narxi = (self.product.price * doller_value) 
         super().save(*args, **kwargs)
 
     def get_total_price(self):
@@ -98,9 +100,10 @@ class Order(models.Model):
     dastafka_summa = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Dastafka summasi"))
     # teskor_buyurtma_time = models.DateTimeField(blank=True, null=True, verbose_name=_("Teskor buyurtma vaqt"))
     teskor_buyurtma = models.BooleanField(default=False, blank=True)
-    total_price = models.DecimalField(max_digits=12, decimal_places=2, blank=True, verbose_name=_("Buyurtma narxi"))
+    total_price = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_("Buyurtma narxi"))
     comment = models.CharField(max_length=200,blank=True, null=True, verbose_name=_("Buyurtma uchun admin  xabarlari"))
     firma_buyurtma = models.ForeignKey(FirmaBuyurtma, on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Firma buyurtma"))
+    # firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
     vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, verbose_name=_("Qaytarilgan Mahsulotlar") )
     site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
     site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
