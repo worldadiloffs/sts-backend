@@ -58,10 +58,10 @@ class RTSOrderGetApiviews(APIView):
                         "order": i['order_obj'], })
             
             hozirgi_zakaslar = Order.objects.filter(user__id=user.id, order_close=False,  site_rts=True).order_by("-created_at")
-            hozir_serializer = OrderGetUserSerializer(order, many=True)
+            hozir_serializer = OrderGetUserSerializer(hozirgi_zakaslar, many=True)
             hozir = []
-            if serializer.data:
-                for i in serializer.data:
+            if hozir_serializer:
+                for i in hozir_serializer.data:
                     hozir.append({
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
