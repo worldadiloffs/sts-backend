@@ -9,32 +9,10 @@ def doller_funtion():
     return order.doller * 1.12 # 1.12 is for dollar exchange rate
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField(read_only=True)
-    mahsul0t_narxi = serializers.SerializerMethodField()
-    mahsulot_nomi = serializers.SerializerMethodField()
     class Meta:
         model = OrderItem
         fields = "__all__"
 
-
-    def get_mahsulot_nomi(self, obj):
-        return obj.product.product_name
-
-    def get_mahsul0t_narxi(self, obj):
-        if obj.mahsul0t_narxi:
-            return obj.mahsul0t_narxi
-        else:
-            return int(obj.product.price * doller_funtion())
-
-    def get_images(self, obj):
-        images = obj.product.images.all()
-        if images:
-            return [site_name +  image.image.url  for image in images]
-        
-
-    def get_price(self, obj):
-        if obj.product.price:
-            return obj.product.price
 
 
 
@@ -69,6 +47,35 @@ data = {
     "yetkazib_berish": 0,
     "Jami": 0,
 }
+
+
+class OrderItemProductSerializer(serializers.ModelSerializer):
+    images = serializers.SerializerMethodField(read_only=True)
+    mahsul0t_narxi = serializers.SerializerMethodField()
+    mahsulot_nomi = serializers.SerializerMethodField()
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
+
+
+    def get_mahsulot_nomi(self, obj):
+        return obj.product.product_name
+
+    def get_mahsul0t_narxi(self, obj):
+        if obj.mahsul0t_narxi:
+            return obj.mahsul0t_narxi
+        else:
+            return int(obj.product.price * doller_funtion())
+
+    def get_images(self, obj):
+        images = obj.product.images.all()
+        if images:
+            return [site_name +  image.image.url  for image in images]
+        
+
+    def get_price(self, obj):
+        if obj.product.price:
+            return obj.product.price
 
 
 class OrderGetUserSerializer(serializers.ModelSerializer):

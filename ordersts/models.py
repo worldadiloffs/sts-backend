@@ -98,12 +98,10 @@ class Order(models.Model):
     uy_nomer = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Uy nomer"))
     order_items = models.ManyToManyField(OrderItem,  blank=True, verbose_name=_("Savdo qilingan mahsulotlar"))
     dastafka_summa = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Dastafka summasi"))
-    # teskor_buyurtma_time = models.DateTimeField(blank=True, null=True, verbose_name=_("Teskor buyurtma vaqt"))
     teskor_buyurtma = models.BooleanField(default=False, blank=True)
     total_price = models.PositiveBigIntegerField(blank=True, null=True, verbose_name=_("Buyurtma narxi"))
-    comment = models.CharField(max_length=200,blank=True, null=True, verbose_name=_("Buyurtma uchun admin  xabarlari"))
+    comment = models.CharField(max_length=200,blank=True, null=True, verbose_name=_("Buyurtma bekor qilingan natija"))
     firma_buyurtma = models.ForeignKey(FirmaBuyurtma, on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Firma buyurtma"))
-    # firma_name = models.CharField(max_length=255, blank=True, verbose_name=_("Firma nomi"))
     vazvrat_product = models.ManyToManyField(VazvratProdcut, blank=True, verbose_name=_("Qaytarilgan Mahsulotlar") )
     site_sts = models.BooleanField(default=False, blank=True, verbose_name=_("STS SITE"))
     site_rts = models.BooleanField(default=False, blank=True, verbose_name=_("RTS SITE"))
@@ -112,6 +110,7 @@ class Order(models.Model):
     is_finished = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma tolov statusi"))
     cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
     xodim = models.ForeignKey(Xodim, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Xodim"), editable=False)
+    order_close = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma Yopish"))
 
 
     

@@ -127,16 +127,16 @@ class OrderCreateAPIView(APIView):
         last_name = request.data.get("last_name", None)
         
         firma_nomi = request.data.get("firma_nomi", None) 
-        if firma_nomi is not None:
-            firma_id  = _firma_create_views(firma_nomi)
-            request.data["firma_buyurtma"] = firma_id
             
         profile_user = _profile_update(first_name=first_name, last_name=last_name)
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
         zakas_id = (Order.objects.count() + 1000)
-        request.data["zakas_id"] = zakas_id
+        request.data["zakas_id"] = zakas_id 
+        if firma_nomi is not None:
+            firma_id  = _firma_create_views(firma_nomi, zakas_id=zakas_id)
+            request.data["firma_buyurtma"] = firma_id
         if request.data.get("order_items") is not None:
             order_validate = _order_item_to_dict(request.data.get("order_items"))
             if order_validate['errors']:
