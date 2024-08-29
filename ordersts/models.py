@@ -94,6 +94,7 @@ class Order(models.Model):
         ('processing', 'Yetkazilyapti'),
         ('shipped', "Yetkazildi"),
         ('delivered', "Xaridorga berildi"),
+        ('cencel', "Bekor Qilindi"),
     )
     yetkazish = models.DateField(blank=True, null=True, verbose_name=_("Yetkazish sanasi"))
     tolov_usullar = models.ForeignKey(TolovUsullar, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("To'lov usullari"))

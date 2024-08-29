@@ -66,10 +66,5 @@ class RTSOrderGetApiviews(APIView):
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
                         "order": i['order_obj'], })
-                    
-            
-            
-
-            
             return Response({"data": {"hozir": hozir, "barchasi": zakas_lar }, "errors": False, "message": ""}, status=status.HTTP_200_OK)
         return JsonResponse({'data': None, 'errors': True, 'message': ''}, safe=False)
