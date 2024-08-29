@@ -27,7 +27,7 @@ class OrderGetApiviews(APIView):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            order = Order.objects.filter(user__id=user.id).order_by("created_at")
+            order = Order.objects.filter(user__id=user.id).order_by("-created_at")
             serializer = OrderGetUserSerializer(order, many=True)
             zakas_lar = []
             if serializer.data:
