@@ -223,40 +223,6 @@ class OrderCreateAPIView(APIView):
         return Response(serializer.errors, status=400)
 
 
-class OrderGetAPIView(APIView):
-    def get(self, request):
-        order = Order.objects.all()
-     
-        serializer = OrderGetSerializer(order, many=True)
-        return Response({"data": serializer.data, "errors": False, "message": ""})
-       
-
-class OrderUpdateAPIView(APIView):
-    def patch(self, request, pk):
-        pass # your code here
-
-
-class OrderPaymentAPIView(APIView):
-    def post(self, request, pk):
-        pass # your code here
-    
-
-
-class VazvratProductAPIView(APIView):
-    def post(self, request):
-        pass # your code here
-
-
-{
-    "products": [
-      { 
-           "id": 1,
-        "count": 2},
-          { 
-           "id": 1,
-        "count": 2}
-    ]
-}
 
 
 class STSCashbackMobile(APIView):

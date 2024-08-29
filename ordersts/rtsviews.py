@@ -3,9 +3,10 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from settings.models import DeliveryService, Dokon, MuddatliTolovxizmatlar, Shaharlar , PaymentMethod, TolovUsullar , OrderSetting
+from account.models import User
+from settings.models import DeliveryService, Dokon, MuddatliTolovxizmatlar, Shaharlar , PaymentMethod, TolovUsullar , OrderSetting, Tumanlar
 from product.models import Product
-from .models import Order, OrderItem
+from .models import FirmaBuyurtma, Order, OrderItem
 from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
@@ -52,13 +53,13 @@ def _order_item_to_dict(order_item) -> list[int]:
 
 
 
-
 def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
     payment = PaymentMethod.objects.filter(id=payment_method).first()
     if payment is not None:
-        for tolov in TolovUsullar.objects.filter(id=tolov_usullar).first().payment_methods.all():
-            if tolov.id == payment.id:
-                return {"errors": False, "payment_method_id": payment.id}
+        tolov_usul = TolovUsullar.objects.filter(id=tolov_usullar).first()
+        for tolov in tolov_usul.payment_methods.all():
+            if tolov.id == payment.pk:
+                return {"errors": False, "payment_method_id": payment.pk}
         return {"errors": True, "data":{"payment_method_id": None}}
     return {"errors": True,  "data":{"payment_method_id": None}}
 
@@ -66,7 +67,7 @@ def __payment_method_to_dict(tolov_usullar, payment_method) -> int:
 def _tolov_usullar_to_dict(tolov_usullar) ->dict:
     tolov = TolovUsullar.objects.filter(id=tolov_usullar).first()
     if tolov is not None:
-        return {"errors": False, "tolov_usullar_id": tolov.id}
+        return {"errors": False, "tolov_usullar_id": tolov.pk}
     else:
         return {"errors": True, "data":{"tolov_usullar_id": None}}
 
@@ -76,7 +77,7 @@ def _tolov_usullar_to_dict(tolov_usullar) ->dict:
 def _punkit_to_dict(punkit) -> int:
     dokonlar = Dokon.objects.filter(id=punkit).first()
     if dokonlar is not None:
-        return {"errors": False, "dokon_id": dokonlar.id}
+        return {"errors": False, "dokon_id": dokonlar.pk}
     else:
         return {"errors": True, "data":{"dokon_id": None}}
 
@@ -99,10 +100,19 @@ def _redirect_payment(request, order_id):
 
 
 
+def _profile_update(first_name, last_name):
+    pass 
+
+
+def _firma_create_views(firma_nomi, zakas_id, user_id):
+    user = User.objects.get(id=user_id)
+    firma_nomi = FirmaBuyurtma.objects.create(firma_name=firma_nomi, buyurtma_raqami=zakas_id, user=user)
+    firma_nomi.save()
+    return firma_nomi.pk
 
 
 
-class RTSOrderCreateAPIView(APIView):
+class OrderCreateAPIView(APIView):
     permission_classes = [
         IsAuthenticated,
     ]
@@ -115,34 +125,46 @@ class RTSOrderCreateAPIView(APIView):
             request=OrderGetSerializer(),
             responses=OrderGetSerializer()
     )
-   
-
     def post(self, request):
         # order items is  required fields 
+        
         order_item_data = []
-        doller = OrderSetting.objects.filter(site_rts=True).first()
+        
+        first_name = request.data.get('firt_name', None)
+        
+        last_name = request.data.get("last_name", None)
+        
+        firma_nomi = request.data.get("firma_nomi", None) 
+            
+        profile_user = _profile_update(first_name=first_name, last_name=last_name)
+        
+        doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
         zakas_id = (Order.objects.count() + 1000)
-        request.data["zakas_id"] = zakas_id
+        request.data["zakas_id"] = zakas_id 
+        if firma_nomi is not None:
+            firma_id  = _firma_create_views(firma_nomi, zakas_id=zakas_id, user_id=request.user.id)
+            request.data["firma_buyurtma"] = firma_id
         if request.data.get("order_items") is not None:
             order_validate = _order_item_to_dict(request.data.get("order_items"))
             if order_validate['errors']:
                 return Response(data=order_validate, status=400)
             for item in request.data.get("order_items"):
                 prod = Product.objects.get(id=item['product_id'])
-                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "site_rts": True, "price":int(prod.price * doller_value)}
+                item_data = { "product": item['product_id'], "quantity": item['quantity'], "user": request.user.id, "zakas_id": zakas_id,"site_sts": True, "mahsul0t_narxi":int(prod.price * doller_value)}
                 item_serializer = OrderItemSerializer(data=item_data)
                 if item_serializer.is_valid(raise_exception=True):
                     item_serializer.save()
+                    item_data['id'] = item_serializer.data.get('id')
                     order_item_data.append(item_data)
         else:
-            return Response({"errors": "Invalid order items"}, status=400)
+            return Response({"errors": "Invalid order items"}, status=200)
         #payment method is option fields 
-        if request.data.get("payment_method")  is not None:
-            payment_validate = __payment_method_to_dict(request.data.get("payment"))
-            if not(payment_validate['errors']):
-                request.data["payment_method"] = payment_validate['payment_method_id']
-            return Response(payment_validate, status=400)
+        # if request.data.get("payment_method")  is not None:
+        #     payment_validate = __payment_method_to_dict(request.data.get("payment_method"))
+        #     if not(payment_validate['errors']):
+        #         request.data["payment_method"] = payment_validate['payment_method_id']
+        #     return Response(payment_validate, status=400)
         
         if request.data.get("tolov_usullar") is None:
             return Response({"errors": "Invalid tolov usullar"}, status=400)
@@ -188,20 +210,27 @@ class RTSOrderCreateAPIView(APIView):
                 return Response({"errors": "Invalid depozit amount"}, status=400)
         request.data["total_price"] = sum(
             [
-                int(item["price"]) * int(item["quantity"])
+                int(item["mahsul0t_narxi"]) * int(item["quantity"])
                 for item in order_item_data
             ]
         )
+        if request.data.get('shahar') is not None:
+            shhar = Shaharlar.objects.get(name=request.data['shahar'])
+            request.data['shahar'] = shhar.pk
+        if request.data['tuman'] is not None:
+            tuman = Tumanlar.objects.get(name=request.data['tuman'])
+            request.data['tuman']=  tuman.pk
         serializer = OrderSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             order_id = Order.objects.get(id=serializer.data.get('id'))
             for i in order_item_data:
-                order_id.order_items.add(OrderItem.objects.get(id=i['product']))
+                order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
             order_serial = OrderGetSerializer(order_id)
             return Response(order_serial.data, status=201)
         return Response(serializer.errors, status=400)
+
         
 
 
