@@ -202,7 +202,7 @@ class OrderCreateAPIView(APIView):
                 return Response({"errors": "Invalid depozit amount"}, status=400)
         request.data["total_price"] = sum(
             [
-                int(item["price"]) * int(item["quantity"])
+                int(item["mahsul0t_narxi"]) * int(item["quantity"])
                 for item in order_item_data
             ]
         )
