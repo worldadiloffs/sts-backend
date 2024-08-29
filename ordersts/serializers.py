@@ -79,7 +79,7 @@ class OrderItemProductSerializer(serializers.ModelSerializer):
 
 
 class OrderGetUserSerializer(serializers.ModelSerializer):
-    order_items = OrderItemSerializer(many=True)
+    order_items = OrderItemProductSerializer(many=True)
     order_obj = serializers.SerializerMethodField(read_only=True)
     status_color = serializers.SerializerMethodField(read_only=True)
     class Meta:
