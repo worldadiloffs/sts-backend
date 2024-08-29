@@ -80,6 +80,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_order_obj(self, obj):
+        prod_lengs = obj.order_items.count()
         yetkazib_berish_manzili = obj.punkit and obj.punkit.name or (obj.qishloq and obj.qishloq or "")
         tolov_usuli = obj.tolov_usullar and obj.tolov_usullar.name or ""
         narxi = obj.total_price and obj.total_price or 0 
@@ -96,7 +97,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Buyurtma turi": "onliyn",
             "Yetkazib berish manzili": yetkazib_berish_manzili,
         }
-        return {"data": data, "summa": {"Mahsulot narxi": narxi,"Yetkazib berish": yetkazib_berish,"Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : narxi,"Yetkazib berish": yetkazib_berish,"Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
