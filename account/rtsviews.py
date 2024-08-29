@@ -251,7 +251,7 @@ class RTSVerifyOtp(APIView):
                         rts_user =User.objects.get(phone=phone)
                         rts_user.site_rts = True
                         rts_user.save()
-                        threading.Timer(3, _cashback_create_rts,args=(phone)).start()
+                    threading.Timer(3, _cashback_create_rts,args=(phone)).start()
 
                     return Response(
                         context,
