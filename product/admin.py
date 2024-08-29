@@ -113,6 +113,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "sub_category__sub_name",
     ]
     list_editable = [
+        "counts",
         "site_sts",
         "site_rts",
         "status",
