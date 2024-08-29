@@ -1,4 +1,6 @@
 from rest_framework import serializers
+
+from cashback.views import cashback_values
 from .models import Product, Image
 from config.settings import site_name
 from settings.models import CashBackSetting, OrderSetting
@@ -80,19 +82,7 @@ class ProductSerialzier(serializers.ModelSerializer):
         
 
     def get_cashback_value(self, obj):
-        order_setting = OrderSetting.objects.first()
-        berialadigan_cashback = 0
-        doller_value = int(order_setting.doller * order_setting.nds / 10)
-        cashback_setting = CashBackSetting.objects.filter(product__id=obj.pk).first()
-        if cashback_setting:
-            berialadigan_cashback = cashback_setting.cashback_foiz *  obj.price *doller_value
-        else:
-            if obj.sub_category is not None:
-                sub_id = obj.sub_category.pk
-                cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
-                if cashback_setting:
-                    berialadigan_cashback = int(cashback_setting.cashback_foiz  * obj.price * doller_value * 0.01)
-        return berialadigan_cashback
+        cashback_values(products=[{"id": obj.id, "count": 1}])
         
     def get_kredit_summa(self, obj):
         if obj.price:

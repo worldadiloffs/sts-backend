@@ -27,3 +27,5 @@ urlpatterns = [
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
 ]
 
+
+
