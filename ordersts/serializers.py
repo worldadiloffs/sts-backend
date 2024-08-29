@@ -97,7 +97,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             "Buyurtma turi": "onliyn",
             "Yetkazib berish manzili": yetkazib_berish_manzili,
         }
-        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{format(narxi)} so'm","Yetkazib berish": f"{format(yetkazib_berish)} so'm" , "Jami summa": f"{format(int(narxi + yetkazib_berish))} so'm", "message": "buyurtma oqilgan"}}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} so'm", "Yetkazib berish": f"{format(yetkazib_berish)} so'm" , "Jami summa": f"{format(int(narxi + yetkazib_berish))} so'm", "message": "buyurtma oqilgan"}}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
