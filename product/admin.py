@@ -72,6 +72,7 @@ class ProductsModelAdmin(TranslationAdmin):
     list_display = [
         "articul",
         "product_name",
+        "counts",
         "category_obj",
         "price",
         "image_tag",
