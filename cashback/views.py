@@ -5,6 +5,9 @@ from django.http import JsonResponse
 from product.models import Product
 from settings.models import CashBackSetting, OrderSetting
 
+from .models import CashbackKard
+from .serialziers import CashbackKardSerializer
+
 
 # Create your views here.
 
@@ -27,3 +30,18 @@ def cashback_values(products):
                     berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
         return {"data": berialadigan_cashback, "errors": False, "message": "ok"}
     return {"data": 0, "errors": True, "message": "Productlar mavjud"}
+
+
+
+
+
+class CashbackApiviews(APIView):
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            cashback = CashbackKard.objects.filter(user=user, site_sts=True).first()
+            if cashback is not None:
+                serialzier = CashbackKardSerializer(cashback)
+                return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False)
+            return JsonResponse({"data": None, "errors": True, "message": "Kashback kard mavjud"}, safe=False)
+        return JsonResponse({"data": None, "errors": True, "message": "Siz faol emasiz"}, safe=False)
