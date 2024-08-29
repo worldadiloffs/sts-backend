@@ -134,7 +134,7 @@ class RTSOrderCreateAPIView(APIView):
         order_item_data = []
         cashback_list = []
         
-        first_name = request.data.get('firt_name', None)
+        first_name = request.data.get('first_name', None)
         
         last_name = request.data.get("last_name", None)
         
