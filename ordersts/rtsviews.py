@@ -232,7 +232,7 @@ class RTSOrderCreateAPIView(APIView):
         if request.data['tuman'] is not None:
             tuman = Tumanlar.objects.get(name=request.data['tuman'])
             request.data['tuman']=  tuman.pk
-            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user=request.user.id, qishloq=request.data['qishloq'])
+            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user_id=request.user.id, qishloq=request.data['qishloq'])
 
 
         serializer = OrderSerializer(data=request.data)
