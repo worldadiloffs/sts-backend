@@ -101,16 +101,16 @@ def _redirect_payment(request, order_id):
 def _user_address_to_dict(shahar, tuman , user_id , qishloq):
     address = UserAddress.objects.filter(user__id=user_id).first()
     if address is not None:
-        address.city = shahar and shahar or ''
-        address.district = tuman and tuman or ''
+        address.city = shahar 
+        address.district = tuman 
         if qishloq is not None:
             address.address = qishloq
         address.save()
     else:
         address = UserAddress()
         address.user = User.objects.get(id=user_id)
-        address.city = shahar and shahar or ''
-        address.district = tuman and tuman or ''
+        address.city = shahar 
+        address.district = tuman 
         if qishloq is not None:
             address.address = qishloq
         address.save()

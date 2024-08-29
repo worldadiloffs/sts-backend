@@ -128,6 +128,10 @@ class UserAddress(models.Model):
         verbose_name_plural = "Адреса"
     def __str__(self):
         return self.user.phone + " - " + self.city + " - " + self.district + " - " + self.address
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        
 
 
 

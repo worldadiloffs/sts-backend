@@ -20,4 +20,7 @@ class CashbackKard(models.Model):
     class Meta:
         verbose_name_plural = 'Cashback Kardlar' 
         ordering = ['id']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
         
