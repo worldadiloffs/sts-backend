@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import CashbackKard
 
 class CashbackKardSerializer(serializers.ModelSerializer):
-    hisobot_ob = serializers.SerializerMethodField()
+    hisobot = serializers.SerializerMethodField()
     class Meta:
         model = CashbackKard
         fields = "__all__"
@@ -11,7 +11,7 @@ class CashbackKardSerializer(serializers.ModelSerializer):
 
 # {"zakas_id": self.zakas_id, "summa": self.tushadigan_cash_summa, "created_at": self.created_at.strftime('%Y-%m-%d %H:%M') , "hisob": "+"}
 
-    def get_hisobot_ob(self, obj):
+    def get_hisobot(self, obj):
         hisobot_ob = obj.hisobot
         data = []
         if hisobot_ob:
