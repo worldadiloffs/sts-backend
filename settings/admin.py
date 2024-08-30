@@ -12,9 +12,15 @@ from jsoneditor.forms import JSONEditor
 
 
 
-admin.site.register(Shaharlar)
 admin.site.register(Tumanlar)
 
+
+@admin.register(Shaharlar)
+class ShaharlarAdmin(admin.ModelAdmin):
+    list_display = ("id","name",  "zakas_summa", "summa", "site_sts", "site_rts")
+    search_fields = ("name",)
+    list_filter = ("site_sts", "site_rts",)
+    list_editable = ("zakas_summa", "summa", "site_sts", "site_rts",)
 
 
 
