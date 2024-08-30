@@ -34,7 +34,7 @@ class DokonAdmin(admin.ModelAdmin):
 
 @admin.register(TolovUsullar)
 class TolovUsullarAdmin(admin.ModelAdmin):
-    list_display = ("name", "site_sts", "site_rts", "status",)
+    list_display = ("id","name", "site_sts", "site_rts", "status",)
     list_filter = ("site_sts", "site_rts", "status",)
     search_fields = ("name",)
 
@@ -42,21 +42,21 @@ class TolovUsullarAdmin(admin.ModelAdmin):
 
 @admin.register(PaymentMethod)
 class PaymentMethodAdmin(admin.ModelAdmin):
-    list_display =("name", "image_tag", "status", "site_sts", "site_rts")
+    list_display =( "id","name", "image_tag", "status", "site_sts", "site_rts")
     list_editable = ("site_sts", "site_rts")
     search_fields = ("name",)
 
 
 @admin.register(DeliveryService)
 class DeliveryServiceAdmin(admin.ModelAdmin):
-    list_display = ("zakas_summa", "dastafka_summa", "site_sts", "site_rts",)
+    list_display = ("id","zakas_summa", "dastafka_summa", "site_sts", "site_rts",)
 
 
 
 
 @admin.register(OrderSetting)
 class OrderSettingAdmin(admin.ModelAdmin):
-    list_display =("nds", "doller", "site_sts", "site_rts",)
+    list_display =("id","nds", "doller", "site_sts", "site_rts",)
     # list_editable = (  "nds", "site_sts", "site_rts",)
     list_filter= ( "site_sts", "site_rts",)
 
@@ -64,7 +64,7 @@ class OrderSettingAdmin(admin.ModelAdmin):
 
 @admin.register(SocialNetwork)
 class SocialNetworkAdmin(admin.ModelAdmin):
-    list_display = ("name",  "site_sts", "site_rts", "status",)
+    list_display = ("id","name",  "site_sts", "site_rts", "status",)
     search_fields = ("name",)
     list_filter = ("site_sts", "site_rts", "status",)
 
@@ -74,7 +74,7 @@ class SocialNetworkAdmin(admin.ModelAdmin):
 
 @admin.register(MuddatliTolovxizmatlar)
 class MuddatliTolovxizmatlarAdmin(admin.ModelAdmin):
-    list_display =("name",)
+    list_display =("id","name",)
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
