@@ -1,14 +1,9 @@
 from rest_framework import serializers
-
 from cashback.views import cashback_values
 from .models import Product, Image
 from config.settings import site_name
-from settings.models import CashBackSetting, OrderSetting
-from category.serializers import (
-    SuperCategoryStsMiniSerializer,
-    MainCategortStsMiniSerializer,
-    SubCategoryStsMiniSerialzier,
-)
+from settings.models import OrderSetting
+
 
 
 class ImageSeriazilizer(serializers.ModelSerializer):
@@ -57,7 +52,6 @@ class ProductSerialzier(serializers.ModelSerializer):
             "articul",
             "product_name",
             'category_name',
-            #  "link",
             "main_category",
             "super_category",
             "sub_category",
@@ -166,8 +160,8 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
             }
 
 
+
 class ProductListMiniSerilizers(serializers.ModelSerializer):
-    # images = ImageSeriazilizer(required=False, read_only=True, many=True)
     image = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField(read_only=True)
     price = serializers.SerializerMethodField()

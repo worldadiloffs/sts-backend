@@ -53,6 +53,11 @@ class Banner(models.Model):
         super().save(*args, **kwargs)    
 
 
+
+
+
+
+
 class HomePageCategory(models.Model):
     top= models.IntegerField(blank=True, null=True, help_text=_("home page nechinchi orinda chiqsin"))
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
@@ -106,8 +111,6 @@ class HomePageCategory(models.Model):
     def save(self, *args, **kwargs):
         self.title = self.title.title() if self.title else self.title
         self.slug = self.make_slug(self.title)
-
         super().save(*args, **kwargs)
-
 
 

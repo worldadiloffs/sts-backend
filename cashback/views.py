@@ -21,7 +21,7 @@ def cashback_values(products):
             product_obj = Product.objects.get(id=product["id"])
             cashback_setting = CashBackSetting.objects.filter(product=product_obj).first()
             if cashback_setting:
-                berialadigan_cashback += cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value
+                berialadigan_cashback += cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value *0.01
             else:
                 prod = Product.objects.get(id=product["id"])
                 sub_id = prod.sub_category.pk
