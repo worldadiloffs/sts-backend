@@ -39,14 +39,13 @@ class CashbackMobile(APIView):
                 product_obj = Product.objects.get(id=product["id"])
                 cashback_setting = CashBackSetting.objects.filter(product=product_obj).first()
                 if cashback_setting:
-                    berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value * 0.01 )
-                
+                    berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01 )
                 else:
                     prod = Product.objects.get(id=product["id"])
                     sub_id = prod.sub_category.pk
-                    cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
-                    if cashback_setting:
-                        berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
+                    cashback_setting_sub = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
+                    if cashback_setting_sub:
+                        berialadigan_cashback += int(cashback_setting_sub.cashback_foiz * product["count"] * prod.price * doller_value * 0.01)
             return JsonResponse({"data": berialadigan_cashback, "errors": False, "message": "ok"},safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Productlar mavjud"}, safe=False)
 
