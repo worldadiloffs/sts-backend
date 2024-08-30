@@ -14,7 +14,7 @@ from jsoneditor.forms import JSONEditor
 
 admin.site.register(Shaharlar)
 admin.site.register(Tumanlar)
-admin.site.register(CashBackSetting)
+
 
 
 
@@ -49,23 +49,22 @@ class PaymentMethodAdmin(admin.ModelAdmin):
 
 @admin.register(DeliveryService)
 class DeliveryServiceAdmin(admin.ModelAdmin):
-    list_display = ("zakas_summa", "dastafka_summa", "teskor_buyurtma", "site_sts", "site_rts")
-    list_editable = ("site_sts", "site_rts", "zakas_summa", "dastafka_summa",)
+    list_display = ("zakas_summa", "dastafka_summa", "site_sts", "site_rts",)
 
 
 
 
 @admin.register(OrderSetting)
 class OrderSettingAdmin(admin.ModelAdmin):
-    list_display =("depozit_tolov", "firma", "cashback_tolov", "tolov_online", "nds", "site_sts", "site_rts",)
-    list_editable = ("depozit_tolov", "firma", "cashback_tolov", "tolov_online", "nds", "site_sts", "site_rts",)
-    list_filter= ("depozit_tolov", "firma", "cashback_tolov", "site_sts", "site_rts",)
+    list_display =("nds", "doller", "site_sts", "site_rts",)
+    # list_editable = (  "nds", "site_sts", "site_rts",)
+    list_filter= ( "site_sts", "site_rts",)
 
 
 
 @admin.register(SocialNetwork)
 class SocialNetworkAdmin(admin.ModelAdmin):
-    list_display = ("name", "url", "icon_tag", "site_sts", "site_rts", "status",)
+    list_display = ("name",  "site_sts", "site_rts", "status",)
     search_fields = ("name",)
     list_filter = ("site_sts", "site_rts", "status",)
 
