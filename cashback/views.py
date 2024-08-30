@@ -20,13 +20,13 @@ def cashback_values(products):
         for product in products:
             product_obj = Product.objects.get(id=product["id"])
             cashback_setting = CashBackSetting.objects.filter(product=product_obj).first()
-            if cashback_setting:
+            if cashback_setting is not None:
                 berialadigan_cashback += cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value *0.01
             else:
                 prod = Product.objects.get(id=product["id"])
                 sub_id = prod.sub_category.pk
                 cashback_setting = CashBackSetting.objects.filter(category_tavar__id=sub_id).first()
-                if cashback_setting:
+                if cashback_setting is not None:
                     berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
         return {"data": berialadigan_cashback, "errors": False, "message": "ok"}
     return {"data": 0, "errors": True, "message": "Productlar mavjud"}
