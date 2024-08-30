@@ -21,7 +21,7 @@ from category.models import MainCategory , SubCategory
 
 class CashBackSetting(models.Model):
     category_tavar = models.OneToOneField(SubCategory, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('Tavar turi'))
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("BIttiy Tovar uchun cashback"))
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("BItta Tovar uchun cashback"))
     cashback_foiz = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("cashback foizi"))
     status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
