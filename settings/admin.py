@@ -9,15 +9,67 @@ from modeltranslation.admin import TranslationAdmin
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 
-admin.site.register(PaymentMethod)
-admin.site.register(DeliveryService)
-admin.site.register(OrderSetting)
-admin.site.register(SocialNetwork)
+
+
+
 admin.site.register(Shaharlar)
 admin.site.register(Tumanlar)
-admin.site.register(TolovUsullar)
-admin.site.register(Dokon)
 admin.site.register(CashBackSetting)
+
+
+
+@admin.register(CashBackSetting)
+class CashBackSettingAdmin(admin.ModelAdmin):
+    list_display = ("category_tavar", "product", "cashback_foiz", "status", "site_sts", "site_rts",)
+    search_fields = ("category_tavar__name", "product__name",)
+    list_filter = ("site_sts", "site_rts",)
+
+@admin.register(Dokon)
+class DokonAdmin(admin.ModelAdmin):
+    list_display = ("name", "site_sts", "site_rts",)
+    list_filter = ("site_sts", "site_rts",)
+    search_fields = ("name",)
+
+
+
+@admin.register(TolovUsullar)
+class TolovUsullarAdmin(admin.ModelAdmin):
+    list_display = ("name", "site_sts", "site_rts", "status",)
+    list_filter = ("site_sts", "site_rts", "status",)
+    search_fields = ("name",)
+
+
+
+@admin.register(PaymentMethod)
+class PaymentMethodAdmin(admin.ModelAdmin):
+    list_display =("name", "image_tag", "status", "site_sts", "site_rts")
+    list_editable = ("site_sts", "site_rts")
+    search_fields = ("name",)
+
+
+@admin.register(DeliveryService)
+class DeliveryServiceAdmin(admin.ModelAdmin):
+    list_display = ("zakas_summa", "dastafka_summa", "teskor_buyurtma", "site_sts", "site_rts")
+    list_editable = ("site_sts", "site_rts", "zakas_summa", "dastafka_summa",)
+
+
+
+
+@admin.register(OrderSetting)
+class OrderSettingAdmin(admin.ModelAdmin):
+    list_display =("depozit_tolov", "firma", "cashback_tolov", "tolov_online", "nds", "site_sts", "site_rts",)
+    list_editable = ("depozit_tolov", "firma", "cashback_tolov", "tolov_online", "nds", "site_sts", "site_rts",)
+    list_filter= ("depozit_tolov", "firma", "cashback_tolov", "site_sts", "site_rts",)
+
+
+
+@admin.register(SocialNetwork)
+class SocialNetworkAdmin(admin.ModelAdmin):
+    list_display = ("name", "url", "icon_tag", "site_sts", "site_rts", "status",)
+    search_fields = ("name",)
+    list_filter = ("site_sts", "site_rts", "status",)
+
+
 
 
 
