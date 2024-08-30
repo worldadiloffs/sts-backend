@@ -20,7 +20,7 @@ admin.site.register(Tumanlar)
 
 @admin.register(CashBackSetting)
 class CashBackSettingAdmin(admin.ModelAdmin):
-    list_display = ("category_tavar", "product", "cashback_foiz", "status", "site_sts", "site_rts",)
+    list_display = ( "id","category_tavar", "product", "cashback_foiz", "status", "site_sts", "site_rts",)
     search_fields = ("category_tavar__name", "product__name",)
     list_filter = ("site_sts", "site_rts",)
 
