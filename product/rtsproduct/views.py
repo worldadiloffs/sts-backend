@@ -31,7 +31,7 @@ from product.serialzier import kredit_cal
 class RTSProductListMiniView(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
-    @method_decorator(vary_on_cookie("device_id"))
+    # @method_decorator(vary_on_cookie("device_id"))
     @extend_schema(
         responses=ProductListMiniSerilizers
     )
