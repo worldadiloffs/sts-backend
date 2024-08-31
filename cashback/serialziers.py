@@ -30,9 +30,13 @@ class CashbackKardSerializer(serializers.ModelSerializer):
 
 
 class CashbackMobileSerialziers(serializers.ModelSerializer):
+    hisobot = serializers.SerializerMethodField()
     class Meta:
         model = CashbackKard
         fields = "__all__"
+
+    def get_hisobot(self, obj):
+       return  obj.hisobot and obj.hisobot or []
             
 
 
