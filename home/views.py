@@ -9,7 +9,9 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
 # Create your views here.
 from config.settings import site_name
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page 
+from django.views.decorators.vary import vary_on_cookie, vary_on_headers
 
 class BannerResponseSerialzier(serializers.Serializer):
     data = BannerSerializers()
@@ -48,6 +50,8 @@ class BannerDetailViews(APIView):
 
 
 class HomePageCategoryView(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=ResponseHOme
             )
