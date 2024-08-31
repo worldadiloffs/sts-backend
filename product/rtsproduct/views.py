@@ -29,8 +29,8 @@ from product.serialzier import kredit_cal
 
 
 class RTSProductListMiniView(APIView):
-    # @method_decorator(cache_page(60 * 60 * 2))
-    # @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         responses=ProductListMiniSerilizers
     )
@@ -199,7 +199,6 @@ class RTSCategoryProductViews(APIView):
     # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
-        # parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer
         
     )
@@ -338,12 +337,6 @@ class RTSCategoryProductViews(APIView):
                     product = Product.objects.filter(status=True, site_rts=True, sub_category__id=sub_id).order_by(order_py)[
                         current * limit : next * limit
                     ]
-                
-                
-                # count =  Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                # product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id)[
-                #     current * limit : next * limit
-                # ]
                 prod_serialzier = ProductListMiniSerilizers(product, many=True)
            
                 pages = int(count / limit) + 1

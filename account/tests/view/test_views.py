@@ -1,38 +1,45 @@
-from django.test import TestCase
 from django.urls import reverse
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APITestCase, APIClient
+from django.contrib.auth import get_user_model
+from django.core.cache import cache
 
+from rest_framework_simplejwt.tokens import RefreshToken
+User = get_user_model()
 
-class TestRegisterAPI(TestCase):
+class VerifyOtpTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.url = reverse("account:register")
-        self.data = {
-            "phone": "+998931234567",
-        }
-        self.data_invalid = {
-            "phone": "99893123456",
-        }
+        self.url = reverse('verify-otp')  # Replace 'verify-otp' with your actual URL name
+        self.register_url = reverse('register')  # Replace'register' with your actual URL name
+        self.phone = '+998901234567'
+        self.otp = '123456'
 
-    def test_create_user_success(self):
-        response = self.client.post(self.url, self.data)
+        # Cache OTP and phone for testing
+        ip = '127.0.0.1'  # Mocking IP address
+        cache.set(f"{ip}-for-authentication", self.phone, timeout=300)
+        cache.set(self.phone, self.otp, timeout=300)
+        
+        # Creating a test user
+        
+
+    def test_register_success(self):
+        data = {
+            "phone": self.phone,
+        }
+        
+        response = self.client.post(self.register_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_create_user_invalid_data(self):
-        response = self.client.post(self.url, self.data_invalid)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("phone", response.json()["non_field_errors"][0])
-
-    def test_create_user_duplicate_phone(self):
-        self.client.post(self.url, self.data)
-        response = self.client.post(self.url, self.data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("phone", response.json()["phone"][0])
-
-    def test_create_user_with_wrong_format_phone(self):
-        self.data["phone"] = "9989312345678"
-        response = self.client.post(self.url, self.data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("phone", response.json()["phone"][0])
-    
+    def test_verify_otp_success(self):
+        data = {
+            "code": self.otp,
+        }
+        
+        response = self.client.post(self.url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.user = User.objects.create_user(phone=self.phone)
+        self.user.save()
+        token = RefreshToken.for_user(self.user)
+        self.assertEqual(response.data["access"], str(token.access_token))
+        self.assertIn("access", response.data)

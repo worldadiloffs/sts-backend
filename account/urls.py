@@ -30,7 +30,7 @@ urlpatterns = [
     # rts site uchun api 
     path('rts/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("rts/account/profile/", RTSUserProfile.as_view(), name="rts-profile"),
-    path("rts/account/register/", RTSRegister.as_view(), name="rts-register"),
+    # path("rts/account/register/", RTSRegister.as_view(), name="rts-register"),
     path("rts/account/verify/", RTSVerifyOtp.as_view(), name="rts-verify-otp"),
     path("rts/account/users/<int:pk>/",csrf_exempt(RTSUserUPdate.as_view()), name="rts-users-detail"  ),
     path("rts/account/address/", csrf_exempt(RTSUserAdressCreate.as_view()), name="rts-address-create" ),
