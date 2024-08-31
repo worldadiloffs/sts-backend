@@ -6,10 +6,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from .models import User, UserAddress
-from rest_framework.generics import (
-    ListAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -23,8 +19,6 @@ from cashback.models import CashbackKard
 
 from .serializers import (
     UserAdressSerializer,
-    UsersListSerializer,
-    UserDetailUpdateDeleteSerializer,
     UserProfileSerializer,
     AuthenticationSerializer,
     OtpSerializer,
@@ -32,8 +26,6 @@ from .serializers import (
     CreateTwoStepPasswordSerializer,
 )
 from .send_otp import send_otp
-
-import threading
 
 from config.settings import CRM_KEY , CRM_TOKEN , CRM_URL
 
@@ -58,32 +50,6 @@ class LogoutView(APIView):
             )
 
 
-class UsersList(ListAPIView):
-    """
-    get:
-        Returns a list of all existing users.
-    """
-
-    serializer_class = UsersListSerializer
-    # permission_classes =  IsSuperUser,
-
-    filterset_fields = [
-        "phone",
-    ]
-
-    def get_queryset(self):
-        return get_user_model().objects.all()
-
-
-class UsersDetailUpdateDelete(RetrieveUpdateDestroyAPIView):
-
-    serializer_class = UserDetailUpdateDeleteSerializer
-    # permission_classes = [permissions.IsAdminUser]
-
-    def get_object(self):
-        pk = self.kwargs.get("pk")
-        return get_object_or_404(get_user_model(), pk=pk)
-
 
 class UserProfile(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -91,15 +57,12 @@ class UserProfile(APIView):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
-                addres_bool:bool  = UserAddress.objects.filter(user=user).exists()
-                if addres_bool:
-                    addres = UserAddress.objects.get(user=user)
-    
-                    addres_serialzier = UserAdressSerializer(addres) if addres else None
-                    addres_data = addres_serialzier.data
-                else:
-                    addres_data = None
-                return Response({"data": {"user": serializer.data, "address": addres_data,  "is_login": True}}, status=status.HTTP_200_OK)
+                addres_serialzier = None
+                addres_bool= UserAddress.objects.filter(user=user).first()
+                if addres_bool is not None:
+                    addres_serialzier = UserAdressSerializer(addres_bool)
+                
+                return Response({"data": {"user": serializer.data, "address": addres_serialzier,  "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
@@ -111,7 +74,7 @@ class UserUPdate(APIView):
     def put(self, request, pk):
         try:
             user = User.objects.get(pk=pk)
-            serializer = UserDetailUpdateDeleteSerializer(user, data=request.data, partial=True)
+            serializer = UserProfileSerializer(user, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -122,12 +85,18 @@ class UserUPdate(APIView):
 
 
 
+
 class UserAdressCreate(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
     @extend_schema(
             request=UserAdressSerializer(),
             responses=UserAdressSerializer()
     )
+    
     
     def post(self, request):
         user = request.user
@@ -138,7 +107,13 @@ class UserAdressCreate(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+
+    
 class UserUpdateAddress(APIView):
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
     permission_classes = [permissions.IsAuthenticated]
     @extend_schema(
             request=UserAdressSerializer(),
@@ -213,14 +188,12 @@ class Register(APIView):
     permission_classes = [
         AllowAny,
     ]
-    # throttle_scope = "authentication"
-    # throttle_classes = [
-    #     ScopedRateThrottle,
-    # ]
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
 
-    def post(self, request , sites=None):
-        if sites is not None:
-            pass 
+    def post(self, request):
         serializer = AuthenticationSerializer(data=request.data)
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")
@@ -291,13 +264,13 @@ class VerifyOtp(APIView):
         parameters: [otp,]
     """
 
-    # permission_classes = [
-    #     AllowAny,
-    # ]
-    # throttle_scope = "verify_authentication"
-    # throttle_classes = [
-    #     ScopedRateThrottle,
-    # ]
+    permission_classes = [
+        AllowAny,
+    ]
+    throttle_scope = "verify_authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
 
     def post(self, request):
         serializer = OtpSerializer(data=request.data)
@@ -317,6 +290,7 @@ class VerifyOtp(APIView):
                             refresh = RefreshToken.for_user(user)
                             cache.delete(phone)
                             cache.delete(f"{ip}-for-authentication")
+
                             context = {
                                 "created": created,
                                 "refresh": str(refresh),
@@ -333,6 +307,7 @@ class VerifyOtp(APIView):
                     refresh = RefreshToken.for_user(user)
                     cache.delete(phone)
                     cache.delete(f"{ip}-for-authentication")
+
                     context = {
                         "created": created,
                         "refresh": str(refresh),
@@ -342,6 +317,7 @@ class VerifyOtp(APIView):
                         datase = User.objects.get(phone=phone)
                         datase.site_sts= True
                         datase.save()
+                        # threading.Timer(3, _request_user_crm, phone).start()
                     _cashback_create(phone)
 
 
@@ -368,11 +344,9 @@ class VerifyOtp(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        
 
 
 class CreateTwoStepPassword(APIView):
-
     """
     post:
         Send a password to create a two-step-password.
@@ -462,6 +436,3 @@ class ChangeTwoStepPassword(APIView):
             },
             status=status.HTTP_401_UNAUTHORIZED,
         )
-
-
-

@@ -227,6 +227,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -441,15 +442,13 @@ JAZZMIN_SETTINGS = {
             "icon": "fas fa-comments",
             "permissions": ["books.view_book"]
         }]
-    },
-    
-    
-    
+    },    
 }
 
 
-
 site_name = 'https://api.sts-shop.uz' # media url 
+
+SITE_PREFEX = 'https://api.sts-shop.uz'
 
 CRM_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6"
 CRM_KEY = "hikvision"

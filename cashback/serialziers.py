@@ -12,6 +12,8 @@ class CashbackKardSerializer(serializers.ModelSerializer):
 # {"zakas_id": self.zakas_id, "summa": self.tushadigan_cash_summa, "created_at": self.created_at.strftime('%Y-%m-%d %H:%M') , "hisob": "+"}
 
     def get_hisobot(self, obj):
+        create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
+
         hisobot_ob = obj.hisobot
         data = []
         if hisobot_ob:
@@ -19,7 +21,7 @@ class CashbackKardSerializer(serializers.ModelSerializer):
                 data.append({
                     "Buyurtma raqami": i['zakas_id'],
                     "Summa": f"{i['summa']}",
-                    "Mahsulotni Buyurtma qilingan vaqt": i['created_at'],
+                    "Mahsulotni Buyurtma  vaqt": create_at,
                     "Hisob": i['hisob']
                 })
             return data

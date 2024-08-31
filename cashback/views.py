@@ -29,7 +29,7 @@ def cashback_values(products):
                 if cashback_setting is not None:
                     berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
         return {"data": berialadigan_cashback, "errors": False, "message": "ok"}
-    return {"data": 0, "errors": True, "message": "Productlar mavjud"}
+    return {"data": 0, "errors": True, "message": "Product cashback validate 0"}
 
 
 
@@ -46,6 +46,8 @@ class CashbackApiviews(APIView):
             return JsonResponse({"data": None, "errors": True, "message": "Kashback kard mavjud"}, safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Siz faol emasiz"}, safe=False)
     
+
+
 class RTSCashbackApiviews(APIView):
     def get(self, request):
         user = request.user

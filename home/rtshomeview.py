@@ -34,7 +34,7 @@ class RTSBannerDetailViews(APIView):
             responses=RTSBannerResponseSerialzier
     )
     def get(self, request , pk):
-        banner = Banner.objects.get(status=True,id=pk , site_rts=True)
+        banner = Banner.objects.get(status=True, id=pk , site_rts=True)
         if banner.category is not None:
             product = Product.objects.filter(status=True, site_rts=True, main_category__id=banner.category.pk).order_by("id")
             product_serializers =ProductListMiniSerilizers(product , many=True)

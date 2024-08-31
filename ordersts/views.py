@@ -143,8 +143,8 @@ class OrderCreateAPIView(APIView):
         last_name = request.data.get("last_name", None)
         
         firma_nomi = request.data.get("firma_nomi", None) 
-            
-        profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id)
+        if first_name is not None and last_name is not None:
+            profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id)
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
@@ -197,7 +197,6 @@ class OrderCreateAPIView(APIView):
         # request.data["order_items"] =order_item_data
         request.data["site_sts"] = True
         request.data["user"] = request.user.id
-
         # cashback field option fields 
         if request.data.get("cashback") is not None:
             cashback_validate = _validate_cashback(
