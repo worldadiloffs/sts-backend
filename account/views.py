@@ -35,7 +35,7 @@ from extensions.code_generator import get_client_ip
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
+    def post(self, request, site):
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)
@@ -53,7 +53,7 @@ class LogoutView(APIView):
 
 class UserProfile(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
+    def get(self, request, site):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
@@ -71,7 +71,7 @@ class UserProfile(APIView):
 
 
 class UserUPdate(APIView):
-    def put(self, request, pk):
+    def put(self, request, site, pk):
         try:
             user = User.objects.get(pk=pk)
             serializer = UserProfileSerializer(user, data=request.data, partial=True)
@@ -98,7 +98,7 @@ class UserAdressCreate(APIView):
     )
     
     
-    def post(self, request):
+    def post(self, request, site):
         user = request.user
         request.data['user'] = user.id
         serializer = UserAdressSerializer(data=request.data, partial=True)
@@ -119,7 +119,7 @@ class UserUpdateAddress(APIView):
             request=UserAdressSerializer(),
             responses= UserAdressSerializer()
     )
-    def put(self, request, pk):
+    def put(self, request,site , pk):
         address = get_object_or_404(UserAddress, pk=pk)
         user = request.user
         if user!= address.user:
@@ -149,7 +149,7 @@ class Login(APIView):
         ScopedRateThrottle,
     ]
 
-    def post(self, request):
+    def post(self, request, site):
         serializer = AuthenticationSerializer(data=request.data)
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")
@@ -193,7 +193,7 @@ class Register(APIView):
         ScopedRateThrottle,
     ]
 
-    def post(self, request):
+    def post(self, request, site):
         serializer = AuthenticationSerializer(data=request.data)
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")
@@ -358,7 +358,7 @@ class CreateTwoStepPassword(APIView):
         IsAuthenticated,
     ]
 
-    def post(self, request):
+    def post(self, request, site):
         if request.user.two_step_password:
             return Response(
                 {"Error!": "Your request could not be approved."},
@@ -394,7 +394,7 @@ class ChangeTwoStepPassword(APIView):
         IsAuthenticated,
     ]
 
-    def post(self, request):
+    def post(self, request, site):
         if request.user.two_step_password:
             serializer = ChangeTwoStepPasswordSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
