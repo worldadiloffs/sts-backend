@@ -188,10 +188,10 @@ class Register(APIView):
     permission_classes = [
         AllowAny,
     ]
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
 
     def post(self, request, site):
         serializer = AuthenticationSerializer(data=request.data)
@@ -264,10 +264,10 @@ class VerifyOtp(APIView):
     permission_classes = [
         AllowAny,
     ]
-    throttle_scope = "verify_authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "verify_authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
 
     def post(self, request, site):
         serializer = OtpSerializer(data=request.data)
