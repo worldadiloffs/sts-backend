@@ -17,9 +17,6 @@ class SubCategoryAdmin(TranslationAdmin):
                 obj.site_sts = True
             if user.site_rts:
                 obj.site_rts = True
-            if user.site_sts and user.site_rts:
-                obj.sts_site = False
-                obj.rts_site = False
         # Save the object
         super().save_model(request, obj, form, change)
 
@@ -136,13 +133,13 @@ class SuperCategoryAdmin(TranslationAdmin):
         user = request.user
         if user.site_sts and not user.site_rts:
             qs = super().get_queryset(request)
-            return qs.filter(sts_site=True, rts_site=True)
-        if user.site_sts:
-            qs = super().get_queryset(request)
-            return qs.filter(sts_site=True)
-        if user.site_rts:
-            qs = super().get_queryset(request)
-            return qs.filter(rts_site=True)
+            return qs
+        # if user.site_sts:
+        #     qs = super().get_queryset(request)
+        #     return qs.filter(sts_site=True)
+        # if user.site_rts:
+        #     qs = super().get_queryset(request)
+        #     return qs.filter(rts_site=True)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
     list_editable = ("status", "sts_site", "rts_site",)
     search_fields = ("super_name","id", )
