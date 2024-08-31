@@ -104,10 +104,21 @@ class UserProfile(APIView):
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
 
-
+    def put(self, request):
+        user = request.user
+        try:
+            user = User.objects.get(phone=user.phone)
+            serializer = UserProfileSerializer(user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class UserUPdate(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def put(self, request, pk):
         try:
             user = User.objects.get(pk=pk)

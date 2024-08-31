@@ -248,7 +248,6 @@ class OrderCreateAPIView(APIView):
 
 
 
-
 class STSCashbackMobile(APIView):
     def post(self, request):
         products = request.data['products']
