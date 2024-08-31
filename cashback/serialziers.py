@@ -21,7 +21,7 @@ class CashbackKardSerializer(serializers.ModelSerializer):
                 data.append({
                     "Buyurtma raqami": i['zakas_id'],
                     "Summa": f"{i['summa']}",
-                    "Mahsulotni Buyurtma  vaqt": create_at,
+                    "time": create_at,
                     "Hisob": i['hisob']
                 })
             return data
