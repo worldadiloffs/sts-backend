@@ -120,8 +120,9 @@ class UserProfile(APIView):
 class UserUPdate(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def put(self, request, pk):
+        user = request.user
         try:
-            user = User.objects.get(pk=pk)
+            user = User.objects.get(pk=pk, phone=user.phone)
             serializer = UserDetailUpdateDeleteSerializer(user, data=request.data, partial=True)
             if serializer.is_valid():
                 serializer.save()
