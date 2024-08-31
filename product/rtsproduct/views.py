@@ -25,7 +25,7 @@ from config.settings import site_name
 
 from product.serialzier import kredit_cal
 
-
+from rest_framework.response import Response
 
 
 class RTSProductListMiniView(APIView):
@@ -38,9 +38,7 @@ class RTSProductListMiniView(APIView):
     def get(self, request):
         product = Product.objects.all()
         seriazleir = ProductListMiniSerilizers(product, many=True)
-        return JsonResponse(
-            {"data": seriazleir.data, "errors": False, "message": ""}, safe=False
-        )
+        return Response(seriazleir.data)
     
 
 class RTSProductDetailApiview(APIView):
