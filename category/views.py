@@ -10,7 +10,9 @@ from .models import SuperCategory, MainCategory
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from drf_spectacular.utils import extend_schema
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page 
+from django.views.decorators.vary import  vary_on_headers
 
 class CategoryListJsonViews(APIView):
     @extend_schema(
@@ -27,6 +29,8 @@ class CategoryListJsonViews(APIView):
 
 
 class CategoryHeaderViews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=CategoryHeaderSechema
     )
