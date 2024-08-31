@@ -28,6 +28,11 @@ class CashbackKardSerializer(serializers.ModelSerializer):
         return None
             
 
+
+class CashbackMobileSerialziers(serializers.ModelSerializer):
+    class Meta:
+        model = CashbackKard
+        fields = "__all__"
             
 
 
