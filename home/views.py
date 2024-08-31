@@ -11,7 +11,7 @@ from rest_framework import serializers
 from config.settings import site_name
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page 
-from django.views.decorators.vary import vary_on_cookie, vary_on_headers
+from django.views.decorators.vary import  vary_on_headers
 
 class BannerResponseSerialzier(serializers.Serializer):
     data = BannerSerializers()
@@ -25,8 +25,11 @@ class BannerView(APIView):
     @extend_schema(
             responses=BannerResponseSerialzier
     )
-    def get(self, request):
-        banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
+    def get(self, request, site):
+        if site == "sts":
+            banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
+        if site == "rts":
+            banner = Banner.objects.filter(status=True, site_rts=True).order_by("id")
         serialzier = BannerSerializers(banner , many=True)
         return JsonResponse(
             {"data": serialzier.data, "errors": False, "message": ""}, safe=False
@@ -37,11 +40,16 @@ class BannerDetailViews(APIView):
     @extend_schema(
             responses=BannerResponseSerialzier
     )
-    def get(self, request , pk):
-        banner = Banner.objects.get(status=True,id=pk , site_sts=True)
-        if banner.category is not None:
-            product = Product.objects.filter(status=True, site_sts=True, main_category__id=banner.category.pk).order_by("id")
-            product_serializers =ProductListMiniSerilizers(product , many=True)
+    def get(self, request ,site, pk):
+        if site == "sts":
+            banner = Banner.objects.get(status=True,id=pk , site_sts=True)
+            if banner.category is not None:
+                product = Product.objects.filter(status=True, site_sts=True, main_category__id=banner.category.pk).order_by("id")
+        if site == "rts":
+            banner = Banner.objects.get(status=True,id=pk, site_rts=True)
+            if banner.category is not None:
+                product = Product.objects.filter(status=True, site_rts=True, main_category__id=banner.category.pk).order_by("id")
+        product_serializers = ProductListMiniSerilizers(product , many=True)
         serialzier = BannerSerializers(banner)
         return JsonResponse(
             {"data": {"banner": serialzier.data, "product": product_serializers.data}, "errors": True, "message": ""}, safe=False
@@ -57,11 +65,18 @@ class HomePageCategoryView(APIView):
     @extend_schema(
             responses=ResponseHOme
             )
-    def get(self, request):
+    def get(self, request, site):
         data = []
-        for i in HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top"):
+        if site == "sts":
+            home = HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top")
+        if site == "rts":
+            home = HomePageCategory.objects.filter(status=True, site_rts=True).order_by("top")
+        for i in home:
             if i.news:
-                product = Product.objects.filter(status=True, news=True , site_sts=True)[:10]
+                if site == "sts":
+                    product = Product.objects.filter(status=True, news=True , site_sts=True)[:10]
+                if site == "rts":
+                    product = Product.objects.filter(status=True, news=True, site_rts=True)[:10]
                 seriazlier = ProductListMiniSerilizers(product, many=True)
                 data.append(
                     {
@@ -72,8 +87,13 @@ class HomePageCategoryView(APIView):
                     }
                 )
             if i.xitlar:
-                product = Product.objects.filter(xitlar=True, status=True, site_sts=True)
+                if site == "sts":
+                    product = Product.objects.filter(xitlar=True, status=True, site_sts=True)
+                if site == "rts":
+                    product = Product.objects.filter(xitlar=True, status=True, site_rts=True)
+
                 prod_seriazlier = ProductListMiniSerilizers(product, many=True)
+
                 data.append(
                     {
                         "category_name": i.title,
@@ -82,8 +102,14 @@ class HomePageCategoryView(APIView):
                         "product": prod_seriazlier.data
                     }
                 )
+                    
+
+        
             if i.mainCategory is not None:
-                product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_sts=True)[:10]
+                if site == "sts":
+                    product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_sts=True)[:10]
+                if site == "rts":
+                    product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_rts=True)[:10]
                 serialzier = ProductListMiniSerilizers(product, many=True)
                 data.append(
                     {

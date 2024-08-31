@@ -1,40 +1,23 @@
 from rest_framework.views import APIView
-from settings.models import DeliveryService, MuddatliTolovxizmatlar, OrderSetting, PaymentMethod , TolovUsullar , Shaharlar, Tumanlar, Dokon
+from settings.models import DeliveryService, MuddatliTolovxizmatlar,  TolovUsullar , Shaharlar,  Dokon
 from django.http import JsonResponse
-from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, ShaharlarSerialzier, TolovUsullarSerialzier, TumanlarSerialzier
-
-from django.utils import timezone
-
-from datetime import datetime
-from django.utils.timezone import activate
+from settings.serialziers import DeliveryServiceSeriazleir, DokonSerialzier, ShaharlarSerialzier, TolovUsullarSerialzier
 from config.settings import site_name
 
 
 
 
-def _teskor_buyurtma_test(request):
-    if int(datetime.now().strftime('%H'))>=18:
-         return f"{timezone.now() + timezone.timedelta(hours=16)}" 
-    if int(timezone.now().strftime('%H'))<6:
-        return f"{timezone.now() + timezone.timedelta(hours=16)}"
-    if int(timezone.now().strftime('%H'))>14:
-              return f"{timezone.now() + timezone.timedelta(hours=6)}" 
-               
-    if int(timezone.now().strftime('%H'))<14:
-        return f"{timezone.now() + timezone.timedelta(hours=6)}" 
-
 class OrderValudeView(APIView):
-    def get(self, request):
-            
-        delivery = DeliveryService.objects.filter(site_sts=True).first()
-        if delivery.teskor_buyurtma:
-             teskor_buyurtma_date = _teskor_buyurtma_test(request=request)
-
-        else:
-             teskor_buyurtma_date = None
-        tolov = TolovUsullar.objects.filter(site_sts=True)
+    def get(self, request, site):
+        if site == 'sts':    
+            delivery = DeliveryService.objects.filter(site_sts=True).first()
+            tolov = TolovUsullar.objects.filter(site_sts=True)
+            dokon = Dokon.objects.filter(site_sts=True)
+        if site == 'rts':
+            delivery = DeliveryService.objects.filter(site_rts=True).first()
+            tolov = TolovUsullar.objects.filter(site_rts=True)
+            dokon = Dokon.objects.filter(site_rts=True)
         shaharlar = Shaharlar.objects.all()
-        dokon = Dokon.objects.filter(site_sts=True)
         delivery_serial = DeliveryServiceSeriazleir(delivery)
         tolov_serial = TolovUsullarSerialzier(tolov, many=True)
         shaharlar_serial = ShaharlarSerialzier(shaharlar, many=True)
@@ -43,7 +26,6 @@ class OrderValudeView(APIView):
             {
               "data": { 
                 "delivery": delivery_serial.data,
-                "teskor_buyurtma_date" : teskor_buyurtma_date,
                 "tolov": tolov_serial.data,
                 "shaharlar": shaharlar_serial.data,
                 "dokonlar": dokon_serial.data
@@ -59,12 +41,17 @@ class OrderValudeView(APIView):
 
 
 class MuddatliTOlovOrderView(APIView):
-     def post(self, request):
+     def post(self, request, site):
             muddat_tolov = []
             price = request.data.get('price')
             if price is not None:
                 if (MuddatliTolovxizmatlar.objects.count() > 0):
-                    for i in MuddatliTolovxizmatlar.objects.all():
+                    if site == 'sts':
+                        muddat = MuddatliTolovxizmatlar.objects.filter(site_sts=True, status=True)
+
+                    if site == 'rts':
+                        muddat = MuddatliTolovxizmatlar.objects.filter(site_rts=True, status=True)
+                    for i in muddat:
                         muddat_tolov.append({
                         "logo": i.logo and ( site_name +  i.logo.url) or None,
                         "name": i.name,
@@ -74,19 +61,19 @@ class MuddatliTOlovOrderView(APIView):
                         {
                         "data": muddat_tolov,
                         "errors": False,
-                        "message": "ok"}, safe=False)
-                return JsonResponse({"data": None, "errors": True, "message": "Muddatli tolov mavjud emas"}, safe=False)
+                        "message": "ok"}, safe=False, status=200)
+                return JsonResponse({"data": None, "errors": True, "message": "Muddatli tolov mavjud emas"}, safe=False, status=400)
                 
             else:
                 return JsonResponse(
-                    {"data": None, "errors": True, "message": "Muddatli tolov qator bo'ladi"}, safe=False)
+                    {"data": None, "errors": True, "message": "Muddatli tolov qator bo'ladi"}, safe=False, status=400)
             
 
 
 
 
 class DastafkaOrderView(APIView):
-     def post(self, request):
+     def post(self, request, site):
         summa = request.data.get('summa')
         viloyat_id = request.data.get('viloyat_id')
         res_summa = None
@@ -104,7 +91,10 @@ class DastafkaOrderView(APIView):
             if shahar.zakas_summa is None:
                 res_summa = 0
         if str(yetkazib_berish_turi) =='teskor':
-            deliver  = DeliveryService.objects.filter(site_sts=True).first()
+            if site == 'sts':
+                deliver  = DeliveryService.objects.filter(site_sts=True).first()
+            if site == 'rts':
+                deliver  = DeliveryService.objects.filter(site_rts=True).first()
             if summa >= deliver.zakas_summa:
                 res_summa = 0
             else:
@@ -121,8 +111,8 @@ class DastafkaOrderView(APIView):
                 res_summa = shahar.summa
 
         if res_summa is  None:
-            return JsonResponse({"summa": 0 , "message": "ok"}, safe=False)
-        return JsonResponse({"summa": res_summa , "message": "ok"}, safe=False)
+            return JsonResponse({"summa": 0 , "message": "ok"}, safe=False, status=200)
+        return JsonResponse({"summa": res_summa , "message": "ok"}, safe=False, status=200)
            
           
        

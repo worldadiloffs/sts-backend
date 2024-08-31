@@ -124,15 +124,15 @@ class OrderCreateAPIView(APIView):
         IsAuthenticated,
     ]
     authentication_classes = [JWTAuthentication ,]
-    # throttle_scope = "authentication"
-    # throttle_classes = [
-    #     ScopedRateThrottle,
-    # ]
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
     @extend_schema(
             request=OrderGetSerializer(),
             responses=OrderGetSerializer()
     )
-    def post(self, request):
+    def post(self, request, site):
         # order items is  required fields 
         
         order_item_data = []
@@ -195,7 +195,10 @@ class OrderCreateAPIView(APIView):
                 request.data["punkit"] = punkit_validate["dokon_id"]
 
         # request.data["order_items"] =order_item_data
-        request.data["site_sts"] = True
+        if site == "sts":
+            request.data["site_sts"] = True
+        if site == "rts":
+            request.data["site_rts"] = True
         request.data["user"] = request.user.id
         # cashback field option fields 
         if request.data.get("cashback") is not None:
@@ -240,9 +243,7 @@ class OrderCreateAPIView(APIView):
             order_id.save()
             for i in order_item_data:
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))
-            # payment_redirect = _redirect_payment(request=request, order_id=serializer.data.get('id'))
             order_serial = OrderGetSerializer(order_id)
-
             return Response(order_serial.data, status=201)
         return Response(serializer.errors, status=400)
 
@@ -270,15 +271,4 @@ class STSCashbackMobile(APIView):
             return JsonResponse({"data": berialadigan_cashback, "errors": False, "message": "ok"},safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Productlar mavjud"}, safe=False)
 
-
-
-class UserOrderGet(APIView):
-    # permission_classes = [IsAuthenticated]
-    def get(self, request):
-        user = request.user 
-        # if user.is_authenticated:
-        order = Order.objects.all().order_by("-created_at")
-        serialzier = OrderGetSerializer(order, many=True)
-        return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False) 
-        # return JsonResponse({"data": None, "errors": True, "message": ""}, safe=False)
         

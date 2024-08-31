@@ -95,6 +95,7 @@ class ProductUpdateAPiview(APIView):
                             if count > counts_max.count:
                                 count = counts_max.count
                     product.counts = count
+                    product.save()
                 return JsonResponse({"data": "success", "errors": False, "message": ""}, safe=False)
             return JsonResponse({"data": None, "errors": True, "message": "data not fount"}, safe=False)
         except Exception as e:

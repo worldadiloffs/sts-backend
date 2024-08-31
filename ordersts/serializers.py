@@ -33,22 +33,6 @@ class OrderGetSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
-data = {
-    "Buyurtma_raqami": "123456",
-    "status": "bekor",
-    "Buyurtma_vaqti": "2022-01-01 10:00:0",
-    "Yetkazib_berish_vaqti": "2022-01",
-    "Tolov_usuli": "Karta",
-    "Qabul_qilish_usuli": "yetkazib berish",
-    "Buyurtma_turi": "onliyn",
-    "Yetkazib_berish_manzili": "Jizzi",
-    "narxi": "43443434343 summa",
-    "yetkazib_berish": 0,
-    "Jami": 0,
-}
-
-
 class OrderItemProductSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField(read_only=True)
     mahsul0t_narxi = serializers.SerializerMethodField()

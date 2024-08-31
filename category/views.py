@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from category.serializers import (
     CategoryHeaderSechema,
     CategorySchemaserialzeir,
@@ -20,10 +18,11 @@ class CategoryListJsonViews(APIView):
     @extend_schema(
         responses=CategorySchemaserialzeir
     )
-    def get(self, request):
-        category = SuperCategory.objects.filter(status=True, sts_site=True).order_by(
-            "id"
-        )
+    def get(self, request, site):
+        if site == "sts":
+            category = SuperCategory.objects.filter(status=True, sts_site=True).order_by("id")
+        if site == "rts":
+            category = SuperCategory.objects.filter(status=True, rts_site=True).order_by("id")
         serilalizer = SuperCategoryStsMiniSerializer(category, many=True)
         return JsonResponse(
             {"data": serilalizer.data, "errors": False, "message": ""}, safe=False
@@ -36,14 +35,15 @@ class CategoryHeaderViews(APIView):
     @extend_schema(
             responses=CategoryHeaderSechema
     )
-    def get(self, request):
-        main = MainCategory.objects.filter(
-            sts_site=True, status=True, header_add=True
-        ).order_by("id")
+    def get(self, request, site):
+        if site == "sts":
+            main = MainCategory.objects.filter(sts_site=True, status=True, header_add=True).order_by("id")
+            ommaobo_category = MainCategory.objects.filter(sts_site=True, status=True, ommabob=True).order_by("id")[:6]
+        if site == "rts":
+            ommaobo_category = MainCategory.objects.filter(rts_site=True, status=True, ommabob=True).order_by("id")[:6]
+            main = MainCategory.objects.filter(rts_site=True, status=True, header_add=True).order_by("id")
         serialzier = MainCategortStsMiniHomeSerializer(main, many=True)
-        ommaobo_category = MainCategory.objects.filter(
-            sts_site=True, status=True, ommabob=True
-        ).order_by("id")[:6]
+
         ommabob_serialzier = MainCategortStsMiniHomeSerializer(
             ommaobo_category, many=True
         )
@@ -59,17 +59,3 @@ class CategoryHeaderViews(APIView):
             },
             safe=False,
         )
-
-
-
-
-class CategoryView(APIView):
-    def get_permissions(self):
-        return super().get_permissions()
-    
-
-def Admin_super(request):
-    user = request.user
-    if user.is_superuser:
-        return render(request, "admin/data/index.html")
-    return JsonResponse({"errors": True, "message": "You are not admin"}, safe=False)

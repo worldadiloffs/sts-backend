@@ -6,22 +6,35 @@ from .models import SitePage , SiteSettings , PaymentMethod , DeliveryService, S
 
 
 class PageApiviews(APIView):
-    def get(self, request):
-        site_page = SitePage.objects.filter(status=True, site_sts=True)
+    def get(self, request, site):
+        if site == 'sts':
+            site_page = SitePage.objects.filter(status=True, site_sts=True)
+        if site == 'rts':
+            site_page = SitePage.objects.filter(status=True, site_rts=True)
         serialzieer = SitePageSerialzier(site_page, many=True)
         return JsonResponse(
             {"data": serialzieer.data, "errors":True, "message": ""}, safe=False
         )
     
 class SiteSettingsApiviews(APIView):
-    def get(self, request):
-        settings_model = SiteSettings.objects.filter(site_sts=True).first()
+    def get(self, request, site):
+        if site == 'sts':
+    
+            settings_model = SiteSettings.objects.filter(site_sts=True).first()
+            payment = PaymentMethod.objects.filter(site_sts=True, status=True)
+            site_page = SitePage.objects.filter(status=True, site_sts=True)
+            delivery =DeliveryService.objects.filter(site_sts=True).first()
+        if site == 'rts':
+            settings_model = SiteSettings.objects.filter(site_rts=True).first()
+            payment = PaymentMethod.objects.filter(site_rts=True, status=True)
+            site_page = SitePage.objects.filter(status=True, site_rts=True)
+            delivery = DeliveryService.objects.filter(site_rts=True).first()
+
         setting_serialzier = SettingsSeriazlier(settings_model, many=False)
-        payment = PaymentMethod.objects.filter(site_sts=True, status=True)
+       
         payment_serialzier = PaymentSerialzier(payment, many=True)
-        site_page = SitePage.objects.filter(status=True, site_sts=True)
+        
         serialzieer = SitePageSerialzier(site_page, many=True)
-        delivery =DeliveryService.objects.filter(site_sts=True).first()
         delivery_serialzeir = DeliveryServiceSeriazleir(delivery) 
         return JsonResponse(
             {"data": {
@@ -31,6 +44,9 @@ class SiteSettingsApiviews(APIView):
                 "delivery": delivery_serialzeir.data
             }, "errors": False, "message": ""}, safe=False
         )
+    
+
+
 
 # class ShaharLarPostApiviews(APIView):
 #     def post(self, request):

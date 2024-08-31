@@ -1,25 +1,28 @@
 from rest_framework.views import APIView
-from .serialzier import ImagePostSeriazilizer, ParemententCategorySerialzeir, ProductDetailSerialzeir, ProductListMiniSerilizers , ProductSerialzier , ImageSeriazilizer
-from .models import Product , Image
+from .serialzier import (
+    ImagePostSeriazilizer,
+    ProductListMiniSerilizers,
+    ProductSerialzier,
+)
+from .models import Product, Image
 from category.models import MainCategory, SubCategory, SuperCategory
 from category.serializers import (
     MainCategortStsSerializer,
     SubCategoryMainiProductSerialzier,
-    SubCategoryStsSerialzier,
     SuperCategoryStsSerializer,
 )
 from django.http import JsonResponse
 
 from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page 
-from django.views.decorators.vary import vary_on_cookie, vary_on_headers
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 
 from drf_spectacular.utils import extend_schema
 
 
-from rest_framework.parsers import MultiPartParser , FormParser
+from rest_framework.parsers import MultiPartParser, FormParser
 
-from django.db.models import Q 
+from django.db.models import Q
 from settings.models import OrderSetting
 from config.settings import site_name
 
@@ -28,52 +31,45 @@ from .serialzier import kredit_cal
 from settings.models import MuddatliTolovxizmatlar
 
 
-class ProductListMiniView(APIView):
-    # @method_decorator(cache_page(60 * 60 * 2))
-    # @method_decorator(vary_on_headers("Authorization"))
-    @extend_schema(
-        responses=ProductListMiniSerilizers
-    )
-    def get(self, request):
-        product = Product.objects.all()
-        seriazleir = ProductListMiniSerilizers(product, many=True)
-        return JsonResponse(
-            {"data": seriazleir.data, "errors": False, "message": ""}, safe=False
-        )
-    
-
-
-
-class ImageProductApiview(APIView):
-    parser_classes =[MultiPartParser, FormParser]
-    def post(self, request):
-        serialzier = ImagePostSeriazilizer(data=request.data)
-        if serialzier.is_valid():
-            serialzier.save()
-            return JsonResponse({"data": serialzier.data, "errors":False, "message": ""},safe=False)
-        return JsonResponse({"data": None, "errors":False, "message": ""}, safe=False)
-    
-    def get(self, request):
-        image = Image.objects.all()
-        seriazlier =ImagePostSeriazilizer(image, many=True)
-        return JsonResponse(seriazlier.data)
-
-
-
-       
-
-
-
 class ProductDetailApiview(APIView):
-    def get(self, request, slug):
-        product = Product.objects.get(slug=slug, status=True, site_sts=True)
+    def get(self, request, site, slug):
+        main_category_product = None
+        if site == "sts":
+            product = Product.objects.get(slug=slug, status=True, site_sts=True)
+            if product.main_category is not None:
+                main_category_product = Product.objects.filter(
+                    main_category__id=product.main_category.pk,
+                    status=True,
+                    site_sts=True,
+                )[:10]
+        if site == "rts":
+            product = Product.objects.get(slug=slug, status=True, site_rts=True)
+            if product.main_category is not None:
+                main_category_product = Product.objects.filter(
+                    main_category__id=product.main_category.pk,
+                    status=True,
+                    site_rts=True,
+                )[:10]
         data = None
         if product.main_category is not None:
-            main_category_product = Product.objects.filter(main_category__id=product.main_category.pk, status=True, site_sts=True)[:10]
-            main_serialzier = ProductListMiniSerilizers(main_category_product, many=True)
-            data = main_serialzier.data 
-            # link = get_link(product.super_category , product.main_category, product.sub_category)
-        
+            if site == "sts":
+                main_category_product = Product.objects.filter(
+                    main_category__id=product.main_category.pk,
+                    status=True,
+                    site_sts=True,
+                )[:10]
+            if site == "rts":
+                main_category_product = Product.objects.filter(
+                    main_category__id=product.main_category.pk,
+                    status=True,
+                    site_rts=True,
+                )[:10]
+
+        if main_category_product is not None:
+            main_serialzier = ProductListMiniSerilizers(
+                main_category_product, many=True
+            )
+            data = main_serialzier.data
         link_status = True
         if product.sub_category is not None:
             link_status = False
@@ -92,7 +88,7 @@ class ProductDetailApiview(APIView):
                 },
             }
         if product.main_category is not None and link_status:
-            link_status =False
+            link_status = False
             link = {
                 "super": {
                     "name": product.super_category.super_name,
@@ -110,32 +106,46 @@ class ProductDetailApiview(APIView):
                     "slug": product.super_category.slug,
                 },
             }
-           
+
         serialzier = ProductSerialzier(product)
         muddat_tolov = []
         if product.price is not None:
-            if (MuddatliTolovxizmatlar.objects.count() > 0):
-                for i in MuddatliTolovxizmatlar.objects.all():
-                    muddat_tolov.append({
-                        "logo": i.logo and ( site_name +  i.logo.url) or None,
-                        "name": i.name,
-                        "oylar": i.kredit(product.price)})
-                    
-        
-              
+            muddat = MuddatliTolovxizmatlar.objects.first()
+            if muddat is not None:
+                if site == "sts":
+                    muddat_tolov_status = MuddatliTolovxizmatlar.objects.filter(
+                        site_sts=True, status=True
+                    )
+                if site == "rts":
+                    muddat_tolov_status = MuddatliTolovxizmatlar.objects.filter(
+                        site_rts=True, status=True
+                    )
+                for i in muddat_tolov_status:
+                    muddat_tolov.append(
+                        {
+                            "logo": i.logo and (site_name + i.logo.url) or None,
+                            "name": i.name,
+                            "oylar": i.kredit(product.price),
+                        }
+                    )
         return JsonResponse(
-                {"data": {"link": link, "muddatli_tolov": muddat_tolov, "product": serialzier.data, "related_product": data }, "errors":False, "message": ""}, safe=False
-            )
+            {
+                "data": {
+                    "link": link,
+                    "muddatli_tolov": muddat_tolov,
+                    "product": serialzier.data,
+                    "related_product": data,
+                },
+                "errors": False,
+                "message": "",
+            },
+            safe=False,
+            status=200,
+        )
 
-            
-        
-
-
-  
-        
 
 def _sub_category_list(main_id):
-    filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk 
+    filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk
     main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
     data = []
     for i in main_obj:
@@ -143,79 +153,114 @@ def _sub_category_list(main_id):
         if sub_category is not None:
             for sub in sub_category:
                 prod_count = len(Product.objects.filter(sub_category__id=sub.pk))
-                data.append({
-                     "sub_name": sub.sub_name,
-                    "counts": prod_count,
-                    "slug": sub.slug,
-                    "pk": sub.pk,
-                })
+                data.append(
+                    {
+                        "sub_name": sub.sub_name,
+                        "counts": prod_count,
+                        "slug": sub.slug,
+                        "pk": sub.pk,
+                    }
+                )
                 if len(data) > 12:
-                    return data 
-    return data 
-
+                    return data
+    return data
 
 
 class SearchProductView(APIView):
-    def get(self, request):
+    def get(self, request, site):
         search = request.GET.get("search", "")
         if search:
-            pass 
+            pass
         next = int(request.GET.get("page", 1))
         limit = 12
         current = int(next) - 1
-        count = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).count()
-        product = Product.objects.filter(status=True, site_sts=True).filter(Q(product_name__icontains=search)).order_by("id")[
-                    current * limit : next * limit
-                ]
+        if site == "sts":
+            count = (
+                Product.objects.filter(status=True, site_sts=True)
+                .filter(Q(product_name__icontains=search))
+                .count()
+            )
+            product = (
+                Product.objects.filter(status=True, site_sts=True)
+                .filter(Q(product_name__icontains=search))
+                .order_by("id")[current * limit : next * limit]
+            )
+        if site == "rts":
+            count = (
+                Product.objects.filter(status=True, site_rts=True)
+                .filter(Q(product_name__icontains=search))
+                .count()
+            )
+            product = (
+                Product.objects.filter(status=True, site_rts=True)
+                .filter(Q(product_name__icontains=search))
+                .order_by("id")[current * limit : next * limit]
+            )
+
         # count = product.count()
         pages = int(count / limit) + 1
         pagination = {
-                    "count": count,
-                    "pages": pages,
-                    "current": current,
-                    "next": next,
-                    "limit": limit,
-                }
+            "count": count,
+            "pages": pages,
+            "current": current,
+            "next": next,
+            "limit": limit,
+        }
         serializer = ProductListMiniSerilizers(product, many=True)
         return JsonResponse(
-            {"data": {"product": serializer.data, "pagination": pagination}, "errors": False, "message": ""}, safe=False
-        )    
+            {
+                "data": {"product": serializer.data, "pagination": pagination},
+                "errors": False,
+                "message": "",
+            },
+            safe=False,
+        )
 
 
 class CartProductApiview(APIView):
-    def post(self, request):
+    def post(self, request, site):
         products = request.data.get("products", None)
         doller_obj = OrderSetting.objects.first()
         doller = doller_obj.doller * 1.12
-        
+
         data = []
         try:
             if products is not None:
                 for product in products:
                     product_obj = Product.objects.get(id=product["id"])
                     obj = {
-                        "checked": product['checked'],
-                        "count": product.get('count'),
-                        "counts": product.get('counts'),
+                        "checked": product["checked"],
+                        "count": product.get("count"),
+                        "counts": product.get("counts"),
                         "id": product_obj.pk,
-                        "image": product_obj.image and (site_name + product_obj.image)  or None,
+                        "image": product_obj.image
+                        and (site_name + product_obj.image)
+                        or None,
                         "price": int(product_obj.price * doller),
                         "product_name": product_obj.product_name,
-                        "product_video": product_obj.product_video  and (site_name + product_obj.product_video.url)  or None,
+                        "product_video": product_obj.product_video
+                        and (site_name + product_obj.product_video.url)
+                        or None,
                         "slug": product_obj.slug,
                         "tavar_dagavornaya": product_obj.tavar_dagavornaya,
-                        "kredit_summa": int(kredit_cal(price=product_obj.price, oy=12, foiz=36)),
-                        "discount_price": int(product_obj.discount_price and int(product_obj.discount_price * doller) or int((product_obj.price * doller) * 1.2) )
-                        }
+                        "kredit_summa": int(
+                            kredit_cal(price=product_obj.price, oy=12, foiz=36)
+                        ),
+                        "discount_price": int(
+                            product_obj.discount_price
+                            and int(product_obj.discount_price * doller)
+                            or int((product_obj.price * doller) * 1.2)
+                        ),
+                    }
                     data.append(obj)
-                return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
+                return JsonResponse(
+                    {"data": data, "errors": False, "message": ""}, safe=False
+                )
         except Exception as e:
-            return JsonResponse({"data": None, "errors": True, "message": str(e)}, safe=False)                  
+            return JsonResponse(
+                {"data": None, "errors": True, "message": str(e)}, safe=False
+            )
 
-
-
-
-    
 
 class CategoryProductViews(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
@@ -223,16 +268,15 @@ class CategoryProductViews(APIView):
     @extend_schema(
         # parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer
-        
     )
-    def get(self,request, types , slug):
+    def get(self, request,site, types, slug):
         try:
             next = int(request.GET.get("page", 1))
-            min_price = request.GET.get("min_price",None)
+            min_price = request.GET.get("min_price", None)
             max_price = request.GET.get("max_price", None)
             order_py = str(request.GET.get("order_by", "-id"))
             avalable = request.GET.get("avalable", False)
-            if types =='super':
+            if types == "super":
                 supers = SuperCategory.objects.get(slug=slug)
                 super_id = supers.pk
                 name = supers.super_name
@@ -243,7 +287,9 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for main in MainCategory.objects.filter(superCategory__id=super_id):
-                        prod_obj = Product.objects.filter(status=True, site_sts=True, main_category__id=main.pk)
+                        prod_obj = Product.objects.filter(
+                            status=True, main_category__id=main.pk
+                        )
                         serialzier = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             sub_names = main.main_name
@@ -263,33 +309,34 @@ class CategoryProductViews(APIView):
                             "name": main.super_name,
                             "product": product_object,
                             "category": main_serialzier.data,
-                            "link": {"super":{"name":name, "slug": super_slug}}
+                            "link": {"super": {"name": name, "slug": super_slug}},
                         },
                         "errors": False,
                         "message": "",
                     },
                     safe=False,
                 )
-            if types =='main':
+            if types == "main":
                 main_objs = MainCategory.objects.get(slug=slug)
                 main_id = main_objs.pk
-
                 sub_category: bool = SubCategory.objects.filter(
                     mainCategory__id=main_id
                 ).exists()
                 product_object = []
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
-                        prod_obj = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub.pk)
-                        serialzeir = ProductListMiniSerilizers(prod_obj, many=True) 
+                        prod_obj = Product.objects.filter(
+                            status=True,  sub_category__id=sub.pk
+                        )
+                        serialzeir = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             if prod_obj is not None:
                                 sub_names = sub.sub_name
                                 data = {
                                     "category": sub_names,
-                                    "product": serialzeir.data
+                                    "product": serialzeir.data,
                                 }
-                                product_object.append(data) 
+                                product_object.append(data)
                 main = MainCategory.objects.get(id=main_id)
                 main_serialzier = MainCategortStsSerializer(main)
                 return JsonResponse(
@@ -299,69 +346,79 @@ class CategoryProductViews(APIView):
                             "product": product_object,
                             "category": main_serialzier.data,
                             "link": {
-                                "super": {"name": main_objs.superCategory.super_name, "slug": main_objs.superCategory.slug},
-                                "main":{ "id": main_objs.pk, "name":main_objs.main_name, "slug": main_objs.slug}}
+                                "super": {
+                                    "name": main_objs.superCategory.super_name,
+                                    "slug": main_objs.superCategory.slug,
+                                },
+                                "main": {
+                                    "id": main_objs.pk,
+                                    "name": main_objs.main_name,
+                                    "slug": main_objs.slug,
+                                },
+                            },
                         },
                         "errors": False,
                         "message": "",
                     },
                     safe=False,
                 )
-            if  types =='sub':
+            if types == "sub":
                 sub_id = SubCategory.objects.get(slug=slug).pk
                 limit = 12
                 current = int(next) - 1
-                if min_price is not None and max_price is not None and min_price and max_price:
-                    min_price = int(min_price)/ OrderSetting.objects.first().doller
-                    max_price = int(max_price) / OrderSetting.objects.first().doller
+                if (
+                    min_price is not None
+                    and max_price is not None
+                    and min_price
+                    and max_price
+                ):  
+                    orders_settings = OrderSetting.objects.first().doller
+                    min_price = int(min_price) / orders_settings
+                    max_price = int(max_price) / orders_settings
                     if avalable:
                         count = Product.objects.filter(
                             status=True,
-                            site_sts=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
                         ).count()
                         product = Product.objects.filter(
                             status=True,
-                            site_sts=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
                     count = Product.objects.filter(
                         status=True,
-                        site_sts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
                     ).count()
                     product = Product.objects.filter(
                         status=True,
-                        site_sts=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
-                    ).order_by(order_py)[ current * limit : next * limit]
+                    ).order_by(order_py)[current * limit : next * limit]
                 else:
                     if avalable:
                         count = Product.objects.filter(
                             status=True,
-                            site_sts=True,
                             sub_category__id=sub_id,
                             available=True,
                         ).count()
 
                         product = Product.objects.filter(
                             status=True,
-                            site_sts=True,
                             sub_category__id=sub_id,
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
-                    count = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).count()
-                    product = Product.objects.filter(status=True, site_sts=True, sub_category__id=sub_id).order_by(order_py)[
-                        current * limit : next * limit
-                    ]
+                    count = Product.objects.filter(
+                        status=True,  sub_category__id=sub_id
+                    ).count()
+                    product = Product.objects.filter(
+                        status=True, sub_category__id=sub_id
+                    ).order_by(order_py)[current * limit : next * limit]
                 prod_serialzier = ProductListMiniSerilizers(product, many=True)
-           
+
                 pages = int(count / limit) + 1
                 pagination = {
                     "count": count,
@@ -372,8 +429,12 @@ class CategoryProductViews(APIView):
                 }
                 filter_prods = SubCategory.objects.get(id=sub_id)
                 sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
-                filter_category = SubCategory.objects.filter(mainCategory__id=filter_prods.mainCategory.pk)
-                filter_serialzier = SubCategoryMainiProductSerialzier(filter_category, many=True)
+                filter_category = SubCategory.objects.filter(
+                    mainCategory__id=filter_prods.mainCategory.pk
+                )
+                filter_serialzier = SubCategoryMainiProductSerialzier(
+                    filter_category, many=True
+                )
                 links = {
                     "super": {
                         "name": filter_prods.mainCategory.superCategory.super_name,
@@ -393,7 +454,7 @@ class CategoryProductViews(APIView):
                             "pagination": pagination,
                             "sub_content": sub_data,
                             "filter_category": filter_serialzier.data,
-                            "link": links
+                            "link": links,
                         },
                         "errors": False,
                         "message": "",
