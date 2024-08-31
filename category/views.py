@@ -15,6 +15,8 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import  vary_on_headers
 
 class CategoryListJsonViews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         responses=CategorySchemaserialzeir
     )
