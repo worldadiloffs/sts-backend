@@ -130,9 +130,6 @@ class SuperCategoryAdmin(TranslationAdmin):
                 obj.sts_site = True
             if user.site_rts:
                 obj.rts_site = True
-            if user.site_sts and user.site_rts:
-                obj.sts_site = False
-                obj.rts_site = False
         # Save the object
         super().save_model(request, obj, form, change)
     def get_queryset(self, request):
