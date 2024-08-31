@@ -131,15 +131,12 @@ class SuperCategoryAdmin(TranslationAdmin):
         super().save_model(request, obj, form, change)
     def get_queryset(self, request):
         user = request.user
-        if user.site_sts and not user.site_rts:
+        if user.site_sts:
             qs = super().get_queryset(request)
-            return qs
-        # if user.site_sts:
-        #     qs = super().get_queryset(request)
-        #     return qs.filter(sts_site=True)
-        # if user.site_rts:
-        #     qs = super().get_queryset(request)
-        #     return qs.filter(rts_site=True)
+            return qs.filter(sts_site=True)
+        if user.site_rts:
+            qs = super().get_queryset(request)
+            return qs.filter(rts_site=True)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
     list_editable = ("status", "sts_site", "rts_site",)
     search_fields = ("super_name","id", )
