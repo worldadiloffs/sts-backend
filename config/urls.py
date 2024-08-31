@@ -4,10 +4,10 @@ from django.urls import path, include, re_path
 from django.views.static import serve
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-    TokenVerifyView
-)
+# from rest_framework_simplejwt.views import (
+#     TokenRefreshView,
+#     TokenVerifyView
+# )
 from drf_spectacular.views import (
     SpectacularAPIView, 
     SpectacularRedocView, 
@@ -31,8 +31,8 @@ urlpatterns = [
     path('', include('cashback.urls', namespace='cashback')),
     # path('', include('ordersts.urls', namespace='ordersts')),
     path('', include('settings.urls', namespace='settings')),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

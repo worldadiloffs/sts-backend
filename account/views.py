@@ -88,10 +88,10 @@ class UserUPdate(APIView):
 
 class UserAdressCreate(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
     @extend_schema(
             request=UserAdressSerializer(),
             responses=UserAdressSerializer()
@@ -110,10 +110,10 @@ class UserAdressCreate(APIView):
 
     
 class UserUpdateAddress(APIView):
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
     permission_classes = [permissions.IsAuthenticated]
     @extend_schema(
             request=UserAdressSerializer(),
