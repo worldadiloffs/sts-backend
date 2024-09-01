@@ -91,19 +91,20 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 # cashback funtion user cashback validate 
 def _validate_cashback(cash_price, user_id, site, zakas_id, mahsulot_narxi) -> float:
     ''' return true if cashback is valid else false  '''
-    if cash_price is not None:
+    if cash_price:
         if site == "sts":
             cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_sts=site).first()
         if site == "rts":
             cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_rts=site).first()
         if cashback_kard is not None:
-            if mahsulot_narxi >= cash_price:
-                cashback_kard.balance = cashback_kard.balance - cash_price
-                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": cash_price, "created_at": f"{date.today}" , "hisob": "-"})
+            if mahsulot_narxi >= cashback_kard.balance:
+                value_cash =  cashback_kard.balance 
+                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": cashback_kard.balance, "created_at": f"{date.today}" , "hisob": "-"})
+                cashback_kard.balance = 0
                 cashback_kard.save()
-                return cash_price
-            if cash_price > mahsulot_narxi:
-                new_cash_summa = cash_price - mahsulot_narxi
+                return value_cash
+            if cashback_kard.balance > mahsulot_narxi:
+                new_cash_summa =  cashback_kard.balance  - mahsulot_narxi
                 cashback_kard.balance = cashback_kard.balance - new_cash_summa
                 cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today}" , "hisob": "-"})
                 cashback_kard.save()
@@ -223,12 +224,12 @@ class OrderCreateAPIView(APIView):
         )
         if site == "sts":
             request.data["site_sts"] = True
-            cashback_value = request.data.get('cashback_value', None)
+            cashback_value = request.data.get('cashback_value', False)
             cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site, hamsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         if site == "rts":
             request.data["site_rts"] = True
-            cashback_value = request.data.get('cashback_value', None)
+            cashback_value = request.data.get('cashback_value', False)
             cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site)
             request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
