@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from cashback.models import CashbackKard
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
 from .models import Order, OrderItem , FirmaBuyurtma
@@ -18,6 +19,7 @@ from rest_framework.throttling import ScopedRateThrottle
 from account.models import User , UserAddress
 
 from cashback.views import cashback_values
+from datetime import date 
 
 
 def _validate_product_count(product_id, count):
@@ -87,9 +89,26 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 
 
 # cashback funtion user cashback validate 
-def _validate_cashback(cash_price, user) -> float:
+def _validate_cashback(cash_price, user_id, site, zakas_id, mahsulot_narxi) -> float:
     ''' return true if cashback is valid else false  '''
-    pass
+    if cash_price is not None:
+        if site == "sts":
+            cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_sts=site).first()
+        if site == "rts":
+            cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_rts=site).first()
+        if cashback_kard is not None:
+            if mahsulot_narxi >= cash_price:
+                cashback_kard.balance = cashback_kard.balance - cash_price
+                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": cash_price, "created_at": f"{date.today}" , "hisob": "-"})
+                cashback_kard.save()
+                return cash_price
+            if cash_price > mahsulot_narxi:
+                new_cash_summa = cash_price - mahsulot_narxi
+                cashback_kard.balance = cashback_kard.balance - new_cash_summa
+                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today}" , "hisob": "-"})
+                cashback_kard.save()
+                return new_cash_summa
+
 
 
 def _validate_depozit(depozit, user) -> float:
@@ -144,7 +163,7 @@ class OrderCreateAPIView(APIView):
         
         firma_nomi = request.data.get("firma_nomi", None) 
         if first_name is not None and last_name is not None:
-            profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id)
+            profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id, zakas_id=zakas_id)
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
@@ -195,20 +214,25 @@ class OrderCreateAPIView(APIView):
                 request.data["punkit"] = punkit_validate["dokon_id"]
 
         # request.data["order_items"] =order_item_data
+
+        request.data["total_price"] = sum(
+            [
+                int(item["mahsul0t_narxi"]) * int(item["quantity"])
+                for item in order_item_data
+            ]
+        )
         if site == "sts":
             request.data["site_sts"] = True
+            cashback_value = request.data.get('cashback_value', None)
+            cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site, hamsulot_narxi = request.data["total_price"]  )
+            request.data['cashback'] = cash_summa
         if site == "rts":
             request.data["site_rts"] = True
+            cashback_value = request.data.get('cashback_value', None)
+            cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site)
+            request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
         # cashback field option fields 
-        if request.data.get("cashback") is not None:
-            cashback_validate = _validate_cashback(
-                request.data.get("cashback"), request.user
-            )
-            if bool(cashback_validate):
-                request.data["cashback"] = cashback_validate
-            else:
-                return Response({"errors": "Invalid cashback amount"}, status=400)
             
         # depozit field option fields
         if request.data.get("depozit") is not None:
