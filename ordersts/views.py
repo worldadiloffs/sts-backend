@@ -93,9 +93,9 @@ def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) 
     ''' return true if cashback is valid else false  '''
     if cashback_value:
         if site == "sts":
-            cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_sts=site).first()
+            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=site).first()
         if site == "rts":
-            cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_rts=site).first()
+            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_rts=site).first()
         if cashback_kard is not None:
             if mahsulot_narxi >= cashback_kard.balance:
                 value_cash =  cashback_kard.balance 
@@ -164,7 +164,7 @@ class OrderCreateAPIView(APIView):
         
         firma_nomi = request.data.get("firma_nomi", None) 
         if first_name is not None and last_name is not None:
-            profile_user = _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id, zakas_id=zakas_id)
+            _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id, zakas_id=zakas_id)
         
         doller = OrderSetting.objects.first()
         doller_value =int(doller.doller * doller.nds / 10)
@@ -285,8 +285,7 @@ class STSCashbackMobile(APIView):
                 product_obj = Product.objects.get(id=product["id"])
                 cashback_setting = CashBackSetting.objects.filter(product=product_obj).first()
                 if cashback_setting:
-                    berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value * 0.01)
-                
+                    berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price *doller_value * 0.01)        
                 else:
                     prod = Product.objects.get(id=product["id"])
                     sub_id = prod.sub_category.pk
