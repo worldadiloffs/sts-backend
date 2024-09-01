@@ -57,12 +57,13 @@ class UserProfile(APIView):
         user = request.user
         if user.is_authenticated:
                 serializer = UserProfileSerializer(user)
-                addres_serialzier = None
+                addres_data = None
                 addres_bool= UserAddress.objects.filter(user=user).first()
                 if addres_bool is not None:
                     addres_serialzier = UserAdressSerializer(addres_bool)
+                    addres_data = addres_serialzier.data
                 
-                return Response({"data": {"user": serializer.data, "address": addres_serialzier,  "is_login": True}}, status=status.HTTP_200_OK)
+                return Response({"data": {"user": serializer.data, "address": addres_data,  "is_login": True}}, status=status.HTTP_200_OK)
         else:
             return Response({"data": {"user": None, "is_login": False}}, status=status.HTTP_403_FORBIDDEN)
         
