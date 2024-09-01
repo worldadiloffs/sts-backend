@@ -225,15 +225,14 @@ class OrderCreateAPIView(APIView):
         if site == "sts":
             request.data["site_sts"] = True
             cashback_value = request.data.get('cashback_value', False)
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id,site=site, mahsulot_narxi = request.data["total_price"]  )
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site=site, mahsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         if site == "rts":
             request.data["site_rts"] = True
             cashback_value = request.data.get('cashback_value', False)
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id,site=site, mahsulot_narxi = request.data["total_price"]  )
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site=site, mahsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
-        # cashback field option fields 
             
         # depozit field option fields
         if request.data.get("depozit") is not None:
