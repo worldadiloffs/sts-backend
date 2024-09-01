@@ -89,9 +89,9 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 
 
 # cashback funtion user cashback validate 
-def _validate_cashback(cash_price, user_id, site, zakas_id, mahsulot_narxi) -> float:
+def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) -> float:
     ''' return true if cashback is valid else false  '''
-    if cash_price:
+    if cashback_value:
         if site == "sts":
             cashback_kard = CashbackKard.objects.filter(user_id=user_id, site_sts=site).first()
         if site == "rts":
@@ -225,12 +225,12 @@ class OrderCreateAPIView(APIView):
         if site == "sts":
             request.data["site_sts"] = True
             cashback_value = request.data.get('cashback_value', False)
-            cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site, hamsulot_narxi = request.data["total_price"]  )
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id,site=site, hamsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         if site == "rts":
             request.data["site_rts"] = True
             cashback_value = request.data.get('cashback_value', False)
-            cash_summa = _validate_cashback(cash_price= cashback_value,user_id= request.user.id,site=site)
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id,site=site)
             request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
         # cashback field option fields 
@@ -275,7 +275,7 @@ class OrderCreateAPIView(APIView):
 
 
 class STSCashbackMobile(APIView):
-    def post(self, request):
+    def post(self, request,site):
         products = request.data['products']
         order_setting = OrderSetting.objects.first()
         doller_value = int(order_setting.doller * order_setting.nds / 10)
