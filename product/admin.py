@@ -31,7 +31,7 @@ class ProductsModelAdmin(TranslationAdmin):
     change_list_template = "admin/product/product/change-list.html"
 
     # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
-    # form = CityForm
+    form = CityForm
 
 
 
