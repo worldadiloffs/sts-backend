@@ -55,9 +55,9 @@ class CashbackMobileApiviews(APIView):
     def get(self, request):
         user = request.user
         if user.is_authenticated:
-            cashback = CashbackKard.objects.filter(user=user, site_sts=True).first()
-            if cashback is not None:
-                serialzier = CashbackMobileSerialziers(cashback)
+            cashbacks = CashbackKard.objects.filter(user=user, site_sts=True).first()
+            if cashbacks is not None:
+                serialzier = CashbackMobileSerialziers(cashbacks)
                 return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False)
             return JsonResponse({"data": None, "errors": True, "message": "Kashback kard mavjud"}, safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Siz faol emasiz"}, safe=False)
