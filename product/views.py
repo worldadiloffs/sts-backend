@@ -32,6 +32,8 @@ from settings.models import MuddatliTolovxizmatlar
 
 
 class ProductDetailApiview(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site, slug):
         main_category_product = None
         if site == "sts":
