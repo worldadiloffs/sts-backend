@@ -33,7 +33,11 @@ class ProductsModelAdmin(TranslationAdmin):
     # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
     form = CityForm
 
-
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if obj:
+            form.base_fields['main_Category'].queryset = MainCategory.objects.filter(pk=obj.super_category.pk)
+        return form
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user
