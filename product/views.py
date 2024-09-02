@@ -29,6 +29,7 @@ from config.settings import site_name
 from .serialzier import kredit_cal
 
 from settings.models import MuddatliTolovxizmatlar
+from django.core.cache import cache
 
 
 class ProductDetailApiview(APIView):
@@ -265,8 +266,8 @@ class CartProductApiview(APIView):
 
 
 class CategoryProductViews(APIView):
-    # @method_decorator(cache_page(60 * 60 * 2))
-    # @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         # parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer
@@ -327,7 +328,7 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
-                        prod_obj = Product.objects.filter(
+                        prod_obj = Product.objects.select_related('sub_category').filter(
                             status=True,  sub_category__id=sub.pk
                         )
                         serialzeir = ProductListMiniSerilizers(prod_obj, many=True)
@@ -339,8 +340,7 @@ class CategoryProductViews(APIView):
                                     "product": serialzeir.data,
                                 }
                                 product_object.append(data)
-                main = MainCategory.objects.get(id=main_id)
-                main_serialzier = MainCategortStsSerializer(main)
+                main_serialzier = MainCategortStsSerializer(main_objs)
                 return JsonResponse(
                     {
                         "data": {
@@ -365,7 +365,8 @@ class CategoryProductViews(APIView):
                     safe=False,
                 )
             if types == "sub":
-                sub_id = SubCategory.objects.get(slug=slug).pk
+                filter_prods = SubCategory.objects.get(slug=slug)
+                sub_id = filter_prods.pk
                 limit = 12
                 current = int(next) - 1
                 if (
@@ -374,11 +375,11 @@ class CategoryProductViews(APIView):
                     and min_price
                     and max_price
                 ):  
-                    orders_settings = OrderSetting.objects.first().doller
+                    orders_settings = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
                     min_price = int(min_price) / orders_settings
                     max_price = int(max_price) / orders_settings
                     if avalable:
-                        count = Product.objects.filter(
+                        count = Product.objects.select_related('sub_category').filter(
                             status=True,
                             sub_category__id=sub_id,
                             price__range=(min_price, max_price),
@@ -390,7 +391,7 @@ class CategoryProductViews(APIView):
                             price__range=(min_price, max_price),
                             available=True,
                         ).order_by(order_py)[current * limit : next * limit]
-                    count = Product.objects.filter(
+                    count = Product.objects.select_related('sub_category').filter(
                         status=True,
                         sub_category__id=sub_id,
                         price__range=(min_price, max_price),
@@ -429,7 +430,6 @@ class CategoryProductViews(APIView):
                     "next": next,
                     "limit": limit,
                 }
-                filter_prods = SubCategory.objects.get(id=sub_id)
                 sub_data = _sub_category_list(main_id=filter_prods.mainCategory.pk)
                 filter_category = SubCategory.objects.filter(
                     mainCategory__id=filter_prods.mainCategory.pk
