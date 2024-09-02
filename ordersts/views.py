@@ -90,9 +90,9 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) -> float:
     ''' return true if cashback is valid else false  '''
     if cashback_value:
-        if site == "sts":
+        if str(site) == "sts":
             cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=site).first()
-        if site == "rts":
+        if str(site) == "rts":
             cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_rts=site).first()
         if cashback_kard is not None:
             if mahsulot_narxi >= cashback_kard.balance:
@@ -107,6 +107,9 @@ def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) 
                 cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today}" , "hisob": "-"})
                 cashback_kard.save()
                 return new_cash_summa
+    
+    else:
+        return 0
 
 
 
@@ -219,11 +222,11 @@ class OrderCreateAPIView(APIView):
         )
         if site == "sts":
             request.data["site_sts"]= True
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site=site, zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         if site == "rts":
             request.data["site_rts"] = True
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site=site,zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
+            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="rts",zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
             request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
             
