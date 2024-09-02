@@ -4,7 +4,7 @@ from .models import Product, Image
 from config.settings import site_name
 from settings.models import OrderSetting
 
-
+from django.core.cache import cache
 
 class ImageSeriazilizer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
@@ -27,9 +27,12 @@ class ImagePostSeriazilizer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+# doller = cache.get_or_set('all_posts', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
+
 def doller_funtion():
-    order = OrderSetting.objects.first()
-    return order.doller * 1.12 # 1.12 is for dollar exchange rate
+    doller = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
+    return doller
+
 
 
 def kredit_cal(price, oy, foiz):

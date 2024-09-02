@@ -401,6 +401,13 @@ class OrderSetting(models.Model):
     update_at = models.DateTimeField(blank=True, null=True)
 
 
+
+    @property
+    def get_doller_funtion(self):
+        return int(self.doller * self.nds /10)
+
+
+
     class Meta:
         verbose_name = "Buyurtma Sozlama"
         verbose_name_plural = "Buyurtma Sozlamalar"
