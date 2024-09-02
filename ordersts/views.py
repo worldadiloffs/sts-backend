@@ -163,7 +163,7 @@ class OrderCreateAPIView(APIView):
         firma_nomi = request.data.get("firma_nomi", None)
         zakas_id = (Order.objects.count() + 1111) 
         if first_name is not None and last_name is not None:
-            _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id, zakas_id=zakas_id)
+            _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id)
         
         doller_value = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
         request.data["zakas_id"] = zakas_id 
