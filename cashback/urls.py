@@ -6,6 +6,6 @@ app_name = 'cashback'
 
 urlpatterns = [
     path('<str:site>/cashback/card/', CashbackApiviews.as_view(), name='cashback-card-sts'),
-    path('mobile/cashback/card/', CashbackMobileApiviews.as_view(), name='cashback-card-mobile')
+    path('mobile/cashback/cards/', CashbackMobileApiviews.as_view(), name='cashback-card-mobile')
 ]
 
