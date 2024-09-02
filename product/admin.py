@@ -15,13 +15,13 @@ class GalleryInlines(admin.TabularInline):
 class CityForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['super_category']
+        fields = ['super_category', 'main_category']
 
     def __init__(self, *args, **kwargs):
         main_obj = kwargs.pop('super_category', None)
         super().__init__(*args, **kwargs)
         if main_obj:
-            self.fields['main_Category'].queryset = MainCategory.objects.filter(superCategory=main_obj)
+            self.fields['main_category'].queryset = MainCategory.objects.filter(superCategory=main_obj)
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
@@ -36,7 +36,7 @@ class ProductsModelAdmin(TranslationAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if obj:
-            form.base_fields['main_Category'].queryset = MainCategory.objects.filter(pk=obj.super_category.pk)
+            form.base_fields['main_category'].queryset = MainCategory.objects.filter(pk=obj.super_category.pk)
         return form
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
