@@ -29,21 +29,13 @@ urlpatterns = [
     path('', include('home.urls', namespace='home')),
     path('', include('blog.urls', namespace='blog')),
     path('', include('cashback.urls', namespace='cashback')),
-    # path('', include('ordersts.urls', namespace='ordersts')),
+    path('', include('ordersts.urls', namespace='ordersts')),
     path('', include('settings.urls', namespace='settings')),
     # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
-
-
-if SPECTACULAR_SETTINGS["VERSION"]==1:
-    urlpatterns.append(path('', include('ordersts.urls', namespace='ordersts')),)
-
-
-if SPECTACULAR_SETTINGS["VERSION"]==2:
-    urlpatterns.append(path('', include('ordersts.urls', namespace='ordersts')),)
 
 
 

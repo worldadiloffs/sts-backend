@@ -16,6 +16,13 @@ class GalleryInlines(admin.TabularInline):
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
+    actions = ["main_category_change"]
+
+
+    def main_category_change(self, request, queryset):
+        for obj in queryset:
+           releted_obj =  obj.main_category = MainCategory.objects.filter(superCategory=obj.super_category)
+        return releted_obj
     # readonly_fields = ('full_description',)
     # add_form = ProductEditForm
     change_list_template = "admin/product/product/change-list.html"

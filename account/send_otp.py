@@ -4,6 +4,8 @@ from extensions.code_generator import otp_generator, get_client_ip
 from rest_framework import status
 from rest_framework.response import Response
 from django.conf import settings
+
+
 # send otp code 
 def send_otp(request, phone):
     otp = otp_generator()
@@ -18,11 +20,11 @@ def send_otp(request, phone):
     headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
 
 
-    response = requests.post(url, headers=headers)
+    # response = requests.post(url, headers=headers)
     data_set = {
         "otp": otp,
         "errors": False,
-        "message": "",
+        "message": "send",
         # "sms_provayder": response.json()
 
     }
