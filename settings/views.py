@@ -18,7 +18,7 @@ class PageApiviews(APIView):
     
 class SiteSettingsApiviews(APIView):
     def get(self, request, site):
-        if site == 'sts':
+        if site =='sts':
     
             settings_model = SiteSettings.objects.filter(site_sts=True).first()
             payment = PaymentMethod.objects.filter(site_sts=True, status=True)
