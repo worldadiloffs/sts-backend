@@ -12,16 +12,7 @@ class GalleryInlines(admin.TabularInline):
     model = Image
     max_num = 6
 
-class CityForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = ['super_category', 'main_category']
 
-    def __init__(self, *args, **kwargs):
-        main_obj = kwargs.pop('super_category', None)
-        super().__init__(*args, **kwargs)
-        if main_obj:
-            self.fields['main_category'].queryset = MainCategory.objects.filter(superCategory=main_obj)
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
@@ -31,13 +22,6 @@ class ProductsModelAdmin(TranslationAdmin):
     change_list_template = "admin/product/product/change-list.html"
 
     # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
-    form = CityForm
-
-    def get_form(self, request, obj=None, **kwargs):
-        form = super().get_form(request, obj, **kwargs)
-        if obj:
-            form.base_fields['main_category'].queryset = MainCategory.objects.filter(superCategory=obj.super_category)
-        return form
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user
