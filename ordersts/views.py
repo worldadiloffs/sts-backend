@@ -217,6 +217,8 @@ class OrderCreateAPIView(APIView):
                 for item in order_item_data
             ]
         )
+        request.data["site_sts"] = False
+        request.data["site_rts"] = False
         if site == "sts":
             request.data["site_sts"]= True
             cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site=site, zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
