@@ -19,7 +19,7 @@ class ProductsModelAdmin(TranslationAdmin):
 
     # readonly_fields = ('full_description',)
     # add_form = ProductEditForm
-    change_list_template = "admin/product/product/change-list.html"
+    # change_list_template = "admin/product/product/change-list.html"
 
     # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
 
