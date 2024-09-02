@@ -1,14 +1,8 @@
 from os import access
 from django.contrib.auth import get_user_model
-from django_countries.serializers import CountryFieldMixin
 from rest_framework import serializers
-from .models import   GouseUser , User , UserAddress, Profile
+from .models import     User , UserAddress
 
-
-class GostSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = GouseUser
-        fields = "__all__"
 
 class DeviseSerialzier(serializers.ModelSerializer):
     class Meta:

@@ -1,5 +1,4 @@
 import random
-import requests
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
@@ -26,8 +25,6 @@ from .serializers import (
     CreateTwoStepPasswordSerializer,
 )
 from .send_otp import send_otp
-
-from config.settings import CRM_KEY , CRM_TOKEN , CRM_URL
 
 # from permissions import IsSuperUser
 from extensions.code_generator import get_client_ip

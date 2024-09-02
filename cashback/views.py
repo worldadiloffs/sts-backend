@@ -8,13 +8,13 @@ from settings.models import CashBackSetting, OrderSetting
 from .models import CashbackKard
 from .serialziers import CashbackKardSerializer, CashbackMobileSerialziers
 
+from django.core.cache import cache
 
 # Create your views here.
 
 
 def cashback_values(products):
-    order_setting = OrderSetting.objects.first()
-    doller_value = int(order_setting.doller * order_setting.nds / 10)
+    doller_value = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
     berialadigan_cashback = 0
     if products is not None:
         for product in products:

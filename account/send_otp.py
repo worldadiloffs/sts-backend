@@ -12,13 +12,13 @@ def send_otp(request, phone):
     # user_otp.otp = otp
     cache.set(f"{ip}-for-authentication", phone, settings.EXPIRY_TIME_OTP)
     cache.set(phone, otp, settings.EXPIRY_TIME_OTP)
-    print(otp)
+    # send sms code
 
-    # url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz web site uchun kirish code: {otp} ) '
-    # headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
+    url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz kirish uchun parol: {otp} ) '
+    headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
 
 
-    # response = requests.post(url, headers=headers)
+    response = requests.post(url, headers=headers)
     data_set = {
         "otp": otp,
         "errors": False,
