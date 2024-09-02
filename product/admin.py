@@ -35,9 +35,9 @@ class ProductsModelAdmin(TranslationAdmin):
         user = request.user
         if user.site_sts:
             if db_field.name == "main_category":
-                if request._obj_ is not None:
+                if request.obj is not None:
                 # `request._obj_` uchun to'g'ri URL mavjud bo'lishi kerak
-                    kwargs['queryset'] = MainCategory.objects.filter(superCategory=request._obj_.super_category, sts_site=True)
+                    kwargs['queryset'] = MainCategory.objects.filter(superCategory=request.obj.super_category, sts_site=True)
                 else:
                     kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
                 # kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
