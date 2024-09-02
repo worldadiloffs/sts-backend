@@ -191,7 +191,7 @@ class Register(APIView):
     #     ScopedRateThrottle,
     # ]
 
-    def post(self, request):
+    def post(self, request, site):
         serializer = AuthenticationSerializer(data=request.data)
         if serializer.is_valid():
             received_phone = serializer.data.get("phone")

@@ -148,13 +148,13 @@ class ProductDetailApiview(APIView):
 
 def _sub_category_list(main_id):
     filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk
-    main_obj = MainCategory.objects.filter(superCategory__id=filter_super_category)
+    main_obj = MainCategory.objects.select_related('superCategory').filter(superCategory__id=filter_super_category)
     data = []
     for i in main_obj:
-        sub_category = SubCategory.objects.filter(mainCategory__id=i.pk)
+        sub_category = SubCategory.objects.select_related('mainCategory').filter(mainCategory__id=i.pk)
         if sub_category is not None:
             for sub in sub_category:
-                prod_count = Product.objects.filter(sub_category__id=sub.pk).count()
+                prod_count = Product.objects.select_related('sub_category').filter(sub_category__id=sub.pk).count()
                 data.append(
                     {
                         "sub_name": sub.sub_name,
