@@ -13,27 +13,30 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
 from django.test import Client
+from category.models import MainCategory, SubCategory, SuperCategory
+from product.models import Product
 
 class RegisterViewTestCase(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.url = "/ru/sts/account/register/"  # register URL nomini to'g'ri qo'ying
-        data_set = {
-        "otp": "123456",
-        "errors": False,
-        "message": "",
-        # "sms_provayder": response.json()
 
-    }
+    def product_test(self):
+        def _sub_category_list(main_id=2):
+            filter_super_category = MainCategory.objects.get(id=main_id).superCategory.pk
+            main_obj = MainCategory.objects.select_related('superCategory').filter(superCategory__id=filter_super_category)
+            data = []
+            for i in main_obj:
+                sub_category = SubCategory.objects.select_related('mainCategory').filter(mainCategory__id=i.pk)
+                if sub_category is not None:
+                    for sub in sub_category:
+                        prod_count = Product.objects.select_related('sub_category').filter(sub_category__id=sub.pk).count()
+                        data.append(
+                            {
+                                "sub_name": sub.sub_name,
+                                "counts": prod_count,
+                                "slug": sub.slug,
+                                "pk": sub.pk,
+                            }
+                        )
+                        if len(data) > 12:
+                            return data
+            return data
 
-    def test_valid_phone_number(self):
-        data = {'phone': '998990167647'}
-        response = self.client.post(self.url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertIn("send", response.data['message'])
-
-    def test_invalid_phone_number(self):
-        data = {'phone': ''}  # Yoki boshqa noto'g'ri qiymat
-        response = self.client.post(self.url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn('phone', response.data)

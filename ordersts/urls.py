@@ -19,3 +19,5 @@ urlpatterns = [
     path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
 ]
+
+# mobile order urls

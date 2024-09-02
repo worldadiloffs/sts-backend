@@ -209,7 +209,10 @@ class Product(models.Model):
                 slug=self.slug).exists()
             if qs_exists:
                 self.slug = create_shortcode(self)
-
+        if self.counts == 0:
+            self.available = False
+        if self.counts > 0:
+            self.available = True
         super(Product, self).save(*args, **kwargs)
 
 
