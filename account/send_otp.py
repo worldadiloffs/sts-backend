@@ -14,7 +14,7 @@ def send_otp(request, phone):
     cache.set(phone, otp, settings.EXPIRY_TIME_OTP)
     # send sms code
 
-    url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz kirish uchun parol: {otp} ) '
+    url = f'http://notify.eskiz.uz/api/message/sms/send?mobile_phone={phone}&from=4546&message=sts-hik.uz kirish uchun parol:{otp} ) '
     headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
 
 
