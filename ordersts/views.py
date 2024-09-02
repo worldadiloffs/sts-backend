@@ -87,8 +87,8 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 
 
 # cashback funtion user cashback validate 
-def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) -> float:
-    ''' return true if cashback is valid else false  '''
+def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi):
+    ''' return integer cashback '''
     if cashback_value:
         if bool(str(site) == "sts"):
             cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=site).first()
@@ -107,6 +107,7 @@ def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) 
                 cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today}" , "hisob": "-"})
                 cashback_kard.save()
                 return new_cash_summa
+        return 0
     
     else:
         return 0
