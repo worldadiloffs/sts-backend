@@ -18,11 +18,6 @@ class GalleryInlines(admin.TabularInline):
 class ProductsModelAdmin(TranslationAdmin): 
     actions = ["main_category_change"]
 
-
-    def main_category_change(self, request, queryset):
-        for obj in queryset:
-           releted_obj =  obj.main_category = MainCategory.objects.filter(superCategory=obj.super_category)
-        return releted_obj
     # readonly_fields = ('full_description',)
     # add_form = ProductEditForm
     change_list_template = "admin/product/product/change-list.html"
@@ -40,7 +35,12 @@ class ProductsModelAdmin(TranslationAdmin):
         user = request.user
         if user.site_sts:
             if db_field.name == "main_category":
-                kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+                if request._obj_ is not None:
+                # `request._obj_` uchun to'g'ri URL mavjud bo'lishi kerak
+                    kwargs['queryset'] = MainCategory.objects.filter(superCategory=request._obj_.super_category, sts_site=True)
+                else:
+                    kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+                # kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
             if db_field.name == "super_category":
                 kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
             if db_field.name == "sub_category":
