@@ -49,6 +49,8 @@ class CashbackApiviews(APIView):
             return JsonResponse({"data": None, "errors": True, "message": "Kashback kard mavjud"}, safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Siz faol emasiz"}, safe=False)
 
+
+
 class CashbackMobileApiviews(APIView):
     def get(self, request):
         user = request.user
