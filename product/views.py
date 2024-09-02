@@ -154,7 +154,7 @@ def _sub_category_list(main_id):
         sub_category = SubCategory.objects.filter(mainCategory__id=i.pk)
         if sub_category is not None:
             for sub in sub_category:
-                prod_count = len(Product.objects.filter(sub_category__id=sub.pk))
+                prod_count = Product.objects.filter(sub_category__id=sub.pk).count()
                 data.append(
                     {
                         "sub_name": sub.sub_name,
