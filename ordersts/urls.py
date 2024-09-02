@@ -16,7 +16,7 @@ urlpatterns = [
     path('<str:site>/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
     path("<str:site>/orders/user-order-get/", OrderGetApiviews.as_view(), name="user-order-get"),
     # mobile orders
-    path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
+    path('mobile/orders/cashbacks/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
 ]
 
