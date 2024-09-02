@@ -28,7 +28,6 @@ class ProductsModelAdmin(TranslationAdmin):
         if user.site_sts:
             if db_field.name == "main_category":
                 kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
-                # kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
             if db_field.name == "super_category":
                 kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
             if db_field.name == "sub_category":
@@ -53,7 +52,7 @@ class ProductsModelAdmin(TranslationAdmin):
             return qs.filter(site_rts=True)
         else:
             qs = super().get_queryset(request)
-            return qs.filter(site_sts=False, site_rts=True)
+            return qs.all()
     
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
