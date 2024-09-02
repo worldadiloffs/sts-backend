@@ -12,34 +12,34 @@ class GalleryInlines(admin.TabularInline):
     model = Image
     max_num = 6
 
+class CityForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['super_category']
 
+    def __init__(self, *args, **kwargs):
+        main_obj = kwargs.pop('super_category', None)
+        super().__init__(*args, **kwargs)
+        if main_obj:
+            self.fields['main_Category'].queryset = MainCategory.objects.filter(superCategory=main_obj)
 
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    actions = ["main_category_change"]
 
     # readonly_fields = ('full_description',)
     # add_form = ProductEditForm
     change_list_template = "admin/product/product/change-list.html"
 
-    # autocomplete_fields = ("main_category", "super_category", "sub_category",)
+    # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
+    # form = CityForm
 
-    # def get_fields(self, request, obj=None):
-    #     user = request.user
-    #     # if user.is_authenticated:
-    #     #     return super().get_fields(request, obj)
-    #     fields = ["product_name", "articul", "price","full_description"]
-    #     return fields
+
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user
         if user.site_sts:
             if db_field.name == "main_category":
-                if request.obj is not None:
-                # `request._obj_` uchun to'g'ri URL mavjud bo'lishi kerak
-                    kwargs['queryset'] = MainCategory.objects.filter(superCategory=request.obj.super_category, sts_site=True)
-                else:
-                    kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+                kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
                 # kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
             if db_field.name == "super_category":
                 kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
