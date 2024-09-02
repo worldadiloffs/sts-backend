@@ -90,9 +90,9 @@ def _user_address_to_dict(shahar, tuman , user_id , qishloq):
 def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi) -> float:
     ''' return true if cashback is valid else false  '''
     if cashback_value:
-        if str(site) == "sts":
+        if bool(str(site) == "sts"):
             cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=site).first()
-        if str(site) == "rts":
+        if bool(str(site) == "rts"):
             cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_rts=site).first()
         if cashback_kard is not None:
             if mahsulot_narxi >= cashback_kard.balance:
