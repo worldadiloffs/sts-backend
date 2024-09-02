@@ -36,7 +36,7 @@ class ProductsModelAdmin(TranslationAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         if obj:
-            form.base_fields['main_category'].queryset = MainCategory.objects.filter(pk=obj.super_category.pk)
+            form.base_fields['main_category'].queryset = MainCategory.objects.filter(superCategory=obj.super_category)
         return form
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
