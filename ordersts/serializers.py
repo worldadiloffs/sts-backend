@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
 from settings.models import OrderSetting
+from django.core.cache import cache
 
 from .models import Order, OrderItem
 from config.settings import site_name
 def doller_funtion():
-    order = OrderSetting.objects.first()
-    return order.doller * 1.12 # 1.12 is for dollar exchange rate
+    doller = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
+    return doller
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cashback.models import CashbackKard
@@ -11,7 +8,6 @@ from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerialize
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
-
 from drf_spectacular.utils import extend_schema
 
 from rest_framework.throttling import ScopedRateThrottle
@@ -20,6 +16,8 @@ from account.models import User , UserAddress
 
 from cashback.views import cashback_values
 from datetime import date 
+from django.core.cache import cache
+
 
 
 def _validate_product_count(product_id, count):
@@ -166,8 +164,7 @@ class OrderCreateAPIView(APIView):
         if first_name is not None and last_name is not None:
             _profile_update(first_name=first_name, last_name=last_name, user_id=request.user.id, zakas_id=zakas_id)
         
-        doller = OrderSetting.objects.first()
-        doller_value =int(doller.doller * doller.nds / 10)
+        doller_value = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
         zakas_id = (Order.objects.count() + 1111)
         request.data["zakas_id"] = zakas_id 
         if firma_nomi is not None:
@@ -214,8 +211,6 @@ class OrderCreateAPIView(APIView):
             else:
                 request.data["punkit"] = punkit_validate["dokon_id"]
 
-        # request.data["order_items"] =order_item_data
-
         request.data["total_price"] = sum(
             [
                 int(item["mahsul0t_narxi"]) * int(item["quantity"])
@@ -243,12 +238,6 @@ class OrderCreateAPIView(APIView):
                 request.data["depozit"] = depozit_validate
             else:
                 return Response({"errors": "Invalid depozit amount"}, status=400)
-        request.data["total_price"] = sum(
-            [
-                int(item["mahsul0t_narxi"]) * int(item["quantity"])
-                for item in order_item_data
-            ]
-        )
         if request.data.get('shahar') is not None:
             shhar = Shaharlar.objects.get(name=request.data['shahar'])
             request.data['shahar'] = shhar.pk
