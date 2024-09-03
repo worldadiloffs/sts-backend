@@ -9,6 +9,7 @@ from django.utils.html import format_html
 from django.contrib.auth import get_user_model
 from xodimlar.models import Xodim
 from cashback.models import CashbackKard
+from config.settings import site_name
 
 
 class OrderItem(models.Model):
@@ -69,7 +70,7 @@ class VazvratProdcut(models.Model):
     def vazvrat_product(self):
         return {
             "product_name": self.product_id.product_name,
-            "product_image": self.product_id.image.url,
+            "product_image": self.product_id.image and(site_name + self.product_id.image.url) or None,
             "mahsulot_narxi": self.mahsulot_narxi,
             "serena": self.serena,
             "counts": self.counts,
