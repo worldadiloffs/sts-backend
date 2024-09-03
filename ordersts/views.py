@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from cashback.models import CashbackKard
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
-from .models import Order, OrderItem , FirmaBuyurtma
-from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer
+from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut
+from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
@@ -19,6 +19,17 @@ from datetime import date
 from django.core.cache import cache
 
 
+
+class VazvratProductView(APIView):
+    def get(self, request, *args, **kwargs):
+
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({"errors": True, "message": "User not authenticated"},safe=False, status=401)
+        vazvrat = VazvratProdcut.objects.filter(user = user)
+        serialzier = VazvratProductSerializer(vazvrat, many=True)
+        return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False, status=200)
+         
 
 def _validate_product_count(product_id, count):
     product = Product.objects.filter(id=product_id).first()

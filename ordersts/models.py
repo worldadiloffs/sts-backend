@@ -62,6 +62,19 @@ class VazvratProdcut(models.Model):
     site_rts = models.BooleanField(default=True, blank=True, verbose_name=_('RTS SITE'))
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Foydalanuvchi"))
 
+
+
+
+
+    def vazvrat_product(self):
+        return {
+            "product_name": self.product_id.product_name,
+            "mahsulot_narxi": self.mahsulot_narxi,
+            "serena": self.serena,
+            "counts": self.counts,
+            "created_at": self.created_at.strftime("%Y-%m-%d"),
+        }
+
     def __str__(self):
         return f'''{self.product_id.product_name}  : {self.counts}   : {self.product_id.price} \n '''
     class Meta:
