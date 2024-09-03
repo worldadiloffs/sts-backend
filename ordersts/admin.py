@@ -44,7 +44,6 @@ class OrderAdmin(admin.ModelAdmin):
         
     def get_status(self, obj):
         if obj.status == 'pending':
-            print(obj.status)
             color = 'red'
         else:
             color = 'green'

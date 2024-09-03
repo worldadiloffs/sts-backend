@@ -33,8 +33,8 @@ from django.core.cache import cache
 
 
 class ProductDetailApiview(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site, slug):
         main_category_product = None
         if site == "sts":
@@ -220,6 +220,8 @@ class SearchProductView(APIView):
         )
 
 
+
+
 class CartProductApiview(APIView):
     def post(self, request, site):
         products = request.data.get("products", None)
@@ -263,6 +265,8 @@ class CartProductApiview(APIView):
             return JsonResponse(
                 {"data": None, "errors": True, "message": str(e)}, safe=False
             )
+
+
 
 
 class CategoryProductViews(APIView):
