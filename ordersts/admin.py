@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpRequest
 from django.utils.safestring import SafeText
-from .models import Order, OrderItem 
+from .models import Order, OrderItem , VazvratProdcut
 # Register your models here.
 from account.models import User
 from django.utils.html import format_html
@@ -12,6 +12,7 @@ from django.urls import path
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
 
+admin.site.register(VazvratProdcut)
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
