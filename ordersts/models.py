@@ -69,6 +69,7 @@ class VazvratProdcut(models.Model):
     def vazvrat_product(self):
         return {
             "product_name": self.product_id.product_name,
+            "product_image": self.product_id.image.url,
             "mahsulot_narxi": self.mahsulot_narxi,
             "serena": self.serena,
             "counts": self.counts,
