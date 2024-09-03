@@ -13,7 +13,6 @@ class CashbackKardSerializer(serializers.ModelSerializer):
 
     def get_hisobot(self, obj):
         create_at = obj.create_date and obj.create_date.strftime("%Y-%m-%d") 
-
         hisobot_ob = obj.hisobot
         data = []
         if hisobot_ob:

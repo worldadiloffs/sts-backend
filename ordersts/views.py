@@ -170,7 +170,7 @@ class OrderCreateAPIView(APIView):
         
         order_item_data = []
         cashback_list = []
-        cashback_value = bool(request.data['cashback_value'])
+        cashback_value = request.data.get('cashback_value', False)
         first_name = request.data.get('first_name', None)
         
         last_name = request.data.get("last_name", None)
