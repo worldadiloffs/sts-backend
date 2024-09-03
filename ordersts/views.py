@@ -102,9 +102,9 @@ def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi):
     ''' return integer cashback '''
     if cashback_value:
         if bool(str(site) == "sts"):
-            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=site).first()
+            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_sts=True).first()
         if bool(str(site) == "rts"):
-            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_rts=site).first()
+            cashback_kard = CashbackKard.objects.filter(user__id=user_id, site_rts=True).first()
         if cashback_kard is not None:
             if mahsulot_narxi >= cashback_kard.balance:
                 value_cash =  cashback_kard.balance 
