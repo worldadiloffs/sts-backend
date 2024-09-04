@@ -54,7 +54,7 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
         price = int(obj.price * orders_settings.doller)
         nds = int(orders_settings.nds * obj.price / 100 * orders_settings.doller)
         umumiy_narx = price + nds
-        price = {"price": price, "nds": int(orders_settings.nds * obj.price / 100 * orders_settings.doller), "umumiy_narx": umumiy_narx}
+        price = {"price": price, "nds": int(orders_settings.nds * obj.price / 100 * orders_settings.doller), "nds_narx": umumiy_narx}
         return price
     
 
