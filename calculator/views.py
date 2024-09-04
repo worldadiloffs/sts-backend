@@ -25,5 +25,5 @@ class ProductSearchCalculatorView(APIView):
             product_serialzier = CalculatorProdcutSerialzier(products, many=True)
 
             return Response(product_serialzier.data)
-        return Response([])
+        return Response({"Поиск не дал результатов" :0})
     
