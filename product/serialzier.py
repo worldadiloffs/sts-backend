@@ -49,7 +49,7 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
         fields = ("id","product_name", "price", "serenaTrue_countFalse", "product_price")
     
 
-    def get_product_price(self, obj):
+    def get_price(self, obj):
         orders_settings = OrderSetting.objects.first()
         price = {"price": int(obj.price * orders_settings.doller), "nds": int(orders_settings.nds * obj.price / 10 * orders_settings.doller)}
         return price
