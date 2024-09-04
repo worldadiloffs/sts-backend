@@ -46,7 +46,7 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
     product_price = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ("id","product_name", "price", "serenaTrue_countFalse", "product_price")
+        fields = ("id","product_name", "price", "serenaTrue_countFalse",)
     
 
     def get_price(self, obj):
