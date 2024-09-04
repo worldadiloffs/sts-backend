@@ -43,21 +43,17 @@ def doller_funtion():
 
 
 class CalculatorProdcutSerialzier(serializers.ModelSerializer):
-    nds = serializers.SerializerMethodField()
     product_price = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ("id","product_name", "price", "serenaTrue_countFalse","nds", "product_price")
-
-
-    def get_nds(self, obj):
-        orders_settings = OrderSetting.objects.first()
-        return orders_settings.nds * obj.price / 10 * orders_settings.doller
+        fields = ("id","product_name", "price", "serenaTrue_countFalse", "product_price")
     
 
     def get_product_price(self, obj):
         orders_settings = OrderSetting.objects.first()
-        return obj.price * orders_settings.doller
+        price = {"price": int(obj.price * orders_settings.doller), "nds": int(orders_settings.nds * obj.price / 10 * orders_settings.doller)}
+        return price
+    
 
 
         
