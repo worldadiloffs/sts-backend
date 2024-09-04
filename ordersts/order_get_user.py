@@ -36,7 +36,7 @@ class OrderGetApiviews(APIView):
                             "zakas_id": i['zakas_id'],
                             "sana": i['times'],
                             "status": i['status'],
-                            "umumiy_summa": i['total_summa'],
+                            "umumiy_summa": i['total_price'],
                             "tushgan_cash_summa": i['tushadigan_cash_summa']
                             
                         },
