@@ -6,6 +6,7 @@ from settings.models import OrderSetting
 
 from django.core.cache import cache
 
+
 class ImageSeriazilizer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
 
@@ -17,8 +18,14 @@ class ImageSeriazilizer(serializers.ModelSerializer):
         image = obj.image
         if image:
             return site_name + image.url
-
         return None
+    
+
+    
+
+
+
+    
 
 
 class ImagePostSeriazilizer(serializers.ModelSerializer):
@@ -33,6 +40,27 @@ def doller_funtion():
     doller = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
     return doller
 
+
+
+class CalculatorProdcutSerialzier(serializers.ModelSerializer):
+    nds = serializers.FloatField(read_only=True)
+    product_price = serializers.FloatField(read_only=True)
+    class Meta:
+        model = Product
+        fields = ("id","product_name", "price", "serenaTrue_countFalse","nds", "product_price")
+
+
+    def get_nds(self, obj):
+        orders_settings = OrderSetting.objects.first()
+        return orders_settings.nds * obj.price / 10 * orders_settings.doller
+    
+
+    def get_product_price(self, obj):
+        orders_settings = OrderSetting.objects.first()
+        return obj.price * orders_settings.doller
+
+
+        
 
 
 def kredit_cal(price, oy, foiz):

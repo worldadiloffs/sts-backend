@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'importdata',
     'xodimlar',
     'cashback',
+    'calculator',
 
 ]
 

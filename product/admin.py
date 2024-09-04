@@ -17,11 +17,17 @@ class GalleryInlines(admin.TabularInline):
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
 
-    # readonly_fields = ('full_description',)
-    # add_form = ProductEditForm
-    # change_list_template = "admin/product/product/change-list.html"
-
-    # autocomplete_fields = ("main_category", "super_category", "sub_category",)  
+    readonly_fields = ('site_sts', 'site_rts')
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        # Custom logic before saving the object
+        if not change:  # If the object is being created (not edited)
+            if user.site_sts:
+                obj.site_sts = True
+            if user.site_rts:
+                obj.site_rts = True
+        # Save the object
+        super().save_model(request, obj, form, change)  
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user

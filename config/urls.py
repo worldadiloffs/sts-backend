@@ -31,6 +31,7 @@ urlpatterns = [
     path('', include('cashback.urls', namespace='cashback')),
     path('', include('ordersts.urls', namespace='ordersts')),
     path('', include('settings.urls', namespace='settings')),
+    path('', include('calculator.urls', namespace='calculator')),
     # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('api/v1/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),

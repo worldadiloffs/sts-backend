@@ -157,5 +157,3 @@ class PageTranslationAdmin(TranslationAdmin):
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
-
-
