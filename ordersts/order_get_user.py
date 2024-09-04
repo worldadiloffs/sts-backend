@@ -30,10 +30,11 @@ class OrderGetApiviews(APIView):
             hozir = []
             if hozir_serializer:
                 for i in hozir_serializer.data:
+                    orders = Order.objects.get(pk=i['id'])
                     hozir.append({
                         "mobile": {
                             "zakas_id": i['zakas_id'],
-                            "sana": f"{i['created_at'].strftime("%B %d %Y %H:%M")}",
+                            "sana": i['times'],
                             "status": i['status'],
                             "umumiy_summa": i['total_summa'],
                             "tushgan_cash_summa": i['tushadigan_cash_summa']

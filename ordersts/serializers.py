@@ -71,9 +71,14 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
     order_items = OrderItemProductSerializer(many=True)
     order_obj = serializers.SerializerMethodField(read_only=True)
     status_color = serializers.SerializerMethodField(read_only=True)
+    times = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Order
         fields = "__all__"
+
+
+    def get_times(self, obj):
+        return obj.created_at.strftime("%B %d %Y %H:%M")
 
     def get_order_obj(self, obj):
         prod_lengs = obj.order_items.count()
