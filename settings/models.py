@@ -404,7 +404,7 @@ class OrderSetting(models.Model):
 
     @property
     def get_doller_funtion(self):
-        return int(self.doller * self.nds /10)
+        return int(self.doller * (1+ self.nds /100))
 
 
 

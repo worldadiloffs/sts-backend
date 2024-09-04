@@ -51,7 +51,10 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
 
     def get_price(self, obj):
         orders_settings = OrderSetting.objects.first()
-        price = {"price": int(obj.price * orders_settings.doller), "nds": int(orders_settings.nds * obj.price / 10 * orders_settings.doller)}
+        price = int(obj.price * orders_settings.doller)
+        nds = int(orders_settings.nds * obj.price / 100 * orders_settings.doller)
+        umumiy_narx = price + nds
+        price = {"price": price, "nds": int(orders_settings.nds * obj.price / 100 * orders_settings.doller), "umumiy_narx": umumiy_narx}
         return price
     
 
