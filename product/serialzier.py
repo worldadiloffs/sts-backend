@@ -43,7 +43,7 @@ def doller_funtion():
 
 
 class CalculatorProdcutSerialzier(serializers.ModelSerializer):
-    product_price = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = ("id","product_name", "price", "serenaTrue_countFalse",)
