@@ -15,7 +15,7 @@ class ProductSearchCalculatorView(APIView):
         if search:
             if site == 'sts':
                 products = Product.objects.filter(site_sts=True).filter(
-                    Q(name__icontains=search) 
+                    Q(product_name__icontains=search) 
                 )[:10]
             if site == 'rts':
                 products = Product.objects.filter(site_sts=True).filter(
