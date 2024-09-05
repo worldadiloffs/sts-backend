@@ -1,5 +1,9 @@
 from modeltranslation.translator import TranslationOptions , register
-from .models import CardGril , PageContent  , SitePage , Shaharlar, SiteSettings , Tumanlar
+from .models import CardGril , PageContent  , SitePage , Shaharlar, SiteSettings , Tumanlar , TolovUsullar 
+
+@register(TolovUsullar)
+class TolovUsullarTranslationOptions(TranslationOptions):
+    fields = ('name', 'content')
 
 @register(CardGril)
 class CardGrilTranslationOptions(TranslationOptions):

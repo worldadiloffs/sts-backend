@@ -55,6 +55,14 @@ class Banner(models.Model):
 
 
 
+class CardImage(models.Model):
+    images = models.ImageField(upload_to='minicard/images', blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True, verbose_name=_("status"))
+    homepagecategory = models.ForeignKey(
+        "home.HomePageCategory", models.SET_NULL, null=True, related_name="cardimage"
+    )
+   
 
 
 

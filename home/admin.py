@@ -1,11 +1,15 @@
 from django.contrib import admin
-from .models import  Banner ,  HomePageCategory
+from .models import  Banner ,  HomePageCategory , CardImage
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
 # Register your models here.
 
 # admin.site.register(SubCategory)
+
+class CartImageInline(admin.TabularInline):
+    model = CardImage
+    max_num = 6
 
 
 @admin.register(Banner)
@@ -75,6 +79,7 @@ class HomePageCategoryAdmin(TranslationAdmin):
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)
     list_max_show_all = 10
+    inlines = [CartImageInline]
 
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},

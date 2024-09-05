@@ -39,7 +39,7 @@ class DokonAdmin(admin.ModelAdmin):
 
 
 @admin.register(TolovUsullar)
-class TolovUsullarAdmin(admin.ModelAdmin):
+class TolovUsullarAdmin(TranslationAdmin):
     list_display = ("id","name", "site_sts", "site_rts", "status",)
     list_filter = ("site_sts", "site_rts", "status",)
     search_fields = ("name",)

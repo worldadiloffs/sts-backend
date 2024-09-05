@@ -185,6 +185,7 @@ class Order(models.Model):
         data = [item.get_product_name() for item in self.order_items.all()]
         return ''',  '''.join(data) if data else None
     
+    
     def get_order_items(self):
         return self.order_items.all()
     

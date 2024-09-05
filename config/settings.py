@@ -370,7 +370,7 @@ JAZZMIN_UI_TWEAKS = {
     "brand_colour": "navbar-secondary",
     "accent": "accent-indigo",
     "navbar": "navbar-dark",
-    "no_navbar_border": False,
+    "no_navbar_border": True,
     "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
@@ -379,7 +379,7 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_small_text": True,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": False,
+    "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
     "theme": "default",
@@ -415,7 +415,7 @@ JAZZMIN_SETTINGS = {
     "hide_models": [],
 
     # Whether to aut expand the menu
-    "navigation_expanded": True,
+    "navigation_expanded": False,
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.user": "fas fa-user",
@@ -424,7 +424,7 @@ JAZZMIN_SETTINGS = {
     "changeform_format": "horizontal_tabs",
     "use_google_fonts_cdn": True,
     # Whether to show the UI customizer on the sidebar
-    "show_ui_builder": True,
+    "show_ui_builder": False,
         "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
