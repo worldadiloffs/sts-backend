@@ -20,7 +20,7 @@ class CategoryProductAdmin(admin.TabularInline):
 
 @admin.register(Cupon)
 class CuponAdmin(admin.ModelAdmin):
-    list_display = ('id','code', 'create_at', 'end_at', 'status', 'site_sts', 'site_rts',)
+    list_display = ('id','code',  'status', 'site_sts', 'site_rts',)
     list_filter = ('status', 'site_sts', 'site_rts',)
     search_fields = ('code',)
     inlines = [CategoryProductAdmin]

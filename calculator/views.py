@@ -14,11 +14,11 @@ class ProductSearchCalculatorView(APIView):
         search = request.GET.get("search", "")
         if search:
             if site == 'sts':
-                products = Product.objects.filter(site_sts=True).filter(
+                products = Product.objects.filter(site_sts=True, status=True).filter(
                     Q(product_name_ru__icontains=search) 
                 )[:10]
             if site == 'rts':
-                products = Product.objects.filter(site_sts=True).filter(
+                products = Product.objects.filter(site_sts=True , status=True).filter(
                     Q(product_name_uz__icontains=search) 
                 )[:10]
 

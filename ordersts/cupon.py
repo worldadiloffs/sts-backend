@@ -9,3 +9,6 @@ class CuponApiViews(APIView):
         cupon = Cupon.objects.all()
         serializer = CuponSerializer(cupon, many=True)
         return Response(serializer.data)
+    
+
+    
