@@ -134,7 +134,7 @@ def _redirect_payment(request, order_id):
 
 
 def _promocode(code, user_id, summa):
-    promocod = 
+    pass 
 
 
 
