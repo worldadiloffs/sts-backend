@@ -15,7 +15,7 @@ class CuponApiViews(APIView):
 
 
 class CoponPostApiviews(APIView):
-    def post(self, request):
+    def post(self, request , site):
         price = request.data.get('price')
         promocod = request.data.get('promocod')
 
