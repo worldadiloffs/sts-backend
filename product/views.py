@@ -270,8 +270,8 @@ class CartProductApiview(APIView):
 
 
 class CategoryProductViews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         # parameters=[ParemententCategorySerialzeir],
         responses=SuperCategoryStsSerializer

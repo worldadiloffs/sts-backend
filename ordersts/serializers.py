@@ -3,8 +3,17 @@ from rest_framework import serializers
 from settings.models import OrderSetting 
 from django.core.cache import cache
 
-from .models import Order, OrderItem , VazvratProdcut
+from .models import Order, OrderItem , VazvratProdcut , CategoryProduct , Cupon
 from config.settings import site_name
+
+
+
+class CuponSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cupon
+        fields = "__all__"
+
+
 def doller_funtion():
     doller = cache.get_or_set('doller', OrderSetting.objects.first().get_doller_funtion, timeout=60*15)
     return doller

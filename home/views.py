@@ -20,8 +20,8 @@ class BannerResponseSerialzier(serializers.Serializer):
 
 
 class BannerView(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=BannerResponseSerialzier
     )
@@ -60,7 +60,7 @@ class BannerDetailViews(APIView):
 
 
 class HomePageCategoryView(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
+    # @method_decorator(cache_page(60 * 60 * 2))
     # @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=ResponseHOme
