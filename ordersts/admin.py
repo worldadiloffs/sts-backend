@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpRequest
 from django.utils.safestring import SafeText
-from .models import Order, OrderItem , VazvratProdcut
+from .models import Order, OrderItem , VazvratProdcut , Cupon , CategoryProduct
 # Register your models here.
 from account.models import User
 from django.utils.html import format_html
@@ -13,6 +13,17 @@ from django.http import HttpResponse
 from django.template.response import TemplateResponse
 
 admin.site.register(VazvratProdcut)
+
+class CategoryProductAdmin(admin.TabularInline):
+    model = CategoryProduct
+    max_num = 10
+
+@admin.register(Cupon)
+class CuponAdmin(admin.ModelAdmin):
+    list_display = ('id','code', 'create_at', 'end_at', 'status', 'site_sts', 'site_rts',)
+    list_filter = ('status', 'site_sts', 'site_rts',)
+    search_fields = ('code',)
+    inlines = [CategoryProductAdmin]
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
