@@ -117,7 +117,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
-        status_color = "blue" if status == "pending" else "green"
+        status_color = "blue" if status == "pending" else "green"  
         return status_color
 
 

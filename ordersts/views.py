@@ -108,14 +108,14 @@ def _validate_cashback(cashback_value, user_id, site, zakas_id, mahsulot_narxi):
         if cashback_kard is not None:
             if mahsulot_narxi >= cashback_kard.balance:
                 value_cash =  cashback_kard.balance 
-                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": cashback_kard.balance, "created_at": f"{date.today}" , "hisob": "-"})
+                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": cashback_kard.balance, "created_at": f"{date.today()}" , "hisob": "-"})
                 cashback_kard.balance = 0
                 cashback_kard.save()
                 return value_cash
             if cashback_kard.balance > mahsulot_narxi:
                 new_cash_summa =  cashback_kard.balance  - mahsulot_narxi
                 cashback_kard.balance = cashback_kard.balance - new_cash_summa
-                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today}" , "hisob": "-"})
+                cashback_kard.hisobot.append({"zakas_id": zakas_id, "summa": new_cash_summa, "created_at": f"{date.today()}" , "hisob": "-"})
                 cashback_kard.save()
                 return new_cash_summa
         return 0

@@ -17,8 +17,10 @@ class CuponApiViews(APIView):
 class CoponPostApiviews(APIView):
     def post(self, request):
         price = request.data.get('price')
+        promocod = request.data.get('promocod')
+
         kun = date.today()
-        copon = Cupon.objects.filter(active=True, start_date__lte=kun, end_date__gte=kun).first()
+        copon = Cupon.objects.filter(code=promocod, start_date__lte=kun, end_date__gte=kun).first()
         if copon is not None:
             if price >= copon.max_summa:
                 return Response({"data": {"summa": copon.summa}, "errrors": False, "message": "ok"})

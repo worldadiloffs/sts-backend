@@ -45,7 +45,6 @@ class OrderGetApiviews(APIView):
                             "status": i['status'],
                             "umumiy_summa": i['total_price'],
                             "tushgan_cash_summa": i['tushadigan_cash_summa']
-                            
                         },
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
