@@ -133,6 +133,12 @@ def _redirect_payment(request, order_id):
     pass 
 
 
+def _promocode(code, user_id, summa):
+    pass 
+
+
+
+
 
 
 

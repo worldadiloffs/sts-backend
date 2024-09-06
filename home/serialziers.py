@@ -29,11 +29,6 @@ class BannerSerializers(serializers.ModelSerializer):
         image = obj.image
         if image:
             return site_name + image.url 
-        
-
-        
-
-
 
 
 class HomePageCategorySerialzier(serializers.ModelSerializer):

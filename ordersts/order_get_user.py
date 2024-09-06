@@ -22,6 +22,14 @@ class OrderGetApiviews(APIView):
             if serializer.data:
                 for i in serializer.data:
                     zakas_lar.append({
+                         "mobile": {
+                            "zakas_id": i['zakas_id'],
+                            "sana": i['times'],
+                            "status": i['status'],
+                            "umumiy_summa": i['total_price'],
+                            "tushgan_cash_summa": i['tushadigan_cash_summa']
+                            
+                        },
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
                         "order": i['order_obj'], })
@@ -30,7 +38,6 @@ class OrderGetApiviews(APIView):
             hozir = []
             if hozir_serializer:
                 for i in hozir_serializer.data:
-                    orders = Order.objects.get(pk=i['id'])
                     hozir.append({
                         "mobile": {
                             "zakas_id": i['zakas_id'],

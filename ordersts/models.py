@@ -167,6 +167,7 @@ class Order(models.Model):
     cencel = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma bekor qilinganmi"))
     xodim = models.ForeignKey(Xodim, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("Xodim"), editable=False)
     order_close = models.BooleanField(default=False, blank=True, verbose_name=_("Buyurtma Yopish"))
+    promocod = models.CharField(max_length=20, blank=True, null=True)
 
 
     
