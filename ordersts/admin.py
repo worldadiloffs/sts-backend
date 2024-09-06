@@ -44,8 +44,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('status', 'yetkazish', 'created_at', 'updated_at',)
     change_list_template = 'admin/orders/order/change_list.html'
     readonly_fields = ( "total_price", 'created_at', 'updated_at', 'order_items', 'cashback', 'depozit','user',"site_sts", "site_rts","vazvrat_product", )
-    list_editable = ('comment',  'status',)
-    list_display = ( 'get_status','id', 'user', 'status', 'created_at', 'is_finished', 'total_price', 'comment', 'is_finished', 'get_product_names',)
+    list_editable = ('comment',  'status','is_finished')
+    list_display = ( 'get_status','id', 'user', 'status', 'created_at', 'total_price', 'comment', 'is_finished', 'get_product_names',)
 
     def get_queryset(self, request):
         user = request.user
