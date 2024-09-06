@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from django.http import JsonResponse
-from .models import Banner , HomePageCategory 
-from .serialziers import BannerSerializers, HOmeSchemaSerialziers  , HomePageCategorySerialzier, ParementrHome, ResponseHOme
+from .models import Banner , HomePageCategory , CardImage
+from .serialziers import BannerSerializers, HOmeSchemaSerialziers  , HomePageCategorySerialzier, ParementrHome, ResponseHOme , CardImageSerialziers
 from product.models import Product
 from product.serialzier import ProductListMiniSerilizers
 from drf_spectacular.utils import extend_schema
@@ -78,11 +78,14 @@ class HomePageCategoryView(APIView):
                 if site == "rts":
                     product = Product.objects.filter(status=True, news=True, site_rts=True)[:10]
                 seriazlier = ProductListMiniSerilizers(product, many=True)
+                cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+                cart_serialzier = CardImageSerialziers(cart_image, many=True)
                 data.append(
                     {
                         "category_name": i.title,
                         "banner_image": i.image and (site_name + i.image.url) or None,
                         "banner_image_url": i.image_url,
+                        "product": cart_serialzier.data,
                         "product": seriazlier.data
                     }
                 )
@@ -93,11 +96,14 @@ class HomePageCategoryView(APIView):
                     product = Product.objects.filter(xitlar=True, status=True, site_rts=True)
 
                 prod_seriazlier = ProductListMiniSerilizers(product, many=True)
+                cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+                cart_serialzier = CardImageSerialziers(cart_image, many=True)
 
                 data.append(
                     {
                         "category_name": i.title,
                         "banner_image": i.image and (site_name + i.image.url ) or None,
+                        "card_image": cart_serialzier.data,
                         "banner_image_url": i.image_url,
                         "product": prod_seriazlier.data
                     }
@@ -111,11 +117,14 @@ class HomePageCategoryView(APIView):
                 if site == "rts":
                     product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_rts=True)[:10]
                 serialzier = ProductListMiniSerilizers(product, many=True)
+                cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+                cart_serialzier = CardImageSerialziers(cart_image, many=True)
                 data.append(
                     {
                         "category_name": i.title,
                         "banner_image": i.image and (site_name + i.image.url ) or None,
                         "banner_image_url": i.image_url,
+                        "card_image": cart_serialzier.data,
                         "product": serialzier.data
                     }
                 )

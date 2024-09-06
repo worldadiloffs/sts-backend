@@ -1,8 +1,22 @@
-from .models import   HomePageCategory , Banner
+from .models import   HomePageCategory , Banner , CardImage
 from rest_framework import serializers 
 from product.serialzier import ProductListMiniSerilizers
 from config.settings import site_name
 
+
+
+class CardImageSerialziers(serializers.ModelSerializer):
+    images = serializers.ImageField(read_only=True)
+    class Meta:
+        model = CardImage
+        fields = "__all__"
+
+    def get_images(self, obj):
+        image = obj.images
+        if image:
+            return site_name + image.url 
+
+    
 
 class BannerSerializers(serializers.ModelSerializer):
     image = serializers.SerializerMethodField(read_only=True)
