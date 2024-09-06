@@ -19,7 +19,7 @@ class CategoryProduct(models.Model):
     category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL,blank=True, null=True)
     status = models.BooleanField(default=False, blank=True)
     cupon = models.ForeignKey(
-        "ordersts.Cupon", models.SET_NULL, null=True, related_name="cupon", null=True)
+        "ordersts.Cupon", models.SET_NULL, blank=True, null=True, related_name="cupon")
 
 
 
@@ -27,7 +27,10 @@ class CategoryProduct(models.Model):
 class Cupon(models.Model):
     code = models.CharField(max_length=20, blank=True)
     summa = models.PositiveBigIntegerField(null=True, blank=True)
-    max_summa = models.PositiveBigIntegerField(null=True, blank=True, null=True)
+    max_summa = models.PositiveBigIntegerField(blank=True, null=True)
+    create_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqt"))
+    end_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Tugatilgan vaqt"))
+    barcha_tavarlar = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
