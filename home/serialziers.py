@@ -6,7 +6,7 @@ from config.settings import site_name
 
 
 class CardImageSerialziers(serializers.ModelSerializer):
-    images = serializers.ImageField(read_only=True)
+    images = serializers.SerializerMethodField()
     class Meta:
         model = CardImage
         fields = "__all__"
