@@ -10,6 +10,30 @@ from django.contrib.auth import get_user_model
 from xodimlar.models import Xodim
 from cashback.models import CashbackKard
 from config.settings import site_name
+from category.models import MainCategory
+
+
+
+
+class CategoryProduct(models.Model):
+    category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL,blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True)
+    cupon = models.ForeignKey(
+        "ordersts.Cupon", models.SET_NULL, null=True, related_name="cupon", null=True)
+
+
+
+
+class Cupon(models.Model):
+    code = models.CharField(max_length=20, blank=True)
+    summa = models.PositiveBigIntegerField(null=True, blank=True)
+    max_summa = models.PositiveBigIntegerField(null=True, blank=True, null=True)
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+
+
+
 
 
 class OrderItem(models.Model):
@@ -210,3 +234,8 @@ class Order(models.Model):
 
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
+    
+
+
+
+

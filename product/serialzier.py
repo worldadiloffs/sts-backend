@@ -206,6 +206,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
     discount_price = serializers.SerializerMethodField(read_only=True)
     kredit_summa = serializers.SerializerMethodField(read_only=True)
+    cashback_value = serializers.SerializerMethodField()
     class Meta:
         model = Product
         fields = (
@@ -222,7 +223,14 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
             "tavar_dagavornaya",
             "counts",
             "super_category",
+            "cashback_value",
+            "aksiya",
         )
+
+
+    def get_cashback_value(self, obj):
+        cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+        return int(cash["data"])
 
 
     def get_kredit_summa(self, obj):
