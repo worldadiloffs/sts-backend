@@ -134,7 +134,7 @@ def _redirect_payment(request, order_id):
 
 
 def _promocode(code, user_id, summa):
-    pass 
+    promocod = 
 
 
 
@@ -176,6 +176,7 @@ class OrderCreateAPIView(APIView):
         
         order_item_data = []
         cashback_list = []
+        promocod = request.data.get('promocode', None)
         cashback_value = request.data.get('cashback_value', False)
         first_name = request.data.get('first_name', None)
         
@@ -238,6 +239,8 @@ class OrderCreateAPIView(APIView):
                 for item in order_item_data
             ]
         )
+        if promocod is not None:
+            _promocode(code=promocod, user_id=request.user.id, summa=request.data["total_price"])
         if site == "sts":
             request.data["site_sts"]= True
             cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )

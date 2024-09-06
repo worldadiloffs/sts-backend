@@ -71,8 +71,9 @@ class UserProfile(APIView):
 class UserUPdate(APIView):
     def put(self, request, site, pk):
         try:
-            user = User.objects.get(pk=pk)
-            serializer = UserProfileSerializer(user, data=request.data, partial=True)
+            user = request.user
+            user = User.objects.get(pk=user.id)
+            serializer = UserProfileSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)

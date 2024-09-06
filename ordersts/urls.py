@@ -3,6 +3,7 @@ from .order_get_validate import OrderValudeView , MuddatliTOlovOrderView , Dasta
 from .views import OrderCreateAPIView , STSCashbackMobile , VazvratProductView
 
 from ordersts.ordermobile.views import CashbackMobile ,  UserMobileToken 
+from .cupon import CoponPostApiviews
 
 from .order_get_user import OrderGetApiviews
 
@@ -16,6 +17,7 @@ urlpatterns = [
     path('<str:site>/cashback/validate/',  STSCashbackMobile.as_view(), name='cashback-validate'),
     path("<str:site>/orders/user-order-get/", OrderGetApiviews.as_view(), name="user-order-get"),
     path('<str:site>/vazvrat/orders/',  VazvratProductView.as_view(), name="vazvrat-product"),
+    path('<str:site>/cupon/validate/', CoponPostApiviews.as_view(), name='cupon-validate'),
     # mobile orders
     path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
