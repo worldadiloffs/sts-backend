@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from cashback.models import CashbackKard
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
-from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut
+from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon
 from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
@@ -134,8 +134,9 @@ def _redirect_payment(request, order_id):
 
 
 def _promocode(code, user_id, summa):
-    pass 
-
+    kun = date.today()
+    copon = Cupon.objects.filter(code=code, create_date__lte=kun, end_date__gte=kun).first()
+    
 
 
 
