@@ -3,10 +3,15 @@ from rest_framework import serializers
 from settings.models import OrderSetting 
 from django.core.cache import cache
 
-from .models import Order, OrderItem , VazvratProdcut , CategoryProduct , Cupon
+from .models import Order, OrderItem , VazvratProdcut , CategoryProduct , Cupon , ContactForm
 from config.settings import site_name
 
 
+
+class ContactFormSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactForm
+        fields = "__all__"
 
 class CuponSerializer(serializers.ModelSerializer):
     class Meta:

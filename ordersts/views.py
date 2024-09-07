@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from cashback.models import CashbackKard
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
-from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon
-from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer
+from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon , ContactForm
+from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer , ContactFormSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
@@ -17,6 +17,27 @@ from account.models import User , UserAddress
 from cashback.views import cashback_values
 from datetime import date 
 from django.core.cache import cache
+
+
+
+
+class ContactFormApiveiws(APIView):
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
+    def post(self, request, site):
+        user = request.user
+        if not user.is_authenticated:
+            return JsonResponse({"errors": True, "message": "User not authenticated"}, safe=False, status=401)
+        serializer = ContactFormSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)
+    def get(self, request, *args, **kwargs):
+        contact_form = ContactForm.objects.all()
+        serialzier = ContactFormSerializer(contact_form, many=True)
+        return JsonResponse({"data": serialzier.data, "errors": False, "message": "ok"}, safe=False, status=200)
 
 
 

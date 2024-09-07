@@ -1,6 +1,6 @@
 from django.urls import path
 from .order_get_validate import OrderValudeView , MuddatliTOlovOrderView , DastafkaOrderView
-from .views import OrderCreateAPIView , STSCashbackMobile , VazvratProductView
+from .views import OrderCreateAPIView , STSCashbackMobile , VazvratProductView , ContactFormApiveiws
 
 from ordersts.ordermobile.views import CashbackMobile ,  UserMobileToken 
 from .cupon import CoponPostApiviews
@@ -18,6 +18,8 @@ urlpatterns = [
     path("<str:site>/orders/user-order-get/", OrderGetApiviews.as_view(), name="user-order-get"),
     path('<str:site>/vazvrat/orders/',  VazvratProductView.as_view(), name="vazvrat-product"),
     path('<str:site>/cupon/validate/', CoponPostApiviews.as_view(), name='cupon-validate'),
+    path('<str:site>/contact-form/', ContactFormApiveiws.as_view(), name='contact-form'),
+
     # mobile orders
     path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),

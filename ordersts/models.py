@@ -15,6 +15,18 @@ from category.models import MainCategory
 
 
 
+
+
+class ContactForm(models.Model):
+    ism = models.CharField(max_length=30, blank=True)
+    telefon = models.CharField(max_length=25, blank=True)
+    tex = models.TextField(blank=True)
+
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
 class CategoryProduct(models.Model):
     category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL,blank=True, null=True)
     status = models.BooleanField(default=False, blank=True)
