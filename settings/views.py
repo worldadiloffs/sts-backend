@@ -1,8 +1,22 @@
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse
-from .serialziers import PageContentSerialzier, SitePageSerialzier , SettingsSeriazlier , PaymentSerialzier , DeliveryServiceSeriazleir
-from .models import PageContent, SitePage , SiteSettings , PaymentMethod , DeliveryService, Shaharlar , Tumanlar
+from .serialziers import PageContentSerialzier, SitePageSerialzier , SettingsSeriazlier , PaymentSerialzier , DeliveryServiceSeriazleir , ServisPageSerialzier
+from .models import PageContent, SitePage , SiteSettings , PaymentMethod , DeliveryService, Shaharlar , Tumanlar , ServisPage
+
+
+
+class PageContentApiviews(APIView):
+    def get(self, request, site):
+        if site == 'sts':
+            page_content = PageContent.objects.filter(site_sts=True, status=True).first()
+        if site == 'rts':
+            page_content = PageContent.objects.filter(site_rts=True, status=True).first()
+        serialzier = PageContentSerialzier(page_content)
+        return JsonResponse(
+            {"data": serialzier.data, "errors": True, "message": ""}, safe=False
+        )
+
 
 
 class PageApiviews(APIView):

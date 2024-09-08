@@ -1,8 +1,14 @@
 from rest_framework import serializers
 from .models import (Shaharlar, SiteSettings , CardGril ,  PageContent , 
-                     SitePage , PaymentMethod , SocialNetwork , DeliveryService, TolovUsullar, Tumanlar, Dokon )
+                     SitePage , PaymentMethod , SocialNetwork , DeliveryService, TolovUsullar, Tumanlar, Dokon , ServisPage )
 
 from config.settings import site_name
+
+class ServisPageSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = ServisPage
+        fields = "__all__"
+
 
 class DeliveryServiceSeriazleir(serializers.ModelSerializer):
     class Meta:
