@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (CardGril , PageContent  , PaymentMethod , DeliveryService, Shaharlar ,
                       SiteSettings , PaymentMethod , OrderSetting  , SitePage , SocialNetwork , 
-                      CountSettings, Tumanlar, TolovUsullar, Dokon, MuddatliTolovxizmatlar, CashBackSetting)
+                      CountSettings, Tumanlar, TolovUsullar, Dokon, MuddatliTolovxizmatlar, CashBackSetting, ServisPage)
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 from modeltranslation.admin import TranslationAdmin
@@ -9,7 +9,12 @@ from modeltranslation.admin import TranslationAdmin
 from django.db.models.fields.json import JSONField
 from jsoneditor.forms import JSONEditor
 
+@admin.register(ServisPage)
+class ServisPageAdmin(TranslationAdmin):
+    list_display = ("title",  "status", "site_sts", "site_rts",)
+    search_fields = ("title",)
 
+    
 
 
 admin.site.register(Tumanlar)

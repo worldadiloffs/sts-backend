@@ -18,6 +18,25 @@ from category.models import MainCategory , SubCategory
 # from product.serialzier import doller_funtion, kredit_cal
 
 
+class ServisPage(models.Model):
+    title = models.CharField(max_length=200, verbose_name=_('Sarlavchi'))
+    image = models.ImageField(upload_to='servis_page/', verbose_name=_('image'))
+    content = RichTextField(verbose_name=_('Sarlavchi matn'))
+    status = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, blank=True)
+
+
+    def __str__(self):
+        return self.title
+    
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+
 
 class CashBackSetting(models.Model):
     category_tavar = models.OneToOneField(SubCategory, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_('Tavar turi'))

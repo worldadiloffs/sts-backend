@@ -14,7 +14,11 @@ from category.models import MainCategory
 
 
 
-
+{
+    "ism": str,
+    "telefon": str,
+    "text": str
+}
 
 
 class ContactForm(models.Model):
