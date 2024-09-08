@@ -6,13 +6,13 @@ from .models import PageContent, SitePage , SiteSettings , PaymentMethod , Deliv
 
 
 
-class PageContentApiviews(APIView):
+class ServisPageApiviews(APIView):
     def get(self, request, site):
         if site == 'sts':
-            page_content = PageContent.objects.filter(site_sts=True, status=True).first()
+            page_content = ServisPage.objects.filter(site_sts=True, status=True).first()
         if site == 'rts':
-            page_content = PageContent.objects.filter(site_rts=True, status=True).first()
-        serialzier = PageContentSerialzier(page_content)
+            page_content = ServisPage.objects.filter(site_rts=True, status=True).first()
+        serialzier = ServisPageSerialzier(page_content)
         return JsonResponse(
             {"data": serialzier.data, "errors": True, "message": ""}, safe=False
         )
@@ -63,7 +63,7 @@ class SiteSettingsApiviews(APIView):
 
 
 class PageContentApiviews(APIView):
-    def get(self, request, site):
+    def get(self, request, site, slug):
         if site == 'sts':
             page_content = PageContent.objects.filter(site_sts=True, slug=slug).first()
         if site == 'rts':
