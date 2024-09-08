@@ -63,7 +63,7 @@ class SiteSettingsApiviews(APIView):
 
 
 class PageContentApiviews(APIView):
-    def get(self, request, site, slug):
+    def get(self, request, site):
         if site == 'sts':
             page_content = PageContent.objects.filter(site_sts=True, slug=slug).first()
         if site == 'rts':
