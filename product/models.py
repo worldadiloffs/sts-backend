@@ -42,7 +42,7 @@ class Product(models.Model):
     
     # product_status = models.BooleanField(default=False, blank=True)
     
-    # short_description = RichTextField(blank=True, null=True)
+    short_description = RichTextField(blank=True, null=True)
 
     short_content = models.JSONField(blank=True, null=True)
     
