@@ -13,4 +13,3 @@ def run():
         product.counts = i.quantity
         product.material_nomer = i.material_nomer 
         product.save()
-

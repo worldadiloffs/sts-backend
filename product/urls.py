@@ -1,7 +1,7 @@
 from django.urls import path 
 from .views import  CategoryProductViews , ProductDetailApiview , SearchProductView , CartProductApiview 
 from .productPost import ProductPost , ProductUpdateAPiview
-from importdata.views import ProductImportApiviews
+from importdata.views import ProductImportApiviews , ImportGet
 
 app_name = "product"
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('<str:site>/search/', SearchProductView.as_view(), name='search-product'),
     path('<str:site>/cart-product/', CartProductApiview.as_view()),
     path('import-product/', ProductImportApiviews.as_view()),
+    path('import-get/', ImportGet.as_view()),
 ]

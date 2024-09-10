@@ -1,6 +1,8 @@
 from rest_framework.views import APIView 
 from product.models import Product
 from rest_framework.response import Response
+from .models import ImportProduct
+import requests
 #    product.product_name = i.name
 #         product.articul = i.articul
 #         product.price = 1
@@ -24,5 +26,24 @@ class ProductImportApiviews(APIView):
             product.material_nomer = material_nomer
             product.save()
             return Response({'message': 'Product created successfully'}, status=201)
+        
+
+
+
+class ImportGet(APIView):
+    def get(self, request):
+        import_prod = ImportProduct.objects.all()
+        for i in import_prod:
+            if i.name is not None or i.name:
+                if int(i.quantity) >10:
+                    i.quantity = 10
+                product = Product()
+                product.product_name = i.name
+                product.articul = i.articul
+                product.price = 1
+                product.counts = i.quantity
+                product.material_nomer = i.material_nomer
+                product.save()
+
         
 
