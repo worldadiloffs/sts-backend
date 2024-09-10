@@ -215,9 +215,9 @@ else:
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "sitestsapp",
-        "USER": "sitestsapp",
-        "PASSWORD": "azamat1796hikvision",
+        "NAME": "azamatdevblog",
+        "USER": "azamatdevhik",
+        "PASSWORD": "createdatastshik123",
         "HOST": "127.0.0.1",
         "PORT": "5432",
         'TEST': {
