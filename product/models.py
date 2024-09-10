@@ -205,7 +205,7 @@ class Product(models.Model):
             self.short_content_uz = self.sub_category.product_content_uz
         if not self.slug or self.slug is None or self.slug == "":
             if self.product_name:
-                self.name = self.product_name.strip()
+                self.product_name = self.product_name.strip()
             if not self.slug:
                 self.slug = self.make_slug(self.product_name)
         super(Product, self).save(*args, **kwargs)
