@@ -24,7 +24,7 @@ class Product(models.Model):
     
     material_nomer = models.BigIntegerField(blank=True, null=True, unique=True, editable=False)
     
-    slug = models.SlugField(unique=True, null=True, allow_unicode=True, editable=False, blank=True)
+    slug = models.SlugField(unique=True, null=True, allow_unicode=True, editable=False, blank=True , max_length=400)
     
     articul = models.PositiveIntegerField(blank=True , null=True, unique=True)
     
