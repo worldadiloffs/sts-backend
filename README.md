@@ -35,4 +35,8 @@ ALTER DATABASE azamatdevblog OWNER TO azamatdevhik;
 
 
  ctrl shift p
+
+
+
+ new_password : azamat1796hik@mail
  
