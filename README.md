@@ -13,18 +13,21 @@ git stash push --include-untracked
 
 sudo -u postgres psql
 
-CREATE DATABASE hikvisionsts;
-CREATE USER azamatdev WITH PASSWORD 'azamat1796hik';
 
-ALTER ROLE azamatdev SET client_encoding TO 'utf8';
+CREATE DATABASE azamatdevblog;
 
-ALTER ROLE azamatdev SET default_transaction_isolation TO 'read committed';
 
-ALTER ROLE azamatdev SET timezone TO 'UTC';
+CREATE USER azamatdevhik WITH PASSWORD 'createdatastshik123';
 
-GRANT ALL PRIVILEGES ON DATABASE hikvisionsts TO azamatdev;
+ALTER ROLE azamatdevhik SET client_encoding TO 'utf8';
 
-ALTER DATABASE hikvisionsts OWNER TO azamatdev;
+ALTER ROLE azamatdevhik SET default_transaction_isolation TO 'read committed';
+
+ALTER ROLE azamatdevhik SET timezone TO 'UTC';
+
+GRANT ALL PRIVILEGES ON DATABASE azamatdevblog TO azamatdevhik;
+
+ALTER DATABASE azamatdevblog OWNER TO azamatdevhik;
 
 
  "phone": 998951234568

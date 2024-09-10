@@ -10,6 +10,9 @@ from django.utils.html import format_html
 
 
 
+
+
+
 class Banner(models.Model):
     title = models.CharField(max_length=200, blank=True , verbose_name=_("Banner uchun nom"))
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
@@ -120,5 +123,3 @@ class HomePageCategory(models.Model):
         self.title = self.title.title() if self.title else self.title
         self.slug = self.make_slug(self.title)
         super().save(*args, **kwargs)
-
-
