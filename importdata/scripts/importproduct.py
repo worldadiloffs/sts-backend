@@ -11,7 +11,7 @@ def run():
                 if i.quantity > 10:
                     i.quantity  = 10
                 product = Product()
-                product.product_name = i.name[:500]
+                product.product_name = i.name
                 product.articul = i.articul
                 product.price = 1
                 product.counts = i.quantity
