@@ -208,7 +208,7 @@ class Product(models.Model):
                 self.product_name = self.product_name.strip()
             if not self.slug:
                 self.slug = self.make_slug(self.product_name[:50])
-        super(self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 
