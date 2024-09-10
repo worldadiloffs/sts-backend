@@ -34,9 +34,27 @@ ALTER DATABASE azamatdevblog OWNER TO azamatdevhik;
  password: "azamat1796"
 
 
+
+
+ sitega teksor bo'ganish lead uchun 
+
+
+
+
  ctrl shift p
 
 
 
  new_password : azamat1796hik@mail
+
+
+
+
+908080796
+Anvarsts@#123hik
+
+
+901216721
+Bahodirsts@#321hik
  
+

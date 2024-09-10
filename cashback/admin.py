@@ -10,7 +10,7 @@ from .models import CashbackKard
 
 @admin.register(CashbackKard)
 class CashbackKardAdmin(admin.ModelAdmin):
-    readonly_fields = ('card','balance', 'get_user', 'site_sts', 'site_rts',)
+    readonly_fields = ('card','balance', 'get_user', 'site_sts', 'site_rts', 'hisobot',)
     list_display = ('id','card','balance', 'get_user', 'site_sts', 'site_rts',)
 
 
