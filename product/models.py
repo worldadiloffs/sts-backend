@@ -20,7 +20,7 @@ class Image(models.Model):
 
 class Product(models.Model):
     """ product models integration crm """
-    product_name = models.CharField(max_length=500, blank=True)
+    product_name = models.CharField( max_length=500, blank=True)
     
     material_nomer = models.BigIntegerField(blank=True, null=True, unique=True, editable=False)
     
@@ -174,8 +174,8 @@ class Product(models.Model):
         ordering = ["pk", "product_name"]
 
     def __str__(self):
-        return self.product_name
-    
+        return self.product_name[0:50]
+     
     def category_obj(self):
         if self.super_category is not None:
             return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
@@ -188,7 +188,7 @@ class Product(models.Model):
 
         while cls.objects.filter(slug=slug).exists():
             slug = slugify(
-                product_name + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
+                product_name[:1000] + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
         return slug 
     
@@ -204,15 +204,10 @@ class Product(models.Model):
             self.short_content_ru = self.sub_category.product_content_ru
             self.short_content_uz = self.sub_category.product_content_uz
         if not self.slug or self.slug is None or self.slug == "":
-            self.slug = slugify(self.product_name, allow_unicode=True)
-            qs_exists = Product.objects.filter(
-                slug=self.slug).exists()
-            if qs_exists:
-                self.slug = create_shortcode(self)
-        if self.counts == 0:
-            self.available = False
-        if self.counts > 0:
-            self.available = True
+            if self.product_name:
+                self.name = self.product_name.strip()
+            if not self.slug:
+                self.slug = self.make_slug(self.product_name)
         super(Product, self).save(*args, **kwargs)
 
 
