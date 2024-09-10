@@ -50,11 +50,11 @@ ALTER DATABASE azamatdevblog OWNER TO azamatdevhik;
 
 
 
-908080796
+998908080796
 Anvarsts@#123hik
 
 
-901216721
+998901216721
 Bahodirsts@#321hik
  
 
