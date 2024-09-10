@@ -20,7 +20,7 @@ class Image(models.Model):
 
 class Product(models.Model):
     """ product models integration crm """
-    product_name = models.CharField(max_length=400, blank=True)
+    product_name = models.CharField(max_length=500, blank=True)
     
     material_nomer = models.BigIntegerField(blank=True, null=True, unique=True, editable=False)
     
