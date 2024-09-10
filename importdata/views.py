@@ -40,9 +40,8 @@ class ProductImportApiviews(APIView):
 
 class ImportGet(APIView):
     def get(self, request):
-        product = Product.objects.all()[:50]
-        serializer = ProductListMiniSerilizers(product, many=True)
-        return Response(serializer.data)
+        serializer = list(Product.objects.all().order_by("id").values("id", "product_name", "articul", "price", "counts", "slug"))
+        return Response({"data": serializer})
 
         
 
