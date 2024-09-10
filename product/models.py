@@ -188,7 +188,7 @@ class Product(models.Model):
 
         while cls.objects.filter(slug=slug).exists():
             slug = slugify(
-                product_name[:1000] + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
+                product_name + "-" + "".join(random.choices(letters, k=6)), allow_unicode=False
             )
         return slug 
     
