@@ -91,7 +91,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "short_description",
         "full_description", 
         # "short_content",
-        "content",
+        # "content",
         "xitlar",
         "news",
         "banner_add",
