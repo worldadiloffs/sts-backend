@@ -40,21 +40,9 @@ class ProductImportApiviews(APIView):
 
 class ImportGet(APIView):
     def get(self, request):
-        for i in ImportProduct.objects.all():
-            if i.name is not None:
-                materila_bool = Product.objects.filter(material_nomer=i.material_nomer).exists()
-                articul_bool = Product.objects.filter(articul=i.articul).exists()
-                if not(materila_bool) and not(articul_bool):
-                    if i.quantity > 10:
-                        i.quantity  = 10
-                    product = Product()
-                    product.product_name = i.name[:500]
-                    product.articul = i.articul
-                    product.price = 1
-                    product.counts = i.quantity
-                    product.material_nomer = i.material_nomer 
-                    product.site_sts = True  # site status true
-                    product.save()
+        product = Product.objects.all()[:50]
+        serializer = ProductListMiniSerilizers(product, many=True)
+        return Response(serializer.data)
 
         
 
