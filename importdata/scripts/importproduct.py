@@ -16,5 +16,5 @@ def run():
                 product.price = 1
                 product.counts = i.quantity
                 product.material_nomer = i.material_nomer 
-                product.site_sts = True  # site status true
+                product.site_rts = True  # site status true
                 product.save()
