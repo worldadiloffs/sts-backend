@@ -3,7 +3,7 @@ from importdata.models import ImportProduct
 
 
 def run():
-    for i in ImportProduct.objects.all():
+    for i in ImportProduct.objects.all()[1874:]:
         if i.name is not None:
             materila_bool = Product.objects.filter(material_nomer=i.material_nomer).exists()
             articul_bool = Product.objects.filter(articul=i.articul).exists()
