@@ -8,8 +8,6 @@ def run():
             materila_bool = Product.objects.filter(material_nomer=i.material_nomer).exists()
             articul_bool = Product.objects.filter(articul=i.articul).exists()
             if not(materila_bool) and not(articul_bool):
-                if i.quantity > 10:
-                    i.quantity  = 10
                 product = Product()
                 product.product_name = i.name
                 product.articul = i.articul
