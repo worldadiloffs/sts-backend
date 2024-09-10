@@ -88,7 +88,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "main_category",
         "sub_category",
         "product_video",
-        "short_description"
+        "short_description",
         "full_description", 
         # "short_content",
         "content",
