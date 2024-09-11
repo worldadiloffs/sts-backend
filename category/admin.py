@@ -137,6 +137,7 @@ class SuperCategoryAdmin(TranslationAdmin):
         if user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(rts_site=True)
+    readonly_fields = ("sts_site", "rts_site",)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
     list_editable = ("status", "sts_site", "rts_site",)
     search_fields = ("super_name","id", )
