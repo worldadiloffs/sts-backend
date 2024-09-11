@@ -48,6 +48,13 @@ class SubCategoryAdmin(TranslationAdmin):
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
+
+    fileds = [
+        "rating",
+        "mainCategory",
+        "sub_name",
+        "sub_image",
+    ]
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
