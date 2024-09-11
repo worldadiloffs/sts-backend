@@ -14,9 +14,9 @@ class SubCategoryAdmin(TranslationAdmin):
         # Custom logic before saving the object
         if not change:  # If the object is being created (not edited)
             if user.site_sts:
-                obj.site_sts = True
+                obj.sts_site = True
             if user.site_rts:
-                obj.site_rts = True
+                obj.rts_site = True
         # Save the object
         super().save_model(request, obj, form, change)
 
@@ -31,17 +31,17 @@ class SubCategoryAdmin(TranslationAdmin):
                 kwargs["queryset"] = MainCategory.objects.filter(sts_site=True, rts_site=True)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # def get_queryset(self, request):
-    #     user = request.user
-    #     if user.site_sts:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(sts_site=True)
-    #     if user.site_rts:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(rts_site=True)
-    #     else:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter()
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(sts_site=True)
+        if user.site_rts:
+            qs = super().get_queryset(request)
+            return qs.filter(rts_site=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs.filter()
     readonly_fields = ("sts_site", "rts_site","product_description","product_content")
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
     readonly_fields = ("sub_meta","seo_cub", "sts_site", "rts_site",)
