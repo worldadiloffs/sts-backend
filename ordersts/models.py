@@ -11,6 +11,7 @@ from xodimlar.models import Xodim
 from cashback.models import CashbackKard
 from config.settings import site_name
 from category.models import MainCategory
+from datetime import datetime
 
 
 
@@ -25,9 +26,13 @@ class ContactForm(models.Model):
     ism = models.CharField(max_length=30, blank=True)
     telefon = models.CharField(max_length=25, blank=True)
     tex = models.TextField(blank=True)
+    created_at = models.DateTimeField(blank=True, null=True)
 
 
     def save(self, *args, **kwargs):
+        if self.created_at is None:
+            self.created_at = datetime.now()
+
         super().save(*args, **kwargs)
 
 
