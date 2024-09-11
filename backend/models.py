@@ -17,9 +17,11 @@ class Sites(models.Model):
         if self.status == 'rts':
             user = User.objects.get(id=self.user_id)
             user.site_rts = True
+            user.site_sts = False
             user.save()
         if self.status == 'sts':
             user = User.objects.get(id=self.user_id)
             user.site_sts = True
+            user.site_rts = False
             user.save()
         super().save(*args, **kwargs)
