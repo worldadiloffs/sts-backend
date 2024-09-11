@@ -42,7 +42,7 @@ class SubCategoryAdmin(TranslationAdmin):
         else:
             qs = super().get_queryset(request)
             return qs.filter()
-    readonly_fields = ("sts_site", "rts_site",)
+    readonly_fields = ("sts_site", "rts_site","product_description","product_content")
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
     readonly_fields = ("sub_meta","seo_cub", "sts_site", "rts_site",)
     list_editable = ( "sts_site", "rts_site",)
