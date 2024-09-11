@@ -194,12 +194,12 @@ class Product(models.Model):
     
 
     def save(self, *args, **kwargs):
-        # if self.main_category is not None:
-        #     if not (MainCategory.objects.filter(id=self.main_category.pk).first().superCategory.pk == self.super_category.pk):
-        #         raise  ValueError({"data": "errors"})
-        # if self.sub_category is not None:
-        #     if not (SubCategory.objects.filter(id=self.sub_category.pk).first().mainCategory.pk == self.main_category.pk):
-        #         raise  ValueError({"data": "errors"})
+        if self.main_category is not None:
+            if not (MainCategory.objects.filter(id=self.main_category.pk).first().superCategory.pk == self.super_category.pk):
+                raise  ValueError({"data": "errors"})
+        if self.sub_category is not None:
+            if not (SubCategory.objects.filter(id=self.sub_category.pk).first().mainCategory.pk == self.main_category.pk):
+                raise  ValueError({"data": "errors"})
         # if self.sub_category is not None and self.short_content is None:
         #     self.short_content_ru = self.sub_category.product_content_ru
         #     self.short_content_uz = self.sub_category.product_content_uz
