@@ -49,7 +49,7 @@ class SubCategoryAdmin(TranslationAdmin):
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
 
-    fileds = [
+    fields = [
         "rating",
         "mainCategory",
         "sub_name",
