@@ -20,6 +20,9 @@ class SubCategoryAdmin(TranslationAdmin):
         # Save the object
         super().save_model(request, obj, form, change)
 
+
+    
+
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         user = request.user
         if db_field.name == "mainCategory":
@@ -48,6 +51,9 @@ class SubCategoryAdmin(TranslationAdmin):
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
+    ordering = ("-id")
+    list_max_show_all = 10
+    list_per_page = 10
 
     fields = [
         "rating",
