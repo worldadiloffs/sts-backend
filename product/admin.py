@@ -22,6 +22,7 @@ class ProductsModelAdmin(TranslationAdmin):
             # Tanlangan asosiy modelga qarab querysetni filtrlash
             parent_instance = getattr(request, 'main_category', None)
             if parent_instance:
+                print(parent_instance)
                 kwargs['queryset'] = SubCategory.objects.filter(mainCategory__id=parent_instance)
             else:
                 kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
