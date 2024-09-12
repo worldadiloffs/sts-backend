@@ -31,7 +31,7 @@ class ProductsModelAdmin(TranslationAdmin):
     
     def get_form(self, request, obj=None, **kwargs):
         # Tanlangan asosiy model instanceini olish
-        request.main_category = obj.sub_category if obj else None
+        request.main_category = obj.main_category if obj else None
         return super().get_form(request, obj, **kwargs)
 
     readonly_fields = ('site_sts', 'site_rts')
