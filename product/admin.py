@@ -23,7 +23,7 @@ class ProductsModelAdmin(TranslationAdmin):
             parent_instance = getattr(request, 'main_category', None)
             if parent_instance:
                 print(parent_instance)
-                kwargs['queryset'] = SubCategory.objects.filter(mainCategory__id=parent_instance)
+                kwargs['queryset'] = SubCategory.objects.filter(mainCategory=parent_instance)
             else:
                 kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -31,7 +31,7 @@ class ProductsModelAdmin(TranslationAdmin):
     
     def get_form(self, request, obj=None, **kwargs):
         # Tanlangan asosiy model instanceini olish
-        request.sub_category = obj.sub_category if obj else None
+        request.main_category = obj.foreign_key_field if obj else None
         return super().get_form(request, obj, **kwargs)
 
     readonly_fields = ('site_sts', 'site_rts')
