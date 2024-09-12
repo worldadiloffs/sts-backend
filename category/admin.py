@@ -51,7 +51,7 @@ class SubCategoryAdmin(TranslationAdmin):
     list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
-    ordering = ("-id")
+    ordering = ("-id",)
     list_max_show_all = 10
     list_per_page = 10
 
