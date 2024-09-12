@@ -16,9 +16,16 @@ class DeliveryServiceSeriazleir(serializers.ModelSerializer):
         fields = "__all__"
 
 class SocialNetworkSerialzier(serializers.ModelSerializer):
+    icon = serializers.SerializerMethodField()
     class Meta:
         model = SocialNetwork
         fields = "__all__"
+
+    def get_icon(self, obj):
+        logo = obj.icon
+        if logo:
+            return site_name + logo.url
+        return None
 
 
 class PaymentSerialzier(serializers.ModelSerializer):
