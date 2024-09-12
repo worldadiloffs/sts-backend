@@ -13,7 +13,7 @@ class GalleryInlines(admin.TabularInline):
     max_num = 6
 
 
-
+@admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -29,6 +29,7 @@ class ProductsModelAdmin(TranslationAdmin):
 
     
     def get_form(self, request, obj=None, **kwargs):
+        print(obj.main_category)
         # Tanlangan asosiy model instanceini olish
         request.main_category = obj.main_category if obj else None
         return super().get_form(request, obj, **kwargs)
@@ -150,5 +151,3 @@ class ProductsModelAdmin(TranslationAdmin):
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
-
-@admin.register(Product)
