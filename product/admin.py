@@ -94,8 +94,10 @@ class ProductsModelAdmin(TranslationAdmin):
         "site_sts",
         "site_rts",
         "status",
+        "super_category",
+        "main_category",
     ]
-    raw_id_fields=("main_category", "super_category", "sub_category",)
+    raw_id_fields=("main_category_main_name", "super_category_super_name",)
 
     fields = [
         "product_name",
