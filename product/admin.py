@@ -17,6 +17,22 @@ class GalleryInlines(admin.TabularInline):
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'sub_category':
+            # Tanlangan asosiy modelga qarab querysetni filtrlash
+            parent_instance = getattr(request, 'main_category', None)
+            if parent_instance:
+                kwargs['queryset'] = SubCategory.objects.filter(parent=parent_instance)
+            else:
+                kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+    def get_form(self, request, obj=None, **kwargs):
+        # Tanlangan asosiy model instanceini olish
+        request.main_category = obj.main_category if obj else None
+        return super().get_form(request, obj, **kwargs)
+
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
