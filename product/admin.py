@@ -14,7 +14,6 @@ class GalleryInlines(admin.TabularInline):
 
 
 
-@admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -152,5 +151,4 @@ class ProductsModelAdmin(TranslationAdmin):
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 
-    
-
+@admin.register(Product)
