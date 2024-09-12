@@ -16,24 +16,17 @@ class GalleryInlines(admin.TabularInline):
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'sub_category':
-            # Tanlangan asosiy modelga qarab querysetni filtrlash
-            parent_instance = getattr(request, 'main_category', None)
-            if parent_instance:
-                print(parent_instance)
-                kwargs['queryset'] = SubCategory.objects.filter(mainCategory=parent_instance)
-            else:
-                kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
+    #     if db_field.name == 'sub_category':
+    #         # Tanlangan asosiy modelga qarab querysetni filtrlash
+    #         parent_instance = getattr(request, 'main_category', None)
+    #         if parent_instance:
+    #             kwargs['queryset'] = SubCategory.objects.filter(mainCategory=parent_instance)
+    #         else:
+    #             kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
+    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
     
-    def get_form(self, request, obj=None, **kwargs):
-        print(obj.main_category)
-        # Tanlangan asosiy model instanceini olish
-        request.main_category = obj.main_category if obj else None
-        return super().get_form(request, obj, **kwargs)
-
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
@@ -46,24 +39,29 @@ class ProductsModelAdmin(TranslationAdmin):
         # Save the object
         super().save_model(request, obj, form, change)  
 
-    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #     user = request.user
-    #     if user.site_sts:
-    #         if db_field.name == "main_category":
-    #             kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
-    #         if db_field.name == "super_category":
-    #             kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
-    #         if db_field.name == "sub_category":
-    #             kwargs["queryset"] = SubCategory.objects.filter(sts_site=True)
-    #         return super().formfield_for_foreignkey(db_field, request, **kwargs)
-    #     if user.site_rts:
-    #         if db_field.name == "main_category":
-    #             kwargs["queryset"] = MainCategory.objects.filter(rts_site=True)
-    #         if db_field.name == "super_category":
-    #             kwargs["queryset"] = SuperCategory.objects.filter(rts_site=True)
-    #         if db_field.name == "sub_category":
-    #             kwargs["queryset"] = SubCategory.objects.filter(rts_site=True)
-    #         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        user = request.user
+        if user.site_sts:
+            if db_field.name == "main_category":
+                kwargs["queryset"] = MainCategory.objects.filter(sts_site=True)
+            if db_field.name == "super_category":
+                kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
+            if db_field.name == "sub_category":
+               # Tanlangan asosiy modelga qarab querysetni filtrlash
+                parent_instance = getattr(request, 'main_category', None)
+                if parent_instance:
+                    kwargs['queryset'] = SubCategory.objects.filter(mainCategory=parent_instance)
+                else:
+                    kwargs['queryset'] = SubCategory.objects.filter(sts_site=True)  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
+        if user.site_rts:
+            if db_field.name == "main_category":
+                kwargs["queryset"] = MainCategory.objects.filter(rts_site=True)
+            if db_field.name == "super_category":
+                kwargs["queryset"] = SuperCategory.objects.filter(rts_site=True)
+            if db_field.name == "sub_category":
+                kwargs["queryset"] = SubCategory.objects.filter(rts_site=True)
+            return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
     def get_queryset(self, request):
         user = request.user
@@ -151,3 +149,8 @@ class ProductsModelAdmin(TranslationAdmin):
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
+
+    def get_form(self, request, obj=None, **kwargs):
+        # Tanlangan asosiy model instanceini olish
+        request.main_category = obj.main_category if obj else None
+        return super().get_form(request, obj, **kwargs)
