@@ -157,3 +157,4 @@ class ProductsModelAdmin(TranslationAdmin):
     #     return super().get_form(request, obj, **kwargs)
 
 
+admin.site.register(Product, ProductsModelAdmin)
