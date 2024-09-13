@@ -121,13 +121,14 @@ class ProductsModelAdmin(TranslationAdmin):
 
     search_fields = [
         "product_name",
-        "price",
+        "articul",
         "super_category__super_name",
         "main_category__main_name",
         "sub_category__sub_name",
     ]
     list_editable = [
         "counts",
+        "price",
         "site_sts",
         "site_rts",
         "status",
