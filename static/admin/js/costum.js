@@ -9,19 +9,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (superCategoryId) {
             fetch(`/get_main_categories/?super_category=${superCategoryId}`)
-                .then(response => response.json())
-                .then(data => {
-                    var options = '<option value="" selected="selected">---------</option>';
-                    data.forEach(function (item) {
-                        options += `<option value="${item.id}">${item.name}</option>`;
-                    });
-                    mainCategoryField.innerHTML = options;
+            .then(response => response.json())
+            .then(data => {
+                var options = '<option value="" selected="selected">---------</option>';
+                data.forEach(function (item) {
+                    options += `<option value="${item.id}">${item.name}</option>`;
                 });
+                mainCategoryField.innerHTML = options;
+            })
+            .catch(error => {
+                console.error('Error fetching main categories:', error);
+            });
+               
+                
+        
         } else {
             mainCategoryField.innerHTML = '<option value="" selected="selected">---------</option>';
             subCategoryField.innerHTML = '<option value="" selected="selected">---------</option>';
         }
     });
+    
 
     mainCategoryField.addEventListener('change', function () {
         var mainCategoryId = this.value;

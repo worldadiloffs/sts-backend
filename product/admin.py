@@ -22,7 +22,7 @@ class ProductAdminForm(forms.ModelForm):
         js = ('admin/js/costum.js',)
 
 
-@admin.register(Product)
+# @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
     form = ProductAdminForm
     readonly_fields = ('site_sts', 'site_rts')
@@ -151,7 +151,9 @@ class ProductsModelAdmin(TranslationAdmin):
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
         }
 
-    def get_form(self, request, obj=None, **kwargs):
-        # Tanlangan asosiy model instanceini olish
-        request.main_category = obj.main_category if obj else None
-        return super().get_form(request, obj, **kwargs)
+    # def get_form(self, request, obj=None, **kwargs):
+    #     # Tanlangan asosiy model instanceini olish
+    #     request.main_category = obj.main_category if obj else None
+    #     return super().get_form(request, obj, **kwargs)
+
+
