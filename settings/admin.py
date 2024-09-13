@@ -75,8 +75,9 @@ class OrderSettingAdmin(admin.ModelAdmin):
 
 @admin.register(SocialNetwork)
 class SocialNetworkAdmin(admin.ModelAdmin):
-    list_display = ("id","name",  "site_sts", "site_rts", "status",)
+    list_display = ("id","name", "link", "site_sts", "site_rts", "status",)
     search_fields = ("name",)
+    list_editable = ('link',"status","site_sts", "site_rts",)
     list_filter = ("site_sts", "site_rts", "status",)
 
 
