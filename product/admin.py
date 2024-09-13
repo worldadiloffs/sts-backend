@@ -25,18 +25,6 @@ class ProductAdminForm(forms.ModelForm):
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
     form = ProductAdminForm
-
-    # def formfield_for_foreignkey(self, db_field, request, **kwargs):
-    #     if db_field.name == 'sub_category':
-    #         # Tanlangan asosiy modelga qarab querysetni filtrlash
-    #         parent_instance = getattr(request, 'main_category', None)
-    #         if parent_instance:
-    #             kwargs['queryset'] = SubCategory.objects.filter(mainCategory=parent_instance)
-    #         else:
-    #             kwargs['queryset'] = SubCategory.objects.none()  # Agar tanlanmagan bo'lsa, hech narsa ko'rsatmaymiz
-    #     return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-    
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
@@ -114,8 +102,8 @@ class ProductsModelAdmin(TranslationAdmin):
         "main_category",
         "sub_category",
         "product_video",
-        "short_description",
-        "full_description", 
+        # "short_description",
+        # "full_description", 
         # "short_content",
         # "content",
         "xitlar",
