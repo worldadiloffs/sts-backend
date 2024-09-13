@@ -397,8 +397,6 @@ JAZZMIN_UI_TWEAKS = {
 }
 
 JAZZMIN_SETTINGS = {
-    "custom_js": "admin/js/costum.js",
-
     "site_title": "Backend",
     "site_header": "Backend",
     "site_brand": "Backend",
