@@ -19,7 +19,7 @@ class ProductAdminForm(forms.ModelForm):
         fields = '__all__'
 
     class Media:
-        js = ('admin/js/costom.js',)
+        js = ('admin/js/costum.js',)
 
 
 @admin.register(Product)
