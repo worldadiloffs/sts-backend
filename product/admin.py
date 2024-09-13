@@ -13,8 +13,18 @@ class GalleryInlines(admin.TabularInline):
     max_num = 6
 
 
+class ProductAdminForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    class Media:
+        js = ('admin/js/custom.js',)
+
+
 @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
+    form = ProductAdminForm
 
     # def formfield_for_foreignkey(self, db_field, request, **kwargs):
     #     if db_field.name == 'sub_category':
