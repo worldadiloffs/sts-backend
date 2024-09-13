@@ -81,6 +81,7 @@ class ProductsModelAdmin(TranslationAdmin):
     
     list_max_show_all = 10
     list_per_page = 10
+    ordering = ("-id",)
 
     search_help_text="product nomi category nomi orqali qidirish"
     ordering = ('-id',)
