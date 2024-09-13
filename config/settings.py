@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'modeltranslation',
     
     # admin settings
-    'jazzmin',
+    # 'jazzmin',
     'jsoneditor',
     'django.contrib.admin',
     'import_export',

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var superCategoryField = document.getElementById('id_super_category');
     var mainCategoryField = document.getElementById('id_main_category');
     var subCategoryField = document.getElementById('id_sub_category');
+    console.log(mainCategoryField)
 
     superCategoryField.addEventListener('change', function () {
         var superCategoryId = this.value;
