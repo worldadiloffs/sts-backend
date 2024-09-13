@@ -43,7 +43,7 @@ class ProductsModelAdmin(TranslationAdmin):
         user = request.user
         if user.site_sts:
             if db_field.name == "main_category":
-                kwargs["queryset"] = MainCategory.objects.all()
+                kwargs["queryset"] = MainCategory.objects.filter()
             if db_field.name == "super_category":
                 kwargs["queryset"] = SuperCategory.objects.filter(sts_site=True)
             if db_field.name == "sub_category":

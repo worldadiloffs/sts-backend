@@ -102,7 +102,7 @@ class MainCategoryAdmin(TranslationAdmin):
         user = request.user
         if user.site_sts:
             qs = super().get_queryset(request)
-            return qs.filter(sts_site=True)
+            return qs.all()
         if user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(rts_site=True)
