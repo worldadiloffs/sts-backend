@@ -34,7 +34,7 @@ class BannerAdmin(TranslationAdmin):
             qs = super().get_queryset(request)
             return qs.filter(site_rts=True)
     list_display = ("title", "site_sts", "site_rts", "image_tag", "status",)
-    list_editable = ("site_sts", "site_rts", "status",)
+    list_editable = ("status",)
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts",)
     formfield_overrides = {
@@ -75,7 +75,7 @@ class HomePageCategoryAdmin(TranslationAdmin):
             qs = super().get_queryset(request)
             return qs.filter(site_rts=True)
     list_display = ("top", "title", "category",  "status", "site_sts", "site_rts")
-    list_editable = ("status","site_sts", "site_rts")
+    list_editable = ("status",)
     search_fields = ("title",)
     list_filter = ("site_sts", "site_rts", "xitlar", "aksiya", "banner_add",)
     list_max_show_all = 10
