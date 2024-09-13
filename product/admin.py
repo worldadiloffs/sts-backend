@@ -134,8 +134,9 @@ class ProductsModelAdmin(TranslationAdmin):
         "status",
     ]
     list_filter = [
-        "site_sts",
-        "site_rts",
+        # "site_sts",
+        # "site_rts",
+        "status",
         "super_category__super_name",
         "main_category__main_name",
         "sub_category__sub_name",
