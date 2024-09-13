@@ -48,7 +48,7 @@ class SubCategoryAdmin(TranslationAdmin):
     readonly_fields = ("sts_site", "rts_site","product_description","product_content")
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
     readonly_fields = ("sub_meta","seo_cub", "sts_site", "rts_site",)
-    list_editable = ( "sts_site", "rts_site",)
+    # list_editable = ( "sts_site", "rts_site",)
     list_filter = ( "sts_site", "rts_site",)
     search_fields = ("sub_name","id",)
     ordering = ("-id",)
@@ -111,7 +111,7 @@ class MainCategoryAdmin(TranslationAdmin):
             return qs.filter()
     readonly_fields = ("sts_site", "rts_site",)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
-    list_editable = ("status", "header_add", "ommabob","sts_site", "rts_site",)
+    list_editable = ("status", "header_add", "ommabob",)
     search_fields = ("main_name","id",)
     list_filter=('sts_site', 'rts_site', 'status',)
     fields = ["rating", "superCategory", "main_name", "main_image", "icon","header_add", "ommabob", "status",]
@@ -153,7 +153,7 @@ class SuperCategoryAdmin(TranslationAdmin):
             return qs.filter(rts_site=True)
     readonly_fields = ("sts_site", "rts_site",)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
-    list_editable = ("status", "sts_site", "rts_site",)
+    list_editable = ("status",)
     search_fields = ("super_name","id", )
     list_filter=('sts_site', 'rts_site', 'status',)
     fields = ["rating","super_name", "category_image", "super_image_content", "icon", "status",]
