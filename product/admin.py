@@ -25,17 +25,17 @@ class ProductAdminForm(forms.ModelForm):
 # @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
     form = ProductAdminForm
-    readonly_fields = ('site_sts', 'site_rts')
-    def save_model(self, request, obj, form, change):
-        user = request.user
-        # Custom logic before saving the object
-        if not change:  # If the object is being created (not edited)
-            if user.site_sts:
-                obj.site_sts = True
-            if user.site_rts:
-                obj.site_rts = True
-        # Save the object
-        super().save_model(request, obj, form, change)  
+    # readonly_fields = ('site_sts', 'site_rts')
+    # def save_model(self, request, obj, form, change):
+    #     user = request.user
+    #     # Custom logic before saving the object
+    #     if not change:  # If the object is being created (not edited)
+    #         if user.site_sts:
+    #             obj.site_sts = True
+    #         if user.site_rts:
+    #             obj.site_rts = True
+    #     # Save the object
+    #     super().save_model(request, obj, form, change)  
 
     # def formfield_for_foreignkey(self, db_field, request, **kwargs):
     #     user = request.user
@@ -61,21 +61,21 @@ class ProductsModelAdmin(TranslationAdmin):
     #             kwargs["queryset"] = SubCategory.objects.filter(rts_site=True)
     #         return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
-    def get_queryset(self, request):
-        user = request.user
-        if user.site_sts:
-            qs = super().get_queryset(request)
-            return qs.filter(site_sts=True)
-        elif user.site_rts:
-            qs = super().get_queryset(request)
-            return qs.filter(site_rts=True)
-        else:
-            qs = super().get_queryset(request)
-            return qs.all()
+    # def get_queryset(self, request):
+    #     user = request.user
+    #     if user.site_sts:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_sts=True)
+    #     elif user.site_rts:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_rts=True)
+    #     else:
+    #         qs = super().get_queryset(request)
+    #         return qs.all()
     
-    formfield_overrides = {
-        JSONField: {'widget': JSONEditor},
-    }
+    # formfield_overrides = {
+    #     JSONField: {'widget': JSONEditor},
+    # }
     
     list_max_show_all = 10
     list_per_page = 10
@@ -140,7 +140,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "main_category__main_name",
         "sub_category__sub_name",
     ]
-    group_fieldsets = True 
+    # group_fieldsets = True 
     # class Media:
     #     js = (
     #         'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
