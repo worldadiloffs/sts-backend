@@ -23,7 +23,7 @@ class ProductAdminForm(forms.ModelForm):
 
 # @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    form = ProductAdminForm
+    # form = ProductAdminForm
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
@@ -141,6 +141,7 @@ class ProductsModelAdmin(TranslationAdmin):
             'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
             'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
             'modeltranslation/js/tabbed_translation_fields.js',
+            'admin/js/custom_admin.js',
         )
         css = {
             'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
