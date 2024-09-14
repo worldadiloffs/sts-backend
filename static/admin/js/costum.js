@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var superCategoryId = this.value;
 
         if (superCategoryId) {
-            fetch(`/get_main_categories/?super_category=${superCategoryId}`)
+            fetch(`/get-main-categories/?super_category=${superCategoryId}`)
             .then(response => response.json())
             .then(data => {
                 var options = '<option value="" selected="selected">---------</option>';
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var mainCategoryId = this.value;
 
         if (mainCategoryId) {
-            fetch(`/get_sub_categories/?main_category=${mainCategoryId}`)
+            fetch(`/get-sub-categories/?main_category=${mainCategoryId}`)
                 .then(response => response.json())
                 .then(data => {
                     var options = '<option value="" selected="selected">---------</option>';

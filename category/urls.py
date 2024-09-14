@@ -6,8 +6,8 @@ app_name = 'category'
 urlpatterns = [
     path('<str:site>/category/category-list/', CategoryListJsonViews.as_view(), name='category-list'),
     path('<str:site>/category/header/', CategoryHeaderViews.as_view()),
-    path('get-main-categories/', get_main_categories, name='get_main_categories'),
-    path('get-sub-categories/', get_sub_categories, name='get_sub_categories'),
+    path('get-main-categories/', get_main_categories, name='get-main-categories'),
+    path('get-sub-categories/', get_sub_categories, name='get-sub-categories'),
 
 ]
 
