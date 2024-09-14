@@ -482,6 +482,7 @@ CKEDITOR_CONFIGS = {
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
+        'licenseKey': "RVRWTnkwcDdPTkVUVWtacER1dkxpUXYxa3dGOE9TeEF2VGVzczVJMG9BQWIzWkpCSnJYY1JJV2oxcWd6UVE9PS1NakF5TkRFd01UUT0=",
         'toolbar_YourCustomToolbarConfig': [
             {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
             {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
