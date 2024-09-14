@@ -2,7 +2,6 @@ from django import forms
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from django.db.models.fields.json import JSONField
-from jsoneditor.forms import JSONEditor
 from product.models import Image, Product 
 # admin.site.register(Testimage)
 from category.models import MainCategory , SuperCategory , SubCategory
@@ -19,7 +18,7 @@ class ProductAdminForm(forms.ModelForm):
         fields = '__all__'
 
     class Media:
-        js = ('admin/js/costum.js',)
+        js = ('admin/js/custom_admin.js',)
 
 
 # @admin.register(Product)
