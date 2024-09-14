@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "drf_spectacular_sidecar",
     "django_extensions",
     "ckeditor",
+    'ckeditor_uploader',
     "corsheaders",
     "axes",
     "silk",
@@ -470,7 +471,8 @@ if int(os.environ.get("test", 1)) == 1:
 
 
 
-
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH="media/uploads/ckeditor/"
 
 
 CKEDITOR_CONFIGS = {

@@ -1,9 +1,3 @@
-/**
- * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
- * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
- */
-
-
 ClassicEditor
     .create(document.querySelector('#editor'), {
         licenseKey: 'RVRWTnkwcDdPTkVUVWtacER1dkxpUXYxa3dGOE9TeEF2VGVzczVJMG9BQWIzWkpCSnJYY1JJV2oxcWd6UVE9PS1NakF5TkRFd01UUT0=',
@@ -13,9 +7,3 @@ ClassicEditor
     .catch(error => {
         console.error('CKEditor ishlashida xatolik yuz berdi:', error);
     });
-
-CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
-};
