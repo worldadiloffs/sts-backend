@@ -17,13 +17,13 @@ class ProductAdminForm(forms.ModelForm):
         model = Product
         fields = '__all__'
 
-    class Media:
-        js = ('admin/js/custom_admin.js',)
+    # class Media:
+    #     js = ('admin/js/custom_admin.js',)
 
 
 # @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    # form = ProductAdminForm
+    form = ProductAdminForm
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
