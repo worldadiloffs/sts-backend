@@ -41,6 +41,7 @@ class Image(models.Model):
         return img_url
     
 
+    @property
     def get_admin_image(self):
         if not self.cloudflare_id:
             return ""
@@ -194,7 +195,7 @@ class Product(models.Model):
     def get_images(self):
         obj =  self.images.first()
         if obj:
-            url = obj.get_admin_image()
+            url = obj.get_admin_image
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(url))
         return ""
 
