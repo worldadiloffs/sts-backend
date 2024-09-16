@@ -9,16 +9,17 @@ from django.core.cache import cache
 
 class ImageSeriazilizer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
+    # get_mobile = serializers.SerializerMethodField()
 
     class Meta:
         model = Image
         fields = "__all__"
 
+
     def get_image(self, obj):
-        image = obj.image
-        if image:
-            return site_name + image.url
-        return None
+        if obj.cloudflare_id:
+            return obj.get_mobile
+        return ""
     
 
     

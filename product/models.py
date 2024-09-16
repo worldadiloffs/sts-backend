@@ -32,7 +32,7 @@ class Image(models.Model):
 
 
 
-
+    @property
     def get_mobile(self):
         if not self.cloudflare_id:
             return ""
