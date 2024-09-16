@@ -27,7 +27,7 @@ class ProductAdminForm(forms.ModelForm):
 
 # @admin.register(Product)
 class ProductsModelAdmin(TranslationAdmin): 
-    form = ProductAdminForm
+    # form = ProductAdminForm
     readonly_fields = ('site_sts', 'site_rts')
     def save_model(self, request, obj, form, change):
         user = request.user
@@ -88,8 +88,8 @@ class ProductsModelAdmin(TranslationAdmin):
         "counts",
         "category_obj",
         "price",
-        # "image_tag",
-        "get_images",
+        "image_tag",
+        # "get_images",
         "site_sts",
         "site_rts",
         "status",
@@ -121,9 +121,9 @@ class ProductsModelAdmin(TranslationAdmin):
     search_fields = [
         "product_name",
         "articul",
-        "super_category__super_name",
-        "main_category__main_name",
-        "sub_category__sub_name",
+        # "super_category__super_name",
+        # "main_category__main_name",
+        # "sub_category__sub_name",
     ]
     list_editable = [
         "counts",
