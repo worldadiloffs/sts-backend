@@ -25,7 +25,7 @@ class ImageSeriazilizer(serializers.ModelSerializer):
     def get_image(self, obj):
         image = obj.cloudflare_id
         if image:
-            return obj.get_admin_image
+            return obj.get_mobile
         return None
     
 
