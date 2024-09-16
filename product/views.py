@@ -1,4 +1,6 @@
 from rest_framework.views import APIView
+
+from product.servisses import upload_image_to_cloudflare
 from .serialzier import (
     ImagePostSeriazilizer,
     ProductListMiniSerilizers,
@@ -30,6 +32,18 @@ from .serialzier import kredit_cal
 
 from settings.models import MuddatliTolovxizmatlar
 from django.core.cache import cache
+
+
+class ImageServis(APIView):
+    def get(self, request):
+        images = Image.objects.all()
+        for i in images:
+            if i.cloudflare_id is None and i.image is not None:
+                cload_id = upload_image_to_cloudflare(i.image.file)
+                i.cloudflare_id = cload_id
+                i.save()
+                
+        return JsonResponse({"message": "Images uploaded to Cloudflare successfully."}, status=200)
 
 
 class ProductDetailApiview(APIView):
