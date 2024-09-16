@@ -35,7 +35,7 @@ class Image(models.Model):
     @property
     def get_mobile(self):
         if not self.cloudflare_id:
-            return ""
+            return None
         cloudflare_id = self.cloudflare_id
         img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
         return img_url

@@ -6,26 +6,19 @@ from settings.models import OrderSetting
 
 from django.core.cache import cache
 
-#  cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
-#     product = models.ForeignKey(
-#         "product.Product", models.SET_NULL, null=True, related_name="images"
-#     )
-#     image = 
-
 
 class ImageSeriazilizer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
-    # get_mobile = serializers.SerializerMethodField()
+    get_mobile = serializers.SerializerMethodField()
 
     class Meta:
         model = Image
-        fields = ("id", "image", "product", "cloudflare_id","get_mobile",)
-
+        fields = "__all__"
 
     def get_image(self, obj):
-        image = obj.cloudflare_id
+        image = obj.image
         if image:
-            return obj.get_mobile
+            return site_name + image.url
         return None
     
 
