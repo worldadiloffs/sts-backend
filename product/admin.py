@@ -6,6 +6,10 @@ from product.models import Image, Product
 # admin.site.register(Testimage)
 from category.models import MainCategory , SuperCategory , SubCategory
 
+@admin.register(Image)
+class ImagesAdmin(admin.ModelAdmin):
+    list_display = ('display_image_admin', 'product', 'title', 'cloudflare_id',)
+
 
 class GalleryInlines(admin.TabularInline):
     model = Image
