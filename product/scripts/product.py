@@ -20,6 +20,11 @@ def run():
             category_count +=1
 
 
+    print("image count: ", image_count)
+    print("content count: ", content)
+    print("category count: ", category_count)
+
+
 
             
 
