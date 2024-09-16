@@ -88,7 +88,7 @@ class ProductsModelAdmin(TranslationAdmin):
         "counts",
         "category_obj",
         "price",
-        "image_tag",
+        # "image_tag",
         "get_images",
         "site_sts",
         "site_rts",
