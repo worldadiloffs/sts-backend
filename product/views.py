@@ -32,6 +32,7 @@ from .serialzier import kredit_cal
 
 from settings.models import MuddatliTolovxizmatlar
 from django.core.cache import cache
+import  io 
 
 
 class ImageServis(APIView):
