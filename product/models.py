@@ -182,6 +182,12 @@ class Product(models.Model):
             return obj.image.url
         return None
     
+    def get_images(self):
+        obj =  self.images.first()
+        if obj:
+            return obj.display_image_admin
+        return ""
+
     def image_tag(self):
         return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.image))
     @property
