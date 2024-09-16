@@ -9,7 +9,6 @@ from django.core.cache import cache
 
 class ImageSeriazilizer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
-    get_mobile = serializers.SerializerMethodField()
 
     class Meta:
         model = Image
