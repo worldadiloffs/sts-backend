@@ -458,6 +458,14 @@ CRM_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6"
 CRM_KEY = "hikvision"
 CRM_URL = "https://hikvision.uz/" 
 
+CLOUDFLARE_ACCOUNT_ID='7f335618b5f365f445e09b38ef177bc2'
+CLOUDFLARE_API_KEY="RnOd1moxvA-k3BfjUZIIVQvd0lEry1jQsD40iT7v"
+CLOUDFLARE_ACCOUNT_HASH="Gu1Q4_5sCtQOwE1U01VyXA"
+CLOUDFLARE_IMAGES_DOMAIN="imagedelivery.net"
+CLOUDFLARE_EMAIL="azamatnarzulloyev2@gmail.com"
+
+
+
 
 if int(os.environ.get("test", 1)) == 1:
     data = os.environ.get("test")

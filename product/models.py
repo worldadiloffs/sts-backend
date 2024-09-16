@@ -7,15 +7,47 @@ from django.utils.html import format_html
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from product.servisses import get_image_url_from_cloudflare, upload_image_to_cloudflare
+
 
 from .utils import  create_shortcode 
 
 
 class Image(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
     product = models.ForeignKey(
         "product.Product", models.SET_NULL, null=True, related_name="images"
     )
     image = models.ImageField(upload_to="products", blank=False, null=True)
+
+
+    def save(self, *args, **kwargs):
+        # Modelni oldindan saqlab qo'yamiz
+        super().save(*args, **kwargs)
+        if not self.cloudflare_id:
+            cload_id = upload_image_to_cloudflare(self.image.file)
+            self.cloudflare_id = cload_id
+        super().save(*args, **kwargs)
+
+
+
+
+    def get_mobile(self):
+        if not self.cloudflare_id:
+            return ""
+        cloudflare_id = self.cloudflare_id
+        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
+        return img_url
+    
+
+    def display_image_admin(self):
+        if not self.cloudflare_id:
+            return ""
+        cloudflare_id = self.cloudflare_id
+        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
+        img_html = f'<img src="{img_url}">'
+        return format_html(img_html)
 
 
 class Product(models.Model):
