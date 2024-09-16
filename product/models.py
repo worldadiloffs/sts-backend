@@ -45,7 +45,7 @@ class Image(models.Model):
         if not self.cloudflare_id:
             return ""
         cloudflare_id = self.cloudflare_id
-        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
+        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="admin")
         img_html = f'<img src="{img_url}">'
         return format_html(img_html)
 
