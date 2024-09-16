@@ -17,9 +17,10 @@ class ImageSeriazilizer(serializers.ModelSerializer):
 
 
     def get_image(self, obj):
-        if obj.cloudflare_id:
-            return obj.get_mobile
-        return ""
+        image = obj.image
+        if image:
+            return site_name + image.url
+        return None
     
 
     
