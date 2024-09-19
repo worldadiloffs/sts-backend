@@ -13,7 +13,15 @@
         <h2 class="text-xl font-semibold mb-4">ID zakaza 24833580</h2>
         <div class="flex justify-between items-center mb-4">
             <div>
-                <p class="text-sm"><span class="font-semibold">Status:</span> <span class="text-green-600">Vydan pokupatelyu</span></p>
+                <div class="mb-4">
+                    <label for="status" class="font-semibold text-sm block mb-2">Status:</label>
+                    <select id="status" name="status" class="block w-full mt-1 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                        <option value="vydan">Vydan pokupatelyu</option>
+                        <option value="gotov">Gotov k vydache</option>
+                        <option value="dostavka">Dostavlen</option>
+                        <option value="otmenen">Otmenen</option>
+                    </select>
+                </div>
                 <p class="text-sm">Obnovleno 10 iyunya 2024 g. v 19:59</p>
             </div>
         </div>
