@@ -14,6 +14,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView
 )
 from config.settings import SPECTACULAR_SETTINGS
+from .views import VersionControlView
 
 urlpatterns = [
 
@@ -33,6 +34,7 @@ urlpatterns = [
     path('', include('settings.urls', namespace='settings')),
     path('', include('calculator.urls', namespace='calculator')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('version/', VersionControlView.as_view(), name='version-control'),
 
     # path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
