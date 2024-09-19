@@ -26,5 +26,16 @@ def run():
 
 
 
-            
+# STS uchun 
+# Tavarlar soni : 1101
+# Tavarlar qo'shilgan rasmlar:  475 
+# Tavarlar uchun  content : 7 
+
+# RTS uchun 
+# Tavarlar soni : 6647
+# Tavarlar qo'shilgan rasmlar:  0
+# Tavarlar uchun  content : 0
+
+
+
 

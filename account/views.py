@@ -69,11 +69,12 @@ class UserProfile(APIView):
 
 
 class UserUPdate(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def put(self, request, site, pk):
         try:
             user = request.user
             user = User.objects.get(pk=user.id)
-            serializer = UserProfileSerializer(data=request.data)
+            serializer = UserProfileSerializer(user , data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)

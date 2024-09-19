@@ -8,7 +8,6 @@ from product.serialzier import CalculatorProdcutSerialzier
 
 
 
-
 class ProductSearchCalculatorView(APIView):
     def get(self, request, site):
         search = request.GET.get("search", "")
@@ -26,4 +25,3 @@ class ProductSearchCalculatorView(APIView):
 
             return Response(product_serialzier.data)
         return Response({"Поиск не дал результатов" :0})
-    

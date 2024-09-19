@@ -20,8 +20,6 @@ class Image(models.Model):
         "product.Product", models.SET_NULL, null=True, related_name="images"
     )
     image = models.ImageField(upload_to="products", blank=False, null=True)
-
-
     def save(self, *args, **kwargs):
         # Modelni oldindan saqlab qo'yamiz
         super().save(*args, **kwargs)
