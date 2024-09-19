@@ -14,15 +14,42 @@
         <div class="flex justify-between items-center mb-4">
             <div>
                 <div class="mb-4">
-                    <select class="w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 text-lg text-green-600">
+                    <label for="status" class="font-semibold text-sm block mb-2">Status:</label>
+                    <select id="status" name="status" class="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 text-lg text-green-600" onchange="checkStatus()">
                         <option value="vydan">Vydan pokupatelyu</option>
                         <option value="gotov">Gotov k vydache</option>
                         <option value="dostavka">Dostavlen</option>
                         <option value="otmenen">Otmenen</option>
                     </select>
-                    
                 </div>
                 <p class="text-lg">Obnovleno 10 iyunya 2024 g. v 19:59</p>
+            </div>
+        </div>
+
+        <div id="modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    
+                <!-- Modalning kontenti -->
+                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white p-6">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" id="modal-title">
+                            Buyurtma bekor qilinishi sababi
+                        </h3>
+                        <div>
+                            <label for="reason" class="block text-sm font-medium text-gray-700">Sababini kiriting:</label>
+                            <input type="text" name="reason" id="reason" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2">
+                        </div>
+                        <div class="mt-4">
+                            <label for="comment" class="block text-sm font-medium text-gray-700">Izoh:</label>
+                            <textarea id="comment" name="comment" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"></textarea>
+                        </div>
+                        <div class="mt-6 flex justify-end space-x-4">
+                            <button type="button" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-400 focus:outline-none" onclick="closeModal()">Bekor qilish</button>
+                            <button type="submit" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-sm font-medium text-white hover:bg-green-700 focus:outline-none" onclick="submitForm()">Yuborish</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <p class="text-sm mb-2"><span class="font-semibold text-lg">Data dostavki:</span> pyatnitsa, 7 iyunya s 10:00 do 22:00</p>
@@ -73,6 +100,34 @@
             <img class="w-full" src="https://smart-uz.vercel.app/_next/image?url=%2Fimages%2Fqr.jpg&w=1080&q=75" alt="QR Code">
         </div>
     </div>
+
+    <script>
+        // Statusni tekshirish va modalni ko'rsatish
+        function checkStatus() {
+            const status = document.getElementById('status').value;
+            if (status === 'otmenen') {
+                document.getElementById('modal').classList.remove('hidden');
+            }
+        }
+
+        // Modalni yopish
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        // Formani yuborish
+        function submitForm() {
+            const reason = document.getElementById('reason').value;
+            const comment = document.getElementById('comment').value;
+
+            // Serverga yuborish jarayoni
+            console.log("Reason:", reason);
+            console.log("Comment:", comment);
+
+            // Modalni yopish
+            closeModal();
+        }
+    </script>
 
 </body>
 </html>
