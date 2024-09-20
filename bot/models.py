@@ -59,7 +59,7 @@ class Attendance(models.Model): # Xodimning ID raqami (Telegram ID qilingan)
             return "Maydon saqlanmagan"
         return ""
 
-    def kelgan_maydoni(self):
+    def ketgan_manzil(self):
         if self.endlatitude and self.endlongitude:  # Maydon saqlanmagan bo'lsa bo'lmaydi
             res = requests.get(f'https://geocode.maps.co/reverse?lat={self.endlatitude}&lon={self.endlongitude}&api_key=66edb9d13db05154267785msr9f18cf')
             if res.status_code == 200:
