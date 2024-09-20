@@ -24,7 +24,7 @@ def attendance(request):
             return Response({"message": "Xodim muvaffaqiyatli ro'yxatdan o'tdi Endi siz administrator tomonidan tasdiqlangan bo'lishingiz kerak"}, status=200)
         employee = Employee.objects.get(telegram_id=telegram_id)
         if not(employee.status):
-            return Response({"message": "Sizning ro'yhatga o'tganingiz, admin ruxsat berishi  kerak"}, status=200)
+            return Response({"message": "Sizning ro'yhatga o'tganingiz, admin ruxsat berishi  kerak"}, status=400)
 
     try:
         employee = Employee.objects.get(telegram_id=telegram_id)
