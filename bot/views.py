@@ -58,7 +58,7 @@ def attendance(request):
                         attendance = Attendance.objects.get(employee=employee, kun=date.today())
                         if not(employee.status):
                             return Response({"message": "Sizni admin tasdiqlamagan"}, status=400)
-                        if attendance.check_in is not None:
+                        if attendance.check_in is not None and attendance.check_out is None:
                             attendance.check_out = time_str
                             attendance.endlatitude = latitude
                             attendance.endlongitude = longitude
