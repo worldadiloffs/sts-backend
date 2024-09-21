@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from .models import Employee, Attendance
 from django.utils import timezone
 from datetime import datetime , date
+from django.utils import timezone
+
 
 @api_view(['POST'])
 def attendance(request):
@@ -12,7 +14,9 @@ def attendance(request):
     time_str = request.data.get('time')  # Botdan yuborilgan vaqt
     latitude = request.data.get('latitude')  # Lokatsiya kengligi
     longitude = request.data.get('longitude')  # Lokatsiya uzunligi
-
+    now = timezone.now()
+    time = datetime.strptime('%H:%M')
+    time_str = time 
     if action == 'register':
         name = request.data.get('name')
         phone_number = request.data.get('phone_number')
