@@ -5,7 +5,7 @@ from .models import Employee, Attendance
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     search_fields = ('name', 'telegram_id','phone_number',)
-    list_display = ('name', 'telegram_id',)
+    list_display = ('name', 'telegram_id','status', 'ish_joyi',)
     list_editable = ('status',)
     # readonly_fields = ('phone_number', 'xodim_rasmi', 'ish_joyi',)
 
