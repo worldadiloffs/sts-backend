@@ -72,7 +72,7 @@ def attendance(request):
                             attendance.endlongitude = longitude
                             attendance.save()
                             times_work = attendance.worked_time
-                            return Response({"message": "Ketish vaqtingiz  muvaffaqiyatli qayd etildi" ,"time":times_work}, status=200)
+                            return Response({"message": f"Ketish vaqtingiz {time_str} muvaffaqiyatli qayd etildi" ,"time":times_work}, status=200)
                         if attendance.check_out is not None:
                             return Response({"message": f"Siz ketgan vaqtingiz {attendance.check_out}"}, status=400)
                         return Response({"message": "Siz kelgan vaqtingizni belgilamagansiz"}, status=400)
