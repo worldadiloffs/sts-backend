@@ -83,7 +83,7 @@ def attendance(request):
         if action == 'absence':
             reason = request.data.get('reason')
             if not(employee.status):
-                    return Response({"message": "Sizni admin tasdiqlamagan"}, status=400)
+                    return Response({"message": "Sizni admin tasdiqlamagan"}, status=200)
             if not(Attendance.objects.filter(employee=employee, kun=date.today()).exists()):
                 attendance = Attendance.objects.create(employee=employee, kun=date.today())
                 attendance.reason_for_absence = reason
