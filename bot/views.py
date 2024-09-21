@@ -18,8 +18,8 @@ def attendance(request):
     # time = now.strptime('%H:%M')
     # time_str = time 
     now = timezone.now()
-    hours = now.hour
-    minut = now.minute
+    hours = str(now.hour)
+    minut = str(now.minute)
     time_str = f"{hours}:{minut}"
     if action == 'register':
         name = request.data.get('name')
@@ -83,7 +83,7 @@ def attendance(request):
         if action == 'absence':
             reason = request.data.get('reason')
             if not(employee.status):
-                    return Response({"message": "Sizni admin tasdiqlamagan"}, status=200)
+                    return Response({"message": "Sizni admin tasdiqlamagan"}, status=400)
             if not(Attendance.objects.filter(employee=employee, kun=date.today()).exists()):
                 attendance = Attendance.objects.create(employee=employee, kun=date.today())
                 attendance.reason_for_absence = reason
