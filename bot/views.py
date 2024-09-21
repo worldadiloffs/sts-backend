@@ -56,7 +56,7 @@ def attendance(request):
                     attendance.latitude = latitude
                     attendance.longitude = longitude
                     attendance.save()
-                    return Response({"message": f"Siz kelgan vaqtingiz {attendance.check_out}"}, status=200)
+                    return Response({"message": f"Siz kelgan vaqtingiz {time_str}"}, status=200)
                 else:
                     return Response({"message": "Siz allaqachon vaqti yoki sababni belgilangiz"}, status=400)
 
