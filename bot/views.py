@@ -14,9 +14,9 @@ def attendance(request):
     time_str = request.data.get('time')  # Botdan yuborilgan vaqt
     latitude = request.data.get('latitude')  # Lokatsiya kengligi
     longitude = request.data.get('longitude')  # Lokatsiya uzunligi
-    now = timezone.now()
-    time = now.strptime('%H:%M')
-    time_str = time 
+    # now = timezone.now()
+    # time = now.strptime('%H:%M')
+    # time_str = time 
     if action == 'register':
         name = request.data.get('name')
         phone_number = request.data.get('phone_number')
