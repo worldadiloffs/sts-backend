@@ -7,13 +7,16 @@ class JopServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = JopServisCard
         fields = "__all__"
-
+#   header_title = models.CharField(max_length=200)
+#     header_title_text = models.TextField(max_length=200)
+#     bground_image = models.ImageField(upload_to='jop_servis_images/', blank=True, null=True)
+#     status = models.BooleanField(default=False, blank=True)
 
 class JopServisSerializer(serializers.ModelSerializer):
     cards = JopServisCardSerializer( required=False , many=True, read_only=True)
     class Meta:
         model = JopServis
-        fields = "__all__"
+        fields = ("header_title", "header_title_text", "bground_image", "status", "cards")
 
 
 
