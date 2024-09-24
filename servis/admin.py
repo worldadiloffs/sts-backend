@@ -6,7 +6,7 @@ from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, Pr
 
 
 
-@admin.register(JopServisCard)
+@admin.register(SavolJavobServis)
 class JopServisCardAdmin(admin.ModelAdmin):
     list_display = ('question',)
 
