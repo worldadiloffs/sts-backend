@@ -1,7 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import JopServis, JopServisCard
+from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, PriceServis, 
+                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard)
+
 
 
 class JopServisCardInline(admin.StackedInline):
@@ -12,3 +14,74 @@ class JopServisCardInline(admin.StackedInline):
 class JopServisAdmin(admin.ModelAdmin):
     inlines = [JopServisCardInline]
     list_display = ('header_title', 'header_title_text',)
+
+
+
+class AboutServisCardInline(admin.StackedInline):
+    model = AboutServisCard
+    extra = 4
+
+
+@admin.register(AboutServis)
+class AboutServisAdmin(admin.ModelAdmin):
+    inlines = [AboutServisCardInline]
+    list_display = ('title',)
+
+
+class PriceServisCardInline(admin.StackedInline):
+    model = PriceServisCard
+    extra = 4
+
+
+@admin.register(PriceServis)
+class PriceServisAdmin(admin.ModelAdmin):
+    inlines = [PriceServisCardInline]
+    list_display = ('title',)
+
+class UstanofkaServisCardInline(admin.StackedInline):
+    model = UstanofkaServisCard
+    extra = 4
+
+
+
+@admin.register(UstanofkaServis)
+class UstanofkaServisAdmin(admin.ModelAdmin):
+    inlines = [UstanofkaServisCardInline]
+    list_display = ('title',)
+
+
+class KomandaServisCardInline(admin.StackedInline):
+    model = KomandaServisCard
+    extra = 4
+
+
+
+@admin.register(KomandaServis)
+class KomandaServisAdmin(admin.ModelAdmin):
+    inlines = [KomandaServisCardInline]
+    list_display = ('title',)
+
+
+
+class CategoryServisCardInline(admin.StackedInline):
+    model = CategoryServisCard
+    extra = 4
+
+@admin.register(CategoryServis)
+class CategoryServisAdmin(admin.ModelAdmin):
+    inlines = [CategoryServisCardInline]
+    list_display = ('title',)
+
+
+class LisenceServisCardInline(admin.StackedInline):
+    model = LisenceServisCard
+    extra = 4
+
+
+@admin.register(LisenceServis)
+class LisenceServisAdmin(admin.ModelAdmin):
+    inlines = [LisenceServisCardInline]
+    list_display = ('title',)
+
+
+
