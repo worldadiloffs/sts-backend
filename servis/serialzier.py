@@ -14,34 +14,40 @@ class JopServisSerializer(serializers.ModelSerializer):
     jopserviscards = JopServisCardSerializer(required=False, read_only=True, many=True)
     class Meta:
         model = JopServis
-        fields = ("header_title", "header_title_text", "bground_image", "status", "jopserviscards",)
+        fields = ("header_title", "header_title_text", "get_bground_image", "status", "jopserviscards",)
+
+
 
 
 
 class AboutServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = AboutServisCard
-        fields = "__all__"
+        fields = ("title", "text", "get_image",)
 
 
 class AboutServisSerializer(serializers.ModelSerializer):
     cards = AboutServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = AboutServis
-        fields = "__all__"
+        fields = ("title", "get_bground_image")
 
 
 class PriceServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceServisCard
-        fields = "__all__"
+        fields = ("product_name", "count",)
+
 
 
 class PriceServisSerializer(serializers.ModelSerializer):
     cards = PriceServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = PriceServis
-        fields = "__all__"
+        fields =("title", "price", "discount_price", "get_bground_image", )
+
+
+
 
 class UstanofkaServisCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,32 +59,35 @@ class UstanofkaServisSerializer(serializers.ModelSerializer):
     cards = UstanofkaServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = UstanofkaServis
-        fields = "__all__"
+        fields = ("title", "description", "get_bground_image",)
 
 
 class KomandaServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = KomandaServisCard
-        fields = "__all__"
+        fields = ("ism", "position", "get_image", "yil",)
+
+
+
 
 class KomandaServisSerializer(serializers.ModelSerializer):
     cards = KomandaServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = KomandaServis
-        fields = "__all__"
+        fields = ("title", "description", "get_bground_image", )
 
 
 class CategoryServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryServisCard
-        fields = "__all__"
+        fields = ("title", "text", "get_image",)
 
 
 class CategoryServisSerializer(serializers.ModelSerializer):
     cards = CategoryServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = CategoryServis
-        fields = "__all__"
+        fields = ("title", "get_image", "link")
 
 
 class KontaktServisSerializer(serializers.ModelSerializer):
@@ -89,12 +98,11 @@ class KontaktServisSerializer(serializers.ModelSerializer):
 class LisenceServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = LisenceServisCard
-        fields = "__all__"
+        fields = ("title", "get_imaga",)
 
 
 class LisenceServisSerializer(serializers.ModelSerializer):
     cards = LisenceServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = LisenceServis
-        fields = "__all__"
-
+        fields = ("title", "description", "get_bground_image",)
