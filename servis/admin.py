@@ -6,7 +6,7 @@ from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, Pr
 
 
 
-class JopServisCardInline(admin.StackedInline):
+class JopServisCardInline(admin.TabularInline):
     model = JopServisCard
     extra = 4
 
@@ -17,7 +17,7 @@ class JopServisAdmin(admin.ModelAdmin):
 
 
 
-class AboutServisCardInline(admin.StackedInline):
+class AboutServisCardInline(admin.TabularInline):
     model = AboutServisCard
     extra = 4
 
@@ -28,7 +28,7 @@ class AboutServisAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 
-class PriceServisCardInline(admin.StackedInline):
+class PriceServisCardInline(admin.TabularInline):
     model = PriceServisCard
     extra = 4
 
@@ -38,7 +38,7 @@ class PriceServisAdmin(admin.ModelAdmin):
     inlines = [PriceServisCardInline]
     list_display = ('title',)
 
-class UstanofkaServisCardInline(admin.StackedInline):
+class UstanofkaServisCardInline(admin.TabularInline):
     model = UstanofkaServisCard
     extra = 6
 
@@ -50,7 +50,7 @@ class UstanofkaServisAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 
-class KomandaServisCardInline(admin.StackedInline):
+class KomandaServisCardInline(admin.TabularInline):
     model = KomandaServisCard
     extra = 4
 
@@ -63,7 +63,7 @@ class KomandaServisAdmin(admin.ModelAdmin):
 
 
 
-class CategoryServisCardInline(admin.StackedInline):
+class CategoryServisCardInline(admin.TabularInline):
     model = CategoryServisCard
     extra = 4
 
@@ -73,7 +73,7 @@ class CategoryServisAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 
-class LisenceServisCardInline(admin.StackedInline):
+class LisenceServisCardInline(admin.TabularInline):
     model = LisenceServisCard
     extra = 4
 
