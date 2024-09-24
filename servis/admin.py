@@ -2,9 +2,13 @@ from django.contrib import admin
 
 # Register your models here.
 from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, PriceServis, 
-                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard)
+                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard, SavolJavobServis)
 
 
+
+@admin.register(JopServisCard)
+class JopServisCardAdmin(admin.ModelAdmin):
+    list_display = ('question',)
 
 class JopServisCardInline(admin.TabularInline):
     model = JopServisCard
