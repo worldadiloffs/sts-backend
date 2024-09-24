@@ -6,11 +6,9 @@ from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, Pr
 class JopServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = JopServisCard
-        fields = "__all__"
-#   header_title = models.CharField(max_length=200)
-#     header_title_text = models.TextField(max_length=200)
-#     bground_image = models.ImageField(upload_to='jop_servis_images/', blank=True, null=True)
-#     status = models.BooleanField(default=False, blank=True)
+        fields = ("title", "text", "get_image",)
+
+
 
 class JopServisSerializer(serializers.ModelSerializer):
     jopserviscards = JopServisCardSerializer(required=False, read_only=True, many=True)
