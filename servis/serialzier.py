@@ -27,10 +27,10 @@ class AboutServisCardSerializer(serializers.ModelSerializer):
 
 
 class AboutServisSerializer(serializers.ModelSerializer):
-    cards = AboutServisCardSerializer(required=False , many=True, read_only=True)
+    aboutserviscards = AboutServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = AboutServis
-        fields = ("title", "get_bground_image")
+        fields = ("title", "get_bground_image", "aboutserviscards",)
 
 
 class PriceServisCardSerializer(serializers.ModelSerializer):
@@ -56,10 +56,10 @@ class UstanofkaServisCardSerializer(serializers.ModelSerializer):
 
 
 class UstanofkaServisSerializer(serializers.ModelSerializer):
-    cards = UstanofkaServisCardSerializer(required=False , many=True, read_only=True)
+    ustanofkaserviscards = UstanofkaServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = UstanofkaServis
-        fields = ("title", "description", "get_bground_image",)
+        fields = ("title", "description", "get_bground_image",'ustanofkaserviscards',)
 
 
 class KomandaServisCardSerializer(serializers.ModelSerializer):
@@ -71,10 +71,10 @@ class KomandaServisCardSerializer(serializers.ModelSerializer):
 
 
 class KomandaServisSerializer(serializers.ModelSerializer):
-    cards = KomandaServisCardSerializer(required=False , many=True, read_only=True)
+    komandaserviscard = KomandaServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = KomandaServis
-        fields = ("title", "description", "get_bground_image", )
+        fields = ("title", "description", "get_bground_image", 'komandaserviscard',)
 
 
 class CategoryServisCardSerializer(serializers.ModelSerializer):
@@ -84,10 +84,10 @@ class CategoryServisCardSerializer(serializers.ModelSerializer):
 
 
 class CategoryServisSerializer(serializers.ModelSerializer):
-    cards = CategoryServisCardSerializer(required=False , many=True, read_only=True)
+    children = CategoryServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = CategoryServis
-        fields = ("title", "get_image", "link")
+        fields = ("title", "get_image", "link", "children",)
 
 
 class KontaktServisSerializer(serializers.ModelSerializer):
@@ -102,7 +102,7 @@ class LisenceServisCardSerializer(serializers.ModelSerializer):
 
 
 class LisenceServisSerializer(serializers.ModelSerializer):
-    cards = LisenceServisCardSerializer(required=False , many=True, read_only=True)
+    lisenceserviscards = LisenceServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = LisenceServis
-        fields = ("title", "description", "get_bground_image",)
+        fields = ("title", "description", "get_bground_image",'lisenceserviscards',)
