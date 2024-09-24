@@ -130,6 +130,7 @@ class LisenceServisCard(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        return None
         
 
 
