@@ -13,7 +13,7 @@ class JopServisCardSerializer(serializers.ModelSerializer):
 #     status = models.BooleanField(default=False, blank=True)
 
 class JopServisSerializer(serializers.ModelSerializer):
-    cards = JopServisCardSerializer(many=True, read_only=True)
+    cards = JopServisCardSerializer(required=False,many=True)
     class Meta:
         model = JopServis
         fields = ("header_title", "header_title_text", "bground_image", "status", "cards")
