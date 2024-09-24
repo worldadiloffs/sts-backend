@@ -40,7 +40,7 @@ class AboutServisSerializer(serializers.ModelSerializer):
 class PriceServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceServisCard
-        fields = ("product_name", "count",'content', "narx", "arzonlashgan_narx",)
+        fields = ("product_content",'content', "narx", "arzonlashgan_narx",)
 
 
 
