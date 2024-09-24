@@ -52,6 +52,9 @@ class AboutServis(models.Model):
 
 
 class PriceServisCard(models.Model):
+    content = models.TextField(max_length=500, blank=True , null=True)
+    narx = models.PositiveIntegerField(blank=True, null=True)
+    arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
     product_name = models.CharField(max_length=200)
     count = models.PositiveIntegerField(blank=True)
     priceservis = models.ForeignKey('servis.PriceServis', models.SET_NULL, blank=True, null=True, related_name='priceserviscards')
@@ -60,8 +63,8 @@ class PriceServisCard(models.Model):
 
 class PriceServis(models.Model):
     title = models.CharField(max_length=200)
-    price = models.PositiveIntegerField(blank=True)
-    discount_price = models.PositiveIntegerField(blank=True,null=True)
+    # price = models.PositiveIntegerField(blank=True)
+    # discount_price = models.PositiveIntegerField(blank=True,null=True)
     bground_image = models.ImageField(upload_to='price_servis_images/', blank=True, null=True, )
 
     @property

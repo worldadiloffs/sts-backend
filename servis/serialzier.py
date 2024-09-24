@@ -33,10 +33,14 @@ class AboutServisSerializer(serializers.ModelSerializer):
         fields = ("title", "get_bground_image", "aboutserviscards",)
 
 
+#   content = models.TextField(max_length=500, blank=True , null=True)
+#     narx = models.PositiveIntegerField(blank=True, null=True)
+#     arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
+
 class PriceServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = PriceServisCard
-        fields = ("product_name", "count",)
+        fields = ("product_name", "count",'content', "narx", "arzonlashgan_narx",)
 
 
 
@@ -44,7 +48,7 @@ class PriceServisSerializer(serializers.ModelSerializer):
     priceserviscards = PriceServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = PriceServis
-        fields =("title", "price", "discount_price", "get_bground_image", "priceserviscards",)
+        fields =("title", "get_bground_image", "priceserviscards",)
 
 
 
