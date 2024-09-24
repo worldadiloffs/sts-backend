@@ -4,7 +4,7 @@ class JopServisCard(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField(max_length=500)
     image = models.ImageField(upload_to='jop_servis_images/')
-    jopservis = models.ForeignKey('servis.JopServis', models.SET_NULL, blank=True, null=True)
+    jopservis = models.ForeignKey('servis.JopServis', models.SET_NULL, blank=True, null=True, related_name='jopserviscards')
 
 class JopServis(models.Model):
     header_title = models.CharField(max_length=200)
@@ -16,7 +16,7 @@ class AboutServisCard(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField(max_length=500)
     image = models.FileField(upload_to='about_servis_images/', blank=True, null=True)
-    jopservis = models.ForeignKey('servis.JopServis', models.SET_NULL, blank=True, null=True)
+    jopservis = models.ForeignKey('servis.AboutServis', models.SET_NULL, blank=True, null=True, related_name='aboutserviscards')
 
 
 class AboutServis(models.Model):
@@ -28,7 +28,7 @@ class AboutServis(models.Model):
 class PriceServisCard(models.Model):
     product_name = models.CharField(max_length=200)
     count = models.PositiveIntegerField(blank=True)
-    priceservis = models.ForeignKey('servis.PriceServis', models.SET_NULL, blank=True, null=True)
+    priceservis = models.ForeignKey('servis.PriceServis', models.SET_NULL, blank=True, null=True, related_name='priceserviscards')
 
 
 
@@ -36,7 +36,7 @@ class PriceServis(models.Model):
     title = models.CharField(max_length=200)
     price = models.PositiveIntegerField(blank=True)
     discount_price = models.PositiveIntegerField(blank=True,null=True)
-    bground_image = models.ImageField(upload_to='price_servis_images/', blank=True, null=True)
+    bground_image = models.ImageField(upload_to='price_servis_images/', blank=True, null=True, )
 
 
 class UstanofkaServisCard(models.Model):
@@ -45,7 +45,7 @@ class UstanofkaServisCard(models.Model):
     price = models.PositiveIntegerField(blank=True, null=True)
     problem = models.TextField(max_length=500, blank=True, null=True)
     solution = models.TextField(max_length=500, blank=True, null=True)
-    jopservis = models.ForeignKey('servis.UstanofkaServis', models.SET_NULL, blank=True, null=True)
+    jopservis = models.ForeignKey('servis.UstanofkaServis', models.SET_NULL, blank=True, null=True, related_name='ustanofkaserviscards')
 
 class UstanofkaServis(models.Model):
     '''Реализованные проекты: Наши кейсы по установке видеонаблюдения '''
@@ -59,7 +59,7 @@ class KomandaServisCard(models.Model):
     position = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='komanda_servis_images/', blank=True, null=True)
     yil = models.PositiveIntegerField(blank=True, default=3)
-    komandaservis = models.ForeignKey('servis.KomandaServis', models.SET_NULL, blank=True, null=True)
+    komandaservis = models.ForeignKey('servis.KomandaServis', models.SET_NULL, blank=True, null=True, related_name='komandaserviscard')
 
 class KomandaServis(models.Model):
     '''Наша команда '''
@@ -73,7 +73,7 @@ class KomandaServis(models.Model):
 class LisenceServisCard(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='lisence_servis_images/', blank=True)
-    lisenceservis = models.ForeignKey('servis.LisenceServis', models.SET_NULL, blank=True, null=True)
+    lisenceservis = models.ForeignKey('servis.LisenceServis', models.SET_NULL, blank=True, null=True, related_name='lisenceserviscards')
 
 
 class LisenceServis(models.Model):
