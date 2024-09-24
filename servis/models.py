@@ -196,3 +196,10 @@ class CategoryServis(models.Model):
             return site_name + self.image.url
         
         return None
+    
+
+
+class SavolJavobServis(models.Model):
+    question = models.CharField(max_length=200)
+    answer = models.TextField(max_length=500)
+    status = models.BooleanField(default=False, blank=True)

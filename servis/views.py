@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models  import (JopServis, AboutServis, PriceServis, UstanofkaServis, KomandaServis, CategoryServis, LisenceServis)
+from .models  import (JopServis, AboutServis, PriceServis, UstanofkaServis, KomandaServis, CategoryServis, LisenceServis, SavolJavobServis)
 
 
-from .serialzier import ( JopServisSerializer  , AboutServisSerializer, PriceServisSerializer, UstanofkaServisSerializer, KomandaServis  , CategoryServisSerializer , LisenceServisSerializer, KomandaServisSerializer)
+from .serialzier import ( JopServisSerializer  , AboutServisSerializer, PriceServisSerializer, UstanofkaServisSerializer, KomandaServis  , CategoryServisSerializer , LisenceServisSerializer, KomandaServisSerializer, SavolJavobServisSerializer)
 
 
 
@@ -24,6 +24,8 @@ class HomePageViewsOne(APIView):
         category_servis_serializer = CategoryServisSerializer(category_servis)
         lisence_servis = LisenceServis.objects.first()
         lisence_servis_serializer = LisenceServisSerializer(lisence_servis)
+        savol_javob = SavolJavobServis.objects.filter(status=True)
+        savol_javob_serializer = SavolJavobServisSerializer(savol_javob, many=True)
         return Response({
             "jop_servis": jop_servis_serializer.data,
             "about_servis": about_servis_serializer.data,
@@ -31,7 +33,8 @@ class HomePageViewsOne(APIView):
             "ustanofka_servis": ustanofka_servis_serializer.data,
             "komanda_servis": komanda_servis_serializer.data,
             "category_servis": category_servis_serializer.data,
-            "lisence_servis": lisence_servis_serializer.data
+            "lisence_servis": lisence_servis_serializer.data,
+            "savol_javob": savol_javob_serializer.data
             }, status=200)
     
     
