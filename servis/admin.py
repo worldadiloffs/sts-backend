@@ -40,7 +40,7 @@ class PriceServisAdmin(admin.ModelAdmin):
 
 class UstanofkaServisCardInline(admin.StackedInline):
     model = UstanofkaServisCard
-    extra = 4
+    extra = 6
 
 
 
