@@ -12,6 +12,7 @@ class JopServisCard(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        return None
 
 class JopServis(models.Model):
     header_title = models.CharField(max_length=200)
@@ -23,6 +24,7 @@ class JopServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
     
     def __str__(self):
         return self.header_title
@@ -37,6 +39,8 @@ class AboutServisCard(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        return None
+    
     
 
 
@@ -49,6 +53,7 @@ class AboutServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
 
 
 
@@ -71,6 +76,7 @@ class PriceServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
 
 
 class UstanofkaServisCard(models.Model):
@@ -91,6 +97,7 @@ class UstanofkaServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
         
 
 
@@ -105,6 +112,7 @@ class KomandaServisCard(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        return None
         
 
 class KomandaServis(models.Model):
@@ -118,6 +126,7 @@ class KomandaServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
 
 
 
@@ -144,6 +153,7 @@ class LisenceServis(models.Model):
     def get_bground_image(self):
         if self.bground_image:
             return site_name + self.bground_image.url
+        return None
 
 
 
@@ -167,6 +177,7 @@ class CategoryServisCard(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        return None
         
 
 
@@ -183,3 +194,5 @@ class CategoryServis(models.Model):
     def get_image(self):
         if self.image:
             return site_name + self.image.url
+        
+        return None
