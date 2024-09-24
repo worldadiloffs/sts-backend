@@ -363,6 +363,8 @@ class TolovUsullar(models.Model):
     icon = models.FileField(upload_to='tolov', blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     firma = models.BooleanField(default=False, blank=True, editable=False)
+    operator = models.BooleanField(default=False, blank=True)
+    nasiya = models.BooleanField(default=False, blank=True)
     site_sts = models.BooleanField(default=False, blank=True)
     site_rts = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=False, blank=True)
