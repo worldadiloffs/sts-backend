@@ -56,7 +56,7 @@ class PriceServisCard(models.Model):
     content = models.TextField(max_length=500, blank=True , null=True)
     narx = models.PositiveIntegerField(blank=True, null=True)
     arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
-    product_content = RichTextField(blank=True, null=True)
+    product_content = models.TextField(blank=True, null=True)
     priceservis = models.ForeignKey('servis.PriceServis', models.SET_NULL, blank=True, null=True, related_name='priceserviscards')
 
 
