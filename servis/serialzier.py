@@ -41,10 +41,10 @@ class PriceServisCardSerializer(serializers.ModelSerializer):
 
 
 class PriceServisSerializer(serializers.ModelSerializer):
-    cards = PriceServisCardSerializer(required=False , many=True, read_only=True)
+    priceserviscards = PriceServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = PriceServis
-        fields =("title", "price", "discount_price", "get_bground_image", )
+        fields =("title", "price", "discount_price", "get_bground_image", "priceserviscards",)
 
 
 
