@@ -156,6 +156,7 @@ class KontaktServis(models.Model):
 
 class CategoryServisCard(models.Model):
     title = models.CharField(max_length=200)
+    link_url = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='category_servis_images/', blank=True, null=True)
     status = models.BooleanField(default=False, blank=True)
     category = models.ForeignKey('servis.CategoryServis', models.SET_NULL, blank=True, null=True, related_name='children')
@@ -171,7 +172,7 @@ class CategoryServisCard(models.Model):
 class CategoryServis(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='category_servis_images/', blank=True, null=True)
-    link = models.CharField(max_length=200, blank=True, null=True)
+    # link = models.CharField(max_length=200, blank=True, null=True)
     status = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
