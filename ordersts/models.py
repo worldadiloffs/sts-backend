@@ -15,13 +15,6 @@ from datetime import datetime
 
 
 
-{
-    "ism": str,
-    "telefon": str,
-    "text": str
-}
-
-
 class ContactForm(models.Model):
     ism = models.CharField(max_length=30, blank=True)
     telefon = models.CharField(max_length=25, blank=True)

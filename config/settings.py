@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     'cashback',
     'calculator',
     'backend',
-    'bot',
+    # 'bot',
+    'servis',
 
 ]
 

@@ -33,9 +33,6 @@ ALTER DATABASE azamatdevblog OWNER TO azamatdevhik;
  "phone": 998951234568
  password: "azamat1796"
 
-
-
-
  sitega teksor bo'ganish lead uchun 
 
 
