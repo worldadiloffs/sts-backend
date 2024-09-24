@@ -53,20 +53,20 @@ class OrderAdmin(admin.ModelAdmin):
     list_editable = ('comment',  'status','is_finished')
     list_display = ( 'get_status','id', 'user', 'status', 'created_at', 'total_price', 'comment', 'is_finished', 'get_product_names',)
 
-    def get_queryset(self, request):
-        user = request.user
-        if user.site_sts:
-            qs = super().get_queryset(request)
-            return qs.filter(site_sts=True)
-        if user.site_rts:
-            qs = super().get_queryset(request)
-            return qs.filter(site_rts=True)
-        else:
-            qs = super().get_queryset(request)
-            return qs.filter()
+    # def get_queryset(self, request):
+    #     user = request.user
+    #     if user.site_sts:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_sts=True)
+    #     if user.site_rts:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter(site_rts=True)
+    #     else:
+    #         qs = super().get_queryset(request)
+    #         return qs.filter()
 
-    list_max_show_all = 10
-    list_per_page = 10
+    # list_max_show_all = 10
+    # list_per_page = 10
 
     def get_status(self, obj):
         if obj.status == 'pending':
