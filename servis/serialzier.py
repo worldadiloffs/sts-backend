@@ -102,7 +102,7 @@ class KontaktServisSerializer(serializers.ModelSerializer):
 class LisenceServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = LisenceServisCard
-        fields = ("title", "get_imaga",)
+        fields = ("title", "get_image",)
 
 
 class LisenceServisSerializer(serializers.ModelSerializer):
