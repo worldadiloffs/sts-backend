@@ -91,7 +91,7 @@ class CategoryServisSerializer(serializers.ModelSerializer):
     children = CategoryServisCardSerializer(required=False , many=True, read_only=True)
     class Meta:
         model = CategoryServis
-        fields = ("title", "get_image", "link", "children",)
+        fields = ("title", "get_image",  "children",)
 
 
 class KontaktServisSerializer(serializers.ModelSerializer):
