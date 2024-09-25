@@ -2,9 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, PriceServis, 
-                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard, SavolJavobServis)
+                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard, SavolJavobServis, ContactContentServis)
 
 
+@admin.register(ContactContentServis)
+class ContactContentServisAdmin(admin.ModelAdmin):
+    list_display = ('phone', 'email', 'address', 'instagram', 'facebook', 'youtube',)
 
 @admin.register(SavolJavobServis)
 class JopServisCardAdmin(admin.ModelAdmin):

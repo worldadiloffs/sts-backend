@@ -211,3 +211,7 @@ class ContactContentServis(models.Model):
     phone = models.CharField(max_length=200)
     email = models.EmailField(blank=True, null=True)
     address = models.CharField(max_length=300)
+    working_hours = models.CharField(max_length=200, blank=True, null=True)
+    instagram = models.URLField(max_length=200, blank=True, null=True)
+    facebook = models.URLField(max_length=200, blank=True, null=True)
+    youtube = models.URLField(max_length=200, blank=True, null=True)
