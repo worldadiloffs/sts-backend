@@ -54,7 +54,7 @@ class ContactformApiView(APIView):
     def post(self, request):
         phone = request.data.get('phone')
         if phone is not None:
-            return send_otp(request, phone, status=status.HTTP_200_OK)
+            return send_otp(request, phone)
         return Response({"error": "Phone number is required"}, status=status.HTTP_400_BAD_REQUEST)
     
 
