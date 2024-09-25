@@ -84,7 +84,7 @@ class KomandaServisSerializer(serializers.ModelSerializer):
 class CategoryServisCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryServisCard
-        fields = ("title", "text", "get_image",)
+        fields = ("title", "link_url", "get_image",)
 
 
 class CategoryServisSerializer(serializers.ModelSerializer):
