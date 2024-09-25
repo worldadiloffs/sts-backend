@@ -159,10 +159,14 @@ class LisenceServis(models.Model):
 
 
 class KontaktServis(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, default='gost')
     phone_number = models.CharField(max_length=200)
     position = models.CharField(max_length=200, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # send_email_notification(self)
 
 
 class CategoryServisCard(models.Model):
