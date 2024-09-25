@@ -203,3 +203,11 @@ class SavolJavobServis(models.Model):
     question = models.CharField(max_length=200)
     answer = models.TextField(max_length=500)
     status = models.BooleanField(default=False, blank=True)
+
+
+
+
+class ContactContentServis(models.Model):
+    phone = models.CharField(max_length=200)
+    email = models.EmailField(blank=True, null=True)
+    address = models.CharField(max_length=300)

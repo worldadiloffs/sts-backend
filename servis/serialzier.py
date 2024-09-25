@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, PriceServis, 
-                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard, SavolJavobServis)
+                      PriceServisCard, UstanofkaServis, UstanofkaServisCard, KomandaServis, KomandaServisCard, CategoryServis, CategoryServisCard, KontaktServis, LisenceServis, LisenceServisCard, SavolJavobServis, ContactContentServis)
 
 
 class JopServisCardSerializer(serializers.ModelSerializer):
@@ -115,4 +115,10 @@ class LisenceServisSerializer(serializers.ModelSerializer):
 class SavolJavobServisSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavolJavobServis
+        fields = "__all__"
+
+
+class ContactContentServisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactContentServis
         fields = "__all__"
