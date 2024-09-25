@@ -58,6 +58,12 @@ class ContactformApiView(APIView):
         return Response({"error": "Phone number is required"}, status=status.HTTP_400_BAD_REQUEST)
     
 
+    def get(self, request):
+        contact = KontaktServis.objects.all()
+        serializer = KontaktServisSerializer(contact, many=True)
+        return Response(serializer.data, status=200)
+    
+
 
 class VerifyphoneApiView(APIView):
     # throttle_scope = "verify_authentication"
@@ -83,8 +89,15 @@ class VerifyphoneApiView(APIView):
                 return Response({"message": "Success"}, status=status.HTTP_200_OK)
             return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"error": "code  is required"}, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 
 
+{
+    "phone": "+998912345678",
+    "code": "12345",
+    "location": "Tashkent",
+    "position": ""
+}
 
