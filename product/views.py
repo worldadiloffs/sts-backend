@@ -311,7 +311,7 @@ class CategoryProductViews(APIView):
                     for main in MainCategory.objects.filter(superCategory__id=super_id):
                         prod_obj = Product.objects.filter(
                             status=True, main_category__id=main.pk
-                        )
+                        )[:5]
                         serialzier = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             sub_names = main.main_name
