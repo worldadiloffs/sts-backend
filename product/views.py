@@ -349,7 +349,7 @@ class CategoryProductViews(APIView):
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
                         prod_obj = Product.objects.select_related('sub_category').filter(
                             status=True,  sub_category__id=sub.pk
-                        )
+                        )[:5]
                         serialzeir = ProductListMiniSerilizers(prod_obj, many=True)
                         if len(prod_obj) > 0:
                             if prod_obj is not None:
