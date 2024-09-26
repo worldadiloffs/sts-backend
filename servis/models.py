@@ -1,6 +1,7 @@
 from django.db import models
 from config.settings import site_name
 from ckeditor.fields import RichTextField
+from django.utils import timezone
 # - card
 class JopServisCard(models.Model):
     title = models.CharField(max_length=200)
@@ -163,8 +164,11 @@ class KontaktServis(models.Model):
     phone_number = models.CharField(max_length=200)
     position = models.CharField(max_length=200, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
+    create_at = models.DateTimeField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        if self.create_at is None:
+            self.create_at = timezone.now()
         super().save(*args, **kwargs)
         # send_email_notification(self)
 

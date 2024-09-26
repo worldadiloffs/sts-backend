@@ -7,7 +7,7 @@ from .models  import (JopServis, JopServisCard, AboutServis, AboutServisCard, Pr
 
 @admin.register(KontaktServis)
 class KontaktServisAdmin(admin.ModelAdmin):
-    list_display = ('phone',)
+    list_display = ('phone_number',)
 
 @admin.register(ContactContentServis)
 class ContactContentServisAdmin(admin.ModelAdmin):
