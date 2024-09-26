@@ -20,7 +20,7 @@ def send_otp(request, phone):
     headers = {'Authorization': f'Bearer {settings.SMS_TOKEN}'}
 
 
-    # response = requests.post(url, headers=headers)
+    response = requests.post(url, headers=headers)
     data_set = {
         "otp": otp,
         "errors": False,
