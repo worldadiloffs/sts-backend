@@ -56,13 +56,19 @@ class AboutServis(models.Model):
             return site_name + self.bground_image.url
         return None
 
+class ProductServisCard(models.Model):
+    title = models.CharField(max_length=200, blank=True, null=True)
+    content = RichTextField(blank=True, null=True)
 
+    def __str__(self):
+        return f"{self.title}"
 
 class PriceServisCard(models.Model):
     content = models.TextField(max_length=500, blank=True , null=True)
     narx = models.PositiveIntegerField(blank=True, null=True)
     arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
-    product_content = models.TextField(blank=True, null=True)
+    # product_content = models.TextField(blank=True, null=True)
+    products = models.ForeignKey(ProductServisCard, on_delete=models.SET_NULL, blank=True, null=True )
     priceservis = models.ForeignKey('servis.PriceServis', models.SET_NULL, blank=True, null=True, related_name='priceserviscards')
 
 
