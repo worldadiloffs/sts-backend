@@ -38,9 +38,15 @@ class AboutServisSerializer(serializers.ModelSerializer):
 #     arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
 
 class PriceServisCardSerializer(serializers.ModelSerializer):
+    skidka = serializers.SerializerMethodField()
     class Meta:
         model = PriceServisCard
         fields = ("product_content",'content', "narx", "arzonlashgan_narx",)
+
+    def get_skidka(self, obj):
+        if obj.arzonlashgan_narx and obj.narx:
+            return obj.arzonlashgan_narx - obj.narx
+        return 0
 
 
 
