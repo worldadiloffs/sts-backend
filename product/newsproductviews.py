@@ -148,7 +148,7 @@ class CategoryProductViewss(APIView):
         # Pagination
         offset =  (page - 1) * limit
         total_count = products_query.count()
-        products = products_query.select_related('sub_category').prefetch_related('image_set')[
+        products = products_query.select_related('sub_category')[
             offset:offset + limit
         ]
 
