@@ -52,9 +52,9 @@ class CategoryProductViewss(APIView):
         
         product_object = []
         for main in main_categories.prefetch_related(
-            Prefetch('product_set', queryset=Product.objects.filter(status=True, **self.get_site_filter(site))[:5])
+            Prefetch('product_set', queryset=Product.objects.filter(status=True, **self.get_site_filter(site)).only('id', 'product_name', 'price'))
         ):
-            products = main.product_set.all()
+            products = main.product_set.all()[:5]
             if products:
                 sub_name = main.main_content or main.main_name
                 serialized_products = ProductListMiniSerilizers(products, many=True).data
