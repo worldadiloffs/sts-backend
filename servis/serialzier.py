@@ -41,7 +41,7 @@ class PriceServisCardSerializer(serializers.ModelSerializer):
     skidka = serializers.SerializerMethodField()
     class Meta:
         model = PriceServisCard
-        fields = ("product_content",'content', "narx", "arzonlashgan_narx",)
+        fields = ("product_content",'content', "narx", "arzonlashgan_narx","skidka",)
 
     def get_skidka(self, obj):
         if obj.arzonlashgan_narx and obj.narx:
