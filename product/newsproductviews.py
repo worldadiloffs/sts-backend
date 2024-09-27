@@ -52,7 +52,7 @@ class CategoryProductViewss(APIView):
         
         product_object = []
         for main in main_categories.prefetch_related(
-            Prefetch('product_set', queryset=Product.objects.filter(status=True, **self.get_site_filter(site)).only('id', 'product_name', 'price')[:5])
+            Prefetch('product_set', queryset=Product.objects.filter(status=True, **self.get_site_filter(site))[:5])
         ):
             products = main.product_set.all()
             if products:
