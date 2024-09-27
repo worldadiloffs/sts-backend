@@ -13,7 +13,7 @@ from .serialzier import (
 from .models import SuperCategory, MainCategory, SubCategory, Product
 from settings.models import OrderSetting, MuddatliTolovxizmatlar
 
-class CategoryProductViews(APIView):
+class CategoryProductViewss(APIView):
     @extend_schema(
         responses=SuperCategoryStsSerializer
     )

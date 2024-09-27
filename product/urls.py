@@ -2,7 +2,7 @@ from django.urls import path
 from .views import  CategoryProductViews , ProductDetailApiview , SearchProductView , CartProductApiview , ImageServis
 from .productPost import ProductPost , ProductUpdateAPiview
 from importdata.views import ProductImportApiviews , ImportGet
-from .newsproductviews import CategoryProductViews
+from .newsproductviews import CategoryProductViewss
 
 app_name = "product"
 
@@ -16,6 +16,6 @@ urlpatterns = [
     path('import-product/', ProductImportApiviews.as_view()),
     path('import-get/', ImportGet.as_view()),
     path('image-servis/', ImageServis.as_view()),
-    path('<str:site>/categorys/<str:types>/<str:slug>/' , CategoryProductViews.as_view()  , name='new-category'),
+    path('<str:site>/categorys/<str:types>/<str:slug>/' , CategoryProductViewss.as_view()  , name='new-category'),
 
 ]
