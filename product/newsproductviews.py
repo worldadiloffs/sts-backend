@@ -40,6 +40,7 @@ class CategoryProductViewss(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
         except Exception as e:
+            print("sdssdds")
             return Response(
                 {"data": None, "errors": True, "message": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
@@ -61,7 +62,7 @@ class CategoryProductViewss(APIView):
                     "category": sub_name,
                     "product": serialized_products,
                 })
-
+        
         serialized_super = SuperCategoryStsSerializer(super_category)
 
         return Response(
