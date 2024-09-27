@@ -33,10 +33,6 @@ class AboutServisSerializer(serializers.ModelSerializer):
         fields = ("title", "get_bground_image", "aboutserviscards",)
 
 
-#   content = models.TextField(max_length=500, blank=True , null=True)
-#     narx = models.PositiveIntegerField(blank=True, null=True)
-#     arzonlashgan_narx = models.PositiveIntegerField(blank=True, null=True)
-
 class PriceServisCardSerializer(serializers.ModelSerializer):
     skidka = serializers.SerializerMethodField()
     class Meta:
