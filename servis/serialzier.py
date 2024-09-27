@@ -34,15 +34,19 @@ class AboutServisSerializer(serializers.ModelSerializer):
 
 
 class PriceServisCardSerializer(serializers.ModelSerializer):
+    products = serializers.SerializerMethodField()
     skidka = serializers.SerializerMethodField()
     class Meta:
         model = PriceServisCard
-        fields = ("product_content",'content', "narx", "arzonlashgan_narx","skidka",)
+        fields = ("product_content",'content', "narx", "arzonlashgan_narx","skidka",'products',)
 
     def get_skidka(self, obj):
         if obj.arzonlashgan_narx and obj.narx:
             return   obj.narx - obj.arzonlashgan_narx
         return 0
+    
+    def get_products(self, obj):
+        return obj.products and obj.products.content or []
 
 
 
