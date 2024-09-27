@@ -45,7 +45,7 @@ class PriceServisCardSerializer(serializers.ModelSerializer):
 
     def get_skidka(self, obj):
         if obj.arzonlashgan_narx and obj.narx:
-            return obj.arzonlashgan_narx - obj.narx
+            return   obj.narx - obj.arzonlashgan_narx
         return 0
 
 
