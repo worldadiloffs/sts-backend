@@ -18,33 +18,33 @@ class CategoryProductViewss(APIView):
         responses=SuperCategoryStsSerializer
     )
     def get(self, request, site, types, slug):
-        try:
+     
             # Extract and validate query parameters
-            page = int(request.GET.get("page", 1))
-            min_price = request.GET.get("min_price")
-            max_price = request.GET.get("max_price")
-            order_by = request.GET.get("order_by", "-id")
-            available = request.GET.get("available", "false").lower() == "true"
-            limit = 12
-            offset = (page - 1) * limit
+        page = int(request.GET.get("page", 1))
+        min_price = request.GET.get("min_price")
+        max_price = request.GET.get("max_price")
+        order_by = request.GET.get("order_by", "-id")
+        available = request.GET.get("available", "false").lower() == "true"
+        limit = 12
+        offset = (page - 1) * limit
 
-            if types == "super":
-                return self.handle_super_category(site, slug)
-            elif types == "main":
-                return self.handle_main_category(site, slug)
-            elif types == "sub":
-                return self.handle_sub_category(site, slug, page, limit, order_by, min_price, max_price, available)
-            else:
-                return Response(
-                    {"data": None, "errors": True, "message": "Invalid type specified."},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-        except Exception as e:
-            print("sdssdds")
+        if types == "super":
+            return self.handle_super_category(site, slug)
+        elif types == "main":
+            return self.handle_main_category(site, slug)
+        elif types == "sub":
+            return self.handle_sub_category(site, slug, page, limit, order_by, min_price, max_price, available)
+        else:
             return Response(
-                {"data": None, "errors": True, "message": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {"data": None, "errors": True, "message": "Invalid type specified."},
+                status=status.HTTP_400_BAD_REQUEST
             )
+        # except Exception as e:
+        #     print("sdssdds")
+        #     return Response(
+        #         {"data": None, "errors": True, "message": str(e)},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        #     )
 
     def handle_super_category(self, site, slug):
         super_category = get_object_or_404(SuperCategory, slug=slug)
