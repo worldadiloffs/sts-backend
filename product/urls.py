@@ -16,6 +16,6 @@ urlpatterns = [
     path('import-product/', ProductImportApiviews.as_view()),
     path('import-get/', ImportGet.as_view()),
     path('image-servis/', ImageServis.as_view()),
-    path('new-category/' , CategoryProductViews.as_view()  , name='new-category'),
+    path('<str:site>/categorys/<str:types>/<str:slug>/' , CategoryProductViews.as_view()  , name='new-category'),
 
 ]
