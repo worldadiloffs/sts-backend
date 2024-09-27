@@ -46,11 +46,11 @@ class BannerDetailViews(APIView):
         if site == "sts":
             banner = Banner.objects.get(status=True,id=pk , site_sts=True)
             if banner.category is not None:
-                product = Product.objects.filter(status=True, site_sts=True, main_category__id=banner.category.pk).order_by("id")
+                product = Product.objects.filter(status=True, site_sts=True, main_category__id=banner.category.pk).order_by("id")[:30]
         if site == "rts":
             banner = Banner.objects.get(status=True,id=pk, site_rts=True)
             if banner.category is not None:
-                product = Product.objects.filter(status=True, site_rts=True, main_category__id=banner.category.pk).order_by("id")
+                product = Product.objects.filter(status=True, site_rts=True, main_category__id=banner.category.pk).order_by("id")[:30]
         product_serializers = ProductListMiniSerilizers(product , many=True)
         serialzier = BannerSerializers(banner)
         return JsonResponse(
