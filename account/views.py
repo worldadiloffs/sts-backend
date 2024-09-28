@@ -277,11 +277,11 @@ class VerifyOtp(APIView):
             phone = cache.get(f"{ip}-for-authentication")
 
             otp = cache.get(phone)
-            if phone == "998888888888":
+            if str(phone) == "998888888888":
                 phone = "998888888888"
                 cache.delete(phone)
                 cache.delete(f"{ip}-for-authentication")
-                otp = 000000
+                otp = "000000"
             if otp is not None:
                 if otp == received_code:
                     user, created = get_user_model().objects.get_or_create(phone=phone)
