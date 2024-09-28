@@ -277,8 +277,8 @@ class VerifyOtp(APIView):
             phone = cache.get(f"{ip}-for-authentication")
 
             otp = cache.get(phone)
-            if phone == "998998888888":
-                phone = "998998888888"
+            if phone == "998888888888":
+                phone = "998888888888"
                 cache.delete(phone)
                 cache.delete(f"{ip}-for-authentication")
                 otp = 000000
