@@ -201,7 +201,7 @@ class SearchProductView(APIView):
             product = (
                 Product.objects.filter(status=True, site_sts=True)
                 .filter(Q(product_name__icontains=search))
-                .order_by("id")[current * limit : next * limit]
+                [current * limit : next * limit]
             )
         if site == "rts":
             count = (
@@ -212,7 +212,7 @@ class SearchProductView(APIView):
             product = (
                 Product.objects.filter(status=True, site_rts=True)
                 .filter(Q(product_name__icontains=search))
-                .order_by("id")[current * limit : next * limit]
+                [current * limit : next * limit]
             )
 
         # count = product.count()
