@@ -6,8 +6,7 @@ import random, string
 # Create your models here.
 from config.settings import site_name 
 
-from django.utils.html import format_html
-
+from django.utils.html import format_html 
 
 class Banner(models.Model):
     title = models.CharField(max_length=200, blank=True , verbose_name=_("Banner uchun nom"))

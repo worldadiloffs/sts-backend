@@ -23,3 +23,5 @@ def order(request):
     { "id": 3, "customer": "Michael Johnson", "status": "Canceled", "total_amount": 200 }
   ]
   return  { "orders" : orders }
+
+
