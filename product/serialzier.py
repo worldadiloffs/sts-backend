@@ -14,9 +14,14 @@ class ImageSeriazilizer(serializers.ModelSerializer):
         model = Image
         fields = "__all__"
 
+    # def get_image(self, obj):
+    #     if obj.cloudflare_id:
+    #         return get_image_url_from_cloudflare(obj.cloudflare_id)
+    #     image = obj.image
+    #     if image:
+    #         return site_name + image.url
+    #     return None
     def get_image(self, obj):
-        if obj.cloudflare_id:
-            return get_image_url_from_cloudflare(obj.cloudflare_id)
         image = obj.image
         if image:
             return site_name + image.url
