@@ -240,10 +240,9 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
 
 
     def get_cashback_value(self, obj):
-        if obj.id is not None:
-            cash = cashback_values(products=[{"id": obj.id, "count": 1}])
-            return int(cash["data"])
-        return None
+        # cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+        # return int(cash["data"])
+        return 0
 
 
     def get_kredit_summa(self, obj):
