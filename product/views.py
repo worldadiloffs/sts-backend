@@ -224,6 +224,7 @@ class SearchProductView(APIView):
             "next": next,
             "limit": limit,
         }
+        
         serializer = ProductListMiniSerilizers(product, many=True)
         return JsonResponse(
             {
