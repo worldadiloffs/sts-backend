@@ -187,16 +187,13 @@ def _sub_category_list(main_id):
 class SearchProductView(APIView):
     def get(self, request, site):
         search = request.GET.get("search", "")
-        if search:
-            pass
         next = int(request.GET.get("page", 1))
         limit = 12
         current = int(next) - 1
         if site == "sts":
-            count = (
+            count = len(
                 Product.objects.filter(status=True, site_sts=True)
                 .filter(Q(product_name__icontains=search))
-                .count()
             )
             product = (
                 Product.objects.filter(status=True, site_sts=True)
@@ -224,6 +221,7 @@ class SearchProductView(APIView):
             "next": next,
             "limit": limit,
         }
+
         
         serializer = ProductListMiniSerilizers(product, many=True)
         return JsonResponse(
