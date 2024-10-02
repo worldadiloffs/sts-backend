@@ -240,9 +240,9 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
 
 
     def get_cashback_value(self, obj):
-        # cash = cashback_values(products=[{"id": obj.id, "count": 1}])
-        # return int(cash["data"])
-        return 0
+        cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+        return int(cash["data"])
+     
 
 
     def get_kredit_summa(self, obj):
@@ -274,3 +274,67 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
 class ParemententCategorySerialzeir(serializers.Serializer):
     types = serializers.CharField()
     slug = serializers.CharField()
+
+
+
+
+
+class ProductListMiniSearchSerilizers(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField(read_only=True)
+    category_name = serializers.SerializerMethodField(read_only=True)
+    price = serializers.SerializerMethodField()
+    discount_price = serializers.SerializerMethodField(read_only=True)
+    kredit_summa = serializers.SerializerMethodField(read_only=True)
+    cashback_value = serializers.SerializerMethodField()
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "product_name",
+            "category_name",
+            "image",
+            "product_video",
+            "slug",
+            "short_description",
+            "price",
+            "discount_price",
+            "kredit_summa",
+            "short_content",
+            "tavar_dagavornaya",
+            "counts",
+            "super_category",
+            "cashback_value",
+            "aksiya",
+        )
+
+
+    def get_cashback_value(self, obj):
+        # cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+        # return int(cash["data"])
+        return 0
+
+
+    def get_kredit_summa(self, obj):
+        if obj.price:
+            return int(kredit_cal(obj.price, 12, 36)) if obj.price  else 0
+        return None
+    
+
+    def get_discount_price(self, obj):
+        if obj.price:
+            return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
+        
+
+    def get_price(self, obj):
+        return obj.price and int(obj.price * doller_funtion()) or 0
+
+    def get_image(self, obj):
+        image = obj.image
+        if image:
+            return site_name + image
+        return None
+
+    def get_category_name(self, obj):
+        category = obj.super_category
+        if category is not None:
+            return category.super_name

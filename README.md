@@ -55,3 +55,9 @@ Anvarsts@#123hik
 Bahodirsts@#321hik
  
 
+998940107051 
+STSTemur@hik7051
+
+998910013416
+FayozSTS@hik3416
+

@@ -2,6 +2,9 @@ from django.db import models
 from config.settings import site_name
 from ckeditor.fields import RichTextField
 from django.utils import timezone
+
+# Create your models here.
+
 # - card
 class JopServisCard(models.Model):
     title = models.CharField(max_length=200)
@@ -93,6 +96,11 @@ class UstanofkaServisCard(models.Model):
     problem = models.TextField(max_length=500, blank=True, null=True)
     solution = models.TextField(max_length=500, blank=True, null=True)
     jopservis = models.ForeignKey('servis.UstanofkaServis', models.SET_NULL, blank=True, null=True, related_name='ustanofkaserviscards')
+    
+
+
+
+
 
 class UstanofkaServis(models.Model):
     '''Реализованные проекты: Наши кейсы по установке видеонаблюдения '''

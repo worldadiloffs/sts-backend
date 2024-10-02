@@ -12,7 +12,6 @@ from product.servisses import get_image_url_from_cloudflare, upload_image_to_clo
 
 from .utils import  create_shortcode 
 
-
 class Image(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
@@ -56,7 +55,6 @@ class Image(models.Model):
         img_url = get_image_url_from_cloudflare(cloudflare_id, variant="admin")
         img_html = f'<img src="{img_url}">'
         return format_html(img_html)
-
 
 class Product(models.Model):
     """ product models integration crm """

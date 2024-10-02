@@ -21,6 +21,7 @@ class Banner(models.Model):
     class Meta:
         verbose_name_plural = "Home Banner"
         ordering = ["pk", "title"]
+    
 
     def __str__(self):
         return self.title

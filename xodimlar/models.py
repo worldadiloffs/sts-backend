@@ -2,8 +2,8 @@ from django.db import models
 
 from django.utils.translation import gettext_lazy as _
 
-
 from django.contrib.auth.models import Group
+
 from account.models import User
 
 
@@ -23,8 +23,6 @@ class Xodim(models.Model):
     permision = models.ManyToManyField(Group, blank=True)
     ishni_boshlash_vaqti = models.TimeField(blank=True, null=True)
     ishni_bitirish_vaqti = models.TimeField(blank=True, null=True)
-
-
 
     def get_permission_names(self):
         return ', '.join([p.name for p in self.permision.all()])

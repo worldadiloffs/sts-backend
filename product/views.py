@@ -5,6 +5,7 @@ from .serialzier import (
     ImagePostSeriazilizer,
     ProductListMiniSerilizers,
     ProductSerialzier,
+    ProductListMiniSearchSerilizers
 )
 from .models import Product, Image
 from category.models import MainCategory, SubCategory, SuperCategory
@@ -223,7 +224,7 @@ class SearchProductView(APIView):
         }
 
         
-        serializer = ProductListMiniSerilizers(product, many=True)
+        serializer = ProductListMiniSearchSerilizers(product, many=True)
         return JsonResponse(
             {
                 "data": {"product": serializer.data, "pagination": pagination},
