@@ -40,7 +40,7 @@ class CheckOrder(Paycom):
         print(account)
       
 
-class TestView(MerchantAPIView):
+class TestViewPayme(MerchantAPIView):
     VALIDATE_CLASS = CheckOrder
 
 
