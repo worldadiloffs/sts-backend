@@ -18,11 +18,11 @@ from importdata.models import ImportProduct , PriceUpdate
 #                 product.save()
 
 
-def run():
-    impor_prod = ImportProduct.objects.all()
-    impor_prod.delete()
-    prices = PriceUpdate.objects.all()
-    prices.delete()
+# def run():
+#     impor_prod = ImportProduct.objects.all()
+#     impor_prod.delete()
+#     prices = PriceUpdate.objects.all()
+#     prices.delete()
 
 
 # def run():
@@ -33,3 +33,10 @@ def run():
 #                 product.price = i.price
 #                 product.counts = i.quantity
 #                 product.save()
+
+
+def run():
+    for i in Product.objects.all():
+        if i.price is None:
+            i.price * 1.1 
+            i.save()
