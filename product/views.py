@@ -194,22 +194,22 @@ class SearchProductView(APIView):
         if site == "sts":
             count = len(
                 Product.objects.filter(status=True, site_sts=True)
-                .filter(Q(product_name__icontains=search))
+                .filter(Q(product_name_ru__icontains=search))
             )
             product = (
                 Product.objects.filter(status=True, site_sts=True)
-                .filter(Q(product_name__icontains=search))
+                .filter(Q(product_name_ru__icontains=search))
                 [current * limit : next * limit]
             )
         if site == "rts":
             count = (
                 Product.objects.filter(status=True, site_rts=True)
-                .filter(Q(product_name__icontains=search))
+                .filter(Q(product_name_ru__icontains=search))
                 .count()
             )
             product = (
                 Product.objects.filter(status=True, site_rts=True)
-                .filter(Q(product_name__icontains=search))
+                .filter(Q(product_name_ru__icontains=search))
                 [current * limit : next * limit]
             )
 

@@ -17,7 +17,6 @@ class BlogCategory(models.Model):
     site_rts = models.BooleanField(default=False, blank=True)
     slug = models.SlugField(unique=True, null=True, editable=False, blank=True)
 
-
     class Meta:
         verbose_name_plural = "Blog Kategorileri"
         ordering = ["pk", "title"]
@@ -139,5 +138,12 @@ class BlogHome(models.Model):
         self.slug = self.make_slug(self.title)
 
         super().save(*args, **kwargs)
+
+
+
+
+
+
+
 
 

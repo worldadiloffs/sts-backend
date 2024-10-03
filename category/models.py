@@ -11,6 +11,7 @@ from django.utils.html import format_html
 
 
 
+
 class SuperCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     super_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Asosiy Kategoriya Nomi"))
@@ -78,6 +79,9 @@ class SuperCategory(models.Model):
 
         super(SuperCategory, self).save(*args, **kwargs)
 
+
+
+
 class MainCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     superCategory = models.ForeignKey(
@@ -136,18 +140,17 @@ class MainCategory(models.Model):
         super(MainCategory, self).save(*args, **kwargs)
 
 
+
+
+
+
 class SubCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     mainCategory = models.ForeignKey(
         MainCategory, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Main Kategoriya")
     )
-    sub_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Sub Kategoriya uchun nom"))
-    sub_image = models.ImageField(
-        upload_to="categories/main/imgs/",
-        verbose_name=("Sub Kategoriya rasm"),
-        blank=True,
-        null=True,
-    )
+    sub_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Sub Kategoriya uchun nom")) 
+    sub_image = models.ImageField( upload_to="categories/main/imgs/", verbose_name=("Sub Kategoriya rasm"), blank=True, null=True) 
     slug = models.SlugField(unique=True, null=True, allow_unicode=True,editable=False, blank=True)
     sub_meta = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Meta uchun nom"))
     sub_content = models.CharField(max_length=300, blank=True, null=True, verbose_name=_("Sub Kategoriya uchun  content"))
@@ -156,7 +159,7 @@ class SubCategory(models.Model):
     product_content = models.JSONField(blank=True, null=True, verbose_name=_("Tegishli tavarlar uchun short  qiymatlar"))
     sts_site = models.BooleanField(default=False, verbose_name=_("Site STS uchun status"))
     rts_site = models.BooleanField(default=False, verbose_name=_("Site RTS uchun status"))
-    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqti"))
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqti"))    
 
     class Meta:
         verbose_name_plural = "Sub Kategoriyalar"
@@ -193,8 +196,3 @@ class SubCategory(models.Model):
                 self.slug = create_shortcode_sub(self)
 
         super(SubCategory, self).save(*args, **kwargs)
-
-
-
-
-
