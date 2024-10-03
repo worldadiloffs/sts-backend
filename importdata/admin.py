@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from .models import ImportProduct  # Replace with your actual model
+from .models import ImportProduct , PriceUpdate # Replace with your actual model
 from import_export.formats.base_formats import XLS, XLSX, JSON
 
 
@@ -15,3 +15,11 @@ class MyModelResource(resources.ModelResource):
 class MyModelAdmin(ImportExportModelAdmin):
     resource_class = MyModelResource
     formats = [XLSX, JSON] 
+
+
+
+@admin.register(PriceUpdate)
+class ProductPriceUpdateAdmin(ImportExportModelAdmin):
+    resource_class = MyModelResource
+    formats = [XLSX, JSON] 
+    

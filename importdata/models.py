@@ -16,3 +16,11 @@ class ImportProduct(models.Model):
 
 
 
+
+class PriceUpdate(models.Model):
+    price = models.FloatField(blank=True, null=True)
+    quantity = models.PositiveIntegerField(blank=True, null=True)
+    articul = models.BigIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.articul}"
