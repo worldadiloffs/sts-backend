@@ -92,7 +92,7 @@ class Product(models.Model):
     
     deliver_date = models.PositiveIntegerField(blank=True, null=True)
     
-    price = models.PositiveIntegerField(blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
     
     discount_price = models.PositiveIntegerField(blank=True, null=True)
     
