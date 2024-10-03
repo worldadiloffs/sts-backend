@@ -127,8 +127,6 @@ class Product(models.Model):
     available = models.BooleanField(default=True, blank=True, editable=False)
 
 
-
-
     def cart_title(self, obj):
         if self.news:
             return self.news_title
@@ -223,7 +221,8 @@ class Product(models.Model):
      
     def category_obj(self):
         if self.super_category is not None:
-            return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
+            # return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
+            return f"{self.super_category.super_name}"
 
 
     @classmethod

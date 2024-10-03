@@ -18,9 +18,6 @@ from cashback.views import cashback_values
 from datetime import date 
 from django.core.cache import cache
 
-
-
-
 class ContactFormApiveiws(APIView):
     throttle_scope = "authentication"
     throttle_classes = [
@@ -327,5 +324,3 @@ class STSCashbackMobile(APIView):
                         berialadigan_cashback += int(cashback_setting.cashback_foiz * product["count"] * product_obj.price * doller_value * 0.01)
             return JsonResponse({"data": berialadigan_cashback, "errors": False, "message": "ok"},safe=False)
         return JsonResponse({"data": None, "errors": True, "message": "Productlar mavjud"}, safe=False)
-
-        
