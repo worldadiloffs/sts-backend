@@ -12,15 +12,13 @@ user_model = get_user_model()
 class Command(BaseCommand):
     help = 'Create User for payments'
     username = 'Paycom'
-    phone = '998993333333'
     password = PAYCOM_SETTINGS['SECRET_KEY']
     username_key = user_model.USERNAME_FIELD
 
     def handle(self, *args, **options):
-
+        
         try:
-            # user, _ = user_model.objects.update_or_create(**{self.username_key: self.username})
-            user, created = get_user_model().objects.get_or_create(phone=self.phone)
+            user, _ = user_model.objects.update_or_create(**{self.username_key: self.username})
             user.set_password(self.password)
             user.save()
             self.stdout.write(self.style.SUCCESS('Success created user'))
