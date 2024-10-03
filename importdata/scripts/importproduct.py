@@ -18,20 +18,20 @@ from importdata.models import ImportProduct , PriceUpdate
 #                 product.save()
 
 
-def run():
-    impor_prod = ImportProduct.objects.all()
-    impor_prod.delete()
-    prices = PriceUpdate.objects.all()
-    prices.delete()
-
-
 # def run():
-#     for i in PriceUpdate.objects.all():
-#         if i.articul is not None:
-#             product = Product.objects.filter(articul=i.articul).first()
-#             if product:
-#                 product.price = i.price * 1.1
-#                 product.counts = i.quantity
-#                 product.save()
+#     impor_prod = ImportProduct.objects.all()
+#     impor_prod.delete()
+#     prices = PriceUpdate.objects.all()
+#     prices.delete()
+
+
+def run():
+    for i in PriceUpdate.objects.all():
+        if i.articul is not None:
+            product = Product.objects.filter(articul=i.articul).first()
+            if product:
+                product.price = i.price * 1.1
+                product.counts = i.quantity
+                product.save()
 
 
