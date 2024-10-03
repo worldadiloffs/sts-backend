@@ -207,7 +207,7 @@ class Product(models.Model):
 
     @property
     def has_banner_ad(self):
-        if self.banner_ad:
+        if self.banner_add:
             return True
         return False
 
