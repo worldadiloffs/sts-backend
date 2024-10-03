@@ -18,8 +18,12 @@ class MyModelAdmin(ImportExportModelAdmin):
 
 
 
+class MyModelsPriceUpdateResource(resources.ModelResource):
+    class Meta:
+        model = PriceUpdate
+
 @admin.register(PriceUpdate)
 class ProductPriceUpdateAdmin(ImportExportModelAdmin):
-    resource_class = MyModelResource
+    resource_class = MyModelsPriceUpdateResource
     formats = [XLSX, JSON] 
     
