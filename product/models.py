@@ -217,7 +217,7 @@ class Product(models.Model):
         ordering = ["pk", "product_name"]
 
     def __str__(self):
-        return self.product_name[0:50]
+        return self.product_name
      
     def category_obj(self):
         if self.super_category is not None:
