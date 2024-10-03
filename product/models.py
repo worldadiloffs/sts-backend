@@ -223,6 +223,7 @@ class Product(models.Model):
         if self.super_category is not None:
             # return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
             return f"{self.super_category.super_name}"
+        return ""
 
 
     @classmethod
