@@ -12,7 +12,7 @@ class ImportProduct(models.Model):
     material_nomer = models.BigIntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.pk
+        return f"{self.pk} - {self.articul}"
 
 
 
