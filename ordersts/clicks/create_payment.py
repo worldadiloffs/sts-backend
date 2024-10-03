@@ -26,7 +26,7 @@ class ClickTransactionPayment(APIView):
             )
             # orders=  OrderPayment.objects.get(id=order_id)
             url = ClickUz.generate_url(order_id=str(order.pk), 
-            amount=str(order.amount))
+            amount=str(order.total_price))
             print(url)
             data = {"success": True,'url': url}
             return Response(data, status=status.HTTP_200_OK)
