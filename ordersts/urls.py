@@ -6,6 +6,9 @@ from ordersts.ordermobile.views import CashbackMobile ,  UserMobileToken
 from .cupon import CoponPostApiviews
 
 from .order_get_user import OrderGetApiviews
+from payme.views import TestView , checkout_view
+from clicks.click import TestView
+from clicks.create_payment import create_click_payment
 
 app_name = 'ordersts'
 
@@ -23,6 +26,13 @@ urlpatterns = [
     # mobile orders
     path('mobile/orders/cashback/', CashbackMobile.as_view(), name='mobile'),
     path('mobile/orders/token/', UserMobileToken.as_view(), name='token'),
+    # payme url 
+    path('check/paycom/', TestView.as_view()),
+    path('check-order/', checkout_view , name='check-order'),
+
+    # click url 
+    path('click/transaction/', TestView.as_view(), name='click-transaction'),
+    path('create-click-payment/', create_click_payment, name='create-click-payment'),
 ]
 
 # mobile order urls

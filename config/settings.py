@@ -167,11 +167,12 @@ PAYCOM_SETTINGS = {
 }
 
 CLICK_SETTINGS = {
-    'service_id': '32872',
-    'merchant_id': '24945',
-    'secret_key': 'koMmoEGiJeqW',
-    'merchant_user_id': '39862'
+    'service_id': '37647',
+    'merchant_id': '7844',
+    'secret_key': '0MnCNnMB7xFuGyp',
+    'merchant_user_id': '46754'
 }
+
 
 
 
