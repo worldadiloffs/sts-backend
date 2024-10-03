@@ -1,5 +1,5 @@
 from product.models import Product
-from importdata.models import ImportProduct
+from importdata.models import ImportProduct , PriceUpdate
 
 
 # def run():
@@ -21,4 +21,5 @@ from importdata.models import ImportProduct
 def run():
     impor_prod = ImportProduct.objects.all()
     impor_prod.delete()
-    
+    prices = PriceUpdate.objects.all()
+    prices.delete()
