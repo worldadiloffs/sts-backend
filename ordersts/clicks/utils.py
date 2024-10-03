@@ -14,10 +14,10 @@ def create_click_payment(amount:float, order:object ):
     """
     try:
         order, _ = Order.objects.get_or_create(
-            amount=amount,
+            total_price=amount,
             order=order
         )
-        url = ClickUz.generate_url(order_id=str(order.id), 
+        url = ClickUz.generate_url(order_id=str(order.pk), 
         amount=str(order.total_price))
         return True, url
     except Exception as e:

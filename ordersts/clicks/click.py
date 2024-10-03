@@ -15,7 +15,7 @@ class OrderCheckAndPayment(ClickUz):
         """
         try:
             print(f'check_order: {order_id}  {amount}')
-            order = Order.objects.get(zakas_id=int(order_id))
+            order = Order.objects.get(id=int(order_id))
             if float(order.total_price) == float(amount):
                 order.status = 'pending'
                 return self.ORDER_FOUND
@@ -37,7 +37,7 @@ class OrderCheckAndPayment(ClickUz):
         """
         try:
             print(f'successfully_payment: {order_id}  {str(transaction)}')
-            order = Order.objects.get(zakas_id=int(order_id))
+            order = Order.objects.get(id=int(order_id))
             order.is_finished = True
             order.save()
         except Exception as e:
@@ -51,7 +51,7 @@ class OrderCheckAndPayment(ClickUz):
         """
         try:
             print(f'cancel_payment: {order_id}  {str(transaction)}')
-            order = Order.objects.get(zakas_id=int(order_id))
+            order = Order.objects.get(id=int(order_id))
             order.status = 'cencel'
             order.save()
         except Exception as e:
