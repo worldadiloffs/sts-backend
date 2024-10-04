@@ -25,3 +25,7 @@ class Sites(models.Model):
             user.site_rts = False
             user.save()
         super().save(*args, **kwargs)
+
+
+    def __str__(self):
+        return f'{self.status} site'

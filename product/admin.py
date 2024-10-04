@@ -36,7 +36,7 @@ class ProductsModelAdmin(TranslationAdmin):
             if user.site_sts:
                 obj.site_sts = True
             if user.site_rts:
-                obj.site_rts = True
+                obj.site_rts = True 
         # Save the object
         super().save_model(request, obj, form, change)  
 
