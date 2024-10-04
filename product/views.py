@@ -285,7 +285,7 @@ class CartProductApiview(APIView):
 
 
 class CategoryProductViews(APIView):
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 60*2))
     @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
         # parameters=[ParemententCategorySerialzeir],
