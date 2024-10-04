@@ -24,7 +24,7 @@ def run():
     # print("content count: ", content)
     # print("category count: ", category_count)
 
-    prod = Product.objects.filter(site_sts=True,price=1).count()
+    prod = Product.objects.filter(site_rts=True,price=1).count()
     print(prod)
 
 
