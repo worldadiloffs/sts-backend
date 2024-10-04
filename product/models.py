@@ -55,6 +55,8 @@ class Image(models.Model):
         img_url = get_image_url_from_cloudflare(cloudflare_id, variant="admin")
         img_html = f'<img src="{img_url}">'
         return format_html(img_html)
+    
+
 
 class Product(models.Model):
     """ product models integration crm """
@@ -221,7 +223,6 @@ class Product(models.Model):
      
     def category_obj(self):
         if self.super_category is not None:
-            # return f"{SuperCategory.objects.get(id=self.super_category.pk).super_name}"
             return f"{self.super_category.super_name}"
         return ""
 
@@ -245,9 +246,6 @@ class Product(models.Model):
         if self.sub_category is not None:
             if not (SubCategory.objects.filter(id=self.sub_category.pk).first().mainCategory.pk == self.main_category.pk):
                 raise  ValueError({"data": "errors"})
-        # if self.sub_category is not None and self.short_content is None:
-        #     self.short_content_ru = self.sub_category.product_content_ru
-        #     self.short_content_uz = self.sub_category.product_content_uz
         if not self.slug or self.slug is None or self.slug == "":
             if self.product_name:
                 self.product_name = self.product_name.strip()
@@ -255,14 +253,5 @@ class Product(models.Model):
                 product_name  = self.product_name[:50]
                 self.slug = self.make_slug(product_name)
         super().save(*args, **kwargs)
-
-
-
-
-
-
-    
-
-
 
 
