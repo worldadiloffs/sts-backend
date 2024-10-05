@@ -128,8 +128,8 @@ class ProductsModelAdmin(TranslationAdmin):
     list_editable = [
         "counts",
         "price",
-        # "site_sts",
-        # "site_rts",
+        "site_sts",
+        "site_rts",
         "status",
     ]
     list_filter = [

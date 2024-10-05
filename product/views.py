@@ -487,3 +487,4 @@ class CategoryProductViews(APIView):
             )
         except Exception as e:
             return JsonResponse({"data": None, "errors": True, "message": f"{e}"})
+        
