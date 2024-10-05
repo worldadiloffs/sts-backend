@@ -26,10 +26,11 @@ from product.models import Product
     # print(prod)
 
 def run():
-    product = Product.objects.filter(articul=90588).first()
-    product.price = round(product.price, 3)
-    product.save()
-    print(product.price)
+    for i in Product.objects.all():
+        product = Product.objects.get(id=i.id)
+        product.price = round(product.price, 3)
+        product.save()
+        print(product.price)
 
 # STS uchun 
 # Tavarlar soni : 1101
