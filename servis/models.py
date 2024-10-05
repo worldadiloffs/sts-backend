@@ -29,7 +29,6 @@ class JopServis(models.Model):
         if self.bground_image:
             return site_name + self.bground_image.url
         return None
-    
     def __str__(self):
         return self.header_title
 
