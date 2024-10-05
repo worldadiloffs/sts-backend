@@ -265,6 +265,20 @@ class Order(models.Model):
             return 'Xaridorga berildi'
         elif self.status == 'canceled':
             return 'Bekor Qilindi'
+        
+
+    property
+    def get_status_obj_ru(self):
+        if self.status == 'pending':
+            return 'Ожидающий'
+        elif self.status == 'processing':
+            return 'Доставка'
+        elif self.status =='shipped':
+            return 'Доставленный'
+        elif self.status == 'delivered':
+            return 'Его отдали покупателю'
+        elif self.status == 'canceled':
+            return 'Bekor Qilindi'
 
     
 
