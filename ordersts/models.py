@@ -253,6 +253,20 @@ class Order(models.Model):
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
     
+    property
+    def get_status_obj(self):
+        if self.status == 'pending':
+            return 'Kutilmoqda'
+        elif self.status == 'processing':
+            return 'Yetkazilmoqda'
+        elif self.status =='shipped':
+            return 'Yetkazildi'
+        elif self.status == 'delivered':
+            return 'Xaridorga berildi'
+        elif self.status == 'canceled':
+            return 'Bekor Qilindi'
+
+    
 
 
 
