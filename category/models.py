@@ -136,7 +136,6 @@ class MainCategory(models.Model):
                 slug=self.slug).exists()
             if qs_exists:
                 self.slug = create_shortcode_main(self)
-
         super(MainCategory, self).save(*args, **kwargs)
 
 

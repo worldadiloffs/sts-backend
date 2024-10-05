@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from .models import Order 
-from  .serializers import  OrderGetUserSerializer
+from  .serializers import  OrderGetUserSerializer , OrderGetRusUserSerializer
 
 
 class OrderGetApiviews(APIView):
@@ -17,7 +17,10 @@ class OrderGetApiviews(APIView):
             if site == 'rts':
                 order = Order.objects.filter(user__id=user.id, order_close=True,  site_rts=True).order_by("-created_at")
                 hozirgi_zakaslar = Order.objects.filter(user__id=user.id, order_close=False,  site_rts=True).order_by("-created_at")
-            serializer = OrderGetUserSerializer(order, many=True)
+            if request.LANGUAGE_CODE == 'uz':
+                serializer = OrderGetUserSerializer(order, many=True)
+            if request.LANGUAGE_CODE == 'ru':
+                serializer = OrderGetRusUserSerializer(order, many=True)
             zakas_lar = []
             if serializer.data:
                 for i in serializer.data:
@@ -33,8 +36,10 @@ class OrderGetApiviews(APIView):
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
                         "order": i['order_obj'], })
-            
-            hozir_serializer = OrderGetUserSerializer(hozirgi_zakaslar, many=True)
+            if request.LANGUAGE_CODE == 'uz':
+                hozir_serializer = OrderGetUserSerializer(hozirgi_zakaslar, many=True)
+            if request.LANGUAGE_CODE == 'ru':
+                hozir_serializer = OrderGetRusUserSerializer(hozirgi_zakaslar, many=True)
             hozir = []
             if hozir_serializer:
                 for i in hozir_serializer.data:

@@ -129,3 +129,47 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         
 
 
+class OrderGetRusUserSerializer(serializers.ModelSerializer):
+    order_items = OrderItemProductSerializer(many=True)
+    order_obj = serializers.SerializerMethodField(read_only=True)
+    status_color = serializers.SerializerMethodField(read_only=True)
+    times = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+
+    def get_times(self, obj):
+        return obj.created_at.strftime("%B %d %Y %H:%M")
+
+    def get_order_obj(self, obj):
+        prod_lengs = obj.order_items.count()
+        yetkazib_berish_manzili = obj.punkit and obj.punkit.name or (obj.qishloq and obj.qishloq )
+        tolov_usuli = obj.tolov_usullar and obj.tolov_usullar.name or ""
+        narxi = obj.total_price and obj.total_price or 0 
+        yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
+        status = obj.status and obj.status or ""
+        yetkazish_vaqti = obj.yetkazish and obj.yetkazish.strftime("%Y-%m-%d") or (obj.teskor_buyurtma and "90 minut" or 'olib ketish')
+        create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
+        cashack_summa = obj.tushadigan_cash_summa and obj.tushadigan_cash_summa or 0
+        comment = obj.comment and obj.comment or "-- "
+        
+        data = {
+                "Номер заказа": obj.zakas_id,
+                "status": status,
+                "Время заказа": create_at,
+                "Срок поставки": yetkazish_vaqti,
+                "Способ оплаты": tolov_usuli,
+                "Тип заказа": "удаленный",
+                "Адрес доставки": yetkazib_berish_manzili,
+                "Сообщение продавца": comment
+            }
+        if cashack_summa>0:
+            data[ "Tushadigan Cashback "] = cashack_summa
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Доставка": yetkazib_berish , "Общая сумма": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
+    
+    def get_status_color(self, obj):
+        status = obj.status and obj.status or ""
+        status_color = "blue" if status == "pending" else "green"  
+        return status_color
+
