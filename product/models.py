@@ -240,7 +240,7 @@ class Product(models.Model):
     
 
     def save(self, *args, **kwargs):
-        if not(self.site_sts) or not(self.site_rts):
+        if not(self.site_sts) and not(self.site_rts):
             raise  ValueError({"data": "errors"})
         if self.main_category is not None:
             if not (MainCategory.objects.filter(id=self.main_category.pk).first().superCategory.pk == self.super_category.pk):
