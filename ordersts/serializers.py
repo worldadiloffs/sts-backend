@@ -111,6 +111,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
                 "status": status,
                 "Buyurtma vaqti": create_at,
                 "Yetkazib berish vaqti": yetkazish_vaqti,
+                "Yetkazib berish": yetkazib_berish,
                 "Tolov usuli": tolov_usuli,
                 "Buyurtma turi": "onliyn",
                 "Yetkazib berish manzili": yetkazib_berish_manzili,
@@ -118,7 +119,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
             }
         if cashack_summa>0:
             data[ "Tushadigan Cashback "] = cashack_summa
-        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Yetkazib berish": yetkazib_berish , "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Jami summa": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
@@ -160,6 +161,7 @@ class OrderGetRusUserSerializer(serializers.ModelSerializer):
                 "status": status_obj,
                 "Время заказа": create_at,
                 "Срок поставки": yetkazish_vaqti,
+                "Доставка": yetkazib_berish,
                 "Способ оплаты": tolov_usuli,
                 "Тип заказа": "удаленный",
                 "Адрес доставки": yetkazib_berish_manzili,
@@ -167,7 +169,7 @@ class OrderGetRusUserSerializer(serializers.ModelSerializer):
             }
         if cashack_summa>0:
             data[ "Tushadigan Cashback "] = cashack_summa
-        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} ", "Доставка": yetkazib_berish , "Общая сумма": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
+        return {"data": data, "summa": {f"{prod_lengs} Mahsulot narxi" : f"{narxi} " , "Общая сумма": int(narxi + yetkazib_berish),}, "message": "buyurtma oqilgan"}
     
     def get_status_color(self, obj):
         status = obj.status and obj.status or ""
