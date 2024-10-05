@@ -28,6 +28,8 @@ from product.models import Product
 def run():
     product = Product.objects.filter(articul=90586).first()
     product.price = round(product.price, 3)
+    product.save()
+    print(product.price)
 
 # STS uchun 
 # Tavarlar soni : 1101
