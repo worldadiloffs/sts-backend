@@ -15,7 +15,6 @@ class GalleryInlines(admin.TabularInline):
     model = Image
     max_num = 6
 
-
 class ProductAdminForm(forms.ModelForm):
     class Meta:
         model = Product
