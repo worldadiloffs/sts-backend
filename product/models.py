@@ -21,10 +21,10 @@ class Image(models.Model):
     image = models.ImageField(upload_to="products", blank=False, null=True)
     def save(self, *args, **kwargs):
         # Modelni oldindan saqlab qo'yamiz
-        super().save(*args, **kwargs)
-        if not self.cloudflare_id and self.image is not None:
-            cload_id = upload_image_to_cloudflare(self.image.file)
-            self.cloudflare_id = cload_id
+        # super().save(*args, **kwargs)
+        # if not self.cloudflare_id and self.image is not None:
+        #     cload_id = upload_image_to_cloudflare(self.image.file)
+        #     self.cloudflare_id = cload_id
         super().save(*args, **kwargs)
 
 
