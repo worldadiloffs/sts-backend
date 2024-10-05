@@ -26,7 +26,7 @@ from product.models import Product
     # print(prod)
 
 def run():
-    product = Product.objects.filter(articul=90586).first()
+    product = Product.objects.filter(articul=90588).first()
     product.price = round(product.price, 3)
     product.save()
     print(product.price)
