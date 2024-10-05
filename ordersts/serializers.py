@@ -101,6 +101,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         narxi = obj.total_price and obj.total_price or 0 
         yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
         status = obj.status and obj.status or ""
+        status_obj = obj.get_status_obj()
         yetkazish_vaqti = obj.yetkazish and obj.yetkazish.strftime("%Y-%m-%d") or (obj.teskor_buyurtma and "90 minut" or 'olib ketish')
         create_at = obj.created_at and obj.created_at.strftime("%Y-%m-%d") 
         cashack_summa = obj.tushadigan_cash_summa and obj.tushadigan_cash_summa or 0
@@ -108,7 +109,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         
         data = {
                 "Buyurtma raqami": obj.zakas_id,
-                "status": status,
+                "status": status_obj,
                 "Buyurtma vaqti": create_at,
                 "Yetkazib berish vaqti": yetkazish_vaqti,
                 "Tolov usuli": tolov_usuli,
