@@ -45,7 +45,8 @@ class SubCategoryAdmin(TranslationAdmin):
         else:
             qs = super().get_queryset(request)
             return qs.filter()
-    readonly_fields = ("sts_site", "rts_site","product_description","product_content")
+    list_editable = ( "sts_site", "rts_site", "status")
+    readonly_fields = ("product_description","product_content")
     list_display = ("sub_name",  "sts_site", "rts_site","image_tag")
     readonly_fields = ("sub_meta","seo_cub", "sts_site", "rts_site",)
     # list_editable = ( "sts_site", "rts_site",)
@@ -151,9 +152,9 @@ class SuperCategoryAdmin(TranslationAdmin):
         if user.site_rts:
             qs = super().get_queryset(request)
             return qs.filter(rts_site=True)
-    readonly_fields = ("sts_site", "rts_site",)
+    # readonly_fields = ("sts_site", "rts_site",)
     list_display = ("super_name", "status", "sts_site", "rts_site", "image_tag",)
-    list_editable = ("status",)
+    list_editable = ("status","sts_site", "rts_site",)
     search_fields = ("super_name","id", )
     list_filter=('sts_site', 'rts_site', 'status',)
     fields = ["rating","super_name", "category_image", "super_image_content", "icon", "status",]
