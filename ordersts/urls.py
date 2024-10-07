@@ -12,6 +12,11 @@ from ordersts.clicks.create_payment import create_click_payment
 
 app_name = 'ordersts'
 
+
+# click url
+# 204743111
+
+
 urlpatterns = [
     path('<str:site>/orders/craate/', OrderCreateAPIView.as_view(), name='order_create'),
     path('<str:site>/orders/validate/', OrderValudeView.as_view(), name='order_get_validate'),
@@ -29,7 +34,6 @@ urlpatterns = [
     # payme url 
     path('check/paycom/', TestViewPayme.as_view()),
     path('check-order/', checkout_view , name='check-order'),
-
     # click url 
     path('click/transaction/', TestView.as_view(), name='click-transaction'),
     path('create-click-payment/', create_click_payment, name='create-click-payment'),

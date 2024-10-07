@@ -33,7 +33,6 @@ class PageApiviews(APIView):
 class SiteSettingsApiviews(APIView):
     def get(self, request, site):
         if site =='sts':
-    
             settings_model = SiteSettings.objects.filter(site_sts=True).first()
             payment = PaymentMethod.objects.filter(site_sts=True, status=True)
             site_page = SitePage.objects.filter(status=True, site_sts=True)

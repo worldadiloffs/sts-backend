@@ -18,7 +18,7 @@ env.read_env()
 
 class CheckOrder(Paycom):
     def check_order(self, amount: int, account: dict, *args, **kwargs):
-        order = Order.objects.filter(zakas_id=account["order_id"], is_finished=False).first()
+        order = Order.objects.filter(id=account["order_id"], is_finished=False).first()
 
         if not order:
             return self.ORDER_NOT_FOND

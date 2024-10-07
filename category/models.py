@@ -1,6 +1,7 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.forms import ValidationError
 from django.utils.text import slugify
 import random, string
 from django.utils.translation import gettext_lazy as _
@@ -136,6 +137,8 @@ class MainCategory(models.Model):
                 slug=self.slug).exists()
             if qs_exists:
                 self.slug = create_shortcode_main(self)
+        if not(self.sts_site or self.rts_site):
+            raise ValidationError("At least one of 'STS_site' or 'RTS_site' must be True")
         super(MainCategory, self).save(*args, **kwargs)
 
 
@@ -193,5 +196,8 @@ class SubCategory(models.Model):
                 slug=self.slug).exists()
             if qs_exists:
                 self.slug = create_shortcode_sub(self)
+        if not(self.sts_site) or not(self.rts_site):
+            raise ValueError({"data": "errors"})
+
 
         super(SubCategory, self).save(*args, **kwargs)
