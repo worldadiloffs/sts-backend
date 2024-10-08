@@ -126,7 +126,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         status_color = "blue" if status == "pending" else "green"  
         if status == "pending":
             status_color = "blue"  # красный
-        elif status == "cancel":
+        elif status == "cencel":
             status_color = "red"  # красный
         else:
             status_color = "green"  # зеленый
