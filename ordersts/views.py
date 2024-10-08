@@ -317,7 +317,7 @@ class OrderCreateAPIView(APIView):
             if order_id.site_sts:
                 if order_id.payment_method is not None:
                     return _redirect_payment(request=request, order_id=order_id.pk, payment_id=order_id.payment_method.pk)
-            return Response({"data":order_serial.data, "site": site}, status=201)
+            return Response({"data":order_serial.data, "payment": False, "site": site}, status=201)
         return Response(serializer.errors, status=400)
 
 
