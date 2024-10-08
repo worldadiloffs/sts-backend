@@ -310,7 +310,7 @@ class OrderCreateAPIView(APIView):
                 request.data["site_sts"]= True
                 cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
                 request.data['cashback'] = cash_summa
-                request.data["total_price"] =  request.data["total_price"] - cash_summa
+                # request.data["total_price"] =  request.data["total_price"] - cash_summa
             if site == "rts":
                 request.data["site_rts"] = True
                 cash_summa = _validate_cashback(cashback_value= cashback_value, user_id= request.user.id, site="rts",zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
