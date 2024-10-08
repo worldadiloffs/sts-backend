@@ -276,15 +276,6 @@ class OrderCreateAPIView(APIView):
         )
         if promocod is not None:
             _promocode(code=promocod, user_id=request.user.id, summa=request.data["total_price"])
-        if site == "sts":
-            request.data["site_sts"]= True
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
-            request.data['cashback'] = cash_summa
-            request.data["total_price"] =  request.data["total_price"] - cash_summa
-        if site == "rts":
-            request.data["site_rts"] = True
-            cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="rts",zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
-            request.data['cashback'] = cash_summa
         request.data["user"] = request.user.id
             
         # depozit field option fields
@@ -315,6 +306,15 @@ class OrderCreateAPIView(APIView):
             for i in order_item_data:
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             order_serial = OrderGetSerializer(order_id)
+            if site == "sts":
+                request.data["site_sts"]= True
+                cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
+                request.data['cashback'] = cash_summa
+                request.data["total_price"] =  request.data["total_price"] - cash_summa
+            if site == "rts":
+                request.data["site_rts"] = True
+                cash_summa = _validate_cashback(cashback_value= cashback_value, user_id= request.user.id, site="rts",zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
+                request.data['cashback'] = cash_summa
             if order_id.site_sts:
                 if order_id.tolov_usullar.payment_methods.first() is not None:
                     return _redirect_payment(request=request, order_id=order_id.pk, payment_id=order_id.payment_method.pk)
