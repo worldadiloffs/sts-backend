@@ -258,7 +258,7 @@ class Order(models.Model):
     property
     def get_status_obj(self):
         if self.status == 'pending':
-            return 'Kutilmoqda'
+            return "Yig'ilyapti"
         elif self.status == 'processing':
             return 'Yetkazilmoqda'
         elif self.status =='shipped':
