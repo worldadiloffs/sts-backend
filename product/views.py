@@ -81,7 +81,7 @@ class ProductDetailApiview(APIView):
                 main_category_product = Product.objects.filter(
                     main_category__id=product.main_category.pk,
                     status=True,
-                    site_rts=True,
+                    # site_rts=True,
                 )[:10]
 
         if main_category_product is not None:
