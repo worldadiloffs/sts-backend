@@ -112,7 +112,7 @@ class MainCategoryAdmin(TranslationAdmin):
             return qs.filter()
     # readonly_fields = ("sts_site", "rts_site",)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
-    list_editable = ("status", "header_add", "ommabob",)
+    list_editable = ("status", "header_add", "ommabob", 'sts_site', 'rts_site',)
     search_fields = ("main_name","id",)
     list_filter=('sts_site', 'rts_site', 'status',)
     fields = ["rating", "superCategory", "main_name", "main_image", "icon","header_add", "ommabob", "status",]
