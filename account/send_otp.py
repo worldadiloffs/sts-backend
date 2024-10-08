@@ -21,6 +21,10 @@ def send_otp(request, phone):
 
 
     response = requests.post(url, headers=headers)
+    # if not(response.status_code == 200):
+
+
+
     data_set = {
         "otp": otp,
         "errors": False,
