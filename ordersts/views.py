@@ -13,10 +13,15 @@ from drf_spectacular.utils import extend_schema
 from rest_framework.throttling import ScopedRateThrottle
 
 from account.models import User , UserAddress
+from rest_framework import status
 
 from cashback.views import cashback_values
 from datetime import date 
 from django.core.cache import cache
+
+from asyncio.log import logger
+
+from clickApp import ClickUz
 
 class ContactFormApiveiws(APIView):
     throttle_scope = "authentication"
@@ -147,8 +152,18 @@ def _validate_depozit(depozit, user) -> float:
     pass
 
 
-def _redirect_payment(request, order_id):
-    pass 
+def _redirect_payment(request, order_id, payment_id):
+    if payment_id is not None:
+        order = Order.objects.filter(id=order_id).first()
+        payment = PaymentMethod.objects.filter(id=payment_id).first()
+        if payment.pk==2:
+            url = ClickUz.generate_url(order_id=str(order.pk), 
+            amount=str(order.total_price))
+            data = {"success": True,'payment':True, 'url': url}
+            return Response(data, status=status.HTTP_200_OK)
+
+
+
 
 
 def _promocode(code, user_id, summa):
@@ -299,6 +314,9 @@ class OrderCreateAPIView(APIView):
             for i in order_item_data:
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             order_serial = OrderGetSerializer(order_id)
+            if order_id.site_sts:
+                if order_id.payment_method is not None:
+                    return _redirect_payment(request=request, order_id=order_id.pk, payment_id=order_id.payment_method.pk)
             return Response({"data":order_serial.data, "site": site}, status=201)
         return Response(serializer.errors, status=400)
 

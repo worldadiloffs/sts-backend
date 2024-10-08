@@ -35,3 +35,5 @@ class ClickTransactionPayment(APIView):
             return Response({"success": False,'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 create_click_payment = ClickTransactionPayment.as_view()
+
+
