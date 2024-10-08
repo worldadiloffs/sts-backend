@@ -158,7 +158,7 @@ def _redirect_payment(request, order_id, payment_id):
         payment = PaymentMethod.objects.filter(id=payment_id).first()
         if payment.pk==2:
             url = ClickUz.generate_url(order_id=str(order.pk), 
-            amount=str(order.total_price))
+            amount=str(order.total_price), return_url="https://sts-hikvision.vercel.app/uz/profile/orders")
             data = {"success": True,'payment':True, 'url': url}
             return Response(data, status=status.HTTP_200_OK)
         return Response({"success": False, "payment": False}, status=status.HTTP_200_OK)
