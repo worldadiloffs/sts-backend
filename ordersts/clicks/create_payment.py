@@ -26,7 +26,7 @@ class ClickTransactionPayment(APIView):
             )
             # orders=  OrderPayment.objects.get(id=order_id)
             url = ClickUz.generate_url(order_id=str(order.pk), 
-            amount=str(order.total_price))
+            amount=str(order.total_price), return_url="https://sts-hikvision.vercel.app/uz/profile/orders")
             print(url)
             data = {"success": True,'url': url}
             return Response(data, status=status.HTTP_200_OK)
