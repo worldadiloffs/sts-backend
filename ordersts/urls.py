@@ -40,3 +40,4 @@ urlpatterns = [
 ]
 
 # mobile order urls
+# https://api.sts-shop.uz/ru/click/transaction/

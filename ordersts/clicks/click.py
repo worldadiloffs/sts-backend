@@ -17,10 +17,8 @@ class OrderCheckAndPayment(ClickUz):
             print(f'check_order: {order_id}  {amount}')
             order = Order.objects.get(id=int(order_id))
             if float(order.total_price) == float(amount):
-                order.status = 'pending'
                 return self.ORDER_FOUND
             else:
-                order.status = 'cencel'
                 return self.INVALID_AMOUNT
         except Exception as e:
             logger.error(e)

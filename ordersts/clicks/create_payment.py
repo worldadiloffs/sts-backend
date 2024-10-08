@@ -19,7 +19,7 @@ class ClickTransactionPayment(APIView):
     def post(self, request):
         order_id = request.data.get("order_id")
         try:
-            order, _ = Order.objects.get_or_create(
+            order = Order.objects.get(
                 # amount=request.data.get('amount'),
                 id = order_id
 
