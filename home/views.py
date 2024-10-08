@@ -50,7 +50,7 @@ class BannerDetailViews(APIView):
         if site == "rts":
             banner = Banner.objects.get(status=True,id=pk, site_rts=True)
             if banner.category is not None:
-                product = Product.objects.filter(status=True, site_rts=True, main_category__id=banner.category.pk).order_by("-id")[:30]
+                product = Product.objects.filter(status=True, main_category__id=banner.category.pk).order_by("-id")[:30]
         product_serializers = ProductListMiniSerilizers(product , many=True)
         serialzier = BannerSerializers(banner)
         return JsonResponse(
@@ -117,7 +117,7 @@ class HomePageCategoryView(APIView):
                 if site == "sts":
                     product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_sts=True)[:10]
                 if site == "rts":
-                    product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_rts=True)[:10]
+                    product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk)[:10]
                 serialzier = ProductListMiniSerilizers(product, many=True)
                 cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
                 cart_serialzier = CardImageSerialziers(cart_image, many=True)
