@@ -13,7 +13,7 @@ def create_click_payment(amount:float, order:object ):
     return: url for click `payment
     """
     try:
-        order, _ = Order.objects.get_or_create(
+        order = Order.objects.get(
             total_price=amount,
             order=order
         )
