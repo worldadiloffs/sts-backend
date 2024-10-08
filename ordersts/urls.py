@@ -35,7 +35,7 @@ urlpatterns = [
     path('check/paycom/', TestViewPayme.as_view()),
     path('check-order/', checkout_view , name='check-order'),
     # click url 
-    path('/sts/click/transaction/', TestView.as_view(), name='click-transaction'),
+    path('/click/transaction/', TestView.as_view(), name='click-transaction'),
     path('create-click-payment/', create_click_payment, name='create-click-payment'),
 ]
 
