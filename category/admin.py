@@ -110,7 +110,7 @@ class MainCategoryAdmin(TranslationAdmin):
         else:
             qs = super().get_queryset(request)
             return qs.filter()
-    readonly_fields = ("sts_site", "rts_site",)
+    # readonly_fields = ("sts_site", "rts_site",)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
     list_editable = ("status", "header_add", "ommabob",)
     search_fields = ("main_name","id",)
