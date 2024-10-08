@@ -316,7 +316,7 @@ class OrderCreateAPIView(APIView):
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))
             order_serial = OrderGetSerializer(order_id)
             if order_id.site_sts:
-                if order_id.tolov_usullar.payment_methods:
+                if order_id.tolov_usullar.payment_methods.first() is not None:
                     return _redirect_payment(request=request, order_id=order_id.pk, payment_id=order_id.payment_method.pk)
             return Response({"data":order_serial.data, "payment": False, "site": site}, status=201)
         return Response(serializer.errors, status=400)
