@@ -152,6 +152,9 @@ def _validate_depozit(depozit, user) -> float:
     pass
 
 
+
+
+
 def _redirect_payment(request, order_id, payment_id):
     if payment_id is not None:
         order = Order.objects.filter(id=order_id).first()
@@ -162,8 +165,6 @@ def _redirect_payment(request, order_id, payment_id):
             data = {"success": True,'payment':True, 'url': url}
             return Response(data, status=status.HTTP_200_OK)
         return Response({"success": False, "payment": False}, status=status.HTTP_200_OK)
-
-
 
 
 
