@@ -218,6 +218,8 @@ class Order(models.Model):
                             cash.balance  += self.tushadigan_cash_summa
                             cash.hisobot = [{"zakas_id": self.zakas_id, "summa": self.tushadigan_cash_summa , "created_at": self.created_at.strftime('%Y-%m-%d %H:%M'), "hisob": "+"}]
                         cash.save()
+        if self.status == 'cencel':
+            self.order_close = True
         super().save(*args, **kwargs)
 
     def get_total_price(self):
