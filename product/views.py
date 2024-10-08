@@ -62,7 +62,7 @@ class ProductDetailApiview(APIView):
                     site_sts=True,
                 )[:10]
         if site == "rts":
-            product = Product.objects.get(slug=slug, status=True, site_rts=True)
+            product = Product.objects.get(slug=slug, status=True)
             if product.main_category is not None:
                 main_category_product = Product.objects.filter(
                     main_category__id=product.main_category.pk,
