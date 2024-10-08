@@ -265,7 +265,7 @@ class Order(models.Model):
             return 'Yetkazildi'
         elif self.status == 'delivered':
             return 'Xaridorga berildi'
-        elif self.status == 'cancel':
+        elif self.status == 'cencel':
             return 'Bekor Qilindi'
         
 
@@ -279,7 +279,7 @@ class Order(models.Model):
             return 'Доставленный'
         elif self.status == 'delivered':
             return 'Его отдали покупателю'
-        elif self.status == 'cancel':
+        elif self.status == 'cencel':
             return 'Bekor Qilindi'
 
     
