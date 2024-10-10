@@ -310,11 +310,15 @@ class OrderCreateAPIView(APIView):
             order_serial = OrderGetSerializer(order_id)
             if site == "sts":
                 request.data["site_sts"]= True
+                order_id.site_sts = True
+                order_id.save()
                 cash_summa = _validate_cashback(cashback_value= cashback_value,user_id= request.user.id, site="sts", zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
                 request.data['cashback'] = cash_summa
                 # request.data["total_price"] =  request.data["total_price"] - cash_summa
             if site == "rts":
                 request.data["site_rts"] = True
+                order_id.site_rts = True
+                order_id.save()
                 cash_summa = _validate_cashback(cashback_value= cashback_value, user_id= request.user.id, site="rts",zakas_id=zakas_id, mahsulot_narxi = request.data["total_price"]  )
                 request.data['cashback'] = cash_summa
             if order_id.site_sts:

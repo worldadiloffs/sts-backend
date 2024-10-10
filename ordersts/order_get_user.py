@@ -36,9 +36,9 @@ class OrderGetApiviews(APIView):
                         "order_items": i['order_items'],
                         "status_color": i['status_color'],
                         "order": i['order_obj'], })
-            if request.LANGUAGE_CODE == 'uz':
+            if request.LANGUAGE_CODE =='uz':
                 hozir_serializer = OrderGetUserSerializer(hozirgi_zakaslar, many=True)
-            if request.LANGUAGE_CODE == 'ru':
+            if request.LANGUAGE_CODE =='ru':
                 hozir_serializer = OrderGetRusUserSerializer(hozirgi_zakaslar, many=True)
             hozir = []
             if hozir_serializer:
