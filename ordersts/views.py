@@ -303,6 +303,7 @@ class OrderCreateAPIView(APIView):
             cash_summa = cashback_values(products=cashback_list)
             order_id = Order.objects.get(id=serializer.data.get('id'))
             order_id.tushadigan_cash_summa =cash_summa["data"]
+            order_id.total_price = order_id.get_total_items
             order_id.save()
             for i in order_item_data:
                 order_id.order_items.add(OrderItem.objects.get(id=i['id']))

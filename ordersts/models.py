@@ -251,7 +251,7 @@ class Order(models.Model):
     def update_status(self, new_status):
         self.status = new_status
         self.save()
-
+    @property
     def get_total_items(self):
         return sum(item.quantity for item in self.order_items.all())
     
