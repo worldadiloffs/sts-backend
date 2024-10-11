@@ -101,6 +101,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         narxi = obj.total_price and obj.total_price or 0 
         yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
         cashback_obj = float(obj.cashback and obj.cashback or 0 )
+        tolov = obj.is_finished and "To'lov amalga oshirilgan" or "To'lov qilinmagan"
         if cashback_obj > 0:
             narxi = narxi - cashback_obj
         status = obj.status and obj.status or ""
@@ -116,6 +117,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
                 "status": status_obj,
                 "Buyurtma vaqti": create_at,
                 "Yetkazib berish vaqti": yetkazish_vaqti,
+                "To'lov": tolov,
                 "Tolov usuli": tolov_usuli,
                 "Buyurtma turi": "onliyn",
                 "Yetkazib berish manzili": yetkazib_berish_manzili,
@@ -159,6 +161,7 @@ class OrderGetRusUserSerializer(serializers.ModelSerializer):
         tolov_usuli = obj.tolov_usullar and obj.tolov_usullar.name or ""
         narxi = obj.total_price and obj.total_price or 0 
         yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
+        tolov = obj.is_finished and "Платеж произведен" or "Не оплачено"
         status = obj.status and obj.status or ""
         status_obj = obj.get_status_obj_ru()
         yetkazish_vaqti = obj.yetkazish and obj.yetkazish.strftime("%Y-%m-%d") or (obj.teskor_buyurtma and "90 минут" or 'еда на вынос')
@@ -173,6 +176,7 @@ class OrderGetRusUserSerializer(serializers.ModelSerializer):
                 "Срок поставки": yetkazish_vaqti,
                 "Способ оплаты": tolov_usuli,
                 "Тип заказа": "удаленный",
+                "оплата": tolov,
                 "Адрес доставки": yetkazib_berish_manzili,
                 "Сообщение продавца": comment
             }
