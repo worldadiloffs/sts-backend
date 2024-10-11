@@ -11,7 +11,7 @@ class OrderValudeView(APIView):
     def get(self, request, site):
         if site == 'sts':    
             delivery = DeliveryService.objects.filter(site_sts=True).first()
-            tolov = TolovUsullar.objects.filter(site_sts=True)
+            tolov = TolovUsullar.objects.filter(site_sts=True).order_by("-id")
             dokon = Dokon.objects.filter(site_sts=True)
         if site == 'rts':
             delivery = DeliveryService.objects.filter(site_rts=True).first()
