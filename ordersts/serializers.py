@@ -100,7 +100,7 @@ class OrderGetUserSerializer(serializers.ModelSerializer):
         tolov_usuli = obj.tolov_usullar and obj.tolov_usullar.name or ""
         narxi = obj.total_price and obj.total_price or 0 
         yetkazib_berish = obj.dastafka_summa and obj.dastafka_summa or 0 
-        cashback_obj = float(obj.cashback)
+        cashback_obj = float(obj.cashback and obj.cashback or 0 )
         if cashback_obj > 0:
             narxi = narxi - cashback_obj
         status = obj.status and obj.status or ""
