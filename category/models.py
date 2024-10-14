@@ -199,8 +199,7 @@ class SubCategory(models.Model):
                 slug=self.slug).exists()
             if qs_exists:
                 self.slug = create_shortcode_sub(self)
-        if not(self.sts_site) or not(self.rts_site):
+        if not(self.sts_site) and not(self.rts_site):
             raise ValueError({"data": "errors"})
-
 
         super(SubCategory, self).save(*args, **kwargs)
