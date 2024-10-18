@@ -3,6 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from category.models import MainCategory , SubCategory
 from django.utils.text import slugify
 import random, string
+from django.db import models
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
 # Create your models here.
 from config.settings import site_name 
 
@@ -50,6 +54,26 @@ class Banner(models.Model):
         self.title = self.title.title() if self.title else self.title
         self.slug = self.make_slug(self.title)
         super().save(*args, **kwargs)    
+
+
+        # def save(self, *args, **kwargs):
+        # Rasmni o'qish
+        if self.image:
+            img = Image.open(self.image)
+
+            # Agar format webp bo'lsa
+            if img.format.lower() == 'webp':
+                img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
+
+                # Faylni o'zgartirish
+                img_io = BytesIO()
+                img.save(img_io, format='JPEG')
+
+                # Eski faylni yangi fayl bilan almashtirish
+                new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
+                self.image.save(new_image.name, new_image, save=False)
+
+        super().save(*args, **kwargs)
 
 
 

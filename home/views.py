@@ -20,7 +20,7 @@ class BannerResponseSerialzier(serializers.Serializer):
 
 
 class BannerView(APIView):
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=BannerResponseSerialzier
@@ -37,7 +37,7 @@ class BannerView(APIView):
     
 
 class BannerDetailViews(APIView):
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=BannerResponseSerialzier
@@ -62,7 +62,7 @@ class BannerDetailViews(APIView):
 
 
 class HomePageCategoryView(APIView):
-    @method_decorator(cache_page(60 * 15))
+    @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
     @extend_schema(
             responses=ResponseHOme
@@ -136,3 +136,29 @@ class HomePageCategoryView(APIView):
 
 
 
+from django.db import models
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
+
+# class Product(models.Model):
+#     image = models.ImageField(upload_to='images/')
+
+#     def save(self, *args, **kwargs):
+#         # Rasmni o'qish
+#         if self.image:
+#             img = Image.open(self.image)
+
+#             # Agar format webp bo'lsa
+#             if img.format.lower() == 'webp':
+#                 img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
+
+#                 # Faylni o'zgartirish
+#                 img_io = BytesIO()
+#                 img.save(img_io, format='JPEG')
+
+#                 # Eski faylni yangi fayl bilan almashtirish
+#                 new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
+#                 self.image.save(new_image.name, new_image, save=False)
+
+#         super().save(*args, **kwargs)
