@@ -67,13 +67,11 @@ class OrderAdmin(admin.ModelAdmin):
 
     list_max_show_all = 10
     list_per_page = 10
-
     def get_status(self, obj):
         if obj.status == 'pending':
             color = 'red'
         else:
             color = 'green'
-        
         # return f'<span style="color: {color};">{obj.get_status_display()}</span>'
         return format_html('<span style="color: {};">{}</span>', color, obj.status)
     get_status.short_description = 'Status'
