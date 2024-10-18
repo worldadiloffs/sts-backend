@@ -15,7 +15,7 @@ from django.template.response import TemplateResponse
 
 @admin.register(ContactForm)
 class ContactFormAdmin(admin.ModelAdmin):
-    list_display = ('ism', 'telefon','tex', 'created_at',)
+    list_display = ('ism', 'telefon', 'created_at',)
 
 
 admin.site.register(VazvratProdcut)

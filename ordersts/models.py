@@ -18,7 +18,7 @@ from datetime import datetime
 class ContactForm(models.Model):
     ism = models.CharField(max_length=30, blank=True)
     telefon = models.CharField(max_length=25, blank=True)
-    tex = models.TextField(blank=True)
+    tex = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True)
 
 

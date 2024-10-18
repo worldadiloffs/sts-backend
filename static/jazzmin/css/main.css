@@ -1,5 +1,38 @@
 /** Django-related improvements to AdminLTE UI **/
 
+
+/* @media  only screen and (max-w) {
+    .content-wrapper>.content {
+        padding: 0;
+        margin: 0;
+    }
+} */
+/* Mobil ekranlar uchun (600px yoki undan kichik ekranlar) */
+@media only screen and (max-width: 600px) {
+    .content-wrapper>.content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    body {
+      font-size: 14px;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 100% !important;
+      padding: 10px !important;
+    }
+    .header {
+      font-size: 20px !important;
+      text-align: center !important;
+    }
+    .menu {
+      display: none; /* Mobil uchun menyuni yashirish */
+    }
+  
+  }
+  
+
 div.inline-related {
     padding: 10px;
 }
