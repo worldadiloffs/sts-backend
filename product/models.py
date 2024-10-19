@@ -100,9 +100,9 @@ class Product(models.Model):
     
     # create_date = models.DateTimeField(auto_now_add=True, blank=True , editable=False)
     
-    site_sts = models.BooleanField(default=False, blank=True)
+    site_sts = models.BooleanField(default=False, blank=True, db_index=True)
     
-    site_rts = models.BooleanField(default=False, blank=True)
+    site_rts = models.BooleanField(default=False, blank=True, db_index=True)
     
     serenaTrue_countFalse = models.BooleanField(default=True, editable=False)
 
