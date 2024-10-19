@@ -128,6 +128,8 @@ class Product(models.Model):
     
     available = models.BooleanField(default=True, blank=True, editable=False)
 
+    cash_foiz = models.PositiveIntegerField(blank=True, null=True, editable=False)
+
 
     def cart_title(self, obj):
         if self.news:

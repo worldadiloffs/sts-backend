@@ -3,7 +3,7 @@ from cashback.views import cashback_values
 from .models import Product, Image
 from config.settings import site_name
 from settings.models import OrderSetting , CashBackSetting
-
+import random
 from django.core.cache import cache
 from .servisses import get_image_url_from_cloudflare 
 
@@ -140,6 +140,7 @@ class ProductSerialzier(serializers.ModelSerializer):
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
+    
     def get_discount_price(self, obj):
         return obj.discount_price and int(obj.discount_price * doller_funtion()) or int((obj.price * doller_funtion()) * 1.2) 
       
@@ -237,14 +238,15 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
             "sub_category",
             "cashback_value",
             "aksiya",
+            'cash_foiz',
         )
 
 
-    def get_cashback_value(self, obj):
-        if CashBackSetting.objects.filter(category_tavar__id=obj.sub_category_id).exists() or CashBackSetting.objects.filter(product__id=obj.id).exists():
-            cash = cashback_values(products=[{"id": obj.id, "count": 1}])
-            return int(cash["data"])
-        return 0
+    # def get_cashback_value(self, obj):
+    #     if CashBackSetting.objects.filter(category_tavar__id=obj.sub_category_id).exists() or CashBackSetting.objects.filter(product__id=obj.id).exists():
+    #         cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+    #         return int(cash["data"])
+    #     return 0
         
 
 
@@ -254,13 +256,23 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
         return None
     
 
-    def get_discount_price(self, obj):
-        if obj.price:
-            return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
+    # def get_discount_price(self, obj):
+    #     if obj.price:
+    #         return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
         
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
+    
+    def get_get_discount_price(self, obj):
+        if obj.discount_price:
+            return  int(obj.discount_price * doller_funtion())
+        return int(obj.get_price() * random.uniform(1.3, 1.6))
+    
+    def get_cashback_value(self, obj):
+        if obj.cash_foiz and obj.price:
+            return obj.get_price() * obj.cash_foiz / 100
+        return 0
 
     def get_image(self, obj):
         image = obj.image
