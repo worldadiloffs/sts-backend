@@ -309,7 +309,7 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for main in MainCategory.objects.filter(superCategory__id=super_id):
-                        prod_obj = Product.objects.filter(
+                        prod_obj = Product.objects.select_related('main_category').filter(
                             status=True, main_category__id=main.pk
                         )[:5]
                         serialzier = ProductListMiniSerilizers(prod_obj, many=True)
@@ -347,7 +347,7 @@ class CategoryProductViews(APIView):
                 product_object = []
                 if sub_category:
                     for sub in SubCategory.objects.filter(mainCategory__id=main_id):
-                        prod_obj = Product.objects.filter(
+                        prod_obj = Product.objects.select_related('sub_category').filter(
                             status=True,  sub_category__id=sub.pk
                         )[:5]
                         serialzeir = ProductListMiniSerilizers(prod_obj, many=True)

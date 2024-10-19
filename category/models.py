@@ -165,6 +165,8 @@ class SubCategory(models.Model):
     sts_site = models.BooleanField(default=False, verbose_name=_("Site STS uchun status"))
     rts_site = models.BooleanField(default=False, verbose_name=_("Site RTS uchun status"))
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("Yaratilgan vaqti"))    
+    update_date = models.DateField(blank=True, null=True)
+    product_count = models.PositiveIntegerField(default=0, verbose_name=_("Tegishli tavarlar soniya"))
 
     class Meta:
         verbose_name_plural = "Sub Kategoriyalar"
