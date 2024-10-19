@@ -217,6 +217,9 @@ class Product(models.Model):
     class Meta:
         verbose_name_plural = "Tavarlar"
         ordering = ["pk", "product_name"]
+        indexes = [
+            models.Index(fields=['super_category', 'main_category', 'sub_category', 'articul', 'slug']),  # Yangi kompozit indeks
+        ]
 
     def __str__(self):
         return self.product_name
