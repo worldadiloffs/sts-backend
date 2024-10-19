@@ -2,7 +2,7 @@ from rest_framework import serializers
 from cashback.views import cashback_values
 from .models import Product, Image
 from config.settings import site_name
-from settings.models import OrderSetting
+from settings.models import OrderSetting , CashBackSetting
 
 from django.core.cache import cache
 from .servisses import get_image_url_from_cloudflare 
@@ -234,15 +234,18 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
             "tavar_dagavornaya",
             "counts",
             "super_category",
+            "sub_category",
             "cashback_value",
             "aksiya",
         )
 
 
     def get_cashback_value(self, obj):
-        cash = cashback_values(products=[{"id": obj.id, "count": 1}])
-        return int(cash["data"])
-     
+        if CashBackSetting.objects.filter(category_tavar__id=obj.sub_category_id).exists() or CashBackSetting.objects.filter(product__id=obj.id).exists():
+            cash = cashback_values(products=[{"id": obj.id, "count": 1}])
+            return int(cash["data"])
+        return 0
+        
 
 
     def get_kredit_summa(self, obj):
