@@ -256,22 +256,24 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
         return None
     
 
-    # def get_discount_price(self, obj):
-    #     if obj.price:
-    #         return obj.discount_price and int(obj.discount_price * doller_funtion()* 1.4) or int((obj.price * doller_funtion()) * 1.3)
+    def get_discount_price(self, obj):
+        if obj.price:
+            return obj.discount_price and int(obj.discount_price * doller_funtion()* random.uniform(1.3, 1.6)) or int((obj.price * doller_funtion()) * random.uniform(1.3, 1.6))
         
+
+    
 
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
     
-    def get_discount_price(self, obj):
-        if obj.discount_price:
-            return  int(obj.discount_price * doller_funtion())
-        return int(self.get_price() * random.uniform(1.3, 1.6))
+    # def get_discount_price(self, obj):
+    #     if obj.discount_price:
+    #         return  int(obj.discount_price * doller_funtion())
+    #     return int(self.get_price() * random.uniform(1.3, 1.6))
     
     def get_cashback_value(self, obj):
         if obj.cash_foiz and obj.price:
-            return self.get_price() * obj.cash_foiz / 100
+            return int(obj.price * doller_funtion()) * obj.cash_foiz / 100
         return 0
 
     def get_image(self, obj):
