@@ -90,7 +90,7 @@ class SubCategoryStsMiniSerialzier(serializers.ModelSerializer):
     sub_image = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = SubCategory
-        fields = ("id", 'sub_name', 'slug', 'sub_image', 'mainCategory', 'product_content')
+        fields = ("id", 'sub_name', 'slug', 'sub_image', 'mainCategory', )
 
     def get_sub_image(self, obj):
         sub_image = obj.sub_image
