@@ -58,7 +58,7 @@ class CashBackSetting(models.Model):
     def save(self, *args, **kwargs):
         if self.category_tavar is not None:
             if Product.objects.filter(sub_category__id=self.category_tavar.pk).exists():
-                for prod in Product.objects.filter(category_tavar=self.category_tavar):
+                for prod in Product.objects.filter(sub_category__id=self.category_tavar.pk):
                     prod.cash_foiz = self.cashback_foiz
                     prod.save()
         if self.product is not None:
