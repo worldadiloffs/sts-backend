@@ -64,6 +64,7 @@ class CashBackSetting(models.Model):
         if self.product is not None:
            prod = Product.objects.get(id=self.product.id)
            prod.cash_foiz = self.cashback_foiz
+           prod.save()
         super().save(*args, **kwargs)
 
 
