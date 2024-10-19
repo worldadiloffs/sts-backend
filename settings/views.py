@@ -4,7 +4,9 @@ from django.http import JsonResponse
 from .serialziers import PageContentSerialzier, SitePageSerialzier , SettingsSeriazlier , PaymentSerialzier , DeliveryServiceSeriazleir , ServisPageSerialzier
 from .models import PageContent, SitePage , SiteSettings , PaymentMethod , DeliveryService, Shaharlar , Tumanlar , ServisPage
 
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 
 class ServisPageApiviews(APIView):
     def get(self, request, site):
@@ -20,6 +22,8 @@ class ServisPageApiviews(APIView):
 
 
 class PageApiviews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site):
         if site == 'sts':
             site_page = SitePage.objects.filter(status=True, site_sts=True)
@@ -31,6 +35,8 @@ class PageApiviews(APIView):
         )
     
 class SiteSettingsApiviews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site):
         if site =='sts':
             settings_model = SiteSettings.objects.filter(site_sts=True).first()
@@ -62,6 +68,8 @@ class SiteSettingsApiviews(APIView):
 
 
 class PageContentApiviews(APIView):
+    @method_decorator(cache_page(60 * 60 * 2))
+    @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site, slug):
         if site == 'sts':
             page_content = PageContent.objects.filter(site_sts=True, slug=slug).first()

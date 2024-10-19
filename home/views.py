@@ -22,9 +22,9 @@ class BannerResponseSerialzier(serializers.Serializer):
 class BannerView(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
-    @extend_schema(
-            responses=BannerResponseSerialzier
-    )
+    # @extend_schema(
+    #         responses=BannerResponseSerialzier
+    # )
     def get(self, request, site):
         if site == "sts":
             banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
@@ -39,9 +39,9 @@ class BannerView(APIView):
 class BannerDetailViews(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
-    @extend_schema(
-            responses=BannerResponseSerialzier
-    )
+    # @extend_schema(
+    #         responses=BannerResponseSerialzier
+    # )
     def get(self, request ,site, pk):
         if site == "sts":
             banner = Banner.objects.get(status=True,id=pk , site_sts=True)
@@ -64,9 +64,9 @@ class BannerDetailViews(APIView):
 class HomePageCategoryView(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
     @method_decorator(vary_on_headers("Authorization"))
-    @extend_schema(
-            responses=ResponseHOme
-            )
+    # @extend_schema(
+    #         responses=ResponseHOme
+    #         )
     def get(self, request, site):
         data = []
         if site == "sts":
@@ -136,29 +136,4 @@ class HomePageCategoryView(APIView):
 
 
 
-from django.db import models
-from PIL import Image
-from io import BytesIO
-from django.core.files import File
 
-# class Product(models.Model):
-#     image = models.ImageField(upload_to='images/')
-
-#     def save(self, *args, **kwargs):
-#         # Rasmni o'qish
-#         if self.image:
-#             img = Image.open(self.image)
-
-#             # Agar format webp bo'lsa
-#             if img.format.lower() == 'webp':
-#                 img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
-
-#                 # Faylni o'zgartirish
-#                 img_io = BytesIO()
-#                 img.save(img_io, format='JPEG')
-
-#                 # Eski faylni yangi fayl bilan almashtirish
-#                 new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
-#                 self.image.save(new_image.name, new_image, save=False)
-
-#         super().save(*args, **kwargs)
