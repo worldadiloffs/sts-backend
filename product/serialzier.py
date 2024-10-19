@@ -264,7 +264,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
     
-    def get_get_discount_price(self, obj):
+    def get_discount_price(self, obj):
         if obj.discount_price:
             return  int(obj.discount_price * doller_funtion())
         return int(obj.get_price() * random.uniform(1.3, 1.6))
