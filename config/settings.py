@@ -127,6 +127,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.content_prosess.canvass', 
                 'home.content_prosess.order',
+                'product.content_prosess.content_product',
             ],
         },
     },

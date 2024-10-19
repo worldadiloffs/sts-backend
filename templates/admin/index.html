@@ -29,9 +29,9 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Tavarlar</h5>
-                        <p class="card-text display-4">1,234</p>
-                        <p class="text-success">+5% from last month</p>
+                        <h5 class="card-title">STS Tavarlar</h5>
+                        <p class="card-text display-4">{{product_count_all}}</p>
+                        {% comment %} <p class="text-success">+5% from last month</p> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -41,9 +41,18 @@
             <div class="col-md-4">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Savdolar</h5>
-                        <p class="card-text display-4">$45,678</p>
-                        <p class="text-danger">-2% from last month</p>
+                        <h5 class="card-title">sts Active tavarlar</h5>
+                        <p class="card-text display-4">{{product_status_true}}</p>
+                        {% comment %} <p class="text-danger">-2% from last month</p> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">sts Active tavarlar</h5>
+                        <p class="card-text display-4">{{product_status_true}}</p>
+                        {% comment %} <p class="text-danger">-2% from last month</p> {% endcomment %}
                     </div>
                 </div>
             </div>
