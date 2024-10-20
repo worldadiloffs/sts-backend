@@ -58,20 +58,20 @@ class Banner(models.Model):
 
         # def save(self, *args, **kwargs):
         # Rasmni o'qish
-        if self.image:
-            img = Image.open(self.image)
+        # if self.image:
+        #     img = Image.open(self.image)
 
-            # Agar format webp bo'lsa
-            if img.format.lower() == 'webp':
-                img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
+        #     # Agar format webp bo'lsa
+        #     if img.format.lower() == 'webp':
+        #         img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
 
-                # Faylni o'zgartirish
-                img_io = BytesIO()
-                img.save(img_io, format='JPEG')
+        #         # Faylni o'zgartirish
+        #         img_io = BytesIO()
+        #         img.save(img_io, format='JPEG')
 
-                # Eski faylni yangi fayl bilan almashtirish
-                new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
-                self.image.save(new_image.name, new_image, save=False)
+        #         # Eski faylni yangi fayl bilan almashtirish
+        #         new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
+        #         self.image.save(new_image.name, new_image, save=False)
 
         super().save(*args, **kwargs)
 
