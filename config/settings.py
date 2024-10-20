@@ -93,41 +93,26 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3001",
 ]
 
-# MIDDLEWARE = [
-#     "debug_toolbar.middleware.DebugToolbarMiddleware",
-#     "django.middleware.security.SecurityMiddleware",
-#     "django.contrib.sessions.middleware.SessionMiddleware",
-#     'django.middleware.locale.LocaleMiddleware',
-#     "whitenoise.middleware.WhiteNoiseMiddleware",
-#     "corsheaders.middleware.CorsMiddleware",
-#     "django.middleware.common.CommonMiddleware",
-#     "django.middleware.cache.FetchFromCacheMiddleware",
-#     "django.middleware.csrf.CsrfViewMiddleware",
-#     "django.contrib.auth.middleware.AuthenticationMiddleware",
-#     "django.contrib.messages.middleware.MessageMiddleware",
-#     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-#     # "config.midilware.errorshandler.Custom404Middleware",
-#     SILKY_MIDDLEWARE_CLASS,
-#     "axes.middleware.AxesMiddleware",
-# ]
-
-
 MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",  # Xavfsizlikni ta'minlash
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Statik fayllarni tezroq xizmat qilish
-    "django.middleware.cache.FetchFromCacheMiddleware",  # Keshlangan javoblarni olish
-    "django.middleware.common.CommonMiddleware",  # URL yo'naltirishlarni amalga oshirish
-    "django.middleware.csrf.CsrfViewMiddleware",  # CSRF himoyasi
-    "django.contrib.sessions.middleware.SessionMiddleware",  # Sessiya boshqaruvi
-    "django.contrib.auth.middleware.AuthenticationMiddleware",  # Avtorizatsiya
-    "django.middleware.locale.LocaleMiddleware",  # Mahalliylashtirish (ixtiyoriy)
-    "django.contrib.messages.middleware.MessageMiddleware",  # Xabarlar
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",  # XFrame himoyasi
-    "corsheaders.middleware.CorsMiddleware",  # CORS qo'llab-quvvatlash
-    "axes.middleware.AxesMiddleware",  # Xavfsizlikni kuchaytirish (kengaytirilgan)
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",  # Debug uchun (fakultativ, faqat ishlab chiqish vaqtida)
-    
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "config.midilware.errorshandler.Custom404Middleware",
+    SILKY_MIDDLEWARE_CLASS,
+    "axes.middleware.AxesMiddleware",
 ]
+
+
+
 # if DEBUG:
 #     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
