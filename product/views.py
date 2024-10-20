@@ -50,7 +50,7 @@ class ImageServis(APIView):
 
 class ProductDetailApiview(APIView):
     @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    # @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site, slug):
         main_category_product = None
         if site == "sts":
@@ -285,8 +285,8 @@ class CartProductApiview(APIView):
 
 
 class CategoryProductViews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 6))
+    # @method_decorator(vary_on_headers("Authorization"))
     # @extend_schema(
     #     # parameters=[ParemententCategorySerialzeir],
     #     responses=SuperCategoryStsSerializer

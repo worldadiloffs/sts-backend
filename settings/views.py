@@ -22,8 +22,8 @@ class ServisPageApiviews(APIView):
 
 
 class PageApiviews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 6))
+    # @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site):
         if site == 'sts':
             site_page = SitePage.objects.filter(status=True, site_sts=True)
@@ -35,8 +35,8 @@ class PageApiviews(APIView):
         )
     
 class SiteSettingsApiviews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 6))
+    # @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site):
         if site =='sts':
             settings_model = SiteSettings.objects.filter(site_sts=True).first()
@@ -68,8 +68,8 @@ class SiteSettingsApiviews(APIView):
 
 
 class PageContentApiviews(APIView):
-    @method_decorator(cache_page(60 * 60 * 2))
-    @method_decorator(vary_on_headers("Authorization"))
+    @method_decorator(cache_page(60 * 60 * 6))
+    # @method_decorator(vary_on_headers("Authorization"))
     def get(self, request, site, slug):
         if site == 'sts':
             page_content = PageContent.objects.filter(site_sts=True, slug=slug).first()
