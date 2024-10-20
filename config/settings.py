@@ -128,8 +128,8 @@ MIDDLEWARE = [
     # "debug_toolbar.middleware.DebugToolbarMiddleware",  # Debug uchun (fakultativ, faqat ishlab chiqish vaqtida)
     
 ]
-if DEBUG:
-    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+# if DEBUG:
+#     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 # if request.user.is_staff:
 #     # AxesMiddleware faqat adminlar uchun
