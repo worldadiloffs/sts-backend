@@ -289,12 +289,12 @@ class OrderCreateAPIView(APIView):
             else:
                 return Response({"errors": "Invalid depozit amount"}, status=400)
         if request.data.get('shahar') is not None:
+            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user_id=request.user.id, qishloq=request.data['qishloq'])
             shhar = Shaharlar.objects.get(name=request.data['shahar'])
             request.data['shahar'] = shhar.pk
         if request.data['tuman'] is not None:
             tuman = Tumanlar.objects.get(name=request.data['tuman'])
             request.data['tuman']=  tuman.pk 
-            _user_address_to_dict(shahar=request.data['shahar'], tuman=request.data['tuman'], user_id=request.user.id, qishloq=request.data['qishloq'])
 
 
         serializer = OrderSerializer(data=request.data)
