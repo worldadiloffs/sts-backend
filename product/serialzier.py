@@ -213,7 +213,7 @@ class ProductDetailSerialzeir(serializers.ModelSerializer):
 
 
 class ProductListMiniSerilizers(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField(read_only=True)
+    # image = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField(read_only=True)
     price = serializers.SerializerMethodField()
     discount_price = serializers.SerializerMethodField(read_only=True)
