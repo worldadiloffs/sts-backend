@@ -14,7 +14,7 @@ from product.models import Image
 
 
 def run():
-    image = Image.objects.all()[299:400]
+    image = Image.objects.all()[399:500]
     for i in image:
         if i.image is not None:
             cload_id = upload_image_to_cloudflare(i.image.file)
