@@ -21,6 +21,7 @@ class ImageSeriazilizer(serializers.ModelSerializer):
     #     if image:
     #         return site_name + image.url
     #     return None
+    
     def get_image(self, obj):
         image = obj.image
         if image:
