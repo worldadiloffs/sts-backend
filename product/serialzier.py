@@ -298,7 +298,7 @@ class ParemententCategorySerialzeir(serializers.Serializer):
 
 
 class ProductListMiniSearchSerilizers(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField(read_only=True)
+    # image = serializers.SerializerMethodField(read_only=True)
     category_name = serializers.SerializerMethodField(read_only=True)
     price = serializers.SerializerMethodField()
     discount_price = serializers.SerializerMethodField(read_only=True)
@@ -346,11 +346,11 @@ class ProductListMiniSearchSerilizers(serializers.ModelSerializer):
     def get_price(self, obj):
         return obj.price and int(obj.price * doller_funtion()) or 0
 
-    def get_image(self, obj):
-        image = obj.image
-        if image:
-            return site_name + image
-        return None
+    # def get_image(self, obj):
+    #     image = obj.image
+    #     if image:
+    #         return site_name + image
+    #     return None
 
     def get_category_name(self, obj):
         category = obj.super_category
