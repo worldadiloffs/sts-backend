@@ -107,6 +107,9 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
         model = MainCategory
         fields = ('id', 'slug', 'main_name', 'main_image', 'main_icon','superCategory', 'children')
 
+
+    
+
     
     def get_main_image(self, obj):
         category_image = obj.main_image
@@ -119,6 +122,7 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
         if icon:
             return site_name + icon.url 
         return None
+    
 
 
 class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
