@@ -386,7 +386,7 @@ class CategoryProductViews(APIView):
             if types == "sub":
                 filter_prods = SubCategory.objects.get(slug=slug)
                 sub_id = filter_prods.pk
-                limit = 16
+                limit = 24
                 current = int(next) - 1
                 if (
                     min_price is not None
