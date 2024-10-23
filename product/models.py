@@ -187,6 +187,8 @@ class Product(models.Model):
     def image(self):
         obj = self.images.first()
         if obj and obj.image:
+            if obj.cloudflare_id:
+                return get_image_url_from_cloudflare(obj.cloudflare_id)
             return obj.image.url
         return None
     
