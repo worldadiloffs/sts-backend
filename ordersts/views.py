@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cashback.models import CashbackKard
-from ordersts.amocrm.views import AmocrmManager
+from ordersts.amocrm.views import request_to_amocrm
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
 from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon , ContactForm
@@ -34,13 +34,13 @@ class ContactFormApiveiws(APIView):
         if not user.is_authenticated:
             return JsonResponse({"errors": True, "message": "User not authenticated"}, safe=False, status=401)
         serializer = ContactFormSerializer(data=request.data)
-        ism = serializer.data.get('ism')
-        telefon = serializer.data.get('telefon')
-        amo = AmocrmManager()
-        amo.create_request_amocrm(name=ism, phone=telefon)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=201)
+       
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            ism = serializer.data.get('ism')
+            telefon = serializer.data.get('telefon')
+            request_to_amocrm(phone=telefon, name=ism)
+            return Response(serializer.data, status=201)
     def get(self, request, *args, **kwargs):
         contact_form = ContactForm.objects.all()
         serialzier = ContactFormSerializer(contact_form, many=True)
