@@ -99,17 +99,17 @@ class MainCategoryAdmin(TranslationAdmin):
                 obj.rts_site = True
         # Save the object
         super().save_model(request, obj, form, change)
-    # def get_queryset(self, request):
-    #     user = request.user
-    #     if user.site_sts:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(sts_site=True)
-    #     if user.site_rts:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter(rts_site=True)
-    #     else:
-    #         qs = super().get_queryset(request)
-    #         return qs.filter()
+    def get_queryset(self, request):
+        user = request.user
+        if user.site_sts:
+            qs = super().get_queryset(request)
+            return qs.filter(sts_site=True)
+        if user.site_rts:
+            qs = super().get_queryset(request)
+            return qs.filter(rts_site=True)
+        else:
+            qs = super().get_queryset(request)
+            return qs.filter()
     # readonly_fields = ("sts_site", "rts_site",)
     list_display = ("main_name", 'sts_site', 'rts_site', 'header_add', 'ommabob', 'status',"image_tag",)
     list_editable = ("status", "header_add", "ommabob", 'sts_site', 'rts_site',)
