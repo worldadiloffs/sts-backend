@@ -5,10 +5,10 @@ from io import BytesIO
 from django.core.files import File
 
 def run():
-    for i in SuperCategory.objects.all():
+    for i in MainCategory.objects.all():
         # Rasmni o'qish
-        if i.category_image:
-            img = Image.open(i.category_image)
+        if i.main_image:
+            img = Image.open(i.main_image)
 
             # Agar format webp bo'lsa
             if img.format.lower() == 'webp':
@@ -19,11 +19,11 @@ def run():
                 img.save(img_io, format='JPEG')
 
                 # Eski faylni yangi fayl bilan almashtirish
-                new_image = File(img_io, name=i.category_image.name.replace('webp', 'jpg'))
-                i.category_image.save(new_image.name, new_image, save=False)
+                new_image = File(img_io, name=i.main_image.name.replace('webp', 'jpg'))
+                i.main_image.save(new_image.name, new_image, save=False)
                 i.save()
 
-                print(i.super_name)
+                print(i.main_name)
 
 
 # def run():
