@@ -4,7 +4,7 @@ from io import BytesIO
 from django.core.files import File
 
 def run():
-    for i in ImagesObj.objects.all()[:1000]:
+    for i in ImagesObj.objects.all()[1000:]:
         # Rasmni o'qish
         if i.image:
             img = Image.open(i.image)
