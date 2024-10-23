@@ -16,7 +16,7 @@ from product.models import Image
 def run():
     # count = Image.objects.all().count()
     # print(count)
-    image = Image.objects.all()[1599:1700]
+    image = Image.objects.all()[1699:1800]
     j = 0
     for i in image:
         if i.image is not None:
