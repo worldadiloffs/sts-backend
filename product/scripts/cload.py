@@ -16,11 +16,14 @@ from product.models import Image
 def run():
     count = Image.objects.all().count()
     print(count)
-    image = Image.objects.all()[1099:1200]
+    image = Image.objects.all()[1199:1300]
+    i = 0
     for i in image:
         if i.image is not None:
             cload_id = upload_image_to_cloudflare(i.image.file)
             i.cloudflare_id = cload_id
             i.save()
+            i = i+1 
+            print(i)
             print(i.cloudflare_id)
 
