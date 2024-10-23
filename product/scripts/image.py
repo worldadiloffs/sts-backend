@@ -4,7 +4,7 @@ from io import BytesIO
 from django.core.files import File
 
 def run():
-    for i in ImagesObj.objects.all()[:100]:
+    for i in ImagesObj.objects.all()[:10]:
         # Rasmni o'qish
         if i.image:
             img = Image.open(i.image)
@@ -20,7 +20,9 @@ def run():
                 # Eski faylni yangi fayl bilan almashtirish
                 new_image = File(img_io, name=i.image.name.replace('webp', 'jpg'))
                 i.image.save(new_image.name, new_image, save=False)
-        print(i.product)
+                i.save()
+
+                print(i.product)
 
 
 # def run():
