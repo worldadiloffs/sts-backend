@@ -2,6 +2,7 @@ from .models import   HomePageCategory , Banner , CardImage
 from rest_framework import serializers 
 from product.serialzier import ProductListMiniSerilizers
 from config.settings import site_name
+from product.servisses import get_image_url_from_cloudflare
 
 
 
@@ -22,10 +23,12 @@ class BannerSerializers(serializers.ModelSerializer):
     image = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Banner
-        fields = ( 'id', 'title', 'slug', 'status',  'category', 'image')
+        fields = ( 'id', 'title', 'slug', 'status',  'category', 'image', 'cloudflare_id',)
 
 
     def get_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
         image = obj.image
         if image:
             return site_name + image.url 
