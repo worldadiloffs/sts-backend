@@ -130,6 +130,11 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
         model  = SuperCategory
         fields = ('id', 'slug', 'super_name','images', 'super_icon',  'category_image','children')
 
+    def get_children(self, obj):
+        """Filterlangan bolalar kategoriyalarini qaytarish"""
+        children = obj.maincategory_set.filter(status=True)  # Faqat faol bolalar kategoriyalari
+        return MainCategortStsMiniSerializer(children, many=True).data
+
     def get_images(self, obj):
         category_image = obj.category_image
         if category_image :
