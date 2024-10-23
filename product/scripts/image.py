@@ -20,6 +20,7 @@ def run():
                 # Eski faylni yangi fayl bilan almashtirish
                 new_image = File(img_io, name=i.image.name.replace('webp', 'jpg'))
                 i.image.save(new_image.name, new_image, save=False)
+        print(i.product)
 
 
 # def run():
