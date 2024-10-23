@@ -10,9 +10,6 @@ from category.utils import create_shortcode_super, create_shortcode_main, create
 
 from django.utils.html import format_html
 
-
-
-
 class SuperCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     super_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Asosiy Kategoriya Nomi"))
@@ -143,11 +140,6 @@ class MainCategory(models.Model):
         if not(self.sts_site or self.rts_site):
             raise ValidationError("At least one of 'STS_site' or 'RTS_site' must be True")
         super(MainCategory, self).save(*args, **kwargs)
-
-
-
-
-
 
 class SubCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))

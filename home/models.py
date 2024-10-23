@@ -73,7 +73,7 @@ class Banner(models.Model):
         #         new_image = File(img_io, name=self.image.name.replace('webp', 'jpg'))
         #         self.image.save(new_image.name, new_image, save=False)
 
-        super().save(*args, **kwargs)
+        # super().save(*args, **kwargs)
 
 
 
