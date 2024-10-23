@@ -122,7 +122,7 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
 
 
 class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
-    children = MainCategortStsMiniSerializer(many=True, source='maincategory_set')
+    children = serializers.SerializerMethodField()  # Custom method orqali filterlangan ma'lumotlar
     category_image = serializers.SerializerMethodField()
     images = serializers.SerializerMethodField()
     super_icon = serializers.SerializerMethodField()
