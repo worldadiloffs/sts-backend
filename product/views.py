@@ -254,7 +254,7 @@ class CartProductApiview(APIView):
                         "counts": product.get("counts"),
                         "id": product_obj.pk,
                         "image": product_obj.image
-                        and (site_name + product_obj.image)
+                        and (product_obj.image)
                         or None,
                         "price": int(product_obj.price * doller),
                         "product_name": product_obj.product_name,
