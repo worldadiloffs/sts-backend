@@ -19,6 +19,7 @@ class Banner(models.Model):
     url = models.URLField(blank=True, verbose_name=_("URL Linki"))
     image = models.ImageField(upload_to='banner/images', blank=True, verbose_name=_("Rasim"))
     category = models.ForeignKey(MainCategory , on_delete=models.SET_NULL , blank=True, null=True, verbose_name=_("Kategoriya"))
+    cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
     site_sts =models.BooleanField(default=False, blank=True, verbose_name=_("Site STS"))
     site_rts =models.BooleanField(default=False, blank=True, verbose_name=_("Site RTS"))
     
