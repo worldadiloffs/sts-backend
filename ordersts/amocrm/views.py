@@ -44,7 +44,7 @@ class AmocrmManager:
                     {
                     "name": name,   
                                 # "created_by": 0,
-                                "price": 20000,
+                                # "price": 20000,
                                 "_embedded": {
                                     "contacts": [
                                         {
@@ -52,19 +52,19 @@ class AmocrmManager:
                                         }
                                     ]
                                 },
-                                "custom_fields_values": [
-                    {
-                        "field_id": 1058921,               
+                #  "custom_fields_values": [
+                #     {
+                #         "field_id": 1058921,               
                         
-                        "values": [
-                            {
+                #         "values": [
+                #             {
                                 
-                                "value": "Kamera",
+                #                 "value": "Kamera",
                                 
-                            }
-                        ]
-                    }
-                ]
+                #             }
+                #         ]
+                #     }
+                # ]
             },
         
         ]
