@@ -277,11 +277,11 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
             return int(obj.price * doller_funtion()) * obj.cash_foiz / 100
         return 0
 
-    def get_image(self, obj):
-        image = obj.image
-        if image:
-            return site_name + image
-        return None
+    # def get_image(self, obj):
+    #     image = obj.image
+    #     if image:
+    #         return site_name + image
+    #     return None
 
     def get_category_name(self, obj):
         category = obj.super_category
