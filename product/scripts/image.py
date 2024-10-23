@@ -1,13 +1,14 @@
 from product.models import Product , Image as ImagesObj
+from category.models import SubCategory, SuperCategory, MainCategory
 from PIL import Image
 from io import BytesIO
 from django.core.files import File
 
 def run():
-    for i in ImagesObj.objects.all()[1000:]:
+    for i in SuperCategory.objects.all():
         # Rasmni o'qish
-        if i.image:
-            img = Image.open(i.image)
+        if i.category_image:
+            img = Image.open(i.category_image)
 
             # Agar format webp bo'lsa
             if img.format.lower() == 'webp':
@@ -18,11 +19,11 @@ def run():
                 img.save(img_io, format='JPEG')
 
                 # Eski faylni yangi fayl bilan almashtirish
-                new_image = File(img_io, name=i.image.name.replace('webp', 'jpg'))
-                i.image.save(new_image.name, new_image, save=False)
+                new_image = File(img_io, name=i.category_image.name.replace('webp', 'jpg'))
+                i.category_image.save(new_image.name, new_image, save=False)
                 i.save()
 
-                print(i.product)
+                print(i.super_name)
 
 
 # def run():
