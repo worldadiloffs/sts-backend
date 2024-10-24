@@ -139,7 +139,7 @@ class HomePageCategory(models.Model):
     def __str__(self):
         return self.title
     
-
+    @property
     def images_obj(self):
         if self.cloudflare_id:
             return upload_image_to_cloudflare(self.cloudflare_id)
@@ -165,7 +165,7 @@ class HomePageCategory(models.Model):
             return f"{self.mainCategory.main_name}"
         return None
     
-    
+    @property
     def image_tag(self):
         if self.image is not None:
             return format_html("<img width=100 height=75 style='border-radius: 2px;' src='{}'>".format(self.image.url))
