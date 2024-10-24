@@ -2,6 +2,7 @@ from .models import SuperCategory , MainCategory , SubCategory
 
 from rest_framework import serializers
 from config.settings import site_name
+from product.servisses import get_image_url_from_cloudflare
 
 
 class SuperCategoryOneSeriazleir(serializers.ModelSerializer):
@@ -12,6 +13,8 @@ class SuperCategoryOneSeriazleir(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_category_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
         category_image = obj.category_image
         if category_image:
             return site_name + category_image.url
@@ -33,6 +36,8 @@ class SubCategoryStsSerialzier(serializers.ModelSerializer):
         model = SubCategory
         fields = "__all__"
     def get_sub_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
         sub_image = obj.sub_image
         if sub_image:
             return site_name + sub_image.url
@@ -50,6 +55,8 @@ class MainCategortStsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_main_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
         category_image = obj.main_image
         if category_image:
             return site_name + category_image.url
@@ -73,6 +80,9 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_category_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         category_image = obj.category_image
         if category_image:
             return site_name + category_image.url
@@ -93,6 +103,9 @@ class SubCategoryStsMiniSerialzier(serializers.ModelSerializer):
         fields = ("id", 'sub_name', 'slug', 'sub_image', 'mainCategory', )
 
     def get_sub_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         sub_image = obj.sub_image
         if sub_image:
             return site_name + sub_image.url
@@ -112,6 +125,9 @@ class MainCategortStsMiniSerializer(serializers.ModelSerializer):
 
     
     def get_main_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         category_image = obj.main_image
         if category_image:
             return site_name + category_image.url
@@ -140,6 +156,9 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
         return MainCategortStsMiniSerializer(children, many=True).data
 
     def get_images(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         category_image = obj.category_image
         if category_image :
             return site_name + category_image.url
@@ -152,6 +171,9 @@ class SuperCategoryStsMiniSerializer(serializers.ModelSerializer):
         return None
     
     def get_category_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         if obj.category_image:
             return site_name + obj.category_image.url
         return None
@@ -164,6 +186,9 @@ class MainCategortStsMiniHomeSerializer(serializers.ModelSerializer):
         fields = ('id', 'slug', 'main_name', 'main_image', 'superCategory',)
     
     def get_main_image(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)  # Cloudflare id bilan rasmni o'qish
+
         image = obj.main_image
         if image:
             return site_name + image.url
