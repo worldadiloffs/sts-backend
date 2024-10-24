@@ -61,6 +61,7 @@ class SubCategoryAdmin(TranslationAdmin):
         "mainCategory",
         "sub_name",
         "sub_image",
+        "cloudflare_id",
     ]
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
@@ -115,7 +116,7 @@ class MainCategoryAdmin(TranslationAdmin):
     list_editable = ("status", "header_add", "ommabob", 'sts_site', 'rts_site',)
     search_fields = ("main_name","id",)
     list_filter=('sts_site', 'rts_site', 'status',)
-    fields = ["rating", "superCategory", "main_name", "main_image", "icon","header_add", "ommabob", "status",]
+    fields = ["rating", "superCategory", "main_name", "main_image", "icon","header_add", "ommabob", "status","cloudflare_id",]
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
@@ -157,7 +158,7 @@ class SuperCategoryAdmin(TranslationAdmin):
     list_editable = ("status","sts_site", "rts_site",)
     search_fields = ("super_name","id", )
     list_filter=('sts_site', 'rts_site', 'status',)
-    fields = ["rating","super_name", "category_image", "super_image_content", "icon", "status",]
+    fields = ["rating","super_name", "category_image", "super_image_content", "icon", "status","cloudflare_id",]
     formfield_overrides = {
         JSONField: {'widget': JSONEditor},
     }
