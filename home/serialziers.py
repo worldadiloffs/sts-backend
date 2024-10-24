@@ -13,6 +13,8 @@ class CardImageSerialziers(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_images(self, obj):
+        if obj.cloudflare_id:
+            return get_image_url_from_cloudflare(obj.cloudflare_id)
         image = obj.images
         if image:
             return site_name + image.url 

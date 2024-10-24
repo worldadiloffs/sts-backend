@@ -85,7 +85,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and (site_name + i.image.url) or None,
+                        "banner_image": i.image and (i.images_obj) or None,
                         "banner_image_url": i.image_url,
                         "product": cart_serialzier.data,
                         "product": seriazlier.data
@@ -104,7 +104,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and (site_name + i.image.url ) or None,
+                        "banner_image": i.image and (i.images_obj ) or None,
                         "card_image": cart_serialzier.data,
                         "banner_image_url": i.image_url,
                         "product": prod_seriazlier.data
@@ -124,7 +124,7 @@ class HomePageCategoryView(APIView):
                 data.append(
                     {
                         "category_name": i.title,
-                        "banner_image": i.image and (site_name + i.image.url ) or None,
+                        "banner_image": i.image and (i.images_obj ) or None,
                         "banner_image_url": i.image_url,
                         "card_image": cart_serialzier.data,
                         "product": serialzier.data

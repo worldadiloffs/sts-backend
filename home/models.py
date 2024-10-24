@@ -99,6 +99,16 @@ class CardImage(models.Model):
             cload_id = upload_image_to_cloudflare(self.images.file)
             self.cloudflare_id = cload_id
         super().save(*args, **kwargs)
+
+
+    def image_obj(self):
+        if self.cloudflare_id:
+            return upload_image_to_cloudflare(self.cloudflare_id)
+        
+        else:
+            if self.images:
+                return site_name + self.images.url
+            return None
    
 
 
@@ -128,6 +138,15 @@ class HomePageCategory(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+    def images_obj(self):
+        if self.cloudflare_id:
+            return upload_image_to_cloudflare(self.cloudflare_id)
+        else:
+            if self.image:
+                return site_name + self.image.url
+            return None
 
 
     @classmethod
