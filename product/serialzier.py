@@ -51,7 +51,7 @@ def doller_funtion():
 
 
 class CalculatorProdcutSerialzier(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField(read_only=True)
+    # image = serializers.SerializerMethodField(read_only=True)
 
     price = serializers.SerializerMethodField()
 
@@ -68,11 +68,11 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
         price = {"price": price, "nds": int(orders_settings.nds * obj.price / 100 * orders_settings.doller), "nds_narx": umumiy_narx}
         return price
     
-    def get_image(self, obj):
-        image = obj.image
-        if image:
-            return site_name + image
-        return None
+    # def get_image(self, obj):
+    #     image = obj.image
+    #     if image:
+    #         return site_name + image
+    #     return None
     
 
 
