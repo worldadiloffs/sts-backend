@@ -29,10 +29,13 @@ from category.models import SuperCategory, MainCategory, SubCategory
 #             print(i.cloudflare_id)
 
 def run():
-    main_category = MainCategory.objects.all()
+    j = 0
+    main_category = SubCategory.objects.all()
     for i in main_category:
-        if i.main_image:
+        if i.sub_image:
+            j = j+1
             i.save()
+            print(j)
             print(i.cloudflare_id)
 
 
