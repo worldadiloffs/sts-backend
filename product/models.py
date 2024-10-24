@@ -46,7 +46,7 @@ class Image(models.Model):
         if not self.cloudflare_id:
             return ""
         cloudflare_id = self.cloudflare_id
-        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="admin")
+        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
         return img_url
 
     
@@ -55,7 +55,7 @@ class Image(models.Model):
         if not self.cloudflare_id:
             return ""
         cloudflare_id = self.cloudflare_id
-        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="admin")
+        img_url = get_image_url_from_cloudflare(cloudflare_id, variant="mobile")
         img_html = f'<img src="{img_url}">'
         return format_html(img_html)
     
@@ -191,7 +191,7 @@ class Product(models.Model):
         obj = self.images.first()
         if obj and obj.image:
             if obj.cloudflare_id:
-                return get_image_url_from_cloudflare(obj.cloudflare_id)
+                return get_image_url_from_cloudflare(obj.cloudflare_id, variant='mobile')
             return obj.image.url
         return None
     
