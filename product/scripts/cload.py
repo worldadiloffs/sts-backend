@@ -2,7 +2,7 @@ from home.models import Banner
 from product.servisses import upload_image_to_cloudflare
 from product.models import Image
 from category.models import SuperCategory, MainCategory, SubCategory
-
+from home.models import HomePageCategory , CardImage
 
 # def run():
 #     homes = Banner.objects.all()
@@ -28,15 +28,24 @@ from category.models import SuperCategory, MainCategory, SubCategory
 #             print(j)
 #             print(i.cloudflare_id)
 
+# def run():
+#     j = 0
+#     main_category = SubCategory.objects.all()
+#     for i in main_category:
+#         if i.sub_image:
+#             j = j+1
+#             i.save()
+#             print(j)
+#             print(i.cloudflare_id)
+
 def run():
     j = 0
-    main_category = SubCategory.objects.all()
+    main_category = HomePageCategory.objects.all()
     for i in main_category:
-        if i.sub_image:
+        if i.image:
             j = j+1
             i.save()
             print(j)
             print(i.cloudflare_id)
-
 
 
