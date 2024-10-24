@@ -26,8 +26,10 @@ class Image(models.Model):
             cload_id = upload_image_to_cloudflare(self.image.file)
             self.cloudflare_id = cload_id
         super().save(*args, **kwargs)
+    
 
-
+     # productni oldindan saqlab qo'yamiz
+     
 
     @property
     def get_mobile(self):

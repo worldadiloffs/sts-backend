@@ -10,6 +10,8 @@ from category.utils import create_shortcode_super, create_shortcode_main, create
 
 from django.utils.html import format_html
 
+from product.servisses import upload_image_to_cloudflare
+
 class SuperCategory(models.Model):
     rating = models.PositiveIntegerField(default=0, blank=True, verbose_name=_("Rating"))
     super_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Asosiy Kategoriya Nomi"))
@@ -34,6 +36,7 @@ class SuperCategory(models.Model):
         help_text=_("max_widht:50, max_height:50"),
         verbose_name=_("Icon"),
     )
+    cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
     meta_name = models.CharField(max_length=200, blank=True, null=True, verbose_name=_("Meta uchun nom"))
     meta_content = models.CharField(max_length=300, blank=True, null=True, verbose_name=_("Meta uchun  content"))
     status = models.BooleanField(default=False, blank=True, verbose_name=_("Site chiqish uchun status"))
@@ -53,7 +56,6 @@ class SuperCategory(models.Model):
     def make_slug(cls, super_name):
         slug = slugify(super_name, allow_unicode=False)
         letters = string.ascii_letters + string.digits
-
         while cls.objects.filter(slug=slug).exists():
             slug = slugify(
                 super_name + "-" + "".join(random.choices(letters, k=6)),
@@ -77,6 +79,9 @@ class SuperCategory(models.Model):
 
         if not self.sts_site and not self.rts_site:
             raise ValidationError("At least one site status should be checked")
+        if not self.cloudflare_id and self.category_image is not None:
+            cload_id = upload_image_to_cloudflare(self.category_image.file)
+            self.cloudflare_id = cload_id
 
         super(SuperCategory, self).save(*args, **kwargs)
 
@@ -94,6 +99,7 @@ class MainCategory(models.Model):
         blank=True,
         null=True,
     )
+    cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
     slug = models.SlugField(unique=True,allow_unicode=True, null=True, editable=False, blank=True)
     icon = models.FileField(upload_to='category', blank=True, null=True, verbose_name=_("Icon"))
     header_add = models.BooleanField(default=False, blank=True, verbose_name=_("Headerga qo'shish uchun status"))
@@ -139,6 +145,9 @@ class MainCategory(models.Model):
                 self.slug = create_shortcode_main(self)
         if not(self.sts_site or self.rts_site):
             raise ValidationError("At least one of 'STS_site' or 'RTS_site' must be True")
+        if not self.cloudflare_id and self.main_image is not None:
+            cload_id = upload_image_to_cloudflare(self.main_image.file)
+            self.cloudflare_id = cload_id
         super(MainCategory, self).save(*args, **kwargs)
 
 class SubCategory(models.Model):
@@ -146,6 +155,7 @@ class SubCategory(models.Model):
     mainCategory = models.ForeignKey(
         MainCategory, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("Main Kategoriya")
     )
+    cloudflare_id = models.CharField(max_length=200, blank=True, null=True)
     sub_name = models.CharField(max_length=200, blank=False, null=False, unique=True, verbose_name=_("Sub Kategoriya uchun nom")) 
     sub_image = models.ImageField( upload_to="categories/main/imgs/", verbose_name=("Sub Kategoriya rasm"), blank=True, null=True) 
     slug = models.SlugField(unique=True, null=True, allow_unicode=True,editable=False, blank=True)
@@ -195,5 +205,7 @@ class SubCategory(models.Model):
                 self.slug = create_shortcode_sub(self)
         if not(self.sts_site) and not(self.rts_site):
             raise ValueError({"data": "errors"})
-
+        if not self.cloudflare_id and self.sub_image is not None:
+            cload_id = upload_image_to_cloudflare(self.sub_image.file)
+            self.cloudflare_id = cload_id
         super(SubCategory, self).save(*args, **kwargs)
