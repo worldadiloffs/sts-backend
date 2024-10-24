@@ -29,12 +29,11 @@ from category.models import SuperCategory, MainCategory, SubCategory
 #             print(i.cloudflare_id)
 
 def run():
-    super_categories = SuperCategory.objects.all()
-    for super_category in super_categories:
-        if super_category.category_image:
-            # cload_id = upload_image_to_cloudflare(super_category.category_image.file)
-            # super_category.cloudflare_id = cload_id
-            super_category.save()
-            print(super_category.cloudflare_id)
+    main_category = MainCategory.objects.all()
+    for i in main_category:
+        if i.main_image:
+            i.save()
+            print(i.cloudflare_id)
+
 
 
