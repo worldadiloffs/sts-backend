@@ -40,9 +40,9 @@ from home.models import HomePageCategory , CardImage
 
 def run():
     j = 0
-    main_category = HomePageCategory.objects.all()
+    main_category = CardImage.objects.all()
     for i in main_category:
-        if i.image:
+        if i.images:
             j = j+1
             i.save()
             print(j)
