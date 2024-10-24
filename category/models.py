@@ -147,7 +147,7 @@ class MainCategory(models.Model):
         if not(self.sts_site or self.rts_site):
             raise ValidationError("At least one of 'STS_site' or 'RTS_site' must be True")
         super(MainCategory, self).save(*args, **kwargs)
-        if (not(self.cloudflare_id) and self.main_image is not None):
+        if (not(self.cloudflare_id) and self.main_image):
             cload_id = upload_image_to_cloudflare(self.main_image.file)
             self.cloudflare_id = cload_id
         super(MainCategory, self).save(*args, **kwargs)
