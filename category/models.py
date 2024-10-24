@@ -80,7 +80,7 @@ class SuperCategory(models.Model):
         if not self.sts_site and not self.rts_site:
             raise ValidationError("At least one site status should be checked")
         super().save(*args, **kwargs)
-        if not self.cloudflare_id and self.category_image is not None:
+        if not self.cloudflare_id and self.category_image :
             cload_id = upload_image_to_cloudflare(self.category_image.file)
             self.cloudflare_id = cload_id
 
@@ -208,7 +208,7 @@ class SubCategory(models.Model):
         if not(self.sts_site) and not(self.rts_site):
             raise ValueError({"data": "errors"})
         super().save(*args, **kwargs)
-        if not self.cloudflare_id and self.sub_image is not None:
+        if not self.cloudflare_id and self.sub_image :
             cload_id = upload_image_to_cloudflare(self.sub_image.file)
             self.cloudflare_id = cload_id
         super(SubCategory, self).save(*args, **kwargs)
