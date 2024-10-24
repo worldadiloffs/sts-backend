@@ -12,7 +12,7 @@ from config.settings import site_name
 
 from django.utils.html import format_html
 
-from product.servisses import upload_image_to_cloudflare 
+from product.servisses import get_image_url_from_cloudflare, upload_image_to_cloudflare 
 
 class Banner(models.Model):
     title = models.CharField(max_length=200, blank=True , verbose_name=_("Banner uchun nom"))
@@ -103,7 +103,7 @@ class CardImage(models.Model):
 
     def image_obj(self):
         if self.cloudflare_id:
-            return upload_image_to_cloudflare(self.cloudflare_id)
+            return get_image_url_from_cloudflare(self.cloudflare_id)
         
         else:
             if self.images:
@@ -142,7 +142,7 @@ class HomePageCategory(models.Model):
     @property
     def images_obj(self):
         if self.cloudflare_id:
-            return upload_image_to_cloudflare(self.cloudflare_id)
+            return get_image_url_from_cloudflare(self.cloudflare_id)
         else:
             if self.image:
                 return site_name + self.image.url
