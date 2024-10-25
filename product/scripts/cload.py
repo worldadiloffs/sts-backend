@@ -39,14 +39,14 @@ def run():
             print(j)
             print(i.cloudflare_id)
 
-def run():
-    j = 0
-    main_category = CardImage.objects.all()
-    for i in main_category:
-        if i.images:
-            j = j+1
-            i.save()
-            print(j)
-            print(i.cloudflare_id)
+# def run():
+#     j = 0
+#     main_category = CardImage.objects.all()
+#     for i in main_category:
+#         if i.images:
+#             j = j+1
+#             i.save()
+#             print(j)
+#             print(i.cloudflare_id)
 
 
