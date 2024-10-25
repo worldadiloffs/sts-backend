@@ -474,7 +474,7 @@ def muddat_tolov_fn():
 
 def doller_funtion():
     order = OrderSetting.objects.first()
-    return order.doller * 1.12 # 1.12 is for dollar exchange rate
+    return order.doller  # 1.12 is for dollar exchange rate
 
 def kredit_cal(price, oy, foiz):
         summa = price* doller_funtion()

@@ -241,7 +241,7 @@ class CartProductApiview(APIView):
     def post(self, request, site):
         products = request.data.get("products", None)
         doller_obj = OrderSetting.objects.first()
-        doller = doller_obj.doller * 1.12
+        doller = doller_obj.doller 
 
         data = []
         try:
