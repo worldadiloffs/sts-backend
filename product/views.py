@@ -308,7 +308,7 @@ class CategoryProductViews(APIView):
                 ).exists()
                 product_object = []
                 if sub_category:
-                    for main in MainCategory.objects.filter(superCategory__id=super_id):
+                    for main in MainCategory.objects.filter(superCategory__id=super_id, status=True):
                         prod_obj = Product.objects.select_related('main_category').filter(
                             status=True, main_category__id=main.pk
                         )[:5]

@@ -72,7 +72,8 @@ class MainCategortStsSerializer(serializers.ModelSerializer):
 
 
 class SuperCategoryStsSerializer(serializers.ModelSerializer):
-    children = MainCategortStsSerializer(many=True, source='maincategory_set')
+    # children = MainCategortStsSerializer(many=True, source='maincategory_set')
+    children = serializers.SerializerMethodField()
     category_image = serializers.SerializerMethodField(read_only=True)
     icon = serializers.SerializerMethodField(read_only=True)
     class Meta:
@@ -93,6 +94,11 @@ class SuperCategoryStsSerializer(serializers.ModelSerializer):
         if icon:
             return site_name + icon.url 
         return None
+    
+    def get_children(self, obj):
+        """Filterlangan bolalar kategoriyalarini qaytarish"""
+        children = obj.maincategory_set.filter(status=True)  # Faqat faol bolalar kategoriyalari
+        return MainCategortStsMiniSerializer(children, many=True).data
 
 
 
