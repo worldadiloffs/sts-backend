@@ -30,9 +30,9 @@ from home.models import HomePageCategory , CardImage
 
 def run():
     j = 0
-    main_category = MainCategory.objects.all()
+    main_category = SubCategory.objects.all()
     for i in main_category:
-        if i.main_image:
+        if i.sub_image:
             j = j+1
             i.cloudflare_id = None
             i.save()
