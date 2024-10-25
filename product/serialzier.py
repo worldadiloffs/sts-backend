@@ -63,9 +63,9 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
     def get_price(self, obj):
         orders_settings = OrderSetting.objects.first()
         price = int(obj.price * orders_settings.doller)
-        nds = int(orders_settings.nds * obj.price / 100 * orders_settings.doller)
+        nds = int(orders_settings.nds * obj.price  * orders_settings.doller)
         umumiy_narx = price + nds
-        price = {"price": price, "nds": int(orders_settings.nds * obj.price / 100 * orders_settings.doller), "nds_narx": umumiy_narx}
+        price = {"price": price, "nds": int(orders_settings.nds * obj.price  * orders_settings.doller), "nds_narx": umumiy_narx}
         return price
     
     # def get_image(self, obj):
@@ -81,7 +81,7 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
 
 def kredit_cal(price, oy, foiz):
         summa = price* doller_funtion()
-        data = (summa *(30.42)*foiz)/(365*100)
+        data = (summa *(30.42)*foiz)/(365)
         return  data+(summa/oy)
 
 class ProductSerialzier(serializers.ModelSerializer):
@@ -274,7 +274,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     
     def get_cashback_value(self, obj):
         if obj.cash_foiz and obj.price:
-            return int(obj.price * doller_funtion()) * obj.cash_foiz / 100
+            return int(obj.price * doller_funtion()) * obj.cash_foiz 
         return 0
 
     # def get_image(self, obj):
