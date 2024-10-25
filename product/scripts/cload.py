@@ -28,15 +28,16 @@ from home.models import HomePageCategory , CardImage
 #             print(j)
 #             print(i.cloudflare_id)
 
-# def run():
-#     j = 0
-#     main_category = SubCategory.objects.all()
-#     for i in main_category:
-#         if i.sub_image:
-#             j = j+1
-#             i.save()
-#             print(j)
-#             print(i.cloudflare_id)
+def run():
+    j = 0
+    main_category = MainCategory.objects.all()
+    for i in main_category:
+        if i.main_image:
+            j = j+1
+            i.cloudflare_id = None
+            i.save()
+            print(j)
+            print(i.cloudflare_id)
 
 def run():
     j = 0

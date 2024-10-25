@@ -83,7 +83,6 @@ class SuperCategory(models.Model):
         if not self.cloudflare_id and self.category_image :
             cload_id = upload_image_to_cloudflare(self.category_image.file)
             self.cloudflare_id = cload_id
-
         super(SuperCategory, self).save(*args, **kwargs)
 
 
