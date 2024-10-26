@@ -81,7 +81,7 @@ class CalculatorProdcutSerialzier(serializers.ModelSerializer):
 
 def kredit_cal(price, oy, foiz):
         summa = price* doller_funtion()
-        data = (summa *(30.42)*foiz)/(365)
+        data = (summa *(30.42)*foiz)/(365 *100)
         return  data+(summa/oy)
 
 class ProductSerialzier(serializers.ModelSerializer):
@@ -257,6 +257,8 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
         return None
     
 
+    
+
     def get_discount_price(self, obj):
         if obj.price:
             return obj.discount_price and int(obj.discount_price * doller_funtion()* random.uniform(1.3, 1.6)) or int((obj.price * doller_funtion()) * random.uniform(1.3, 1.6))
@@ -274,7 +276,7 @@ class ProductListMiniSerilizers(serializers.ModelSerializer):
     
     def get_cashback_value(self, obj):
         if obj.cash_foiz and obj.price:
-            return int(obj.price * doller_funtion()) * obj.cash_foiz 
+            return int(obj.price * doller_funtion()) * obj.cash_foiz /100
         return 0
 
     # def get_image(self, obj):
