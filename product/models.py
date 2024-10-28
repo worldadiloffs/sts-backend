@@ -22,13 +22,13 @@ class Image(models.Model):
     def save(self, *args, **kwargs):
         # Modelni oldindan saqlab qo'yamiz
         super().save(*args, **kwargs)
-        # cload_bool =bool(bool(self.cloudflare_id is None) or not(self.cloudflare_id))
-        # if cload_bool and self.image is not None:
-        #     cload_id = upload_image_to_cloudflare(self.image.file)
-        #     self.cloudflare_id = cload_id
-        if bool(not(self.cloudflare_id or self.cloudflare_id is None)) and self.image is not None:
+        cload_bool =bool(bool(self.cloudflare_id is None) or not(self.cloudflare_id))
+        if cload_bool and self.image is not None:
             cload_id = upload_image_to_cloudflare(self.image.file)
             self.cloudflare_id = cload_id
+        # if bool(not(self.cloudflare_id or self.cloudflare_id is None)) and self.image is not None:
+        #     cload_id = upload_image_to_cloudflare(self.image.file)
+        #     self.cloudflare_id = cload_id
         super().save(*args, **kwargs)
     
 
