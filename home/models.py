@@ -56,6 +56,7 @@ class Banner(models.Model):
     def save(self, *args, **kwargs):
         self.title = self.title.title() if self.title else self.title
         self.slug = self.make_slug(self.title)
+        super().save(*args, **kwargs)
         if not self.cloudflare_id and self.image is not None:
             cload_id = upload_image_to_cloudflare(self.image.file)
             self.cloudflare_id = cload_id
