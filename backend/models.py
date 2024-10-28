@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from account.models import User
+from django.core.cache import cache
 
 
 class Sites(models.Model):
@@ -29,3 +30,15 @@ class Sites(models.Model):
 
     def __str__(self):
         return f'{self.status} site'
+    
+
+
+class CaCheClear(models.Model):
+    clear_cache = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        if self.clear_cache:
+            cache.clear()
+            self.clear_cache = False
+        super().save(*args, **kwargs)
+
