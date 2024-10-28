@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Sites
+from .models import Sites , CaCheClear
 
 @admin.register(Sites)
 class SitesAdmin(admin.ModelAdmin):
@@ -15,3 +15,9 @@ class SitesAdmin(admin.ModelAdmin):
         if Sites.objects.filter(user_id=user.id).exists():
             qs = super().get_queryset(request)
             return qs.filter(user_id=user.id)
+        
+
+@admin.register(CaCheClear)
+class CaCheClearAdmin(admin.ModelAdmin):
+    list_display = ('id','clear_cache',)
+    list_editable = ('clear_cache',)

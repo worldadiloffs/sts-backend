@@ -42,3 +42,6 @@ class CaCheClear(models.Model):
             self.clear_cache = False
         super().save(*args, **kwargs)
 
+
+    
+
