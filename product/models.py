@@ -26,7 +26,7 @@ class Image(models.Model):
         # if cload_bool and self.image is not None:
         #     cload_id = upload_image_to_cloudflare(self.image.file)
         #     self.cloudflare_id = cload_id
-        if self.cloudflare_id is None or self.cloudflare_id == '' and self.image is not None:
+        if bool(self.cloudflare_id is None or self.cloudflare_id == '') and self.image is not None:
             cload_id = upload_image_to_cloudflare(self.image.file)
             self.cloudflare_id = cload_id
         super().save(*args, **kwargs)
