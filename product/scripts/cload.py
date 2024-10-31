@@ -14,30 +14,30 @@ from home.models import HomePageCategory , CardImage
 #             print(home.cloudflare_id)
 
 
-# def run():
-#     # count = Image.objects.all().count()
-#     # print(count)
-#     image = Image.objects.all()[1799:]
-#     j = 0
-#     for i in image:
-#         if i.image is not None:
-#             cload_id = upload_image_to_cloudflare(i.image.file)
-#             i.cloudflare_id = cload_id
-#             i.save()
-#             j = j+1 
-#             print(j)
-#             print(i.cloudflare_id)
-
 def run():
+    # count = Image.objects.all().count()
+    # print(count)
+    image = Image.objects.all()
     j = 0
-    main_category = SubCategory.objects.all()
-    for i in main_category:
-        if i.sub_image:
-            j = j+1
-            i.cloudflare_id = None
+    for i in image:
+        if i.image is not None and not(i.cloudflare_id):
+            cload_id = upload_image_to_cloudflare(i.image.file)
+            i.cloudflare_id = cload_id
             i.save()
+            j = j+1 
             print(j)
             print(i.cloudflare_id)
+
+# def run():
+#     j = 0
+#     main_category = SubCategory.objects.all()
+#     for i in main_category:
+#         if i.sub_image:
+#             j = j+1
+#             i.cloudflare_id = None
+#             i.save()
+#             print(j)
+#             print(i.cloudflare_id)
 
 # def run():
 #     j = 0
