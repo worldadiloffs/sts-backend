@@ -336,7 +336,7 @@ class CategoryProductViews(APIView):
                     {
                         "data": {
                             "name": main.super_name,
-                            "product": results,
+                            "product": product_object,
                             "category": main_serialzier.data,
                             "link": {"super": {"name": name, "slug": super_slug}},
                         },
