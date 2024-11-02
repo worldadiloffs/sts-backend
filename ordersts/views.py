@@ -4,8 +4,8 @@ from cashback.models import CashbackKard
 from ordersts.amocrm.views import request_to_amocrm
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
-from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon , ContactForm
-from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer , ContactFormSerializer
+from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon , ContactForm , OrderClick
+from .serializers import OrderGetSerializer, OrderSerializer, OrderItemSerializer , VazvratProductSerializer , ContactFormSerializer , OrderClickSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication 
 from django.http import JsonResponse
@@ -23,6 +23,21 @@ from django.core.cache import cache
 from asyncio.log import logger
 
 from clickApp import ClickUz
+
+
+class OrderClickApiviews(APIView):
+    throttle_scope = "authentication"
+    throttle_classes = [
+        ScopedRateThrottle,
+    ]
+    def post(self, request):
+        user = request.user
+        serialzier = OrderClickSerializer(data=request.data)
+        if serialzier.is_valid(raise_exception=True):
+            serialzier.save()
+            return Response(serialzier.data, status=status.HTTP_201_CREATED)
+        return Response(serialzier.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ContactFormApiveiws(APIView):
     throttle_scope = "authentication"

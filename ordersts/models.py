@@ -14,6 +14,19 @@ from category.models import MainCategory
 from datetime import datetime
 
 
+class OrderClick(models.Model):
+    tavar_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    ism = models.CharField(max_length=100, blank=True)
+    telefon = models.CharField(max_length=25, blank=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.ism} - {self.telefon}"
+    
+    
+
 
 class ContactForm(models.Model):
     ism = models.CharField(max_length=30, blank=True)
