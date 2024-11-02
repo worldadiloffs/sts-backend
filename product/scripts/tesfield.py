@@ -1,23 +1,22 @@
 from multiprocessing import Process
-# from django.db import connection
+from django.db import connection
 from product.serialzier import ProductListMiniSerilizers  # Serializer joylashgan joyini import qiling
 from product.models import MainCategory, Product  # Model joylashgan joyini import qiling
 
 class ProductFetcher:
-    def __init__(self, super_ids):
+    def __init__(self, super_id):
         """
-        `super_ids` - bu `superCategory` id'larning ro'yxati bo'lib, 
-        har bir jarayonda o'sha kategoriyalar uchun mahsulotlarni olib keladi.
+        `super_id` - bu bitta `superCategory` id bo'lib, o'sha kategoriya uchun mahsulotlarni olib keladi.
         """
-        self.super_ids = super_ids
-        self.results = []
+        self.super_id = super_id
+        self.result = []
 
-    def fetch_products(self, super_id):
+    def fetch_products(self):
         """
-        Har bir kategoriya uchun mahsulotlarni olib keluvchi yordamchi metod.
+        Kategoriyaga mos mahsulotlarni olib keluvchi yordamchi metod.
         """
         product_object = []
-        for main in MainCategory.objects.filter(superCategory__id=super_id, status=True):
+        for main in MainCategory.objects.filter(superCategory__id=self.super_id, status=True):
             prod_obj = Product.objects.select_related('main_category').filter(
                 status=True, main_category__id=main.pk
             )[:5]
@@ -30,40 +29,40 @@ class ProductFetcher:
                 }
                 product_object.append(data)
         
-        # Process tugagandan keyin connectionni yopamiz
-        # connection.close()
-        
         # Natijani saqlaymiz
-        self.results.append(product_object)
+        self.result = product_object
 
-    def run_processes(self):
+        # Process tugagandan keyin connectionni yopamiz
+        connection.close()
+
+    def run_process(self):
         """
-        `fetch_products` metodini har bir `super_id` uchun alohida jarayonda ishga tushiradi.
+        `fetch_products` metodini bitta jarayonda ishga tushiradi.
         """
-        processes = [
-            Process(target=self.fetch_products, args=(super_id,))
-            for super_id in self.super_ids
-        ]
+        process = Process(target=self.fetch_products)
+        
+        # Jarayonni boshlash
+        process.start()
 
-        # Jarayonlarni boshlash
-        for p in processes:
-            p.start()
+        # Jarayon tugashini kutish
+        process.join()
 
-        # Jarayonlar tugashini kutish
-        for p in processes:
-            p.join()
-
-    def get_results(self):
+    def get_result(self):
         """
-        `run_processes` tugaganidan so'ng to'plangan natijalarni qaytaradi.
+        `run_process` tugaganidan so'ng to'plangan natijalarni qaytaradi.
         """
-        return self.results
-
+        return self.result
 
 
 def run():
-    super_id = 1  # O'zgaruvchilarning superCategory id'lari
-    fetcher = ProductFetcher(super_ids=[super_id])
-    fetcher.run_processes()
-    results = fetcher.get_results()
-    print(results)
+    super_id = 1
+
+    # `ProductFetcher` ob'ektini yaratamiz
+    fetcher = ProductFetcher(super_id)
+
+    # Jarayonni ishga tushiramiz
+    fetcher.run_process()
+
+    # Natijalarni olamiz
+    result = fetcher.get_result()
+    print(result)
