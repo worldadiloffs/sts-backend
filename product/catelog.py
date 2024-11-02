@@ -1,5 +1,5 @@
 from multiprocessing import Process
-from django.db import connection
+# from django.db import connection
 from .serialzier import ProductListMiniSerilizers  # Serializer joylashgan joyini import qiling
 from .models import MainCategory, Product  # Model joylashgan joyini import qiling
 
@@ -31,7 +31,7 @@ class ProductFetcher:
                 product_object.append(data)
         
         # Process tugagandan keyin connectionni yopamiz
-        connection.close()
+        # connection.close()
         
         # Natijani saqlaymiz
         self.results.append(product_object)
