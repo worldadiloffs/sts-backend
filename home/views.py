@@ -82,19 +82,19 @@ def sts_home():
         if i.xitlar:
             product = Product.objects.filter(xitlar=True, status=True, site_sts=True)
 
-        prod_seriazlier = ProductListMiniSerilizers(product, many=True)
-        cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
-        cart_serialzier = CardImageSerialziers(cart_image, many=True)
+            prod_seriazlier = ProductListMiniSerilizers(product, many=True)
+            cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+            cart_serialzier = CardImageSerialziers(cart_image, many=True)
 
-        data.append(
-            {
-                "category_name": i.title,
-                "banner_image": i.cloudflare_id and (i.images_obj) or i.image and ( site_name + i.image.url ) or None,
-                "card_image": cart_serialzier.data,
-                "banner_image_url": i.image_url,
-                "product": prod_seriazlier.data
-            }
-        )
+            data.append(
+                {
+                    "category_name": i.title,
+                    "banner_image": i.cloudflare_id and (i.images_obj) or i.image and ( site_name + i.image.url ) or None,
+                    "card_image": cart_serialzier.data,
+                    "banner_image_url": i.image_url,
+                    "product": prod_seriazlier.data
+                }
+            )
         if i.mainCategory is not None:
             product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_sts=True)[:10]
             serialzier = ProductListMiniSerilizers(product, many=True)
