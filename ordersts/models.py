@@ -18,8 +18,13 @@ class OrderClick(models.Model):
     tavar_id = models.ForeignKey(Product , on_delete=models.SET_NULL, blank=True, null=True)
     ism = models.CharField(max_length=100, blank=True)
     telefon = models.CharField(max_length=25, blank=True)
+    created_at = models.DateTimeField(blank=True, null=True)
+
+    
 
     def save(self, *args, **kwargs):
+        if self.created_at is None:
+            self.created_at = datetime.now()
         super().save(*args, **kwargs)
 
     def __str__(self):

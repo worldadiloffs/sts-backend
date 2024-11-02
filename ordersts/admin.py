@@ -3,7 +3,7 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpRequest
 from django.utils.safestring import SafeText
-from .models import Order, OrderItem , VazvratProdcut , Cupon , CategoryProduct , ContactForm
+from .models import Order, OrderItem , VazvratProdcut , Cupon , CategoryProduct , ContactForm , OrderClick
 # Register your models here.
 from account.models import User
 from django.utils.html import format_html
@@ -11,6 +11,8 @@ from django.utils.html import format_html
 from django.urls import path
 from django.http import HttpResponse
 from django.template.response import TemplateResponse
+
+
 
 
 @admin.register(ContactForm)
