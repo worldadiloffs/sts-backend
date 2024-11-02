@@ -1,4 +1,4 @@
-from multiprocessing import Process
+from multiprocessing import Manager, Process
 from django.db import connection
 from product.serialzier import ProductListMiniSerilizers  # Serializer joylashgan joyini import qiling
 from product.models import MainCategory, Product  # Model joylashgan joyini import qiling
@@ -39,13 +39,16 @@ class ProductFetcher:
         """
         `fetch_products` metodini bitta jarayonda ishga tushiradi.
         """
-        process = Process(target=self.fetch_products)
-        
-        # Jarayonni boshlash
-        process.start()
+        with Manager() as manager:
+            result_list = manager.list()  # Natijalarni saqlash uchun umumiy ro'yxat
+            process = Process(target=self.fetch_products, args=(result_list,))
+            
+            # Jarayonni boshlash
+            process.start()
+            process.join()  # Jarayon tugashini kutamiz
 
-        # Jarayon tugashini kutish
-        process.join()
+            # Natijani olish
+            return list(result_list)
 
     def get_result(self):
         """
