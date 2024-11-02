@@ -58,3 +58,10 @@ class ProductFetcher:
         `run_processes` tugaganidan so'ng to'plangan natijalarni qaytaradi.
         """
         return self.results
+
+
+
+super_id = [1, 2, 3]  # O'zgaruvchilarning superCategory id'lari
+fetcher = ProductFetcher(super_ids=[super_id])
+fetcher.run_processes()
+results = fetcher.get_results()
