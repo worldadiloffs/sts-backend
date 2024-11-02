@@ -62,7 +62,7 @@ class ProductFetcher:
 
 
 def run():
-    super_id = [1]  # O'zgaruvchilarning superCategory id'lari
+    super_id = 1  # O'zgaruvchilarning superCategory id'lari
     fetcher = ProductFetcher(super_ids=[super_id])
     fetcher.run_processes()
     results = fetcher.get_results()
