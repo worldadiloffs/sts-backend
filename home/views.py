@@ -12,11 +12,14 @@ from config.settings import site_name
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page 
 from django.views.decorators.vary import  vary_on_headers
+from django.core.cache import cache
 
 class BannerResponseSerialzier(serializers.Serializer):
     data = BannerSerializers()
     errors = serializers.BooleanField()
     message = serializers.CharField()
+
+
 
 
 class BannerView(APIView):
@@ -59,6 +62,58 @@ class BannerDetailViews(APIView):
     
     
 
+def sts_home():
+    data = []
+    home = HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top")
+    for i in home:
+        product = Product.objects.filter(status=True, news=True , site_sts=True)[:10]
+        seriazlier = ProductListMiniSerilizers(product, many=True)
+        cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+        cart_serialzier = CardImageSerialziers(cart_image, many=True)
+        data.append(
+            {
+                "category_name": i.title,
+                "banner_image": i.cloudflare_id and (i.images_obj) or i.image and ( site_name + i.image.url ) or None,
+                "banner_image_url": i.image_url,
+                "product": cart_serialzier.data,
+                "product": seriazlier.data
+            }
+        )
+        if i.xitlar:
+            product = Product.objects.filter(xitlar=True, status=True, site_sts=True)
+
+        prod_seriazlier = ProductListMiniSerilizers(product, many=True)
+        cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+        cart_serialzier = CardImageSerialziers(cart_image, many=True)
+
+        data.append(
+            {
+                "category_name": i.title,
+                "banner_image": i.cloudflare_id and (i.images_obj) or i.image and ( site_name + i.image.url ) or None,
+                "card_image": cart_serialzier.data,
+                "banner_image_url": i.image_url,
+                "product": prod_seriazlier.data
+            }
+        )
+        if i.mainCategory is not None:
+            product = Product.objects.filter(status=True, main_category__id=i.mainCategory.pk, site_sts=True)[:10]
+            serialzier = ProductListMiniSerilizers(product, many=True)
+            cart_image = CardImage.objects.filter(status=True, homepagecategory__id=i.pk)
+            cart_serialzier = CardImageSerialziers(cart_image, many=True)
+            data.append(
+                {
+                    "category_name": i.title,
+                    "banner_image": i.image and (i.images_obj ) or None,
+                    "banner_image_url": i.image_url,
+                    "card_image": cart_serialzier.data,
+                    "product": serialzier.data
+                }
+            )
+
+        cache.get_or_set('home_page', data, timeout=60*15)
+        
+    
+
 
 
 class HomePageCategoryView(APIView):
@@ -68,6 +123,18 @@ class HomePageCategoryView(APIView):
     #         responses=ResponseHOme
     #         )
     def get(self, request, site):
+        if site == "sts":
+            data = cache.get('home_page')
+            if data is not None:
+                return JsonResponse(
+                    {"data": data, "errors": True, "message": ""}, safe=False
+                )
+            else:
+                sts_home()
+                data = cache.get('home_page')
+                return JsonResponse(
+                    {"data": data, "errors": True, "message": ""}, safe=False
+                )
         data = []
         if site == "sts":
             home = HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top")
