@@ -110,7 +110,7 @@ def sts_home():
                 }
             )
 
-        cache.get_or_set('home_page', data, timeout=60*15)
+    cache.get_or_set('home_page', data, timeout=60*15)
         
     
 
