@@ -30,7 +30,7 @@ class OrderClickApiviews(APIView):
     throttle_classes = [
         ScopedRateThrottle,
     ]
-    def post(self, request):
+    def post(self, request, site):
         user = request.user
         serialzier = OrderClickSerializer(data=request.data)
         if serialzier.is_valid(raise_exception=True):
