@@ -9,11 +9,11 @@ class ProductFetcher:
         `super_id` - bu bitta `superCategory` id bo'lib, o'sha kategoriya uchun mahsulotlarni olib keladi.
         """
         self.super_id = super_id
-        self.result = []
 
-    def fetch_products(self):
+    def fetch_products(self, result_list):
         """
         Kategoriyaga mos mahsulotlarni olib keluvchi yordamchi metod.
+        `result_list` - umumiy natijalar ro'yxatiga natijani qo'shish uchun foydalaniladi.
         """
         product_object = []
         for main in MainCategory.objects.filter(superCategory__id=self.super_id, status=True):
@@ -29,11 +29,11 @@ class ProductFetcher:
                 }
                 product_object.append(data)
         
-        # Natijani saqlaymiz
-        self.result = product_object
-
         # Process tugagandan keyin connectionni yopamiz
         connection.close()
+        
+        # Natijani umumiy ro'yxatga qo'shamiz
+        result_list.append(product_object)
 
     def run_process(self):
         """
