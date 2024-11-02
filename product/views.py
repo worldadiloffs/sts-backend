@@ -328,7 +328,8 @@ class CategoryProductViews(APIView):
                     #             }
                     #             product_object.append(data)
                     fetcher = ProductFetcher(super_id)
-                    result = fetcher.run_process()
+                    fetcher.fetch_products()  # fetch_products funksiyasini to'g'ridan-to'g'ri chaqiramiz
+                    result = fetcher.get_result()
               
                 main = SuperCategory.objects.get(id=super_id)
                 main_serialzier = SuperCategoryStsSerializer(main, many=False)

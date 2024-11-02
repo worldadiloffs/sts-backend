@@ -1,20 +1,13 @@
 from multiprocessing import Manager, Process
-# from django.db import connection
+from django.db import connection
 from product.serialzier import ProductListMiniSerilizers  # Serializer joylashgan joyini import qiling
 from product.models import MainCategory, Product  # Model joylashgan joyini import qiling
-
 class ProductFetcher:
     def __init__(self, super_id):
-        """
-        `super_id` - bu bitta `superCategory` id bo'lib, o'sha kategoriya uchun mahsulotlarni olib keladi.
-        """
         self.super_id = super_id
+        self.result = []
 
-    def fetch_products(self, result_list):
-        """
-        Kategoriyaga mos mahsulotlarni olib keluvchi yordamchi metod.
-        `result_list` - umumiy natijalar ro'yxatiga natijani qo'shish uchun foydalaniladi.
-        """
+    def fetch_products(self):
         product_object = []
         for main in MainCategory.objects.filter(superCategory__id=self.super_id, status=True):
             prod_obj = Product.objects.select_related('main_category').filter(
@@ -29,29 +22,11 @@ class ProductFetcher:
                 }
                 product_object.append(data)
         
-        # Process tugagandan keyin connectionni yopamiz
-        # connection.close()
-        
-        # Natijani umumiy ro'yxatga qo'shamiz
-        result_list.append(product_object)
+        # Natijani saqlash
+        self.result = product_object
 
-    def run_process(self):
-        """
-        `fetch_products` metodini bitta jarayonda ishga tushiradi.
-        """
-        with Manager() as manager:
-            result_list = manager.list()  # Natijalarni saqlash uchun umumiy ro'yxat
-            process = Process(target=self.fetch_products, args=(result_list,))
-            
-            # Jarayonni boshlash
-            process.start()
-            process.join()  # Jarayon tugashini kutamiz
-
-            # Natijani olish
-            return list(result_list)
+        # Database connectionni yopish
+        connection.close()
 
     def get_result(self):
-        """
-        `run_process` tugaganidan so'ng to'plangan natijalarni qaytaradi.
-        """
         return self.result
