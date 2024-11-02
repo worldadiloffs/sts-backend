@@ -15,7 +15,7 @@ from datetime import datetime
 
 
 class OrderClick(models.Model):
-    tavar_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    tavar_id = models.ForeignKey(Product , on_delete=models.SET_NULL, blank=True, null=True)
     ism = models.CharField(max_length=100, blank=True)
     telefon = models.CharField(max_length=25, blank=True)
 
