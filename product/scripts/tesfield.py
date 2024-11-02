@@ -16,3 +16,4 @@ def run():
     # Natijalarni olamiz
     result = fetcher.get_result()
     print(result)
+    print("dsddsd")
