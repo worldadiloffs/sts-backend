@@ -129,12 +129,6 @@ class HomePageCategoryView(APIView):
                 return JsonResponse(
                     {"data": data, "errors": True, "message": ""}, safe=False
                 )
-            else:
-                sts_home()
-                data = cache.get('home_page')
-                return JsonResponse(
-                    {"data": data, "errors": True, "message": ""}, safe=False
-                )
         data = []
         if site == "sts":
             home = HomePageCategory.objects.filter(status=True, site_sts=True).order_by("top")
@@ -197,6 +191,8 @@ class HomePageCategoryView(APIView):
                         "product": serialzier.data
                     }
                 )
+        if cache.get('home_page') is None:
+             cache.get_or_set('home_page', data, timeout=60*15)
         return JsonResponse({
             "data": data, "errors":False, "message": ""
         })
