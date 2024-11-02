@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.template.response import TemplateResponse
 
 
+admin.site.register(OrderClick)
 
 
 @admin.register(ContactForm)
