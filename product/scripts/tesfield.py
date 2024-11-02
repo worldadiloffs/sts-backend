@@ -5,7 +5,7 @@ from product.catelog import ProductFetcher
 
 
 def run():
-    super_id = 1
+    super_id = 20
 
     # `ProductFetcher` ob'ektini yaratamiz
     fetcher = ProductFetcher(super_id)
