@@ -21,7 +21,6 @@ class OrderClick(models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
 
     
-
     def save(self, *args, **kwargs):
         if self.created_at is None:
             self.created_at = datetime.now()

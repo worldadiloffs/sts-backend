@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 
+from product.catelog import ProductFetcher
 from product.servisses import upload_image_to_cloudflare
 from .serialzier import (
     ImagePostSeriazilizer,
@@ -34,6 +35,7 @@ from .serialzier import kredit_cal
 from settings.models import MuddatliTolovxizmatlar
 from django.core.cache import cache
 import  io 
+from multiprocessing import Process
 
 
 class ImageServis(APIView):
@@ -284,6 +286,8 @@ class CartProductApiview(APIView):
 
 
 
+
+
 class CategoryProductViews(APIView):
     # @method_decorator(cache_page(60 * 60 * 6))
     # @method_decorator(vary_on_headers("Authorization"))
@@ -308,28 +312,31 @@ class CategoryProductViews(APIView):
                 ).exists()
                 product_object = []
                 if sub_category:
-                    for main in MainCategory.objects.filter(superCategory__id=super_id, status=True):
-                        prod_obj = Product.objects.select_related('main_category').filter(
-                            status=True, main_category__id=main.pk
-                        )[:5]
-                        serialzier = ProductListMiniSerilizers(prod_obj, many=True)
-                        if len(prod_obj) > 0:
-                            sub_names = main.main_name
-                            if main.main_content is not None:
-                                sub_names = main.main_content
-                            if prod_obj is not None:
-                                data = {
-                                    "category": sub_names,
-                                    "product": serialzier.data,
-                                }
-                                product_object.append(data)
+                    # for main in MainCategory.objects.filter(superCategory__id=super_id, status=True):
+                    #     prod_obj = Product.objects.select_related('main_category').filter(
+                    #         status=True, main_category__id=main.pk
+                    #     )[:5]
+                    #     serialzier = ProductListMiniSerilizers(prod_obj, many=True)
+                    #     if len(prod_obj) > 0:
+                    #         sub_names = main.main_name
+                    #         if main.main_content is not None:
+                    #             sub_names = main.main_content
+                    #         if prod_obj is not None:
+                    #             data = {
+                    #                 "category": sub_names,
+                    #                 "product": serialzier.data,
+                    #             }
+                    #             product_object.append(data)
+                    fetcher = ProductFetcher(super_ids=[super_id])
+                    fetcher.run_processes()
+                    results = fetcher.get_results()
                 main = SuperCategory.objects.get(id=super_id)
                 main_serialzier = SuperCategoryStsSerializer(main, many=False)
                 return JsonResponse(
                     {
                         "data": {
                             "name": main.super_name,
-                            "product": product_object,
+                            "product": results,
                             "category": main_serialzier.data,
                             "link": {"super": {"name": name, "slug": super_slug}},
                         },
