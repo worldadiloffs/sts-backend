@@ -5,25 +5,26 @@ from io import BytesIO
 from django.core.files import File
 
 def run():
-    for i in SubCategory.objects.all():
-        # Rasmni o'qish
-        if i.sub_image:
-            img = Image.open(i.sub_image)
+    pass 
+    # for i in SubCategory.objects.all():
+    #     # Rasmni o'qish
+    #     if i.sub_image:
+    #         img = Image.open(i.sub_image)
 
-            # Agar format webp bo'lsa
-            if img.format.lower() == 'webp':
-                img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
+    #         # Agar format webp bo'lsa
+    #         if img.format.lower() == 'webp':
+    #             img = img.convert('RGB')  # webp ni jpg formatiga mos ravishda o'zgartirish
 
-                # Faylni o'zgartirish
-                img_io = BytesIO()
-                img.save(img_io, format='JPEG')
+    #             # Faylni o'zgartirish
+    #             img_io = BytesIO()
+    #             img.save(img_io, format='JPEG')
 
-                # Eski faylni yangi fayl bilan almashtirish
-                new_image = File(img_io, name=i.sub_image.name.replace('webp', 'jpg'))
-                i.sub_image.save(new_image.name, new_image, save=False)
-                i.save()
+    #             # Eski faylni yangi fayl bilan almashtirish
+    #             new_image = File(img_io, name=i.sub_image.name.replace('webp', 'jpg'))
+    #             i.sub_image.save(new_image.name, new_image, save=False)
+    #             i.save()
 
-                print(i.sub_name)
+    #             print(i.sub_name)
 
 
 # def run():

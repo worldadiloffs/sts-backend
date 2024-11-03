@@ -142,7 +142,14 @@ class Product(models.Model):
             return self.news_title
         
 
-
+    @property
+    def cloud_id(self):
+        obj = self.images.first()
+        if obj and obj.image:
+            if obj.cloudflare_id:
+                return obj.cloudflare_id
+        return None
+    
     def get_available(self):
         return f"{self.available}"
     
