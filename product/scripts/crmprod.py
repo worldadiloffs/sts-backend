@@ -25,7 +25,7 @@ def save_meth():
 
 
 def run():
-    product = Product.objects.filter(site_sts=True)[:100]
+    product = Product.objects.filter(site_sts=True)[:1]
     for i in product:
         if i.material_nomer is not None:
             serena = True
@@ -49,4 +49,5 @@ def run():
         }
         response = requests.post('https://hikvision-shop.uz/crm/product-data/', json=req)
         if response.status_code == 200:
+            print(response.json())
             print(f"Product {i.product_name} saved successfully.")
