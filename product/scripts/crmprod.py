@@ -20,8 +20,9 @@ def random_char(y):
 # print(randint(10000000, 99999999))
 def save_meth():
     data = []
-    for i in range(50):
+    for i in range(20):
         data.append(f"{random_char(2)}{randint(100000, 200000)}")
+    return data
 
 
 def run():
