@@ -18,6 +18,6 @@ def run():
             "serenaTrue_countFalse": serena,
             "cloud_id": i.cloud_id,
         }
-        response = requests.post('https://hikvision-dokon.uz/crm/product-data/', json=req)
+        response = requests.post('https://hikvision-shop.uz/crm/product-data/', json=req)
         if response.status_code == 200:
             print(f"Product {i.product_name} saved successfully.")
