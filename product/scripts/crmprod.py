@@ -26,7 +26,7 @@ def save_meth():
 
 
 def run():
-    product = Product.objects.filter(site_sts=True)[100:500]
+    product = Product.objects.filter(site_sts=True)[500:700]
     for i in product:
         if i.material_nomer is not None:
             serena = True
