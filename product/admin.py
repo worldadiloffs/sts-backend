@@ -118,8 +118,9 @@ class ProductsModelAdmin(TranslationAdmin):
     inlines = [GalleryInlines]
 
     search_fields = [
+          "=articul",
         "product_name_ru",
-        "articul",
+      
         # "super_category__super_name",
         # "main_category__main_name",
         # "sub_category__sub_name",
