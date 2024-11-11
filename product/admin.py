@@ -118,13 +118,21 @@ class ProductsModelAdmin(TranslationAdmin):
     inlines = [GalleryInlines]
 
     search_fields = [
-          "=articul",
+        #   "=articul",
         "product_name_ru",
       
         # "super_category__super_name",
         # "main_category__main_name",
         # "sub_category__sub_name",
     ]
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        
+        # Agar qidirish so'zi raqam bo'lsa, uni `articul` bilan qidirish
+        if search_term.isdigit():
+            queryset |= self.model.objects.filter(articul=search_term)
+        
+        return queryset, use_distinct
     list_editable = [
         "counts",
         "price",
