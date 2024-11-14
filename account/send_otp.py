@@ -26,7 +26,7 @@ def send_otp(request, phone):
 
 
     data_set = {
-        "status": response.json()
+        "status": response.json(),
         # "otp": otp,
         "errors": False,
         "message": "send",
