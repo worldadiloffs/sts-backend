@@ -140,7 +140,7 @@ class HomePageCategoryView(APIView):
                     }
                 )
         if cache.get('home_page') is None:
-             cache.get_or_set('home_page', data, timeout=60*15)
+             cache.get_or_set('home_page', data, timeout=60*60*10)
         return JsonResponse({
             "data": data, "errors":False, "message": ""
         })
