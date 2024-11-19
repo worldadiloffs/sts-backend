@@ -37,9 +37,14 @@ class OrderClickApiviews(APIView):
             serialzier.save()
             # tavar_id = int(serialzier.data.get('id'))
             # product_name = OrderClick.objects.get(id=tavar_id).tavar_id.product_name
+            product_id = request.data.get('id')
+            if product_id is not None:
+                product_name = OrderClick.objects.get(id=product_id).tavar_id.product_name
+            else:
+                product_name = None
             ism = serialzier.data.get('ism')
             telefon = serialzier.data.get('telefon')
-            request_to_amocrm(phone=telefon, name=ism, product_name=None)
+            request_to_amocrm(phone=telefon, name=ism, product_name=product_name)
             return Response(serialzier.data, status=status.HTTP_201_CREATED)
         return Response(serialzier.errors, status=status.HTTP_400_BAD_REQUEST)
 
