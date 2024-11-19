@@ -100,7 +100,7 @@ class AmocrmManager:
         return  result["_embedded"]['contacts'][0]['id']
     
 
-    def create_request_amocrm(self, phone, name, product_name=None):
+    def create_request_amocrm(self, phone, name, product_name):
         self.self_seccess_login
         id = self.create_contact(name=name, phone=phone)
         self.create_lead(name=name,  contant_id=id, product_name=product_name)
