@@ -39,7 +39,7 @@ class OrderClickApiviews(APIView):
             product_name = OrderClick.objects.get(id=tavar_id).tavar_id.product_name
             ism = serialzier.data.get('ism')
             telefon = serialzier.data.get('telefon')
-            # request_to_amocrm(phone=telefon, name=ism, product_name=product_name)
+            request_to_amocrm(phone=telefon, name=ism, product_name=product_name)
             return Response(serialzier.data, status=status.HTTP_201_CREATED)
         return Response(serialzier.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -59,7 +59,7 @@ class ContactFormApiveiws(APIView):
             serializer.save()
             ism = serializer.data.get('ism')
             telefon = serializer.data.get('telefon')
-            request_to_amocrm(phone=telefon, name=ism)
+            request_to_amocrm(phone=telefon, name=ism, product_name=None)
             return Response(serializer.data, status=201)
     def get(self, request, *args, **kwargs):
         contact_form = ContactForm.objects.all()

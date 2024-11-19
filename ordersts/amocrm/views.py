@@ -60,7 +60,7 @@ class AmocrmManager:
                         "values": [
                             {
                                 
-                                "value": f"{product_name}",
+                                "value": f"Mahsulot: {product_name}",
                                 
                             }
                         ]
