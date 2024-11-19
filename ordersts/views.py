@@ -26,10 +26,10 @@ from clickApp import ClickUz
 
 
 class OrderClickApiviews(APIView):
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
     def post(self, request, site):
         user = request.user
         serialzier = OrderClickSerializer(data=request.data)
