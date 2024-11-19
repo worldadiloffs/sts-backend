@@ -40,7 +40,7 @@ class AmocrmManager:
 
         self.client.update_session_params(headers)
     
-    def create_lead(self, name,  contant_id):
+    def create_lead(self, name,  contant_id, product_name=None):
         objects = [
                     {
                     "name": name,   
@@ -53,19 +53,19 @@ class AmocrmManager:
                                         }
                                     ]
                                 },
-                #  "custom_fields_values": [
-                #     {
-                #         "field_id": 1058921,               
+                 "custom_fields_values": [
+                    {
+                        "field_id": 1058921,               
                         
-                #         "values": [
-                #             {
+                        "values": [
+                            {
                                 
-                #                 "value": "Kamera",
+                                "value": f"{product_name}",
                                 
-                #             }
-                #         ]
-                #     }
-                # ]
+                            }
+                        ]
+                    }
+                ]
             },
         
         ]
@@ -100,10 +100,10 @@ class AmocrmManager:
         return  result["_embedded"]['contacts'][0]['id']
     
 
-    def create_request_amocrm(self, phone, name):
+    def create_request_amocrm(self, phone, name, product_name=None):
         self.self_seccess_login
         id = self.create_contact(name=name, phone=phone)
-        self.create_lead(name=name,  contant_id=id)
+        self.create_lead(name=name,  contant_id=id, product_name=product_name)
 
 
 
@@ -113,7 +113,7 @@ class AmocrmManager:
 # lead = AmocrmManager().create_request_amocrm('+998991234567', 'Azamat')
 
 def request_to_amocrm(phone, name):
-    return AmocrmManager().create_request_amocrm(phone, name)
+    return AmocrmManager().create_request_amocrm(phone, name, product_name=None)
             
         
   

@@ -35,6 +35,11 @@ class OrderClickApiviews(APIView):
         serialzier = OrderClickSerializer(data=request.data)
         if serialzier.is_valid(raise_exception=True):
             serialzier.save()
+            tavar_id = serialzier.data.get('tavar_id')
+            product_name = Product.objects.get(id=tavar_id).product_name
+            ism = serialzier.data.get('ism')
+            telefon = serialzier.data.get('telefon')
+            request_to_amocrm(phone=telefon, name=ism, product_name=product_name)
             return Response(serialzier.data, status=status.HTTP_201_CREATED)
         return Response(serialzier.errors, status=status.HTTP_400_BAD_REQUEST)
 
