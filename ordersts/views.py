@@ -39,7 +39,7 @@ class OrderClickApiviews(APIView):
             # product_name = OrderClick.objects.get(id=tavar_id).tavar_id.product_name
             product_id = request.data.get('id')
             if product_id is not None:
-                product_name = OrderClick.objects.get(id=product_id).tavar_id.product_name
+                product_name =Product.objects.get(id=product_id).product_name
             else:
                 product_name = None
             ism = serialzier.data.get('ism')
