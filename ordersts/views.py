@@ -35,7 +35,7 @@ class OrderClickApiviews(APIView):
         serialzier = OrderClickSerializer(data=request.data)
         if serialzier.is_valid(raise_exception=True):
             serialzier.save()
-            tavar_id = serialzier.data.get('id')
+            tavar_id = int(serialzier.data.get('id'))
             product_name = OrderClick.objects.get(id=tavar_id).tavar_id.product_name
             ism = serialzier.data.get('ism')
             telefon = serialzier.data.get('telefon')
