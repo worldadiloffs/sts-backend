@@ -40,7 +40,7 @@ class AmocrmManager:
 
         self.client.update_session_params(headers)
     
-    def create_lead(self, name,  contant_id, product_name=None):
+    def create_lead(self, name,  contant_id, product_name):
         objects = [
                     {
                     "name": name,   
