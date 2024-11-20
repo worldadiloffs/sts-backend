@@ -139,7 +139,7 @@ class HomePageCategoryView(APIView):
                         "product": serialzier.data
                     }
                 )
-        if cache.get('home_page') is None:
+        if site == "sts" and cache.get('home_page') is None:
              cache.get_or_set('home_page', data, timeout=60*60*10)
         return JsonResponse({
             "data": data, "errors":False, "message": ""
