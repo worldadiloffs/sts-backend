@@ -29,14 +29,16 @@ class BannerView(APIView):
     #         responses=BannerResponseSerialzier
     # )
     def get(self, request, site):
-        # data = cache.get('home_banner')
-        # if site == "sts" and data is not None:
-        #     return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
+        data = cache.get('home_banner')
+        if site == "sts" and data is not None:
+            return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
         if site == "sts":
             banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
         if site == "rts":
             banner = Banner.objects.filter(status=True, site_rts=True).order_by("id")
         serialzier = BannerSerializers(banner , many=True)
+        if site == "sts":
+            cache.set('home_banner', serialzier.data, timeout=60 * 60 * 10)
         return JsonResponse(
             {"data": serialzier.data, "errors": False, "message": ""}, safe=False
         )
