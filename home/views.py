@@ -29,8 +29,9 @@ class BannerView(APIView):
     #         responses=BannerResponseSerialzier
     # )
     def get(self, request, site):
-        if site == "sts" and data is not None:
-            return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
+        # data = cache.get('home_banner')
+        # if site == "sts" and data is not None:
+        #     return JsonResponse({"data": data, "errors": False, "message": ""}, safe=False)
         if site == "sts":
             banner = Banner.objects.filter(status=True, site_sts=True).order_by("id")
         if site == "rts":
