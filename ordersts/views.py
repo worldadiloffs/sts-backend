@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from cashback.models import CashbackKard
-from ordersts.amocrm.views import request_to_amocrm
+from ordersts.amocrm.newamocrm import request_to_amocrm
 from settings.models import CashBackSetting, Dokon, Shaharlar, Tumanlar , PaymentMethod, TolovUsullar , OrderSetting
 from product.models import Product
 from .models import Order, OrderItem , FirmaBuyurtma , VazvratProdcut, Cupon , ContactForm , OrderClick
