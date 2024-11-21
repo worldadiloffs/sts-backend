@@ -38,35 +38,43 @@ class AmocrmManager:
         os.environ['AMOCRM_ACCESS_TOKEN'] = self.accsecc_token
         os.environ['AMOCRM_REFRESH_TOKEN'] = self.refresh_token
 
-    def create_lead(self, name, contant_id, product_name):
+    def create_lead(self, name,  contant_id, product_name):
         objects = [
-            {
-                "name": name,
-                "_embedded": {
-                    "contacts": [
-                        {
-                            "id": contant_id
-                        }
-                    ]
-                },
-                "custom_fields_values": [
                     {
-                        "field_id": 1058921,
+                    "name": name,   
+                                # "created_by": 0,
+                                # "price": 20000,
+                                "_embedded": {
+                                    "contacts": [
+                                        {
+                                            "id": contant_id
+                                        }
+                                    ]
+                                },
+                 "custom_fields_values": [
+                    {
+                        "field_id": 1058921,               
+                        
                         "values": [
                             {
+                                
                                 "value": f"{product_name}",
+                                
                             }
                         ]
                     }
                 ]
             },
+        
         ]
         return self.client.create_leads(objects)
 
     def create_contact(self, name, phone):
-        contacts = [
+        conctacts = [
             {
                 "name": name,
+            
+                
                 "custom_fields_values": [
                     {
                         "field_id": 1051791,
@@ -76,16 +84,18 @@ class AmocrmManager:
                         "values": [
                             {
                                 "value": phone,
-                                "enum_id": 1232765,
-                                "enum_code": "MOB"
+                                    "enum_id": 1232765,
+                                    "enum_code": "MOB"
                             }
                         ]
                     }
                 ]
             },
+        
         ]
-        result = self.client.create_contacts(contacts)
-        return result["_embedded"]['contacts'][0]['id']
+        result = self.client.create_contacts(conctacts)
+
+        return  result["_embedded"]['contacts'][0]['id']
     
     def create_request_amocrm(self, phone, name, product_name):
         self.self_seccess_login
