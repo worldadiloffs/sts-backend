@@ -49,7 +49,7 @@ class AmocrmManager:
                                 },
                  "custom_fields_values": [
                     {
-                        "field_id": 1058921,               
+                        "field_id": 1126447,               
                         
                         "values": [
                             {
