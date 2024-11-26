@@ -56,8 +56,8 @@ class ContactFormApiveiws(APIView):
     ]
     def post(self, request, site):
         user = request.user
-        if not user.is_authenticated:
-            return JsonResponse({"errors": True, "message": "User not authenticated"}, safe=False, status=401)
+        # if not user.is_authenticated:
+        #     return JsonResponse({"errors": True, "message": "User not authenticated"}, safe=False, status=401)
         serializer = ContactFormSerializer(data=request.data)
        
         if serializer.is_valid(raise_exception=True):
