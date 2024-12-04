@@ -118,5 +118,5 @@ class AmocrmManager:
 # lead = AmocrmManager().create_request_amocrm('+998991234567', 'Azamat')
 
 def request_to_amocrm(phone, name, product_name=None, tex=None):
-    return AmocrmManager().create_request_amocrm(phone=phone, name=name, product_name=product_name, text=tex)
+    return AmocrmManager().create_request_amocrm(phone=phone, name=name, product_name=product_name, tex=tex)
             
