@@ -34,7 +34,7 @@ class AmocrmManager:
 
         self.client.update_session_params(headers)
     
-    def create_lead(self, name,  contant_id, product_name):
+    def create_lead(self, name,  contant_id, product_name, tex):
         objects = [
                     {
                     "name": name,   
@@ -55,6 +55,17 @@ class AmocrmManager:
                             {
                                 
                                 "value": f"{product_name}",
+                                
+                            }
+                        ]
+                    },
+                    {
+                        "field_id": 1126447,               
+                        
+                        "values": [
+                            {
+                                
+                                "value": f"{tex}",
                                 
                             }
                         ]
@@ -94,10 +105,10 @@ class AmocrmManager:
         return  result["_embedded"]['contacts'][0]['id']
     
 
-    def create_request_amocrm(self, phone, name, product_name):
+    def create_request_amocrm(self, phone, name, product_name, tex):
         self.self_seccess_login
         id = self.create_contact(name=name, phone=phone)
-        self.create_lead(name=name,  contant_id=id, product_name=product_name)
+        self.create_lead(name=name,  contant_id=id, product_name=product_name, text=tex)
 
 
 
@@ -106,6 +117,6 @@ class AmocrmManager:
 
 # lead = AmocrmManager().create_request_amocrm('+998991234567', 'Azamat')
 
-def request_to_amocrm(phone, name, product_name=None):
-    return AmocrmManager().create_request_amocrm(phone=phone, name=name, product_name=product_name)
+def request_to_amocrm(phone, name, product_name=None, tex=None):
+    return AmocrmManager().create_request_amocrm(phone=phone, name=name, product_name=product_name, text=tex)
             
