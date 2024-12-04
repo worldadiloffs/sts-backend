@@ -35,45 +35,67 @@ class AmocrmManager:
         self.client.update_session_params(headers)
     
     def create_lead(self, name,  contant_id, product_name, tex):
-        objects = [
-                    {
-                    "name": name,   
-                                # "created_by": 0,
-                                # "price": 20000,
-                                "_embedded": {
-                                    "contacts": [
-                                        {
-                                            "id": contant_id
-                                        }
-                                    ]
-                                },
-                 "custom_fields_values": [
-                    {
-                        "field_id": 1126447,               
-                        
-                        "values": [
-                            {
-                                
-                                "value": f"{product_name}",
-                                
-                            }
-                        ]
-                    },
-                    {
-                        "field_id": 1126447,               
-                        
-                        "values": [
-                            {
-                                
-                                "value": f"{tex}",
-                                
-                            }
-                        ]
-                    }
-                ]
-            },
-        
-        ]
+        if tex is None:
+            objects = [
+                        {
+                        "name": name,   
+                                    # "created_by": 0,
+                                    # "price": 20000,
+                                    "_embedded": {
+                                        "contacts": [
+                                            {
+                                                "id": contant_id
+                                            }
+                                        ]
+                                    },
+                    "custom_fields_values": [
+                        {
+                            "field_id": 1126447,               
+                            
+                            "values": [
+                                {
+                                    
+                                    "value": f"{product_name}",
+                                    
+                                }
+                            ]
+                        },
+                       
+                    ]
+                },
+            
+            ]
+        else:
+                       objects = [
+                        {
+                        "name": name,   
+                                    # "created_by": 0,
+                                    # "price": 20000,
+                                    "_embedded": {
+                                        "contacts": [
+                                            {
+                                                "id": contant_id
+                                            }
+                                        ]
+                                    },
+                    "custom_fields_values": [
+                      
+                        {
+                            "field_id": 1127157,               
+                            
+                            "values": [
+                                {
+                                    
+                                    "value": f"{tex}",
+                                    
+                                }
+                            ]
+                        }
+                    ]
+                },
+            
+            ]
+
         return self.client.create_leads(objects)
 
     def create_contact(self, name, phone):
