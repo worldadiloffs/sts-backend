@@ -130,7 +130,7 @@ class AmocrmManager:
     def create_request_amocrm(self, phone, name, product_name, tex):
         self.self_seccess_login
         id = self.create_contact(name=name, phone=phone)
-        self.create_lead(name=name,  contant_id=id, product_name=product_name, text=tex)
+        self.create_lead(name=name,  contant_id=id, product_name=product_name, tex=tex)
 
 
 
