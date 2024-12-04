@@ -50,10 +50,10 @@ class OrderClickApiviews(APIView):
 
 
 class ContactFormApiveiws(APIView):
-    throttle_scope = "authentication"
-    throttle_classes = [
-        ScopedRateThrottle,
-    ]
+    # throttle_scope = "authentication"
+    # throttle_classes = [
+    #     ScopedRateThrottle,
+    # ]
     def post(self, request, site):
         user = request.user
         # if not user.is_authenticated:
