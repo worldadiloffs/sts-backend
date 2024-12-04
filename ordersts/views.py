@@ -66,7 +66,7 @@ class ContactFormApiveiws(APIView):
             telefon = serializer.data.get('telefon')
             tex = serializer.data.get('tex')
 
-            request_to_amocrm(phone=telefon, name=ism, product_name=None, hisob=tex)
+            request_to_amocrm(phone=telefon, name=ism, product_name=None, tex=tex)
             return Response(serializer.data, status=201)
     def get(self, request, *args, **kwargs):
         contact_form = ContactForm.objects.all()
