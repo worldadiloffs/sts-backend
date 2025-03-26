@@ -337,6 +337,8 @@ class CategoryProductViews(APIView):
                     {
                         "data": {
                             "name": main.super_name,
+                            "seo_name": main.meta_name  or main.super_name,
+                            "seo_description": main.meta_content or main.super_name,
                             "product": result,
                             "category": main_serialzier.data,
                             "link": {"super": {"name": name, "slug": super_slug}},
@@ -372,6 +374,8 @@ class CategoryProductViews(APIView):
                     {
                         "data": {
                             "name": main_objs.main_name,
+                            "seo_name": main_objs.main_meta or main_objs.main_name,
+                            "seo_description": main_objs.main_content or main_objs.main_name,
                             "product": product_object,
                             "category": main_serialzier.data,
                             "link": {
@@ -478,6 +482,8 @@ class CategoryProductViews(APIView):
                     {
                         "data": {
                             "name": filter_prods.sub_name,
+                            "seo_name": filter_prods.sub_meta or filter_prods.sub_name,
+                            "seo_description": filter_prods.sub_content or filter_prods.sub_name,
                             "product": prod_serialzier.data,
                             "pagination": pagination,
                             "sub_content": sub_data,
