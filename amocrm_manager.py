@@ -110,13 +110,12 @@ from amocrm.v2.tokens import default_token_manager, FileTokensStorage
 
 class AmocrmManager:
     def __init__(self):
-        # Initialize amoCRM OAuth token manager
         default_token_manager(
             client_id="adff957c-f828-4d10-8008-21f3e8781733",
             client_secret="er3tJARihFWuZMF8bneTqm6OF4jcOrYYwbsMMy6slYt4cWQbbk1H3T5L3jOCTvEM",
             subdomain="anvarjonsts",
             redirect_url="https://api.sts-shop.uz",
-            storage=FileTokensStorage(),  # Saves to .amo_tokens.json
+            storage=FileTokensStorage(), 
         )
 
     def create_contact(self, name, phone):
@@ -136,7 +135,7 @@ class AmocrmManager:
         lead = Lead(name=name)
         lead.custom_fields_values = [
             {
-                "field_id": 1058921,  # Confirm this is correct
+                "field_id": 1058921,
                 "values": [{"value": product_name}]
             }
         ]
@@ -162,7 +161,6 @@ class AmocrmManager:
             }
 
 
-# Function to call from other modules
 def request_to_amocrm(phone, name, product_name=None):
     crm = AmocrmManager()
     return crm.create_request_amocrm(phone=phone, name=name+phone, product_name=product_name or "Без названия")
